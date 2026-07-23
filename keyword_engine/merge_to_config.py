@@ -21,7 +21,9 @@ sys.path.insert(0, str(ROOT))
 
 from keyword_engine.expand_keywords import normalize  # noqa: E402
 
-GROUPS = {"species": 7, "methods": 8, "tools": 9, "concept": 10}  # 权重由用户确认，勿擅自修改
+GROUPS = {"species": 5, "methods": 8, "tools": 9, "concept": 10}  # 权重由用户确认，勿擅自修改
+# 词条二级权重：种子词 weight=2 且 locked（不降权）；AI/文献扩展词 weight=1（可随负反馈调整）
+DEFAULT_ITEM_WEIGHT = 1
 PROFILE_GROUP_KEYS = {"species": "species", "methods": "methods", "tools": "tools"}
 
 
@@ -69,7 +71,8 @@ def main():
                   "negative": profile.get("exclude") or []}
         for kw, group in seed_items(profile):
             config["keywords"][group]["items"].append(
-                {"keyword": kw, "source": "seed", "added_date": today})
+                {"keyword": kw, "source": "seed", "added_date": today,
+                 "weight": 2, "locked": True})
 
     existing = {normalize(i["keyword"])
                 for g in config["keywords"].values() for i in g["items"]}
@@ -83,7 +86,8 @@ def main():
         existing.add(norm)
         group = c.get("group") if c.get("group") in GROUPS else classify(c["keyword"], profile)
         to_add.append((group, {"keyword": c["keyword"], "source": c.get("source", "seed"),
-                               "added_date": today, "level": c.get("level")}))
+                               "added_date": today, "level": c.get("level"),
+                               "weight": DEFAULT_ITEM_WEIGHT}))
 
     rejected = [c for c in candidates if c.get("status") == "rejected"]
 
