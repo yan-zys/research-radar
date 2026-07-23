@@ -2,8 +2,9 @@
 
 日报为三段式结构（模板 email/template.html）：
 - Part 1 · 今日论文新闻摘要：快速浏览层，按 total_score 排序的编号列表，
-  每篇为等级徽标 + 标题 + 中文一句话（one_line_summary_cn，缺失时降级为
-  推荐理由 → 摘要截断）+ 期刊 · 日期；
+  每篇为等级徽标 + 标题 + 中文一句话（one_line_summary_cn；缺失的论文
+  先调用 AI 补齐并写回 paper_scores，AI 失败才降级为推荐理由/摘要截断）
+  + 期刊 · 日期；
 - Part 2 · 论文详情：完整卡片（作者/摘要/推荐理由/反馈按钮）；
 - Part 3 · 今日推荐文献价值总结：AI 基于全部推荐论文标题+一句话生成的
   趋势分析（prompt 在 prompts/daily_trend_prompt.txt；无推荐或 AI 失败时
@@ -19,6 +20,7 @@ smtplib / email.mime 才能正常工作。
 """
 import argparse
 import html
+import json
 import smtplib
 import sys
 from datetime import date as date_cls
@@ -34,6 +36,7 @@ sys.path.insert(0, str(ROOT))
 
 from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
+from processing.paper_analyzer import build_prompt, dump_failure, load_profile_summary  # noqa: E402
 
 GRADES = ("Must Read", "Important", "Reference")
 GRADE_CSS = {"Must Read": "badge-must", "Important": "badge-important",
@@ -99,10 +102,9 @@ def render_card(rank: int, row, mail_to: str) -> str:
 </div>"""
 
 
-def build_html(date_str: str, conn, mail_to: str, summary: str = None,
-               user_name: str = "研究者") -> str:
-    """按日期生成三段式日报 HTML（summary 为 None 时自动调用 AI 生成趋势总结）。"""
-    rows = conn.execute(
+def fetch_rows(date_str: str, conn) -> list:
+    """取当日推荐论文（按 total_score 降序）及渲染所需字段。"""
+    return conn.execute(
         "SELECT r.grade, r.total_score, p.paper_id, p.title, p.authors, p.journal, "
         "p.date, p.doi, p.url, p.abstract, s.reason, s.one_line_summary_cn "
         "FROM recommendations r "
@@ -111,6 +113,48 @@ def build_html(date_str: str, conn, mail_to: str, summary: str = None,
         "WHERE r.date = ? ORDER BY r.total_score DESC",
         (date_str,),
     ).fetchall()
+
+
+def ensure_one_liners(conn, rows) -> None:
+    """推荐论文中缺中文一句话的，现场调用 AI 补齐（复用评分 prompt，写回 paper_scores）。
+
+    paper_analyzer 默认只评分 rule_score 前 20 篇，Top 推荐里可能混入未评分论文；
+    这里保证进日报的每篇都有"痛点+方法+发现"式中文一句话。AI 失败的保留降级文本。
+    """
+    missing = [r for r in rows if not r["one_line_summary_cn"]]
+    if not missing:
+        return
+    template = (ROOT / "prompts" / "relevance_scoring_prompt.txt").read_text(encoding="utf-8")
+    profile = load_profile_summary()
+    for r in missing:
+        prompt = build_prompt(template, profile, r["title"], r["abstract"])
+        try:
+            result = call_model(prompt, response_format="json")
+        except Exception as e:  # noqa: BLE001
+            dump_failure(r["paper_id"], e)
+            print(f"[跳过] {r['paper_id']} 一句话生成失败：{e}")
+            continue
+        conn.execute(
+            "UPDATE paper_scores SET ai_score=COALESCE(ai_score, ?), "
+            "category=COALESCE(category, ?), reason=COALESCE(reason, ?), "
+            "one_line_summary_cn=?, reproducibility=COALESCE(reproducibility, ?) "
+            "WHERE paper_id=?",
+            (float(result.get("relevance_score", 0)), result.get("category", ""),
+             result.get("reason", ""), result.get("one_line_summary_cn", ""),
+             json.dumps(result.get("reproducibility") or {}, ensure_ascii=False),
+             r["paper_id"]),
+        )
+        conn.commit()
+        print(f"[补齐] {r['paper_id']} 中文一句话已生成")
+
+
+def build_html(date_str: str, conn, mail_to: str, summary: str = None,
+               user_name: str = "研究者") -> str:
+    """按日期生成三段式日报 HTML（summary 为 None 时自动调用 AI 生成趋势总结）。"""
+    rows = fetch_rows(date_str, conn)
+    ensure_one_liners(conn, rows)
+    if any(not r["one_line_summary_cn"] for r in rows):
+        rows = fetch_rows(date_str, conn)  # 重取，拿到补齐的一句话
     if summary is None:
         summary = summarize_trend(rows)
     if rows:
