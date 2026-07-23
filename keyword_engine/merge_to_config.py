@@ -3,8 +3,8 @@
 规则：
 - 只合并 status: approved 的词条，自动填充 added_date 与 source；
 - 首次运行时，先把科研画像中的词条作为 source: seed 写入（种子词权重最高）；
-- 候选词分组（species/methods/tools/concept）通过与画像对应类别做归一化匹配判定，
-  匹配不到归入 concept；
+- 候选词分组（species/methods/tools/concept）：候选若显式带 group 字段且合法则采用，
+  否则与画像对应类别做归一化匹配判定，匹配不到归入 concept；
 - status: rejected 的词条归档到 keyword_engine/archive_rejected.yaml，
   避免下次扩充重复推荐；
 - --dry-run 只预览不写入。
@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT))
 
 from keyword_engine.expand_keywords import normalize  # noqa: E402
 
-GROUPS = {"species": 10, "methods": 8, "tools": 8, "concept": 5}
+GROUPS = {"species": 7, "methods": 8, "tools": 9, "concept": 10}  # 权重由用户确认，勿擅自修改
 PROFILE_GROUP_KEYS = {"species": "species", "methods": "methods", "tools": "tools"}
 
 
@@ -81,7 +81,7 @@ def main():
         if norm in existing:
             continue
         existing.add(norm)
-        group = classify(c["keyword"], profile)
+        group = c.get("group") if c.get("group") in GROUPS else classify(c["keyword"], profile)
         to_add.append((group, {"keyword": c["keyword"], "source": c.get("source", "seed"),
                                "added_date": today, "level": c.get("level")}))
 
