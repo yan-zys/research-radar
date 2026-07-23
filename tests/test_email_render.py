@@ -54,3 +54,17 @@ def test_render_contains_titles_and_mailto(tmp_path):
     assert "rating%3Dgood" in html_body and "rating%3Dbad" in html_body  # mailto 主题已 URL 编码
     assert "paper_id%3Dbiorxiv%3A10.1" in html_body  # 主题中 paper_id 已 URL 编码
     assert "Must Read" in html_body and "Important" in html_body
+
+
+def test_render_three_part_structure(tmp_path):
+    conn = _seed_db(tmp_path)
+    html_body = ge.build_html("2026-07-23", conn, "test@example.com",
+                              summary="测试趋势总述", user_name="yan-zys")
+    conn.close()
+    assert "Part 1 · 今日论文新闻摘要" in html_body
+    assert "Part 2 · 论文详情" in html_body
+    assert "Part 3 · 今日推荐文献价值总结" in html_body
+    assert "yan-zys，你好" in html_body
+    assert "今日为你筛选出 2 篇论文" in html_body
+    assert "构建章鱼脑单细胞图谱，揭示细胞类型演化。" in html_body  # Part 1 一句话
+    assert "badge-must" in html_body and "badge-important" in html_body  # 分级徽标颜色
