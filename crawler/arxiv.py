@@ -5,6 +5,7 @@
 """
 import argparse
 import sys
+import time
 import xml.etree.ElementTree as ET
 from datetime import date
 from pathlib import Path
@@ -19,6 +20,7 @@ from crawler.common import load_keywords, resolve_since, save_papers  # noqa: E4
 API = "https://export.arxiv.org/api/query"
 ATOM = "{http://www.w3.org/2005/Atom}"
 ARXIV = "{http://arxiv.org/schemas/atom}"
+CHUNK = 15  # 每次查询的关键词数上限，过长查询会被 arXiv 拒（500）
 
 
 def build_query(keywords) -> str:
@@ -73,9 +75,21 @@ def main():
     args = ap.parse_args()
 
     since = resolve_since(args.since)
-    query = build_query(load_keywords())
-    xml_text = fetch(query, args.limit)
-    papers = parse_atom(xml_text, since)
+    keywords = load_keywords()
+    merged = {}
+    for i in range(0, len(keywords), CHUNK):
+        chunk = keywords[i:i + CHUNK]
+        query = build_query(chunk)
+        try:
+            xml_text = fetch(query, args.limit)
+        except requests.RequestException as e:
+            print(f"警告：关键词分块 {chunk[0]}… 查询失败（{e}），跳过该块", file=sys.stderr)
+            continue
+        for p in parse_atom(xml_text, since):
+            merged[p["paper_id"]] = p
+        if i + CHUNK < len(keywords):
+            time.sleep(3)  # arXiv 要求请求间隔 ≥3 秒
+    papers = list(merged.values())
     n = save_papers(papers, args.db)
     print(f"arXiv 返回条目过滤后 {len(papers)} 篇（since {since}），新入库 {n} 篇（重复自动忽略）")
 

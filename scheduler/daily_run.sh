@@ -1,5 +1,5 @@
 #!/bin/bash
-# Phase 11：每日全流程调度（抓取 → 过滤 → AI 评分 → 打分 → 生成并发送日报）
+# Phase 11：每日全流程调度（反馈学习 → 抓取 → 过滤 → AI 评分 → 打分 → 生成并发送日报）
 set -e
 set -o pipefail
 cd ~/research_radar
@@ -7,6 +7,8 @@ source venv/bin/activate
 mkdir -p logs
 LOG="logs/$(date +%F).log"
 {
+# Phase 12：反馈学习闭环（失败不阻断主流程）
+python feedback/learning.py || true
 python crawler/pubmed.py --since yesterday
 python crawler/biorxiv.py --since yesterday
 python crawler/arxiv.py --since yesterday
