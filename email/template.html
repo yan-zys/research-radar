@@ -14,22 +14,12 @@
   .part-title { font-size: 17px; color: #0b5cad; margin: 0 0 8px;
                 padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
   .layer { color: #9aa5b1; font-size: 12px; margin: 0 0 16px; line-height: 1.6; }
-  .note { color: #8a6d3b; font-size: 12px; background: #fdf6e7; border-radius: 6px;
-          padding: 8px 12px; margin: 0 0 12px; }
-  .trend { background: #f4f7fb; border-left: 4px solid #0b5cad; border-radius: 0 6px 6px 0;
-           padding: 12px 16px; font-size: 13px; line-height: 1.8; }
-  .stats-bar { background: #f4f7fb; border: 1px solid #dde5ee; border-radius: 8px;
-               padding: 12px 16px; font-size: 13px; line-height: 1.9; }
-  .stats-bar b { color: #0b5cad; }
-  .stat-row { margin: 2px 0; }
-  .stat-label { display: inline-block; min-width: 84px; color: #66788c; font-weight: bold; }
-  .stat-yesterday { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d5dee8;
-                    color: #66788c; }
   .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
            color: #fff; margin-left: 6px; vertical-align: middle; font-weight: bold; }
   .badge-must { background: #c0392b; }
   .badge-important { background: #e67e22; }
-  .badge-reference { background: #8a97a5; }
+  .badge-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 8px; }
   .quick-item { border: 1px solid #e4e9ef; border-radius: 8px; padding: 10px 14px;
                 margin: 10px 0; }
   .quick-rank { display: inline-block; min-width: 20px; font-weight: bold; color: #0b5cad; }
@@ -39,53 +29,56 @@
   .card { border: 1px solid #e0e5ec; border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
   .card-must { border-left: 5px solid #c0392b; }
   .card-important { border-left: 5px solid #e67e22; }
-  .card-reference { border-left: 5px solid #8a97a5; }
+  .card-relate { border-left: 5px solid #8a97a5; }
   .card h3 { margin: 0 0 8px; font-size: 14px; color: #333; }
-  .score { color: #0b5cad; font-weight: bold; margin-left: 8px; }
   .title-en { font-size: 15px; font-weight: bold; line-height: 1.5; margin: 4px 0; }
   .title-cn { font-size: 13px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
   .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.6; }
   .keywords { color: #7a6f9b; }
-  .cn { font-size: 13px; margin: 8px 0 4px; line-height: 1.7; }
   .cn-abstract { font-size: 13px; color: #333; line-height: 1.8; margin: 8px 0; }
   .reason { font-size: 13px; color: #0b5cad; line-height: 1.7; margin: 6px 0; }
-  details { margin: 10px 0 4px; }
-  summary { cursor: pointer; font-size: 12px; color: #0b5cad; }
-  .en-abstract { font-size: 12px; color: #556; line-height: 1.7; margin: 8px 0 2px; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
   .feedback { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec; }
   .feedback a { display: inline-block; margin: 0 8px 4px 0; font-size: 12px;
                 padding: 4px 12px; border: 1px solid #0b5cad; border-radius: 14px;
                 color: #0b5cad; text-decoration: none; }
+  /* Part 3 价值总结：正文字号 ≥14px、line-height 1.7，分块呈现 */
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #f4f7fb;
+                    border-left: 4px solid #0b5cad; border-radius: 0 6px 6px 0;
+                    padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { border: 1px solid #e4e9ef; border-radius: 8px; padding: 12px 16px;
+                 margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad;
+                       margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad;
+                  margin-right: 8px; }
+  .trend-text { margin: 0; }
 </style>
 </head>
 <body>
 <h1>Daily Literature Intelligence Report · {{date}}</h1>
-<p class="greeting">{{user_name}}，你好。今日为你筛选出 {{count}} 篇论文。日报分四部分：趋势总结 → 分布统计 → 重点清单 → 详细卡片；卡片中中文摘要默认展示，英文原文摘要可展开，文末可一键反馈（相关 / 不相关 / 已读 / 收藏）。</p>
+<p class="greeting">{{user_name}}，你好。今日为你筛选出 {{count}} 篇论文。日报分三部分：论文新闻摘要 → 详细信息卡片 → 推荐文献价值总结；卡片中中英文摘要均直接展示，文末可一键反馈（相关 / 不相关 / 已读 / 收藏）。</p>
 
 <div class="part">
-<h2 class="part-title">Part 1 · 今日文献趋势总结</h2>
-<p class="layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5），含明日/近期跟踪线索</p>
-<div class="trend">{{part1_trend}}</div>
+<h2 class="part-title">Part 1 · 今日论文新闻摘要</h2>
+<p class="layer">快速浏览层 · 今日推荐逐篇速览（等级徽标 + 总分 + 标题 + 精炼一句话）</p>
+{{part1_list}}
 </div>
 
 <div class="part">
-<h2 class="part-title">Part 2 · 今日推荐分布统计</h2>
-<p class="layer">统计概览层 · 定级分布 / 期刊分层 / 主要来源期刊 / 高频关键词，附昨日入库与过滤总量</p>
-{{part2_stats}}
+<h2 class="part-title">Part 2 · 论文详细信息卡片</h2>
+<p class="layer">深入阅读层 · 全部推荐按评分排序 · 中英文摘要直接展示</p>
+{{part2_cards}}
 </div>
 
 <div class="part">
-<h2 class="part-title">Part 3 · 今日重点论文清单</h2>
-<p class="layer">快速浏览层 · Must Read / Important 论文速览（标题 + 中文一句话）</p>
-{{part3_list}}
+<h2 class="part-title">Part 3 · 今日推荐文献价值总结</h2>
+<p class="layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+{{part3_trend}}
 </div>
 
-<div class="part">
-<h2 class="part-title">Part 4 · 论文详细信息卡片</h2>
-<p class="layer">深入阅读层 · 全部推荐按评分排序 · 中文摘要默认展示，英文摘要折叠，可展开</p>
-{{part4_cards}}
-</div>
-
-{{trend_block}}
 </body>
 </html>

@@ -8,7 +8,7 @@ from database.db import get_conn, init_db  # noqa: E402
 from ranking.scoring import compute_scores, grade_of, journal_score, run  # noqa: E402
 
 WEIGHTS = {"research_relevance": 0.5, "ai_semantic_relevance": 0.2,
-           "journal_influence": 0.15, "method_transfer_value": 0.1, "trend_value": 0.05}
+           "journal_influence": 0.2, "trend_value": 0.1}
 
 KW = {"keywords": {
         "methods": {"weight": 8, "items": [{"keyword": "scRNA-seq", "weight": 1}]},
@@ -18,10 +18,11 @@ KW = {"keywords": {
 
 
 def test_grade_boundaries():
-    assert grade_of(9.0) == "Must Read"
-    assert grade_of(8.5) == "Important"
-    assert grade_of(5.0) == "Reference"
-    assert grade_of(4.99) is None
+    assert grade_of(7.0) == "Must Read"
+    assert grade_of(6.99) == "Important"
+    assert grade_of(5.0) == "Important"
+    assert grade_of(4.99) == "Relate"
+    assert grade_of(0.0) == "Relate"  # 低分也入选，等级为 Relate
 
 
 def test_journal_tiers():
@@ -43,12 +44,37 @@ def test_weighted_total_and_normalization():
     ]
     scored = {e["paper_id"]: e for e in compute_scores(rows, WEIGHTS, KW)}
     a, b = scored["x:1"], scored["x:2"]
-    # a：rule/method/trend 均为池内最大 → 归一化 10；ai=8；期刊 10
-    assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.15 + 10 * 0.1 + 10 * 0.05, 2)
+    # a：rule/trend 均为池内最大 → 归一化 10；ai=8；期刊 10
+    assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + 10 * 0.1, 2)
     assert a["grade"] == "Must Read"
-    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4；无 method 命中；trend 归一化 10
-    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.15 + 0 * 0.1 + 10 * 0.05, 2)
-    assert b["grade"] is None  # <5 不入库
+    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4；trend 归一化 10 → 总分 5.3
+    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.2 + 10 * 0.1, 2)
+    assert b["grade"] == "Important"  # ≥5 且 <7
+
+
+def test_top15_all_selected_no_score_cutoff(tmp_path):
+    """低分论文也进入 Top 推荐（不再因 <5 剔除），grade 为 Relate。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("x:high", "SAMap evolution scRNA-seq", "", "Nature"),
+         ("x:low", "evolution", "", "bioRxiv")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("x:high", 100, 1, 9), ("x:low", 1, 1, 3)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    ids = {e["paper_id"]: e["grade"] for e in top}
+    assert ids["x:high"] == "Must Read"
+    assert ids["x:low"] == "Relate"  # 低分不剔除
+    grades = {r[0] for r in conn.execute(
+        "SELECT grade FROM recommendations WHERE date = '2026-07-24'")}
+    assert grades == {"Must Read", "Relate"}
+    conn.close()
 
 
 def _seed_run_db(tmp_path):
