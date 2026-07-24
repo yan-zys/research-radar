@@ -1,7 +1,7 @@
 """一键反馈本地小服务（http.server，监听 127.0.0.1:8710）。
 
 日报邮件中的反馈链接指向本服务：
-    GET /feedback?paper_id=<id>&rating=good|ok|bad
+    GET /feedback?paper_id=<id>&rating=good|ok|bad|read|star
 点击即把 {"paper_id": .., "rating": ..} 追加写入 input/user_feedback/YYYY-MM-DD.jsonl
 （同日同 paper_id+rating 去重），浏览器返回"已记录"中文页面，不再弹邮件客户端。
 仅绑定回环地址，不对外暴露；log_message 静默（访问日志不打到终端）。
@@ -15,7 +15,7 @@ from urllib.parse import parse_qs, urlparse
 ROOT = Path(__file__).resolve().parent.parent
 FEEDBACK_DIR = ROOT / "input" / "user_feedback"
 HOST, PORT = "127.0.0.1", 8710
-RATINGS = ("good", "ok", "bad")
+RATINGS = ("good", "ok", "bad", "read", "star")
 
 PAGE_OK = """<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>反馈已记录</title></head>
@@ -30,7 +30,7 @@ PAGE_ERR = """<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <body style="font-family:sans-serif;text-align:center;padding-top:80px">
 <h2 style="color:#c0392b">参数错误</h2>
 <p>{msg}</p>
-<p style="color:#888;font-size:13px">正确格式：/feedback?paper_id=...&amp;rating=good|ok|bad</p>
+<p style="color:#888;font-size:13px">正确格式：/feedback?paper_id=...&amp;rating=good|ok|bad|read|star</p>
 </body></html>"""
 
 
@@ -87,7 +87,7 @@ class FeedbackHandler(BaseHTTPRequestHandler):
 
 def main():
     server = ThreadingHTTPServer((HOST, PORT), FeedbackHandler)
-    print(f"反馈服务已启动：http://{HOST}:{PORT}/feedback?paper_id=...&rating=good|ok|bad")
+    print(f"反馈服务已启动：http://{HOST}:{PORT}/feedback?paper_id=...&rating=good|ok|bad|read|star")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

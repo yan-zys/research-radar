@@ -58,4 +58,6 @@ def init_db(conn: sqlite3.Connection) -> None:
     cols = {r[1] for r in conn.execute("PRAGMA table_info(paper_scores)")}
     if "abstract_cn" not in cols:
         conn.execute("ALTER TABLE paper_scores ADD COLUMN abstract_cn TEXT")
+    if "title_cn" not in cols:
+        conn.execute("ALTER TABLE paper_scores ADD COLUMN title_cn TEXT")
     conn.commit()

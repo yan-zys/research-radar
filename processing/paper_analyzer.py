@@ -72,9 +72,10 @@ def run(conn, max_n: int) -> dict:
             continue
         conn.execute(
             "UPDATE paper_scores SET ai_score=?, category=?, reason=?, "
-            "one_line_summary_cn=?, abstract_cn=?, reproducibility=? WHERE paper_id=?",
+            "title_cn=?, one_line_summary_cn=?, abstract_cn=?, reproducibility=? WHERE paper_id=?",
             (float(result.get("relevance_score", 0)), result.get("category", ""),
-             result.get("reason", ""), result.get("one_line_summary_cn", ""),
+             result.get("reason", ""), result.get("title_cn", ""),
+             result.get("one_line_summary_cn", ""),
              result.get("abstract_cn", ""),
              json.dumps(result.get("reproducibility") or {}, ensure_ascii=False),
              r["paper_id"]),

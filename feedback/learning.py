@@ -4,10 +4,11 @@
 - 负反馈（bad）：对该论文命中的词条降权——weight>1 且非 locked 的词条 weight -= 1
   （下限 1）；locked=true 的种子词无论负反馈如何不得降权，跳过并打印说明；
   回写 config/keyword_config.yaml 时保留文件头部注释；
-- 正反馈（good）：调用 AI 从这些论文 title+abstract 中提炼关键词库之外的候选新词
+- 正反馈（good / star）：调用 AI 从这些论文 title+abstract 中提炼关键词库之外的候选新词
   （每日 ≤ max_new 个，A/B/C 分级 + 中文理由），以 status: pending / source: feedback
   追加到 keyword_engine/output_candidates.yaml——必须经过 review_candidates.py
   人工审核才能入库，绝不自动 merge；与现有候选及 archive_rejected.yaml 去重；
+  star（收藏）视为正反馈，与 good 同等处理；read（已读）/ok 及其余未知 rating 跳过不计；
 - 已处理的反馈文件名记录到 feedback/processed.log，避免重复处理；
 - 无反馈文件时打印提示并正常退出（退出码 0）；无 good 反馈时不调用 AI。
 """
@@ -184,7 +185,8 @@ def run(args) -> int:
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
 
     bad = [p for p in papers if p["rating"] == "bad"]
-    good = [p for p in papers if p["rating"] == "good"]
+    # star（收藏）视为正反馈，与 good 同等参与候选词挖掘；read/ok 等其余 rating 跳过不计
+    good = [p for p in papers if p["rating"] in ("good", "star")]
 
     changed = False
     for p in bad:

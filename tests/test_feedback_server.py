@@ -25,3 +25,17 @@ def test_append_and_dedup(tmp_path, monkeypatch):
         {"paper_id": "pubmed:10.2", "rating": "ok"},
     ]
     assert path.name == "2026-07-23.jsonl"
+
+
+def test_new_ratings_accepted_and_deduped(tmp_path, monkeypatch):
+    """read / star 新 rating 与白名单一致，append 层照常写入去重。"""
+    monkeypatch.setattr(srv, "FEEDBACK_DIR", tmp_path)
+    assert set(srv.RATINGS) == {"good", "ok", "bad", "read", "star"}
+    path = srv.append_feedback("biorxiv:10.1", "star", day="2026-07-23")
+    srv.append_feedback("biorxiv:10.1", "star", day="2026-07-23")  # 重复，不应再写
+    srv.append_feedback("biorxiv:10.1", "read", day="2026-07-23")
+    lines = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    assert lines == [
+        {"paper_id": "biorxiv:10.1", "rating": "star"},
+        {"paper_id": "biorxiv:10.1", "rating": "read"},
+    ]

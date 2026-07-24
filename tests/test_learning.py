@@ -147,3 +147,37 @@ def test_run_is_idempotent(tmp_path, monkeypatch):
     assert load_weights(args) == w1
     assert yaml.safe_load(Path(args.candidates).read_text(encoding="utf-8")) == c1
     assert calls["n"] == 1
+
+
+def test_star_treated_as_positive_and_read_skipped(tmp_path, monkeypatch):
+    """star（收藏）视为正反馈参与挖掘；read（已读）与未知 rating 跳过且不让流程崩溃。"""
+    captured = {}
+
+    def fake_call_model(prompt, response_format="json"):
+        captured["called"] = True
+        return FAKE_AI_RESULT
+
+    monkeypatch.setattr(learning, "call_model", fake_call_model)
+    args = make_env(tmp_path)
+    Path(args.archive).write_text(
+        yaml.dump([{"keyword": "archive word"}], allow_unicode=True), encoding="utf-8")
+    write_feedback(args, [
+        '{"paper_id": "pubmed:1", "rating": "star", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:1", "rating": "read", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:1", "rating": "whatever", "date": "2026-07-22"}',
+    ])
+    assert learning.run(args) == 0
+    assert captured.get("called")  # star 触发候选词挖掘
+    cands = yaml.safe_load(Path(args.candidates).read_text(encoding="utf-8"))
+    assert [c["keyword"] for c in cands] == ["onychophoran brain"]
+    assert load_weights(args)["rotifer"] == 2  # read/未知 rating 不触发降权
+
+
+def test_read_only_feedback_does_not_call_ai(tmp_path, monkeypatch):
+    """只有 read 反馈时：不降权、不调用 AI、正常退出。"""
+    monkeypatch.setattr(learning, "call_model", forbid_ai)
+    args = make_env(tmp_path)
+    write_feedback(args, ['{"paper_id": "pubmed:1", "rating": "read", "date": "2026-07-22"}'])
+    assert learning.run(args) == 0
+    assert load_weights(args)["rotifer"] == 2
+    assert not Path(args.candidates).exists()
