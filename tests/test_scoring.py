@@ -75,6 +75,19 @@ def _seed_run_db(tmp_path):
     return conn
 
 
+def test_ai_veto_excludes_low_relevance():
+    """ai_score 已评且 <3 的论文被 AI 否决，不进入推荐；未评分（None）不受影响。"""
+    rows = [
+        {"paper_id": "x:ok", "title": "SAMap evolution scRNA-seq", "abstract": "",
+         "journal": "Nature", "rule_score": 100, "ai_score": 8},
+        {"paper_id": "x:veto", "title": "SAMap evolution scRNA-seq", "abstract": "",
+         "journal": "Nature", "rule_score": 100, "ai_score": 0},
+    ]
+    scored = {e["paper_id"]: e for e in compute_scores(rows, WEIGHTS, KW)}
+    assert "x:ok" in scored
+    assert "x:veto" not in scored
+
+
 def test_run_dedupes_last_30_days(tmp_path):
     conn = _seed_run_db(tmp_path)
     top = run(conn, WEIGHTS, KW, run_date="2026-07-23")

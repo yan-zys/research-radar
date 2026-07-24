@@ -2,7 +2,7 @@
 
 各维度归一化到 0-10 后按 config/scoring.yaml 权重加权（total_score 0-10）：
 - research_relevance：rule_score 除以候选池最大值 ×10
-- ai_semantic_relevance：ai_score（缺失按 5）
+- ai_semantic_relevance：ai_score（缺失按 5；已评且 <3 的论文被 AI 否决，不参与推荐）
 - journal_influence：内置期刊分档 dict
 - method_transfer_value：methods+tools 组命中得分归一化（复用 keyword_filter）
 - trend_value：concept 组命中得分归一化
@@ -57,10 +57,16 @@ def load_kw_config() -> dict:
     return yaml.safe_load((ROOT / "config" / "keyword_config.yaml").read_text(encoding="utf-8"))
 
 
-def compute_scores(rows, weights: dict, kw_config: dict) -> list:
-    """对候选论文计算五维得分与 total_score（rows 为 papers JOIN paper_scores）。"""
+def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0) -> list:
+    """对候选论文计算五维得分与 total_score（rows 为 papers JOIN paper_scores）。
+
+    AI 否决：ai_score 已评且低于 ai_veto（默认 3）的论文直接剔除，
+    避免规则分高但 AI 判定无关的论文混入推荐。
+    """
     enriched = []
     for r in rows:
+        if r["ai_score"] is not None and float(r["ai_score"]) < ai_veto:
+            continue
         agg = group_scores(match_keywords(r["title"], r["abstract"], kw_config))
         enriched.append({
             "paper_id": r["paper_id"], "title": r["title"], "journal": r["journal"],

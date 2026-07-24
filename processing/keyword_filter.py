@@ -1,14 +1,17 @@
 """Phase 8：关键词规则过滤与计分。
 
-对 papers 表中尚无 rule_score 的论文，在 title+abstract 上做大小写不敏感子串匹配
-（先归一化小写）：
+对 papers 表中尚无 rule_score 的论文，在 title+abstract 上做大小写不敏感匹配。
+ASCII 关键词用词边界匹配并允许复数后缀（防止 "ant" 误中 "important/plant"，
+同时 "ants" 仍可命中 "ant"）；非 ASCII（中文等）关键词退化为普通子串匹配：
 - negative 命中 → passed_filter=0；
 - 否则 rule_score = Σ(命中的不同词条：组 weight × 词条 weight，词条 weight 缺省按 1)，
   passed_filter = 1 if rule_score > 0 else 0。
 结果写入 paper_scores（UPSERT）。match_keywords 为纯函数，供 ranking 复用。
 """
 import argparse
+import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 import yaml
@@ -25,17 +28,33 @@ def load_config(path=None) -> dict:
     return yaml.safe_load(p.read_text(encoding="utf-8"))
 
 
+@lru_cache(maxsize=None)
+def _kw_pattern(kw: str) -> "re.Pattern":
+    """编译关键词匹配模式（大小写不敏感）。
+
+    ASCII 且首尾为单词字符的关键词加 \\b 词边界，词尾允许 s/es 复数；
+    其余（中文、特殊符号起止）用普通子串匹配。
+    """
+    pat = re.escape(kw)
+    if kw.isascii():
+        if re.match(r"\w", kw):
+            pat = r"\b" + pat
+        if re.search(r"\w$", kw):
+            pat = pat + r"(?:e?s)?\b"
+    return re.compile(pat, re.IGNORECASE)
+
+
 def match_keywords(title: str, abstract: str, config: dict) -> dict:
     """返回命中明细：{"negative": [...], "hits": [{group, keyword, group_weight, item_weight, score}]}。"""
-    text = f"{title or ''} {abstract or ''}".lower()
+    text = f"{title or ''} {abstract or ''}"
     negative = [str(kw) for kw in (config.get("negative") or [])
-                if str(kw).lower() in text]
+                if _kw_pattern(str(kw)).search(text)]
     hits = []
     for group, gdata in (config.get("keywords") or {}).items():
         gw = (gdata or {}).get("weight", 1)
         for item in (gdata or {}).get("items") or []:
             kw = str(item["keyword"])
-            if kw.lower() in text:
+            if _kw_pattern(kw).search(text):
                 iw = item.get("weight", 1)
                 hits.append({"group": group, "keyword": kw,
                              "group_weight": gw, "item_weight": iw, "score": gw * iw})

@@ -35,6 +35,16 @@ def test_negative_rejects():
     assert rule_score(m) == 0.0
 
 
+def test_word_boundary_avoids_substring_false_positives():
+    """"ant" 不应误中 important/plants，但应命中 ants（复数允许）。"""
+    cfg = {"keywords": {"species": {"weight": 5, "items": [{"keyword": "ant", "weight": 2}]}},
+           "negative": []}
+    m = match_keywords("An important study of plants", "", cfg)
+    assert m["hits"] == []
+    m2 = match_keywords("We sampled ants in the field", "", cfg)
+    assert [h["keyword"] for h in m2["hits"]] == ["ant"]
+
+
 def test_group_scores():
     m = match_keywords("octopus single-cell RNA sequencing", "", CONFIG)
     assert group_scores(m) == {"species": 10, "methods": 16}
