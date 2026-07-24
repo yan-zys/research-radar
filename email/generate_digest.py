@@ -2,7 +2,8 @@
 
 用法：--days 7 为周报（每周一由 daily_run.sh 触发），--days 30 为月报（每月 1 号触发）。
 从 recommendations 表取近 N 天（含今天）的论文，同一 paper_id 只保留最高分记录，
-按 total_score 去重后取 Top 15。三段式结构（模板 email/digest_template.html）：
+按 total_score 去重后取 Top 15；不足 15 篇时依次补窗口外更早的 recommendations、
+scoring 池高分论文（compute_scores 对 papers 表全体算分），保证选满 15 篇。三段式结构（模板 email/digest_template.html）：
 - Part 1 · 本周/本月文献趋势总结：AI 基于 Top 15 生成结构化 JSON
   （prompts/digest_trend_prompt.txt：overview / common_trend / leads），
   渲染为大字号分块 HTML（总览 + 共同技术趋势 + 跟踪线索·一是二是三是）；
@@ -31,6 +32,7 @@ sys.path.insert(0, str(ROOT))
 from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 from processing.keyword_filter import load_config  # noqa: E402
+from ranking.scoring import compute_scores, load_kw_config, load_weights  # noqa: E402
 
 # email/ 无 __init__.py（刻意，避免遮蔽标准库 email），按文件路径加载日报模块复用助手
 _spec = importlib.util.spec_from_file_location(
@@ -50,30 +52,79 @@ def period_meta(days: int) -> dict:
             "leads_title": "下月跟踪线索"}
 
 
-def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15) -> list:
-    """取近 N 天（含 end_date 当天）recommendations，同一 paper_id 只留最高分，取 Top N。
-
-    纯查询/聚合，不调用 AI，便于测试。
-    """
-    end = end_date or date_cls.today().isoformat()
-    start = (date_cls.fromisoformat(end) - timedelta(days=days - 1)).isoformat()
-    rows = conn.execute(
+def _query_recs(conn, where: str, params: tuple) -> list:
+    """按条件取 recommendations 关联论文全字段行（total_score 降序）。"""
+    return conn.execute(
         "SELECT r.grade, r.total_score, r.date AS rec_date, p.paper_id, p.title, "
         "p.authors, p.journal, p.date, p.doi, p.url, p.abstract, s.reason, s.title_cn, "
         "s.one_line_summary_cn, s.abstract_cn "
         "FROM recommendations r "
         "JOIN papers p ON r.paper_id = p.paper_id "
         "LEFT JOIN paper_scores s ON r.paper_id = s.paper_id "
-        "WHERE r.date >= ? AND r.date <= ? "
-        "ORDER BY r.total_score DESC",
-        (start, end),
+        f"WHERE {where} ORDER BY r.total_score DESC",
+        params,
     ).fetchall()
+
+
+def _dedup_best(rows) -> list:
+    """同一 paper_id 只留最高分（输入已按 total_score 降序），返回降序列表。"""
     best = {}
-    for r in rows:  # 已按 total_score 降序，首次出现即为该 paper_id 最高分
+    for r in rows:
         if r["paper_id"] not in best:
             best[r["paper_id"]] = r
-    deduped = sorted(best.values(), key=lambda r: r["total_score"], reverse=True)
-    return deduped[:top_n]
+    return sorted(best.values(), key=lambda r: r["total_score"], reverse=True)
+
+
+def _pool_candidates(conn, chosen: set, need: int) -> list:
+    """scoring 池高分论文兜底：compute_scores 对 papers 表全体算分（AI 否决者不参与），
+    排除已入选后取前 need 篇，字段补齐为 recommendations 行同款结构（rec_date 为 None）。"""
+    rows = conn.execute(
+        "SELECT p.paper_id, p.title, p.abstract, p.journal, s.rule_score, s.ai_score "
+        "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id",
+    ).fetchall()
+    scored = compute_scores(rows, load_weights(), load_kw_config())
+    scored.sort(key=lambda e: e["total_score"], reverse=True)
+    out = []
+    for e in scored:
+        if len(out) >= need:
+            break
+        if e["paper_id"] in chosen:
+            continue
+        r = conn.execute(
+            "SELECT p.paper_id, p.title, p.authors, p.journal, p.date, p.doi, p.url, "
+            "p.abstract, s.reason, s.title_cn, s.one_line_summary_cn, s.abstract_cn "
+            "FROM papers p LEFT JOIN paper_scores s ON p.paper_id = s.paper_id "
+            "WHERE p.paper_id = ?",
+            (e["paper_id"],),
+        ).fetchone()
+        d = dict(r)
+        d.update({"grade": e["grade"], "total_score": e["total_score"], "rec_date": None})
+        chosen.add(e["paper_id"])
+        out.append(d)
+    return out
+
+
+def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15) -> list:
+    """取近 N 天（含 end_date 当天）recommendations，同一 paper_id 只留最高分，取 Top N；
+    不足 top_n 时按顺序补足：① 窗口外更早的 recommendations（按 total_score 降序），
+    ② scoring 池高分论文（_pool_candidates）。仅当库内论文总数不足时才返回更少。
+    纯查询/聚合，不调用 AI，便于测试。
+    """
+    end = end_date or date_cls.today().isoformat()
+    start = (date_cls.fromisoformat(end) - timedelta(days=days - 1)).isoformat()
+    selected = _dedup_best(_query_recs(conn, "r.date >= ? AND r.date <= ?",
+                                       (start, end)))[:top_n]
+    chosen = {r["paper_id"] for r in selected}
+    if len(selected) < top_n:
+        for r in _dedup_best(_query_recs(conn, "r.date < ?", (start,))):
+            if len(selected) >= top_n:
+                break
+            if r["paper_id"] not in chosen:
+                chosen.add(r["paper_id"])
+                selected.append(r)
+    if len(selected) < top_n:
+        selected.extend(_pool_candidates(conn, chosen, top_n - len(selected)))
+    return selected
 
 
 def compute_digest_stats(rows, config) -> dict:

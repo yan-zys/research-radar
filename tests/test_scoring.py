@@ -115,10 +115,46 @@ def test_ai_veto_excludes_low_relevance():
 
 
 def test_run_dedupes_last_30_days(tmp_path):
+    """A 层仍做 30 天去重；去重被排除的论文只在 D 兜底层按序回补（排在 A 层之后）。"""
     conn = _seed_run_db(tmp_path)
     top = run(conn, WEIGHTS, KW, run_date="2026-07-23")
-    ids = {e["paper_id"] for e in top}
-    assert "x:new" in ids
-    assert "x:recent" not in ids  # 近 30 天已推荐，被排除
-    assert "x:old" in ids         # 超过 30 天窗口，可再次推荐
+    by_id = {e["paper_id"]: e for e in top}
+    assert by_id["x:new"]["tier"] == "A"
+    assert by_id["x:old"]["tier"] == "A"          # 超过 30 天窗口，回 A 层
+    assert by_id["x:recent"]["tier"] == "D"       # 近 30 天已推荐，仅 D 层兜底
+    assert [e["paper_id"] for e in top][:2] == ["x:new", "x:old"]  # A 层排前
+    assert top[-1]["paper_id"] == "x:recent"
     conn.close()
+
+
+def test_tiered_fallback_fills_top15(tmp_path):
+    """A 层只有 2 篇时，B/C 层补足 15 篇：tier 标记正确且 A 层排在最前。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    papers = [("a:1", "SAMap evolution scRNA-seq one", "", "Nature"),
+              ("a:2", "SAMap evolution scRNA-seq two", "", "eLife")]
+    papers += [(f"b:{i}", f"unrelated topic {i}", "", "bioRxiv") for i in range(10)]
+    papers += [(f"c:{i}", f"vetoed topic {i}", "", "Nature") for i in range(5)]
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        papers,
+    )
+    scores = [("a:1", 100, 1, 9), ("a:2", 80, 1, 8)]
+    scores += [(f"b:{i}", 1, 0, None) for i in range(10)]   # 规则未命中，未被否决
+    scores += [(f"c:{i}", 50, 1, 1) for i in range(5)]      # 被 AI 否决
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        scores,
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    conn.close()
+    assert len(top) == 15
+    tiers = [e["tier"] for e in top]
+    assert tiers == ["A", "A"] + ["B"] * 10 + ["C"] * 3
+    assert {e["paper_id"] for e in top[:2]} == {"a:1", "a:2"}
+    # 层内按 total_score 降序
+    for t in ("A", "B", "C"):
+        layer = [e["total_score"] for e in top if e["tier"] == t]
+        assert layer == sorted(layer, reverse=True)
