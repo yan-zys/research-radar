@@ -4,7 +4,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from ranking.scoring import compute_scores, grade_of, journal_score
+from database.db import get_conn, init_db  # noqa: E402
+from ranking.scoring import compute_scores, grade_of, journal_score, run  # noqa: E402
 
 WEIGHTS = {"research_relevance": 0.5, "ai_semantic_relevance": 0.2,
            "journal_influence": 0.15, "method_transfer_value": 0.1, "trend_value": 0.05}
@@ -48,3 +49,37 @@ def test_weighted_total_and_normalization():
     # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4；无 method 命中；trend 归一化 10
     assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.15 + 0 * 0.1 + 10 * 0.05, 2)
     assert b["grade"] is None  # <5 不入库
+
+
+def _seed_run_db(tmp_path):
+    """三篇通过过滤的论文；x:recent 近 30 天内已推荐过，x:old 是 40 天前推荐的。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("x:new", "SAMap evolution scRNA-seq", "", "Nature"),
+         ("x:recent", "SAMap evolution scRNA-seq recent", "", "Nature"),
+         ("x:old", "SAMap evolution scRNA-seq old", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("x:new", 100, 1, 9), ("x:recent", 100, 1, 9), ("x:old", 100, 1, 9)],
+    )
+    conn.executemany(
+        "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",
+        [("2026-07-10", "x:recent", 9.5, "Must Read"),   # run_date 前 13 天，应被去重
+         ("2026-06-13", "x:old", 9.5, "Must Read")],      # run_date 前 40 天，超出窗口
+    )
+    conn.commit()
+    return conn
+
+
+def test_run_dedupes_last_30_days(tmp_path):
+    conn = _seed_run_db(tmp_path)
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-23")
+    ids = {e["paper_id"] for e in top}
+    assert "x:new" in ids
+    assert "x:recent" not in ids  # 近 30 天已推荐，被排除
+    assert "x:old" in ids         # 超过 30 天窗口，可再次推荐
+    conn.close()

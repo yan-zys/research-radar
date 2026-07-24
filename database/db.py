@@ -53,6 +53,9 @@ def get_conn(db_path=None) -> sqlite3.Connection:
 
 
 def init_db(conn: sqlite3.Connection) -> None:
-    """按 SCHEMA 建表（幂等）。"""
+    """按 SCHEMA 建表（幂等）；对老库补建新列（轻量迁移）。"""
     conn.executescript(SCHEMA)
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(paper_scores)")}
+    if "abstract_cn" not in cols:
+        conn.execute("ALTER TABLE paper_scores ADD COLUMN abstract_cn TEXT")
     conn.commit()

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Research Radar 每日流水线：
 #   抓取(pubmed/biorxiv/arxiv) → 关键词过滤 → AI 评分 → 排序
-#   → 生成并发送邮件日报 → 反馈学习（降权/挖候选词）
+#   →（每周一）近 30 天趋势总结 → 生成并发送邮件日报 → 反馈学习（降权/挖候选词）
 # 单步失败不中断后续步骤，全部记录到 logs/daily_YYYY-MM-DD.log
 set -uo pipefail
 
@@ -34,6 +34,9 @@ run_step "crawler: arxiv"         python crawler/arxiv.py
 run_step "filter: keyword_filter" python processing/keyword_filter.py
 run_step "analyze: paper_analyzer" python processing/paper_analyzer.py
 run_step "ranking: scoring"       python ranking/scoring.py
+if [ "$(date +%u)" = "1" ]; then
+  run_step "trends: 30-day trend" python ranking/trends.py
+fi
 run_step "email: generate+send"   python email/generate_email.py --send
 run_step "feedback: learning"     python feedback/learning.py
 

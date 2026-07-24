@@ -86,16 +86,27 @@ def compute_scores(rows, weights: dict, kw_config: dict) -> list:
 
 
 def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15) -> list:
-    """对 passed_filter=1 的论文打分，Top N 写入 recommendations（同日期先清空）。"""
+    """对 passed_filter=1 的论文打分，Top N 写入 recommendations（同日期先清空）。
+
+    30 天去重：近 30 天内已进过 recommendations 的论文不再参与当日候选。
+    """
+    if run_date is None:
+        d = date.today().isoformat()
+    elif isinstance(run_date, str):
+        d = run_date
+    else:
+        d = run_date.isoformat()
     rows = conn.execute(
         "SELECT p.paper_id, p.title, p.abstract, p.journal, s.rule_score, s.ai_score "
         "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id "
-        "WHERE s.passed_filter = 1"
+        "WHERE s.passed_filter = 1 "
+        "AND p.paper_id NOT IN (SELECT paper_id FROM recommendations "
+        "WHERE date >= date(?, '-30 days') AND date < ?)",
+        (d, d),
     ).fetchall()
     scored = compute_scores(rows, weights, kw_config)
     scored.sort(key=lambda e: e["total_score"], reverse=True)
     top = [e for e in scored[:top_n] if e["grade"]]
-    d = (run_date or date.today()).isoformat()
     conn.execute("DELETE FROM recommendations WHERE date = ?", (d,))
     conn.executemany(
         "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",

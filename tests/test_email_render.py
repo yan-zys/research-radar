@@ -28,11 +28,17 @@ def _seed_db(tmp_path):
          ("pubmed:10.2", "Brain evolution in annelids", "Here we show ...",
           "Lee B", "Nature", "2026-07-22", "10.2", "https://pubmed.ncbi.nlm.nih.gov/2/")],
     )
+    # abstract_cn 预先填好，避免测试触发真实 AI 调用
     conn.executemany(
-        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, reason, one_line_summary_cn) "
-        "VALUES (?, ?, ?, ?, ?)",
-        [("biorxiv:10.1", 50, 1, "核心方向高度相关", "构建章鱼脑单细胞图谱，揭示细胞类型演化。"),
-         ("pubmed:10.2", 40, 1, "神经系统演化直接相关", "比较环节动物脑演化，支持共同起源假说。")],
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, reason, "
+        "one_line_summary_cn, abstract_cn) VALUES (?, ?, ?, ?, ?, ?)",
+        [("biorxiv:10.1", 50, 1, "核心方向高度相关", "构建章鱼脑单细胞图谱，揭示细胞类型演化。",
+          "章鱼脑神经元类型缺乏系统图谱。作者用单细胞转录组测序构建全脑图谱，"
+          "鉴定出数十种细胞类型，发现其与脊椎动物脑细胞存在深度同源，"
+          "为理解复杂脑的独立演化提供细胞层面的证据。"),
+         ("pubmed:10.2", 40, 1, "神经系统演化直接相关", "比较环节动物脑演化，支持共同起源假说。",
+          "环节动物与脊椎动物脑的同源性长期存疑。作者比较多个环节动物物种的脑转录组，"
+          "发现保守的神经发育调控模块，支持两侧对称动物脑的共同起源假说。")],
     )
     conn.executemany(
         "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",
@@ -43,28 +49,39 @@ def _seed_db(tmp_path):
     return conn
 
 
-def test_render_contains_titles_and_mailto(tmp_path):
+def test_render_card_structure_and_feedback_links(tmp_path):
     conn = _seed_db(tmp_path)
     html_body = ge.build_html("2026-07-23", conn, "test@example.com", summary="测试趋势总述")
     conn.close()
     assert "Single-cell atlas of octopus brain" in html_body
     assert "Brain evolution in annelids" in html_body
     assert "测试趋势总述" in html_body
-    assert "mailto:test@example.com" in html_body
-    assert "rating%3Dgood" in html_body and "rating%3Dbad" in html_body  # mailto 主题已 URL 编码
-    assert "paper_id%3Dbiorxiv%3A10.1" in html_body  # 主题中 paper_id 已 URL 编码
+    # 一键反馈链接指向本机小服务，不再是 mailto
+    assert "mailto:" not in html_body
+    assert "http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1&rating=good" in html_body
+    assert "rating=ok" in html_body and "rating=bad" in html_body
+    assert "感兴趣" in html_body and "一般" in html_body and "不相关" in html_body
     assert "Must Read" in html_body and "Important" in html_body
 
 
-def test_render_three_part_structure(tmp_path):
+def test_render_cn_only_and_details(tmp_path):
     conn = _seed_db(tmp_path)
     html_body = ge.build_html("2026-07-23", conn, "test@example.com",
                               summary="测试趋势总述", user_name="yan-zys")
     conn.close()
-    assert "Part 1 · 今日论文新闻摘要" in html_body
-    assert "Part 2 · 论文详情" in html_body
-    assert "Part 3 · 今日推荐文献价值总结" in html_body
     assert "yan-zys，你好" in html_body
     assert "今日为你筛选出 2 篇论文" in html_body
-    assert "构建章鱼脑单细胞图谱，揭示细胞类型演化。" in html_body  # Part 1 一句话
-    assert "badge-must" in html_body and "badge-important" in html_body  # 分级徽标颜色
+    # 卡片式：details 下拉 + 等级配色
+    assert "<details><summary>详细解读</summary>" in html_body
+    assert "card-must" in html_body and "card-important" in html_body
+    assert "badge-must" in html_body and "badge-important" in html_body
+    # 中文内容齐全
+    assert "构建章鱼脑单细胞图谱，揭示细胞类型演化。" in html_body
+    assert "为理解复杂脑的独立演化提供细胞层面的证据。" in html_body
+    # 全卡片不出现英文摘要
+    assert "We present" not in html_body
+    assert "Here we show" not in html_body
+    # 顶部统计条：昨日（2026-07-22）入库 2 篇，通过过滤 2 篇
+    assert "stats-bar" in html_body
+    assert "入库 <b>2</b> 篇，通过过滤 <b>2</b> 篇" in html_body
+    assert "物种" in html_body and "方法" in html_body and "工具" in html_body and "概念" in html_body
