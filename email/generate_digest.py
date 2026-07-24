@@ -31,7 +31,7 @@ sys.path.insert(0, str(ROOT))
 
 from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
-from processing.keyword_filter import load_config  # noqa: E402
+from processing.keyword_filter import load_config, match_keywords  # noqa: E402
 from ranking.scoring import compute_scores, load_kw_config, load_weights  # noqa: E402
 
 # email/ 无 __init__.py（刻意，避免遮蔽标准库 email），按文件路径加载日报模块复用助手
@@ -75,6 +75,13 @@ def _dedup_best(rows) -> list:
     return sorted(best.values(), key=lambda r: r["total_score"], reverse=True)
 
 
+def _drop_negative(rows, kw_config: dict) -> list:
+    """剔除命中 negative 排除词的论文（历史 recommendations 可能含修复前入库的
+    医学/临床噪声，含此类词汇的邮件易触发 SMTP 550 内容过滤）。"""
+    return [r for r in rows
+            if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
+
+
 def _pool_candidates(conn, chosen: set, need: int) -> list:
     """scoring 池高分论文兜底：compute_scores 对 papers 表全体算分（AI 否决者不参与），
     排除已入选后取前 need 篇，字段补齐为 recommendations 行同款结构（rec_date 为 None）。"""
@@ -82,7 +89,11 @@ def _pool_candidates(conn, chosen: set, need: int) -> list:
         "SELECT p.paper_id, p.title, p.abstract, p.journal, s.rule_score, s.ai_score "
         "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id",
     ).fetchall()
-    scored = compute_scores(rows, load_weights(), load_kw_config())
+    kw_config = load_kw_config()
+    # 剔除命中 negative 排除词的论文（医学/临床噪声，且含此类词汇的邮件易触发 SMTP 550 内容过滤）
+    rows = [r for r in rows
+            if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
+    scored = compute_scores(rows, load_weights(), kw_config)
     scored.sort(key=lambda e: e["total_score"], reverse=True)
     out = []
     for e in scored:
@@ -112,11 +123,14 @@ def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15)
     """
     end = end_date or date_cls.today().isoformat()
     start = (date_cls.fromisoformat(end) - timedelta(days=days - 1)).isoformat()
-    selected = _dedup_best(_query_recs(conn, "r.date >= ? AND r.date <= ?",
-                                       (start, end)))[:top_n]
+    kw_config = load_kw_config()
+    selected = _dedup_best(_drop_negative(
+        _query_recs(conn, "r.date >= ? AND r.date <= ?", (start, end)),
+        kw_config))[:top_n]
     chosen = {r["paper_id"] for r in selected}
     if len(selected) < top_n:
-        for r in _dedup_best(_query_recs(conn, "r.date < ?", (start,))):
+        older = _drop_negative(_query_recs(conn, "r.date < ?", (start,)), kw_config)
+        for r in _dedup_best(older):
             if len(selected) >= top_n:
                 break
             if r["paper_id"] not in chosen:

@@ -118,7 +118,14 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         return conn.execute(sql, params).fetchall()
 
     def layered(rows) -> list:
-        """统一算分后按 A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。"""
+        """统一算分后按 A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。
+
+        negative 排除词命中的论文（医学/临床噪声）在所有层都剔除——既是用户
+        的降噪要求，也避免日报正文含大量 cancer/tumor/clinical 词汇被邮箱
+        反垃圾系统拦截（SMTP 550）。
+        """
+        rows = [r for r in rows
+                if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
         crit = {}
         for r in rows:
             veto = r["ai_score"] is not None and float(r["ai_score"]) < ai_veto

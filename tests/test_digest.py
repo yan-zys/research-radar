@@ -149,6 +149,35 @@ def test_build_html_three_parts_no_details(tmp_path):
     assert "badge-must" in html_body and "badge-relate" in html_body
 
 
+def test_negative_papers_excluded(tmp_path):
+    """命中 negative 排除词的论文（真实配置含 cancer/clinical 等医学词）在
+    窗口内、窗口外 recommendations 和 scoring 池兜底三处来源中均被剔除。"""
+    conn = _seed_db(tmp_path)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, authors, journal, date, doi, url) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [("pubmed:99.1", "Cancer immunotherapy in patients", "tumor ...",
+          "A B", "Nature", "2026-07-23", "99.1", "https://pubmed.ncbi.nlm.nih.gov/99/"),
+         ("pubmed:99.2", "Old cancer trial", "clinical ...",
+          "C D", "Nature", "2026-06-02", "99.2", "https://pubmed.ncbi.nlm.nih.gov/98/")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter) VALUES (?, ?, ?)",
+        [("pubmed:99.1", 100, 1), ("pubmed:99.2", 100, 1)],
+    )
+    conn.executemany(
+        "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",
+        [("2026-07-23", "pubmed:99.1", 10.0, "Must Read"),   # 窗口内最高分，仍应剔除
+         ("2026-06-02", "pubmed:99.2", 10.0, "Must Read")],   # 窗口外兜底，仍应剔除
+    )
+    conn.commit()
+    rows = gd.select_digest_papers(conn, 30, end_date="2026-07-24")
+    ids = [r["paper_id"] for r in rows]
+    conn.close()
+    assert "pubmed:99.1" not in ids and "pubmed:99.2" not in ids
+    assert "pubmed:10.4" in ids  # 非医学论文正常入选
+
+
 def test_monthly_subject_meta():
     assert gd.period_meta(7)["subject"] == "每周科研趋势"
     assert gd.period_meta(30)["subject"] == "每月科研趋势"

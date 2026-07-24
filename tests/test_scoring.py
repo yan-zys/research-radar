@@ -158,3 +158,31 @@ def test_tiered_fallback_fills_top15(tmp_path):
     for t in ("A", "B", "C"):
         layer = [e["total_score"] for e in top if e["tier"] == t]
         assert layer == sorted(layer, reverse=True)
+
+
+def test_tiered_fallback_excludes_negative(tmp_path):
+    """梯队兜底（B/C 层）也要剔除命中 negative 排除词的论文
+    （医学/临床噪声，含此类词汇的邮件易触发 SMTP 550 内容过滤）。"""
+    kw = {"keywords": KW["keywords"], "negative": ["cancer"]}
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    papers = [("a:1", "SAMap evolution scRNA-seq one", "", "Nature"),
+              ("b:ok", "unrelated topic", "", "bioRxiv"),
+              ("b:neg", "unrelated cancer topic", "", "bioRxiv"),
+              ("c:neg", "vetoed cancer topic", "", "Nature")]
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        papers,
+    )
+    scores = [("a:1", 100, 1, 9), ("b:ok", 1, 0, None),
+              ("b:neg", 99, 0, None), ("c:neg", 99, 1, 1)]
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        scores,
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, kw, run_date="2026-07-24")
+    conn.close()
+    ids = [e["paper_id"] for e in top]
+    assert ids == ["a:1", "b:ok"]  # negative 命中的 b:neg / c:neg 均被剔除，不兜底
