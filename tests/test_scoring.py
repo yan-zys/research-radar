@@ -128,20 +128,24 @@ def test_run_dedupes_last_30_days(tmp_path):
 
 
 def test_tiered_fallback_fills_top15(tmp_path):
-    """A 层只有 2 篇时，B/C 层补足 15 篇：tier 标记正确且 A 层排在最前。"""
+    """A 层只有 2 篇时，B/C 层补足 15 篇：tier 标记正确且 A 层排在最前。
+    B 层只收顶刊清单内且已评 AI 的论文；C 层收被否决的关键词/顶刊论文。"""
     conn = get_conn(tmp_path / "t.db")
     init_db(conn)
     papers = [("a:1", "SAMap evolution scRNA-seq one", "", "Nature"),
               ("a:2", "SAMap evolution scRNA-seq two", "", "eLife")]
-    papers += [(f"b:{i}", f"unrelated topic {i}", "", "bioRxiv") for i in range(10)]
+    papers += [(f"b:{i}", f"unrelated topic {i}", "", "Nature communications")
+               for i in range(8)]
     papers += [(f"c:{i}", f"vetoed topic {i}", "", "Nature") for i in range(5)]
+    papers += [("n:1", "noise not top journal", "", "Some Obscure Journal")]
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
         papers,
     )
     scores = [("a:1", 100, 1, 9), ("a:2", 80, 1, 8)]
-    scores += [(f"b:{i}", 1, 0, None) for i in range(10)]   # 规则未命中，未被否决
-    scores += [(f"c:{i}", 50, 1, 1) for i in range(5)]      # 被 AI 否决
+    scores += [(f"b:{i}", 0, 0, 5) for i in range(8)]   # 顶刊、已评 AI、未否决
+    scores += [(f"c:{i}", 50, 1, 1) for i in range(5)]  # 被 AI 否决
+    scores += [("n:1", 99, 0, None)]                    # 非顶刊+规则未命中 → 不推荐
     conn.executemany(
         "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
         "VALUES (?, ?, ?, ?)",
@@ -151,8 +155,9 @@ def test_tiered_fallback_fills_top15(tmp_path):
     top = run(conn, WEIGHTS, KW, run_date="2026-07-24")
     conn.close()
     assert len(top) == 15
+    assert "n:1" not in {e["paper_id"] for e in top}
     tiers = [e["tier"] for e in top]
-    assert tiers == ["A", "A"] + ["B"] * 10 + ["C"] * 3
+    assert tiers == ["A", "A"] + ["B"] * 8 + ["C"] * 5
     assert {e["paper_id"] for e in top[:2]} == {"a:1", "a:2"}
     # 层内按 total_score 降序
     for t in ("A", "B", "C"):
@@ -167,15 +172,15 @@ def test_tiered_fallback_excludes_negative(tmp_path):
     conn = get_conn(tmp_path / "t.db")
     init_db(conn)
     papers = [("a:1", "SAMap evolution scRNA-seq one", "", "Nature"),
-              ("b:ok", "unrelated topic", "", "bioRxiv"),
-              ("b:neg", "unrelated cancer topic", "", "bioRxiv"),
+              ("b:ok", "unrelated topic", "", "Nature communications"),
+              ("b:neg", "unrelated cancer topic", "", "Nature communications"),
               ("c:neg", "vetoed cancer topic", "", "Nature")]
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
         papers,
     )
-    scores = [("a:1", 100, 1, 9), ("b:ok", 1, 0, None),
-              ("b:neg", 99, 0, None), ("c:neg", 99, 1, 1)]
+    scores = [("a:1", 100, 1, 9), ("b:ok", 0, 0, 6),
+              ("b:neg", 99, 0, 6), ("c:neg", 99, 1, 1)]
     conn.executemany(
         "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
         "VALUES (?, ?, ?, ?)",

@@ -92,11 +92,11 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         ai_veto: float = 3.0) -> list:
     """对候选论文打分，按四层梯队兜底选满 Top N 写入 recommendations（同日期先清空）。
 
-    梯队（逐层补足 top_n 为止，每层内部按 total_score 降序）：
-    - A 层：passed_filter=1、未被 AI 否决、不在 30 天去重窗口内（原有逻辑）；
-    - B 层：passed_filter=0（规则未命中）、未被 AI 否决、不在去重窗口内；
-    - C 层：被 AI 否决（ai_score<3）、不在去重窗口内；
-    - D 层：放宽 30 天去重（任何论文，按 A→C 同序，排除已入选）。
+    梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
+    - A 层：关键词通道、未被 AI 否决、不在 30 天去重窗口内；
+    - B 层：顶刊通道、已评 AI、未被否决、不在去重窗口内；
+    - C 层：被 AI 否决的关键词/顶刊论文、不在去重窗口内；
+    - D 层：放宽 30 天去重（按 A→C 同序，排除已入选）。
     总分仍由 compute_scores 统一计算（同一归一化池，含被否决论文）；每条结果带
     "tier" 字段（"A"|"B"|"C"|"D"）标记来源层。仅当库内论文总数不足 top_n 时
     才返回少于 top_n 篇。30 天去重：近 30 天内已进过 recommendations 的论文
@@ -109,6 +109,9 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     else:
         d = run_date.isoformat()
 
+    from crawler.top_journals import journal_names
+    tj_names = set(journal_names())
+
     def fetch(where=None, params=()):
         sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, "
                "s.rule_score, s.ai_score, s.passed_filter "
@@ -120,6 +123,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     def layered(rows) -> list:
         """统一算分后按 A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。
 
+        分层规则（顶刊通道上线后收紧，非顶刊且未过关键词过滤的论文一律不推荐，
+        杜绝医学噪声兜底混入）：
+        - A 层：passed_filter=1、未被 AI 否决（关键词通道核心候选）；
+        - B 层：顶刊清单内期刊、已评 AI（ai_score 非空）、未被否决；
+        - C 层：被 AI 否决（ai_score<3）但属于关键词通过或顶刊清单的论文；
+        - 其余（非顶刊 + 规则未命中）：不推荐。
         negative 排除词命中的论文（医学/临床噪声）在所有层都剔除——既是用户
         的降噪要求，也避免日报正文含大量 cancer/tumor/clinical 词汇被邮箱
         反垃圾系统拦截（SMTP 550）。
@@ -128,9 +137,20 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
                 if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
         crit = {}
         for r in rows:
+            is_tj = (r["journal"] or "").strip().lower() in tj_names
             veto = r["ai_score"] is not None and float(r["ai_score"]) < ai_veto
-            crit[r["paper_id"]] = "C" if veto else ("A" if r["passed_filter"] == 1 else "B")
-        scored = compute_scores(rows, weights, kw_config, ai_veto=ai_veto,
+            if veto:
+                tier = "C" if (r["passed_filter"] == 1 or is_tj) else None
+            elif r["passed_filter"] == 1:
+                tier = "A"
+            elif is_tj and r["ai_score"] is not None:
+                tier = "B"
+            else:
+                tier = None
+            if tier:
+                crit[r["paper_id"]] = tier
+        eligible = [r for r in rows if r["paper_id"] in crit]
+        scored = compute_scores(eligible, weights, kw_config, ai_veto=ai_veto,
                                 include_vetoed=True)
         by_tier = {"A": [], "B": [], "C": []}
         for e in scored:
