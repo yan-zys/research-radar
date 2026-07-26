@@ -4,7 +4,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from crawler.top_journals import build_journal_query, journal_names, load_journals  # noqa: E402
+from crawler.top_journals import (build_journal_query, is_research_article,  # noqa: E402
+                                  journal_names, load_journals)
 from database.db import get_conn, init_db  # noqa: E402
 from processing.paper_analyzer import select_top_journal_candidates  # noqa: E402
 
@@ -70,3 +71,42 @@ def test_select_top_journal_candidates_limit_and_empty(tmp_path):
     assert [r["paper_id"] for r in select_top_journal_candidates(conn, 1)] == ["tj:1"]
     assert select_top_journal_candidates(conn, 0) == []
     conn.close()
+
+
+def test_select_top_journal_candidates_prestige_first(tmp_path):
+    """低分档顶刊的新论文排在高分档顶刊的旧论文之后（eLife=7 < Nature=10）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal, date) VALUES (?, ?, ?, ?, ?)",
+        [("elife:new", "new elife", "abs", "eLife", "2026-07-25"),
+         ("nat:old", "old nature", "abs", "Nature", "2026-07-18")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) VALUES (?, 0, 0, NULL)",
+        [("elife:new",), ("nat:old",)],
+    )
+    conn.commit()
+    rows = select_top_journal_candidates(conn, 10)
+    assert [r["paper_id"] for r in rows] == ["nat:old", "elife:new"]
+    conn.close()
+
+
+def test_is_research_article():
+    research = {"title": "Novel cortex-wide signaling", "doi": "10.1038/s41586-026-1",
+                "pub_types": ["Journal Article"]}
+    assert is_research_article(research)
+    assert is_research_article({"title": "A review", "doi": "", "pub_types": ["Review"]})
+    # PublicationType 拦截
+    assert not is_research_article({"title": "X", "doi": "10.1038/s41586-026-2",
+                                    "pub_types": ["News"]})
+    assert not is_research_article({"title": "X", "doi": "", "pub_types": ["Editorial", "Comment"]})
+    # Nature 新闻版块 DOI
+    assert not is_research_article({"title": "White House rolls out AI funding",
+                                    "doi": "10.1038/d41586-026-02280-3",
+                                    "pub_types": ["Journal Article"]})
+    # 标题兜底（pub_types 缺失）
+    assert not is_research_article({"title": "Author Correction: Feature-specific threat",
+                                    "doi": "10.1038/s41586-026-10911-y", "pub_types": []})
+    assert not is_research_article({"title": "Daily briefing: Orcas smash sunfish",
+                                    "doi": "", "pub_types": []})

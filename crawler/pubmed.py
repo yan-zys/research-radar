@@ -94,12 +94,15 @@ def parse_efetch_xml(xml_text: str) -> list:
             for el in art.findall("./PubmedData/ArticleIdList/ArticleId"):
                 if el.get("IdType") == "doi" and el.text:
                     doi = el.text.strip()
+        pub_types = [el.text.strip() for el in
+                     article.findall("./PublicationTypeList/PublicationType") if el.text]
         papers.append({
             "paper_id": f"pubmed:{doi or pmid}", "title": title, "abstract": abstract,
             "authors": ", ".join(authors),
             "journal": article.findtext("./Journal/Title") or "",
             "date": _pub_date(article), "doi": doi,
             "url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/", "source": "pubmed",
+            "pub_types": pub_types,
         })
     return papers
 

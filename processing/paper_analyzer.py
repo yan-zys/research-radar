@@ -2,8 +2,8 @@
 
 两批候选：① passed_filter=1 且 ai_score IS NULL 的论文（--max 控制成本，默认 20，
 按 rule_score 从高到低取）；② 顶刊清单（config/top_journals.yaml）内期刊、
-ai_score IS NULL 的论文（--max-tj 默认 15，按日期降序，顶刊不经关键词入池，
-需要 AI 语义分参与排序）。Prompt 模板在 prompts/relevance_scoring_prompt.txt，
+ai_score IS NULL 的论文（--max-tj 默认 30，期刊声望优先、同档日期降序；顶刊
+不经关键词入池，需要 AI 语义分参与排序）。Prompt 模板在 prompts/relevance_scoring_prompt.txt，
 脚本只做变量填充。调用/JSON 解析失败 → 原始信息落盘 logs/ 并跳过该篇，不中断。
 """
 import argparse
@@ -63,23 +63,29 @@ def select_candidates(conn, max_n: int) -> list:
 
 
 def select_top_journal_candidates(conn, max_tj: int, journals_path=None) -> list:
-    """第二批：顶刊清单内期刊、未评 AI 的论文（日期降序，最新的优先）。
-    顶刊论文不经关键词入池，需要 AI 语义分参与四维排序。"""
+    """第二批：顶刊清单内期刊、未评 AI 的论文。
+
+    顶刊论文不经关键词入池，需要 AI 语义分参与四维排序。按期刊声望优先
+    （Nature/Science/Cell 主刊 10 分档先评），同档按日期降序（最新的优先）。
+    """
     from crawler.top_journals import journal_names
+    from ranking.scoring import journal_score
     names = journal_names(journals_path)
     if not names or max_tj <= 0:
         return []
     marks = ",".join("?" * len(names))
-    return conn.execute(
-        "SELECT p.paper_id, p.title, p.abstract FROM papers p "
+    rows = conn.execute(
+        "SELECT p.paper_id, p.title, p.abstract, p.journal, p.date FROM papers p "
         "JOIN paper_scores s ON p.paper_id = s.paper_id "
-        f"WHERE s.ai_score IS NULL AND LOWER(p.journal) IN ({marks}) "
-        "ORDER BY p.date DESC LIMIT ?",
-        (*names, max_tj),
+        f"WHERE s.ai_score IS NULL AND LOWER(p.journal) IN ({marks})",
+        names,
     ).fetchall()
+    rows.sort(key=lambda r: (journal_score(r["journal"]), r["date"] or ""),
+              reverse=True)
+    return rows[:max_tj]
 
 
-def run(conn, max_n: int, max_tj: int = 15) -> dict:
+def run(conn, max_n: int, max_tj: int = 30) -> dict:
     """分两批逐篇调用 AI 并写回 paper_scores，返回统计。"""
     rows = list(select_candidates(conn, max_n))
     tj_rows = list(select_top_journal_candidates(conn, max_tj))
@@ -116,12 +122,13 @@ def run(conn, max_n: int, max_tj: int = 15) -> dict:
 def main():
     ap = argparse.ArgumentParser(description="AI 相关性深度评分")
     ap.add_argument("--max", type=int, default=20, help="本次最多评分篇数（默认 20，控制成本）")
+    ap.add_argument("--max-tj", type=int, default=30, help="顶刊候选本次最多评分篇数（默认 30）")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
-    stats = run(conn, args.max)
+    stats = run(conn, args.max, args.max_tj)
     conn.close()
     print(f"AI 评分完成：候选 {stats['candidates']} / 成功 {stats['done']} / 失败 {stats['failed']}")
 

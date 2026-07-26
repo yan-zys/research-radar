@@ -6,6 +6,7 @@
 再由 paper_analyzer 对顶刊论文补 AI 语义评分，最终 scoring 统一四维排序。
 """
 import argparse
+import re
 import sys
 import time
 from datetime import date
@@ -18,6 +19,34 @@ sys.path.insert(0, str(ROOT))
 
 from crawler.common import resolve_since, save_papers  # noqa: E402
 from crawler.pubmed import REQUEST_INTERVAL, efetch, esearch, parse_efetch_xml  # noqa: E402
+
+# 非研究论文的 PubMed PublicationType（新闻/社论/来信/更正/撤稿等，不入库）
+EXCLUDE_PUB_TYPES = {
+    "news", "editorial", "comment", "letter", "biography", "interview",
+    "historical article", "published erratum", "retracted publication",
+    "retraction of publication", "corrected and republished article",
+    "newspaper article", "lecture", "portrait", "obituary", "patient education handout",
+}
+# 标题兜底（PublicationType 缺失时）：更正/撤稿/每日新闻栏目
+EXCLUDE_TITLE_RE = re.compile(
+    r"^\s*(author correction|publisher correction|correction|corrigendum|addendum|"
+    r"retraction|editorial|editor's note|daily briefing|briefing chat|news feature|"
+    r"news & views|where i work)\b", re.I)
+# Nature 新闻版块 DOI 前缀（d41586 = Nature 新闻团队）
+EXCLUDE_DOI_PREFIXES = ("10.1038/d41586",)
+
+
+def is_research_article(p) -> bool:
+    """仅保留研究/综述类论文：按 PublicationType、DOI 前缀、标题三重过滤。"""
+    types = {t.lower() for t in (p.get("pub_types") or [])}
+    if types & EXCLUDE_PUB_TYPES:
+        return False
+    doi = (p.get("doi") or "").lower()
+    if any(doi.startswith(pre) for pre in EXCLUDE_DOI_PREFIXES):
+        return False
+    if EXCLUDE_TITLE_RE.match(p.get("title") or ""):
+        return False
+    return True
 
 
 def load_journals(path=None) -> list:
@@ -52,8 +81,10 @@ def main():
         return
     time.sleep(REQUEST_INTERVAL)
     papers = parse_efetch_xml(efetch(pmids))
-    n = save_papers(papers, args.db)
-    print(f"解析 {len(papers)} 篇，新入库 {n} 篇（重复自动忽略）")
+    research = [p for p in papers if is_research_article(p)]
+    n = save_papers(research, args.db)
+    print(f"解析 {len(papers)} 篇，剔除非研究类 {len(papers) - len(research)} 篇，"
+          f"新入库 {n} 篇（重复自动忽略）")
 
 
 if __name__ == "__main__":
