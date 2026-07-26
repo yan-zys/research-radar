@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Research Radar 每日流水线：
-#   抓取(pubmed/biorxiv/arxiv) → 关键词过滤 → AI 评分 → 排序
+#   抓取(pubmed/biorxiv/arxiv/top_journals) → 关键词过滤 → AI 评分 → 排序
 #   → 生成并发送邮件日报 →（每周一）追加发送周报（--days 7）
 #   →（每月 1 号）追加发送月报（--days 30）→ 反馈学习（降权/挖候选词）
 # 单步失败不中断后续步骤，全部记录到 logs/daily_YYYY-MM-DD.log
@@ -32,6 +32,7 @@ run_step() {
 run_step "crawler: pubmed"        python crawler/pubmed.py
 run_step "crawler: biorxiv"       python crawler/biorxiv.py
 run_step "crawler: arxiv"         python crawler/arxiv.py
+run_step "crawler: top_journals"  python crawler/top_journals.py
 run_step "filter: keyword_filter" python processing/keyword_filter.py
 run_step "analyze: paper_analyzer" python processing/paper_analyzer.py
 run_step "ranking: scoring"       python ranking/scoring.py

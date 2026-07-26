@@ -1,7 +1,9 @@
 """Phase 9：AI 相关性深度评分。
 
-只对 passed_filter=1 且 ai_score IS NULL 的论文调用 AI（--max 控制成本，默认 20，
-按 rule_score 从高到低取）。Prompt 模板在 prompts/relevance_scoring_prompt.txt，
+两批候选：① passed_filter=1 且 ai_score IS NULL 的论文（--max 控制成本，默认 20，
+按 rule_score 从高到低取）；② 顶刊清单（config/top_journals.yaml）内期刊、
+ai_score IS NULL 的论文（--max-tj 默认 15，按日期降序，顶刊不经关键词入池，
+需要 AI 语义分参与排序）。Prompt 模板在 prompts/relevance_scoring_prompt.txt，
 脚本只做变量填充。调用/JSON 解析失败 → 原始信息落盘 logs/ 并跳过该篇，不中断。
 """
 import argparse
@@ -49,15 +51,40 @@ def dump_failure(paper_id: str, content) -> None:
     (logs / f"ai_fail_{safe}_{ts}.txt").write_text(str(content), encoding="utf-8")
 
 
-def run(conn, max_n: int) -> dict:
-    """逐篇调用 AI 并写回 paper_scores，返回统计。"""
-    rows = conn.execute(
+def select_candidates(conn, max_n: int) -> list:
+    """第一批：关键词过滤通过、未评 AI 的论文（rule_score 降序）。"""
+    return conn.execute(
         "SELECT p.paper_id, p.title, p.abstract FROM papers p "
         "JOIN paper_scores s ON p.paper_id = s.paper_id "
         "WHERE s.passed_filter = 1 AND s.ai_score IS NULL "
         "ORDER BY s.rule_score DESC LIMIT ?",
         (max_n,),
     ).fetchall()
+
+
+def select_top_journal_candidates(conn, max_tj: int, journals_path=None) -> list:
+    """第二批：顶刊清单内期刊、未评 AI 的论文（日期降序，最新的优先）。
+    顶刊论文不经关键词入池，需要 AI 语义分参与四维排序。"""
+    from crawler.top_journals import journal_names
+    names = journal_names(journals_path)
+    if not names or max_tj <= 0:
+        return []
+    marks = ",".join("?" * len(names))
+    return conn.execute(
+        "SELECT p.paper_id, p.title, p.abstract FROM papers p "
+        "JOIN paper_scores s ON p.paper_id = s.paper_id "
+        f"WHERE s.ai_score IS NULL AND LOWER(p.journal) IN ({marks}) "
+        "ORDER BY p.date DESC LIMIT ?",
+        (*names, max_tj),
+    ).fetchall()
+
+
+def run(conn, max_n: int, max_tj: int = 15) -> dict:
+    """分两批逐篇调用 AI 并写回 paper_scores，返回统计。"""
+    rows = list(select_candidates(conn, max_n))
+    tj_rows = list(select_top_journal_candidates(conn, max_tj))
+    seen = {r["paper_id"] for r in rows}
+    rows += [r for r in tj_rows if r["paper_id"] not in seen]
     template = (ROOT / "prompts" / "relevance_scoring_prompt.txt").read_text(encoding="utf-8")
     profile = load_profile_summary()
     done = failed = 0
