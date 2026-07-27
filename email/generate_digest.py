@@ -10,8 +10,9 @@ scoring 池高分论文（compute_scores 对 papers 表全体算分），保证�
 - Part 2 · 推荐分布统计：纯 Python 聚合（compute_digest_stats）——收录总数与
   定级分布（Must Read/Important/Relate）、期刊分层（顶刊/领域权威/其他，
   沿用 generate_email 的内置名单）、主要来源期刊 Top 5、高频关键词 Top 10；
-- Part 3 · 重点论文清单：Top 15 速览（序号 + 等级徽标 + 总分 + 标题 +
-  精炼一句话 + 期刊·日期），复用日报的 render_news_list。
+- Part 3 · 重点论文清单：Top 15 清单（序号 + 等级徽标 + 总分 + 标题 +
+  精炼一句话 + 推荐理由 + 中文摘要 + 期刊·日期·原文链接 + 一键反馈按钮），
+  由 render_digest_list 渲染（复用日报的 one_line/paper_links/feedback_links）。
 聚合/选文逻辑（select_digest_papers / compute_digest_stats）与 AI 调用分离，便于测试。
 主题行："每周科研趋势 · 日期范围" / "每月科研趋势 · 日期范围"。
 不带 --send：写 email/output/digest-YYYY-MM-DD-Nd.html。
@@ -221,6 +222,36 @@ def render_digest_stats(stats: dict) -> str:
     return '<div class="stats-bar">' + "\n".join(parts) + "</div>"
 
 
+def render_digest_list(rows) -> str:
+    """Part 3 重点论文清单：序号 + 等级徽标 + 总分 + 标题 + 一句话 +
+    推荐理由 + 中文摘要 + 期刊·日期·链接 + 反馈按钮（相关/不相关/已读/收藏）。"""
+    if not rows:
+        return "<p>本周期暂无推荐文献。</p>"
+    esc = lambda s: html.escape(str(s or ""))  # noqa: E731
+    items = []
+    for i, r in enumerate(rows, 1):
+        badge = ge.GRADE_CSS.get(r["grade"], "badge-relate")
+        body = [f'<div class="quick-title">{esc(r["title"])}</div>',
+                f'<div class="quick-cn">{esc(ge.one_line(r))}</div>']
+        if r["reason"]:
+            body.append(f'<p class="reason"><strong>推荐理由：</strong>{esc(r["reason"])}</p>')
+        if r["abstract_cn"]:
+            body.append(f'<p class="cn-abstract"><strong>中文摘要：</strong>'
+                        f'{esc(r["abstract_cn"])}</p>')
+        meta = f'{esc(r["journal"])} · {esc(r["date"])}'
+        links_html = ge.paper_links(r)
+        if links_html:
+            meta += " · " + links_html
+        body.append(f'<div class="meta">{meta}</div>')
+        body.append(f'<div class="feedback">{ge.feedback_links(r["paper_id"])}</div>')
+        items.append(
+            f'<div class="quick-item"><span class="quick-rank">{i}</span>'
+            f'<span class="badge {badge}">{esc(r["grade"])}</span>'
+            f'<span class="score">{r["total_score"]}</span>'
+            f'<div class="quick-body">{"".join(body)}</div></div>')
+    return "\n".join(items)
+
+
 def build_html(conn, days: int, end_date: str = None, trend: dict = None,
                user_name: str = "研究者") -> tuple:
     """生成周报/月报 HTML，返回 (html, rows, date_range)。trend 为 None 时自动调用 AI。"""
@@ -230,7 +261,7 @@ def build_html(conn, days: int, end_date: str = None, trend: dict = None,
     meta = period_meta(days)
     rows = select_digest_papers(conn, days, end_date=end)
     ge.ensure_one_liners(conn, rows)
-    if any(not r["one_line_summary_cn"] for r in rows):
+    if any(not r["one_line_summary_cn"] or not r["abstract_cn"] for r in rows):
         rows = select_digest_papers(conn, days, end_date=end)  # 重取，拿到补齐内容
     if trend is None:
         trend = summarize_digest(rows, days)
@@ -243,7 +274,7 @@ def build_html(conn, days: int, end_date: str = None, trend: dict = None,
                     .replace("{{count}}", str(len(rows)))
                     .replace("{{part1_trend}}", render_digest_trend(trend, meta["leads_title"]))
                     .replace("{{part2_stats}}", render_digest_stats(stats))
-                    .replace("{{part3_list}}", ge.render_news_list(rows)))
+                    .replace("{{part3_list}}", render_digest_list(rows)))
     return body, rows, date_range
 
 
