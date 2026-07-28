@@ -55,7 +55,7 @@ def _seed_db(tmp_path):
 def test_select_dedup_and_window(tmp_path):
     """同一 paper_id 只留最高分；窗口内不足 15 时先补窗口外更早的 recommendations。"""
     conn = _seed_db(tmp_path)
-    rows7 = gd.select_digest_papers(conn, 7, end_date="2026-07-24")
+    rows7 = gd.select_digest_papers(conn, 7, end_date="2026-07-24", offline=True)
     ids7 = {r["paper_id"]: r["total_score"] for r in rows7}
     # 7 天窗口内 3 篇在前，窗口外的 pubmed:10.4（2026-07-01）兜底补在后
     assert ids7 == {"biorxiv:10.1": 7.2, "pubmed:10.2": 5.8,
@@ -63,7 +63,7 @@ def test_select_dedup_and_window(tmp_path):
     assert [r["paper_id"] for r in rows7][:3] == ["biorxiv:10.1", "pubmed:10.2",
                                                   "pubmed:10.3"]
     assert rows7[-1]["paper_id"] == "pubmed:10.4"
-    rows30 = gd.select_digest_papers(conn, 30, end_date="2026-07-24")
+    rows30 = gd.select_digest_papers(conn, 30, end_date="2026-07-24", offline=True)
     ids30 = {r["paper_id"]: r["total_score"] for r in rows30}
     assert len(ids30) == 4 and ids30["pubmed:10.4"] == 9.9
     # 30 天窗口无需兜底，整体按总分降序
@@ -96,7 +96,7 @@ def test_pool_fallback_fills_15(tmp_path):
          ("2026-07-24", "rec:2", 5.0, "Important")],
     )
     conn.commit()
-    rows = gd.select_digest_papers(conn, 7, end_date="2026-07-24")
+    rows = gd.select_digest_papers(conn, 7, end_date="2026-07-24", offline=True)
     conn.close()
     assert len(rows) == 15
     assert [r["paper_id"] for r in rows[:2]] == ["rec:1", "rec:2"]  # 窗口内推荐在前
@@ -113,7 +113,7 @@ def test_pool_fallback_fills_15(tmp_path):
 
 def test_compute_digest_stats(tmp_path):
     conn = _seed_db(tmp_path)
-    rows = gd.select_digest_papers(conn, 7, end_date="2026-07-24")
+    rows = gd.select_digest_papers(conn, 7, end_date="2026-07-24", offline=True)
     from processing.keyword_filter import load_config
     stats = gd.compute_digest_stats(rows, load_config())
     conn.close()
@@ -126,7 +126,8 @@ def test_compute_digest_stats(tmp_path):
 
 def test_build_html_three_parts_no_details(tmp_path):
     conn = _seed_db(tmp_path)
-    html_body, rows, date_range = gd.build_html(conn, 7, end_date="2026-07-24", trend=TREND)
+    html_body, rows, date_range = gd.build_html(conn, 7, end_date="2026-07-24",
+                                                trend=TREND, offline=True)
     conn.close()
     assert date_range == "2026-07-18 ~ 2026-07-24"
     assert len(rows) == 4  # 窗口内 3 篇 + 窗口外更早 recommendations 兜底 1 篇
@@ -176,7 +177,7 @@ def test_negative_papers_excluded(tmp_path):
          ("2026-06-02", "pubmed:99.2", 10.0, "Must Read")],   # 窗口外兜底，仍应剔除
     )
     conn.commit()
-    rows = gd.select_digest_papers(conn, 30, end_date="2026-07-24")
+    rows = gd.select_digest_papers(conn, 30, end_date="2026-07-24", offline=True)
     ids = [r["paper_id"] for r in rows]
     conn.close()
     assert "pubmed:99.1" not in ids and "pubmed:99.2" not in ids

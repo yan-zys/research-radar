@@ -4,7 +4,8 @@
 - research_relevance：rule_score 除以候选池最大值 ×10
 - ai_semantic_relevance：ai_score（缺失按 5；已评且 <3 的论文为 AI 否决，仅作兜底层候选）
 - journal_influence：内置期刊分档 dict
-- trend_value：concept 组命中得分归一化（复用 keyword_filter）
+- trend_value：外部趋势信号（ranking/trend_signals.py：PubMed 近 30 天发文热度
+  归一化 0-8 + 顶刊当期命中 +2；offline 模式用本地语料库文档频次）
 每日 Top 15 按四层梯队兜底选满（run() 详见其 docstring），全部写入 recommendations，
 不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate；
 同日期先清空旧记录再写入）。打印各层选取数与 Top15 简表。
@@ -20,7 +21,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from database.db import get_conn, init_db  # noqa: E402
-from processing.keyword_filter import group_scores, match_keywords  # noqa: E402
+from processing.keyword_filter import match_keywords  # noqa: E402
+from ranking.trend_signals import build_trend_ctx, heat_of, salient_terms, trend_values  # noqa: E402
 
 
 def journal_score(journal: str) -> float:
@@ -51,37 +53,48 @@ def load_weights(path=None) -> dict:
 
 
 def load_kw_config() -> dict:
-    """加载 keyword_config.yaml（trend 维度复用其命中逻辑）。"""
+    """加载 keyword_config.yaml（显著词提取复用其命中逻辑）。"""
     return yaml.safe_load((ROOT / "config" / "keyword_config.yaml").read_text(encoding="utf-8"))
 
 
 def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
-                   include_vetoed: bool = False) -> list:
+                   include_vetoed: bool = False, trend_ctx: dict = None) -> list:
     """对候选论文计算四维得分与 total_score（rows 为 papers JOIN paper_scores）。
 
     AI 否决：ai_score 已评且低于 ai_veto（默认 3）的论文默认直接剔除，
     避免规则分高但 AI 判定无关的论文混入推荐；include_vetoed=True 时保留
     （供 run() 的 C/D 兜底层统一算分，由调用方自行分层排序）。
+    trend_ctx（build_trend_ctx 返回的 {count_fn, tj_names}）提供外部趋势信号；
+    缺省时 trend_value 全部按 0 计（离线纯计算场景）。
     """
     enriched = []
     for r in rows:
         if not include_vetoed and r["ai_score"] is not None and float(r["ai_score"]) < ai_veto:
             continue
-        agg = group_scores(match_keywords(r["title"], r["abstract"], kw_config))
-        enriched.append({
+        e = {
             "paper_id": r["paper_id"], "title": r["title"], "journal": r["journal"],
             "rule_score": r["rule_score"] or 0,
             "ai_score": r["ai_score"] if r["ai_score"] is not None else 5,
-            "trend_raw": agg.get("concept", 0),
-        })
+        }
+        if trend_ctx is not None:
+            terms = salient_terms(match_keywords(r["title"], r["abstract"], kw_config),
+                                  r["title"])
+            e["trend_heat"] = heat_of(terms, trend_ctx["count_fn"])
+            e["is_tj"] = (r["journal"] or "").strip().lower() in trend_ctx["tj_names"]
+        enriched.append(e)
+    if trend_ctx is not None:
+        tv = trend_values(
+            {e["paper_id"]: e["trend_heat"] for e in enriched},
+            {e["paper_id"]: e.get("is_tj", False) for e in enriched})
+    else:
+        tv = {}
     max_rule = max((e["rule_score"] for e in enriched), default=0) or 1
-    max_trend = max((e["trend_raw"] for e in enriched), default=0) or 1
     for e in enriched:
         dims = {
             "research_relevance": e["rule_score"] / max_rule * 10,
             "ai_semantic_relevance": float(e["ai_score"]),
             "journal_influence": journal_score(e["journal"]),
-            "trend_value": e["trend_raw"] / max_trend * 10,
+            "trend_value": tv.get(e["paper_id"], 0.0),
         }
         e["total_score"] = round(sum(dims[k] * weights.get(k, 0) for k in dims), 2)
         e["grade"] = grade_of(e["total_score"])
@@ -89,7 +102,7 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
 
 
 def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
-        ai_veto: float = 3.0, pub_date=None) -> list:
+        ai_veto: float = 3.0, pub_date=None, offline: bool = False) -> list:
     """对候选论文打分，按四层梯队兜底选满 Top N 写入 recommendations（同日期先清空）。
 
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
@@ -103,6 +116,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     不参与 A/B/C 层候选。
     pub_date（YYYY-MM-DD）：限定候选论文的发表日期（papers.date），用于补算
     某一天发表文献的历史日报；默认 None 不过滤（日常流程靠爬虫 --since 限制）。
+    offline=True 时趋势维度只用本地语料库频次（不访问 PubMed，测试/无网用）。
     """
     if run_date is None:
         d = date.today().isoformat()
@@ -111,8 +125,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     else:
         d = run_date.isoformat()
 
-    from crawler.top_journals import journal_names
-    tj_names = set(journal_names())
+    trend_ctx = build_trend_ctx(conn, d, offline=offline)
+    tj_names = trend_ctx["tj_names"]
 
     def fetch(where=None, params=()):
         sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, "
@@ -158,7 +172,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
                 crit[r["paper_id"]] = tier
         eligible = [r for r in rows if r["paper_id"] in crit]
         scored = compute_scores(eligible, weights, kw_config, ai_veto=ai_veto,
-                                include_vetoed=True)
+                                include_vetoed=True, trend_ctx=trend_ctx)
         by_tier = {"A": [], "B": [], "C": []}
         for e in scored:
             e["tier"] = crit[e["paper_id"]]
@@ -188,6 +202,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         [(d, e["paper_id"], e["total_score"], e["grade"]) for e in top],
     )
     conn.commit()
+    getattr(trend_ctx["count_fn"], "flush", lambda: None)()
     counts = {t: sum(1 for e in top if e["tier"] == t) for t in "ABCD"}
     print(f"梯队选取：A={counts['A']} B={counts['B']} C={counts['C']} "
           f"D={counts['D']}，共 {len(top)} 篇")
@@ -203,12 +218,14 @@ def main():
     ap.add_argument("--pub-date", default=None,
                     help="限定候选论文发表日期 YYYY-MM-DD（默认不过滤；"
                          "补算某日发表文献的历史日报用）")
+    ap.add_argument("--offline", action="store_true",
+                    help="趋势维度只用本地语料库频次，不访问 PubMed（无网/调试用）")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
     top = run(conn, load_weights(), load_kw_config(), run_date=args.date,
-              top_n=args.top, pub_date=args.pub_date)
+              top_n=args.top, pub_date=args.pub_date, offline=args.offline)
     conn.close()
     if not top:
         print("暂无论文可推荐（papers 表为空）")

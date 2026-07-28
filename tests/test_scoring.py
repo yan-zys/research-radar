@@ -36,20 +36,38 @@ def test_journal_tiers():
 
 
 def test_weighted_total_and_normalization():
+    import math
     rows = [
         {"paper_id": "x:1", "title": "SAMap evolution scRNA-seq", "abstract": "",
          "journal": "Nature", "rule_score": 100, "ai_score": 8},
         {"paper_id": "x:2", "title": "evolution", "abstract": "",
          "journal": "bioRxiv", "rule_score": 50, "ai_score": None},
     ]
-    scored = {e["paper_id"]: e for e in compute_scores(rows, WEIGHTS, KW)}
+    # 外部趋势信号（注入计数，无网络）：x:1 命中三词，x:2 只命中 evolution
+    counts = {"scrna-seq": 50, "samap": 100, "evolution": 10}
+    trend_ctx = {"count_fn": lambda t: counts.get(t.lower(), 0),
+                 "tj_names": {"nature"}}
+    scored = {e["paper_id"]: e for e in compute_scores(rows, WEIGHTS, KW,
+                                                       trend_ctx=trend_ctx)}
     a, b = scored["x:1"], scored["x:2"]
-    # a：rule/trend 均为池内最大 → 归一化 10；ai=8；期刊 10
-    assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + 10 * 0.1, 2)
+    heat_a = math.log1p(50) + math.log1p(100) + math.log1p(10)
+    heat_b = math.log1p(10)
+    trend_a = 8.0 + 2.0               # 热度池内最大归一化 8；Nature 顶刊当期 +2
+    trend_b = heat_b / heat_a * 8.0   # bioRxiv 非顶刊，无加分
+    # a：rule 归一化 10；ai=8；期刊 10
+    assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + trend_a * 0.1, 2)
     assert a["grade"] == "Must Read"
-    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4；trend 归一化 10 → 总分 5.3
-    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.2 + 10 * 0.1, 2)
-    assert b["grade"] == "Important"  # ≥5 且 <7
+    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4
+    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.2 + trend_b * 0.1, 2)
+    assert b["grade"] == "Relate"  # <5
+
+
+def test_compute_scores_without_trend_ctx_trend_zero():
+    """trend_ctx 缺省时 trend_value 按 0 计（离线纯计算）。"""
+    rows = [{"paper_id": "x:1", "title": "SAMap evolution scRNA-seq", "abstract": "",
+             "journal": "Nature", "rule_score": 100, "ai_score": 8}]
+    [e] = compute_scores(rows, WEIGHTS, KW)
+    assert e["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + 0 * 0.1, 2)
 
 
 def test_top15_all_selected_no_score_cutoff(tmp_path):
@@ -67,7 +85,7 @@ def test_top15_all_selected_no_score_cutoff(tmp_path):
         [("x:high", 100, 1, 9), ("x:low", 1, 1, 3)],
     )
     conn.commit()
-    top = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
     ids = {e["paper_id"]: e["grade"] for e in top}
     assert ids["x:high"] == "Must Read"
     assert ids["x:low"] == "Relate"  # 低分不剔除
@@ -131,10 +149,11 @@ def test_run_pub_date_filters_candidates(tmp_path):
         [("x:0722", 100, 1, 9), ("x:0723", 100, 1, 9)],
     )
     conn.commit()
-    top = run(conn, WEIGHTS, KW, run_date="2026-07-22", pub_date="2026-07-22")
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-22", pub_date="2026-07-22",
+              offline=True)
     assert [e["paper_id"] for e in top] == ["x:0722"]
     # 默认不带 pub_date：两天发表的论文都是候选（x:0722 已被推荐过，落 D 层）
-    top_all = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    top_all = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
     assert {e["paper_id"] for e in top_all} == {"x:0722", "x:0723"}
     conn.close()
 
@@ -142,7 +161,7 @@ def test_run_pub_date_filters_candidates(tmp_path):
 def test_run_dedupes_last_30_days(tmp_path):
     """A 层仍做 30 天去重；去重被排除的论文只在 D 兜底层按序回补（排在 A 层之后）。"""
     conn = _seed_run_db(tmp_path)
-    top = run(conn, WEIGHTS, KW, run_date="2026-07-23")
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-23", offline=True)
     by_id = {e["paper_id"]: e for e in top}
     assert by_id["x:new"]["tier"] == "A"
     assert by_id["x:old"]["tier"] == "A"          # 超过 30 天窗口，回 A 层
@@ -177,7 +196,7 @@ def test_tiered_fallback_fills_top15(tmp_path):
         scores,
     )
     conn.commit()
-    top = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
     conn.close()
     assert len(top) == 15
     assert "n:1" not in {e["paper_id"] for e in top}
@@ -212,7 +231,7 @@ def test_tiered_fallback_excludes_negative(tmp_path):
         scores,
     )
     conn.commit()
-    top = run(conn, WEIGHTS, kw, run_date="2026-07-24")
+    top = run(conn, WEIGHTS, kw, run_date="2026-07-24", offline=True)
     conn.close()
     ids = [e["paper_id"] for e in top]
     assert ids == ["a:1", "b:ok"]  # negative 命中的 b:neg / c:neg 均被剔除，不兜底

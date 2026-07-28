@@ -34,6 +34,7 @@ from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 from processing.keyword_filter import load_config, match_keywords  # noqa: E402
 from ranking.scoring import compute_scores, load_kw_config, load_weights  # noqa: E402
+from ranking.trend_signals import build_trend_ctx  # noqa: E402
 
 # email/ 无 __init__.py（刻意，避免遮蔽标准库 email），按文件路径加载日报模块复用助手
 _spec = importlib.util.spec_from_file_location(
@@ -83,9 +84,10 @@ def _drop_negative(rows, kw_config: dict) -> list:
             if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
 
 
-def _pool_candidates(conn, chosen: set, need: int) -> list:
+def _pool_candidates(conn, chosen: set, need: int, offline: bool = False) -> list:
     """scoring 池高分论文兜底：compute_scores 对 papers 表全体算分（AI 否决者不参与），
-    排除已入选后取前 need 篇，字段补齐为 recommendations 行同款结构（rec_date 为 None）。"""
+    排除已入选后取前 need 篇，字段补齐为 recommendations 行同款结构（rec_date 为 None）。
+    趋势维度默认用 PubMed 发文热度（offline=True 时只用本地语料库，供测试）。"""
     rows = conn.execute(
         "SELECT p.paper_id, p.title, p.abstract, p.journal, s.rule_score, s.ai_score "
         "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id",
@@ -94,7 +96,9 @@ def _pool_candidates(conn, chosen: set, need: int) -> list:
     # 剔除命中 negative 排除词的论文（医学/临床噪声，且含此类词汇的邮件易触发 SMTP 550 内容过滤）
     rows = [r for r in rows
             if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
-    scored = compute_scores(rows, load_weights(), kw_config)
+    trend_ctx = build_trend_ctx(conn, date_cls.today().isoformat(), offline=offline)
+    scored = compute_scores(rows, load_weights(), kw_config, trend_ctx=trend_ctx)
+    getattr(trend_ctx["count_fn"], "flush", lambda: None)()
     scored.sort(key=lambda e: e["total_score"], reverse=True)
     out = []
     for e in scored:
@@ -116,11 +120,12 @@ def _pool_candidates(conn, chosen: set, need: int) -> list:
     return out
 
 
-def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15) -> list:
+def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15,
+                         offline: bool = False) -> list:
     """取近 N 天（含 end_date 当天）recommendations，同一 paper_id 只留最高分，取 Top N；
     不足 top_n 时按顺序补足：① 窗口外更早的 recommendations（按 total_score 降序），
     ② scoring 池高分论文（_pool_candidates）。仅当库内论文总数不足时才返回更少。
-    纯查询/聚合，不调用 AI，便于测试。
+    纯查询/聚合，不调用 AI，便于测试（测试传 offline=True 避免趋势维度访问 PubMed）。
     """
     end = end_date or date_cls.today().isoformat()
     start = (date_cls.fromisoformat(end) - timedelta(days=days - 1)).isoformat()
@@ -138,7 +143,8 @@ def select_digest_papers(conn, days: int, end_date: str = None, top_n: int = 15)
                 chosen.add(r["paper_id"])
                 selected.append(r)
     if len(selected) < top_n:
-        selected.extend(_pool_candidates(conn, chosen, top_n - len(selected)))
+        selected.extend(_pool_candidates(conn, chosen, top_n - len(selected),
+                                         offline=offline))
     return selected
 
 
@@ -253,16 +259,16 @@ def render_digest_list(rows) -> str:
 
 
 def build_html(conn, days: int, end_date: str = None, trend: dict = None,
-               user_name: str = "研究者") -> tuple:
+               user_name: str = "研究者", offline: bool = False) -> tuple:
     """生成周报/月报 HTML，返回 (html, rows, date_range)。trend 为 None 时自动调用 AI。"""
     end = end_date or date_cls.today().isoformat()
     start = (date_cls.fromisoformat(end) - timedelta(days=days - 1)).isoformat()
     date_range = f"{start} ~ {end}"
     meta = period_meta(days)
-    rows = select_digest_papers(conn, days, end_date=end)
+    rows = select_digest_papers(conn, days, end_date=end, offline=offline)
     ge.ensure_one_liners(conn, rows)
     if any(not r["one_line_summary_cn"] or not r["abstract_cn"] for r in rows):
-        rows = select_digest_papers(conn, days, end_date=end)  # 重取，拿到补齐内容
+        rows = select_digest_papers(conn, days, end_date=end, offline=offline)  # 重取，拿到补齐内容
     if trend is None:
         trend = summarize_digest(rows, days)
     config = load_config()
