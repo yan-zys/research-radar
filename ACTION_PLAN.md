@@ -149,7 +149,7 @@ tail -f logs/daily_$(date +%F).log                  # 当日日志
 
 | # | 事项 | 状态 |
 |---|---|---|
-| 1 | species 组缺 Drosophila/昆虫/节肢动物等泛化物种词（此前整表替换 keywords.txt 时丢失），导致 Nature 果蝇出生序论文关键词通道得 0（总分 4.40 仅 Relate，补齐后约 8.4 应为 Must Read） | **等用户确认词表后修改** |
+| 1 | ~~species 组缺 Drosophila/昆虫/节肢动物等泛化物种词~~ **已解决（2026-07-28）**：species 组补回 Drosophila、insect、arthropod、Panarthropoda（均为用户此前批准过的词，seed/weight 2/locked）；Nature 果蝇论文关键词通道已命中（species/Drosophila 10 分） | 已完成 |
 | 2 | ~~trend_value 实为 concept 词表命中的镜像，与关键词通道重复计分~~ **已解决（2026-07-28）**：trend_value 改为外部信号（PubMed 近 30 天发文热度 + 顶刊当期命中，见第 4 节），同时关键词与 AI 语义权重拉平为 0.3/0.3/0.3/0.1 | 已完成 |
 | 3 | methods/concept 组为长短语精确匹配，措辞对不上易漏命中，可考虑拆宽 | 待用户决策 |
 | 4 | 163 SMTP 曾触发 550 风控（短时高频发信），已换发信箱；如再发需控制频率 | 已缓解 |
