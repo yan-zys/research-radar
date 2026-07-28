@@ -191,11 +191,14 @@ def main():
     ap = argparse.ArgumentParser(description="四维加权打分与每日 Top 推荐")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
     ap.add_argument("--top", type=int, default=15, help="Top N（默认 15）")
+    ap.add_argument("--date", default=None,
+                    help="推荐日期 YYYY-MM-DD（默认今天；补算历史日报用）")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
-    top = run(conn, load_weights(), load_kw_config(), top_n=args.top)
+    top = run(conn, load_weights(), load_kw_config(), run_date=args.date,
+              top_n=args.top)
     conn.close()
     if not top:
         print("暂无论文可推荐（papers 表为空）")
