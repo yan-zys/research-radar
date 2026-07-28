@@ -89,7 +89,7 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
 
 
 def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
-        ai_veto: float = 3.0) -> list:
+        ai_veto: float = 3.0, pub_date=None) -> list:
     """对候选论文打分，按四层梯队兜底选满 Top N 写入 recommendations（同日期先清空）。
 
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
@@ -101,6 +101,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     "tier" 字段（"A"|"B"|"C"|"D"）标记来源层。仅当库内论文总数不足 top_n 时
     才返回少于 top_n 篇。30 天去重：近 30 天内已进过 recommendations 的论文
     不参与 A/B/C 层候选。
+    pub_date（YYYY-MM-DD）：限定候选论文的发表日期（papers.date），用于补算
+    某一天发表文献的历史日报；默认 None 不过滤（日常流程靠爬虫 --since 限制）。
     """
     if run_date is None:
         d = date.today().isoformat()
@@ -116,7 +118,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, "
                "s.rule_score, s.ai_score, s.passed_filter "
                "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id")
-        if where:
+        if pub_date is not None:
+            sql += " WHERE p.date = ?"
+            params = (pub_date,) + tuple(params)
+            if where:
+                sql += " AND " + where
+        elif where:
             sql += " WHERE " + where
         return conn.execute(sql, params).fetchall()
 
@@ -193,12 +200,15 @@ def main():
     ap.add_argument("--top", type=int, default=15, help="Top N（默认 15）")
     ap.add_argument("--date", default=None,
                     help="推荐日期 YYYY-MM-DD（默认今天；补算历史日报用）")
+    ap.add_argument("--pub-date", default=None,
+                    help="限定候选论文发表日期 YYYY-MM-DD（默认不过滤；"
+                         "补算某日发表文献的历史日报用）")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
     top = run(conn, load_weights(), load_kw_config(), run_date=args.date,
-              top_n=args.top)
+              top_n=args.top, pub_date=args.pub_date)
     conn.close()
     if not top:
         print("暂无论文可推荐（papers 表为空）")

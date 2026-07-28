@@ -114,6 +114,31 @@ def test_ai_veto_excludes_low_relevance():
     assert "x:veto" not in scored
 
 
+def test_run_pub_date_filters_candidates(tmp_path):
+    """pub_date 限定候选论文的发表日期（papers.date）：补算某日发表文献的
+    历史日报时，只从该日发表的论文中选取；默认 None 不过滤。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal, date) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("x:0722", "SAMap evolution scRNA-seq a", "", "Nature", "2026-07-22"),
+         ("x:0723", "SAMap evolution scRNA-seq b", "", "Nature", "2026-07-23")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("x:0722", 100, 1, 9), ("x:0723", 100, 1, 9)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-22", pub_date="2026-07-22")
+    assert [e["paper_id"] for e in top] == ["x:0722"]
+    # 默认不带 pub_date：两天发表的论文都是候选（x:0722 已被推荐过，落 D 层）
+    top_all = run(conn, WEIGHTS, KW, run_date="2026-07-24")
+    assert {e["paper_id"] for e in top_all} == {"x:0722", "x:0723"}
+    conn.close()
+
+
 def test_run_dedupes_last_30_days(tmp_path):
     """A 层仍做 30 天去重；去重被排除的论文只在 D 兜底层按序回补（排在 A 层之后）。"""
     conn = _seed_run_db(tmp_path)
