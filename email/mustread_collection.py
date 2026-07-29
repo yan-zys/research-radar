@@ -14,6 +14,9 @@
   venv/bin/python email/mustread_collection.py            # 只评分+打印清单+写 HTML
   venv/bin/python email/mustread_collection.py --send     # 并通过 SMTP 发送
   venv/bin/python email/mustread_collection.py --offline  # 趋势用本地语料库（调试用）
+
+合并库：若 database/backfill_2026.db 存在（2026 年历史回填库），自动 ATTACH 合并
+评分（主库优先去重）；--no-backfill 可关闭。只收录发表年份等于 --year 的论文。
 """
 import argparse
 import html
@@ -35,36 +38,51 @@ from ranking.scoring import compute_scores, load_kw_config, load_weights  # noqa
 from ranking.trend_signals import build_trend_ctx  # noqa: E402
 
 MUST_READ_THRESHOLD = 7.0
+BACKFILL_DB = ROOT / "database" / "backfill_2026.db"
+
+POOL_SQL = (
+    "SELECT p.paper_id, p.title, p.abstract, p.journal, p.date, "
+    "s.rule_score, s.ai_score, s.passed_filter "
+    "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id"
+)
+RENDER_SQL = (
+    "SELECT p.paper_id, p.title, p.authors, p.journal, p.date, p.doi, p.url, "
+    "p.abstract, s.reason, s.title_cn, s.one_line_summary_cn, s.abstract_cn "
+    "FROM papers p LEFT JOIN paper_scores s ON p.paper_id = s.paper_id "
+    "WHERE p.paper_id = ?"
+)
 
 
-def eligible_pool(conn, kw_config, tj_names) -> list:
-    """全库 A/B/C 口径候选：排除 negative 词；passed_filter=1 或（顶刊且已评 AI）。"""
-    rows = conn.execute(
-        "SELECT p.paper_id, p.title, p.abstract, p.journal, "
-        "s.rule_score, s.ai_score, s.passed_filter "
-        "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id"
-    ).fetchall()
-    pool = []
-    for r in rows:
-        if match_keywords(r["title"], r["abstract"], kw_config)["negative"]:
-            continue
-        is_tj = (r["journal"] or "").strip().lower() in tj_names
-        if r["passed_filter"] == 1 or (is_tj and r["ai_score"] is not None):
-            pool.append(r)
-    return pool
+def eligible_pool(conns, kw_config, tj_names, year: str = None):
+    """多库 A/B/C 口径候选（主库优先去重）：排除 negative 词；
+    passed_filter=1 或（顶刊且已评 AI）；指定 year 时只收该年发表的论文。
+    返回 (pool, conn_of)：pool 为 dict 行列表，conn_of 记录每篇来自哪个连接。"""
+    pool, conn_of = [], {}
+    for conn in conns:
+        for r in conn.execute(POOL_SQL).fetchall():
+            pid = r["paper_id"]
+            if pid in conn_of:
+                continue
+            if year and r["date"] and not str(r["date"]).startswith(year):
+                continue
+            if match_keywords(r["title"], r["abstract"], kw_config)["negative"]:
+                continue
+            is_tj = (r["journal"] or "").strip().lower() in tj_names
+            if r["passed_filter"] == 1 or (is_tj and r["ai_score"] is not None):
+                pool.append(dict(r))
+                conn_of[pid] = conn
+    return pool, conn_of
 
 
-def fetch_render_rows(conn, scored) -> list:
-    """按评分结果取渲染所需全部字段（dict 行，附带 grade/total_score）。"""
+def fetch_render_rows(conns, scored) -> list:
+    """按评分结果取渲染所需全部字段（dict 行，附带 grade/total_score），多库依序查找。"""
     out = []
     for e in scored:
-        r = conn.execute(
-            "SELECT p.paper_id, p.title, p.authors, p.journal, p.date, p.doi, p.url, "
-            "p.abstract, s.reason, s.title_cn, s.one_line_summary_cn, s.abstract_cn "
-            "FROM papers p LEFT JOIN paper_scores s ON p.paper_id = s.paper_id "
-            "WHERE p.paper_id = ?",
-            (e["paper_id"],),
-        ).fetchone()
+        r = None
+        for conn in conns:
+            r = conn.execute(RENDER_SQL, (e["paper_id"],)).fetchone()
+            if r:
+                break
         d = dict(r)
         d["grade"] = e["grade"]
         d["total_score"] = e["total_score"]
@@ -72,16 +90,25 @@ def fetch_render_rows(conn, scored) -> list:
     return out
 
 
-def build_collection_html(conn, rows, year: str, pool_size: int, user_name: str,
-                          trend: dict = None) -> str:
+def ensure_all_one_liners(conn_of, rows) -> None:
+    """按论文所属库分组调用 ensure_one_liners（UPDATE 须路由到正确的库）。"""
+    groups = {}
+    for r in rows:
+        groups.setdefault(id(conn_of[r["paper_id"]]), []).append(r)
+    for subset in groups.values():
+        ensure_one_liners(conn_of[subset[0]["paper_id"]], subset)
+
+
+def build_collection_html(conns, conn_of, rows, year: str, pool_size: int,
+                          user_name: str, trend: dict = None) -> str:
     """套用日报模板，替换标题/问候/分层说明为合集口径（trend 为 None 时调 AI 生成）。"""
-    ensure_one_liners(conn, rows)
+    ensure_all_one_liners(conn_of, rows)
     if any(not r["one_line_summary_cn"] or not r["abstract_cn"] or not r["title_cn"]
            for r in rows):
         ids = [r["paper_id"] for r in rows]
         scored = [{"paper_id": r["paper_id"], "grade": r["grade"],
                    "total_score": r["total_score"]} for r in rows]
-        rows = fetch_render_rows(conn, scored)  # 重取，拿到补齐的中文内容
+        rows = fetch_render_rows(conns, scored)  # 重取，拿到补齐的中文内容
         assert [r["paper_id"] for r in rows] == ids
     if trend is None:
         trend = summarize_trend(rows)
@@ -116,14 +143,23 @@ def main():
     ap.add_argument("--send", action="store_true", help="生成后经 SMTP 发送")
     ap.add_argument("--offline", action="store_true", help="趋势维度只用本地语料库（不访问 PubMed）")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
+    ap.add_argument("--no-backfill", action="store_true",
+                    help="不合并 database/backfill_2026.db 回填库")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
+    conns = [conn]
+    if not args.no_backfill and BACKFILL_DB.exists() and (
+            args.db is None or Path(args.db).resolve() != BACKFILL_DB.resolve()):
+        bf_conn = get_conn(str(BACKFILL_DB))
+        init_db(bf_conn)
+        conns.append(bf_conn)
+        print(f"已合并回填库：{BACKFILL_DB}")
     weights, kw_config = load_weights(), load_kw_config()
     trend_ctx = build_trend_ctx(conn, date_cls.today().isoformat(), offline=args.offline)
-    pool = eligible_pool(conn, kw_config, trend_ctx["tj_names"])
-    print(f"全库候选池：{len(pool)} 篇（已排除 negative 词论文）")
+    pool, conn_of = eligible_pool(conns, kw_config, trend_ctx["tj_names"], year=args.year)
+    print(f"全库候选池（{args.year} 年）：{len(pool)} 篇（已排除 negative 词论文）")
     scored = compute_scores(pool, weights, kw_config, include_vetoed=True, trend_ctx=trend_ctx)
     getattr(trend_ctx["count_fn"], "flush", lambda: None)()
     scored.sort(key=lambda e: e["total_score"], reverse=True)
@@ -135,14 +171,16 @@ def main():
     print(f"Must Read（≥{MUST_READ_THRESHOLD:g}）：{len(mr)} 篇")
     if not mr:
         print("按现行评分标准无 Must Read 论文，未生成邮件。")
-        conn.close()
+        for c in conns:
+            c.close()
         return
 
     env = dotenv_values(ROOT / ".env")
     user_name = (env.get("USER_NAME") or "").strip() or "研究者"
-    rows = fetch_render_rows(conn, mr)
-    body = build_collection_html(conn, rows, args.year, len(pool), user_name)
-    conn.close()
+    rows = fetch_render_rows(conns, mr)
+    body = build_collection_html(conns, conn_of, rows, args.year, len(pool), user_name)
+    for c in conns:
+        c.close()
 
     out = ROOT / "email" / "output" / f"{args.year}-mustread.html"
     out.parent.mkdir(parents=True, exist_ok=True)

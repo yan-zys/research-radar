@@ -18,7 +18,7 @@ from crawler.common import load_keywords, resolve_since, save_papers  # noqa: E4
 
 API = "https://api.biorxiv.org/details/biorxiv"
 REQUEST_INTERVAL = 0.4  # 秒
-MAX_PAGES = 50  # 游标分页上限，防止异常分页死循环
+MAX_PAGES = 500  # 游标分页上限（API 每页 30 条，月级回填约需 200+ 页）
 
 
 def parse_record(rec: dict) -> dict:
@@ -44,19 +44,36 @@ def matches_keywords(title: str, abstract: str, keywords) -> bool:
 
 
 def fetch_range(since: date, until: date) -> list:
-    """按日期段游标分页拉取全部记录。"""
+    """按日期段游标分页拉取全部记录（以 messages.total 为终止依据，
+    不能按"不足一页"判断——该 API 每页固定 30 条）。"""
     records = []
     cursor = 0
+    total = None
     for _ in range(MAX_PAGES):
         url = f"{API}/{since.isoformat()}/{until.isoformat()}/{cursor}"
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
-        collection = resp.json().get("collection") or []
+        data = None
+        for attempt in range(4):  # 网络抖动重试，指数退避
+            try:
+                resp = requests.get(url, timeout=60)
+                resp.raise_for_status()
+                data = resp.json()
+                break
+            except requests.RequestException:
+                if attempt == 3:
+                    raise
+                time.sleep(2 ** attempt)
+        collection = data.get("collection") or []
         if not collection:
             break
+        if total is None:
+            messages = data.get("messages") or []
+            try:
+                total = int(messages[0].get("total")) if messages else None
+            except (TypeError, ValueError):
+                total = None
         records.extend(collection)
         cursor += len(collection)
-        if len(collection) < 100:
+        if total is not None and cursor >= total:
             break
         time.sleep(REQUEST_INTERVAL)
     return records

@@ -47,7 +47,7 @@ def get_conn(db_path=None) -> sqlite3.Connection:
     """返回数据库连接（row_factory=sqlite3.Row），必要时自动建库建表。"""
     path = Path(db_path) if db_path else DB_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(path)
+    conn = sqlite3.connect(path, timeout=30)  # timeout=busy 等待秒数，容忍并发写
     conn.row_factory = sqlite3.Row
     return conn
 

@@ -60,23 +60,59 @@ def test_eligible_pool_filters(tmp_path):
     conn = _seed_db(tmp_path)
     kw_config = mc.load_kw_config()
     tj = {"nature"}
-    pool = mc.eligible_pool(conn, kw_config, tj)
+    pool, conn_of = mc.eligible_pool([conn], kw_config, tj)
     ids = {r["paper_id"] for r in pool}
     conn.close()
     assert "pubmed:1" in ids  # passed_filter=1
     assert "pubmed:2" in ids  # 顶刊 + 已评 AI
     assert "pubmed:3" not in ids  # negative（clinical/cancer）全层剔除
     assert "pubmed:4" not in ids  # 非顶刊且未过关键词过滤
+    assert conn_of["pubmed:1"] is not None
+
+
+def test_eligible_pool_merges_backfill_and_filters_year(tmp_path):
+    """合并库：主库优先去重；year 过滤掉非目标年份论文。"""
+    main = _seed_db(tmp_path)
+    bf = get_conn(tmp_path / "bf.db")
+    init_db(bf)
+    bf.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, authors, journal, date, doi, url) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [("pubmed:1", "回填库重复的老标题", "dup", "X", "Nature", "2026-03-01", "d1", "u1"),
+         ("pubmed:5", "Cnidarian neuron single-cell atlas", "abs", "Y", "Cell",
+          "2026-02-10", "d2", "u2"),
+         ("pubmed:6", "Old 2025 paper on brain evolution", "abs", "Z", "Nature",
+          "2025-12-01", "d3", "u3")],
+    )
+    bf.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, reason, "
+        "title_cn, one_line_summary_cn, abstract_cn) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [("pubmed:1", 99, 1, 9.0, "r", "t", "o", "a"),
+         ("pubmed:5", 40, 1, 9.0, "r", "刺胞动物神经元图谱", "o", "a"),
+         ("pubmed:6", 30, 1, 9.0, "r", "2025 旧文", "o", "a")],
+    )
+    bf.commit()
+    kw_config = mc.load_kw_config()
+    pool, conn_of = mc.eligible_pool([main, bf], kw_config, {"nature", "cell"}, year="2026")
+    by_id = {r["paper_id"]: r for r in pool}
+    main.close()
+    bf.close()
+    assert by_id["pubmed:1"]["title"] == "Single-cell atlas of octopus brain"  # 主库优先
+    assert "pubmed:5" in by_id  # 回填库 2026 年论文入选
+    assert "pubmed:6" not in by_id  # 非 2026 年剔除
 
 
 def test_collection_html_uses_collection_wording(tmp_path):
     """合集 HTML：标题/问候为合集口径，不出现"今日"字样，只收录传入的 Must Read 行。"""
     conn = _seed_db(tmp_path)
-    rows = mc.fetch_render_rows(conn, [
+    conns = [conn]
+    scored = [
         {"paper_id": "pubmed:1", "grade": "Must Read", "total_score": 8.4},
         {"paper_id": "pubmed:2", "grade": "Must Read", "total_score": 7.1},
-    ])
-    body = mc.build_collection_html(conn, rows, "2026", pool_size=2,
+    ]
+    rows = mc.fetch_render_rows(conns, scored)
+    conn_of = {r["paper_id"]: conn for r in rows}
+    body = mc.build_collection_html(conns, conn_of, rows, "2026", pool_size=2,
                                     user_name="yan-zys", trend=TREND)
     conn.close()
     assert "2026 年度 Must Read 文献合集" in body
