@@ -135,8 +135,14 @@ cd ~/research_radar && source venv/bin/activate
 python ranking/scoring.py --pub-date 2026-07-22     # 按发表日期重算
 python email/generate_email.py --date 2026-07-22 --send
 python email/generate_digest.py --days 7 --send     # 手动周报
-python -m pytest tests/ -q                          # 66 个测试
+python -m pytest tests/ -q                          # 69 个测试
 tail -f logs/daily_$(date +%F).log                  # 当日日志
+
+# 2026 年度回填与 Must Read 合集（2026-07-29 新增，见第 10 节）
+python crawler/backfill_2026.py --source pubmed|topjournals|biorxiv --db database/backfill_2026.db
+python processing/keyword_filter.py --db database/backfill_2026.db
+python processing/paper_analyzer.py --db database/backfill_2026.db --max 100 --max-tj 0
+python email/mustread_collection.py [--send]        # 不加 --send 为干跑
 ```
 
 - 换 AI 模型：改 `config/model.yaml` + `.env` 中的 key（当前 gpt-5.4，网关兼容 chat/completions）。
@@ -153,3 +159,14 @@ tail -f logs/daily_$(date +%F).log                  # 当日日志
 | 2 | ~~trend_value 实为 concept 词表命中的镜像，与关键词通道重复计分~~ **已解决（2026-07-28）**：trend_value 改为外部信号（PubMed 近 30 天发文热度 + 顶刊当期命中，见第 4 节），同时关键词与 AI 语义权重拉平为 0.3/0.3/0.3/0.1 | 已完成 |
 | 3 | methods/concept 组为长短语精确匹配，措辞对不上易漏命中，可考虑拆宽 | 待用户决策 |
 | 4 | 163 SMTP 曾触发 550 风控（短时高频发信），已换发信箱；如再发需控制频率 | 已缓解 |
+| 5 | **bioRxiv 分页 bug（2026-07-29 修复）**：API 每页固定 30 条，旧代码按"不足 100 条"停翻页，导致 7.22 上线以来日报的 bioRxiv 只抓到第一页 30 条。已改为按 `messages.total` 终止 + MAX_PAGES 500 + 重试，7.30 起日报 bioRxiv 覆盖恢复完整 | 已修复 |
+
+---
+
+## 10. 2026 年度回填与 Must Read 合集（2026-07-29）
+
+- **回填库独立**：`database/backfill_2026.db`，与主库 `papers.db` 隔离，避免旧论文涌入每日日报候选池（日报 scoring 无 pub_date 过滤）。
+- **三信道回填**（`crawler/backfill_2026.py`，月分段 + 指数退避重试）：PubMed 关键词通道 426 篇；顶刊全量通道（16 刊 ISSN，月分段避开 esearch 9999 上限）16,717 篇（另剔除新闻/社论 3,357 篇）；bioRxiv 42,360 条中命中 144 篇；arXiv 2 篇（q-bio 对当前 20 个关键词真实命中量低，已验证非故障）。
+- **零关键词命中的顶刊论文不做 AI 评分**（四维加权 kw/ai/期刊/趋势=0.3/0.3/0.3/0.1 下数学上不了 7 分）；命中的全部评分（paper_analyzer `--max-tj 0`）。
+- **合集**（`email/mustread_collection.py`）：合并主库+回填库按 `--year 2026` 过滤，只收 ≥7 分，不写 recommendations 表（不污染 30 天去重窗口）；趋势上下文用在线 PubMed 热度（`logs/pubmed_heat_cache.json` 当日缓存）。2026-07-29 首发：候选池 550 篇，Must Read 5 篇。
+- `db.py` sqlite `busy_timeout=30s`，容忍回填并发写。
