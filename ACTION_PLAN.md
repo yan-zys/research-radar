@@ -53,7 +53,7 @@
 | `ranking/trends.py` | 聚合近 30 天推荐，AI 生成约 200 字趋势总结（日报末尾展示） |
 | `email/generate_email.py` | 日报 HTML：Part1 一句话新闻摘要 / Part2 详细信息卡片（中英摘要+推荐理由+一键反馈）/ Part3 今日趋势总结；`--send` 发信 |
 | `email/generate_digest.py` | 周报（`--days 7`）/月报（`--days 30`）：Part1 趋势总结 / Part2 分布统计 / Part3 重点论文清单（含评分、中文摘要、推荐理由、链接、反馈按钮） |
-| `feedback/server.py` | 127.0.0.1:8710 一键反馈：`/feedback?paper_id=..&rating=good|ok|bad|read|star`，写 `input/user_feedback/YYYY-MM-DD.jsonl`，无弹窗 |
+| `feedback/server.py` | 127.0.0.1:8710 一键反馈：`/feedback?paper_id=..&rating=good|ok|bad|read|star`，写 `input/user_feedback/YYYY-MM-DD.jsonl`；成功返回 204 No Content，点击即记录、浏览器不显示跳转页面 |
 | `feedback/learning.py` | 负反馈降权（locked 种子词不降）；正反馈经 AI 提炼候选新词进 `output_candidates.yaml`（pending，**必须人工审核**） |
 | `keyword_engine/` | `expand_keywords.py`（AI 扩展）→ `review_candidates.py`（人工审核）→ `merge_to_config.py`（合并入 `config/keyword_config.yaml`） |
 | `scheduler/holiday.py` | 中国法定节假日决策：节假日跳过日报、节后合并发送；周报每周五（逢节假日提前）；月报每月底（逢节假日提前） |

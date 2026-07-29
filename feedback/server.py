@@ -3,7 +3,8 @@
 日报邮件中的反馈链接指向本服务：
     GET /feedback?paper_id=<id>&rating=good|ok|bad|read|star
 点击即把 {"paper_id": .., "rating": ..} 追加写入 input/user_feedback/YYYY-MM-DD.jsonl
-（同日同 paper_id+rating 去重），浏览器返回"已记录"中文页面，不再弹邮件客户端。
+（同日同 paper_id+rating 去重）。成功时返回 **204 No Content**：浏览器只开一个
+空白标签页、不显示任何页面，实现"点击即记录、无跳转内容"；参数错误才返回 HTML 说明页。
 仅绑定回环地址，不对外暴露；log_message 静默（访问日志不打到终端）。
 """
 import json
@@ -16,14 +17,6 @@ ROOT = Path(__file__).resolve().parent.parent
 FEEDBACK_DIR = ROOT / "input" / "user_feedback"
 HOST, PORT = "127.0.0.1", 8710
 RATINGS = ("good", "ok", "bad", "read", "star")
-
-PAGE_OK = """<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-<title>反馈已记录</title></head>
-<body style="font-family:sans-serif;text-align:center;padding-top:80px">
-<h2 style="color:#0b5cad">已记录，感谢反馈！</h2>
-<p>paper_id: {pid}<br>rating: {rating}</p>
-<p style="color:#888;font-size:13px">本页可关闭。反馈将在次日日报 pipeline 中参与关键词学习。</p>
-</body></html>"""
 
 PAGE_ERR = """<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>参数错误</title></head>
@@ -71,7 +64,9 @@ class FeedbackHandler(BaseHTTPRequestHandler):
                 "text/html")
             return
         append_feedback(paper_id, rating)
-        self._reply(200, PAGE_OK.format(pid=paper_id, rating=rating), "text/html")
+        # 204 No Content：浏览器标签页保持空白，不显示任何跳转页面
+        self.send_response(204)
+        self.end_headers()
 
     def log_message(self, format, *args):  # noqa: A002
         """静默访问日志。"""

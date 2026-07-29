@@ -7,7 +7,8 @@
 - Part 2 · 论文详细信息卡片：全部推荐按评分排序，每卡含 Rank + 等级徽标 + 总分、
   英文标题、中文标题翻译（title_cn）、作者、期刊·日期、DOI/PubMed 链接、命中关键词、
   推荐理由、中文摘要（abstract_cn）、英文原文摘要（直接显示，灰色左边框引用样式，
-  全模板禁用 <details>）、4 项一键反馈（相关/不相关/已读/收藏 → 127.0.0.1:8710）；
+  全模板禁用 <details>）、4 项一键反馈（相关/不相关/已读/收藏 → 127.0.0.1:8710，
+  服务端返回 204，点击即记录、浏览器不显示跳转页面）；
 - Part 3 · 今日推荐文献价值总结：AI 基于今日 Must Read/Important 论文生成
   （无 Must Read/Important 时基于评分 Top 5），prompt 在 prompts/daily_trend_prompt.txt，
   输出 JSON {"overview","directions","common_trend","value"}，渲染为分块 HTML

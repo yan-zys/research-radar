@@ -12,6 +12,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 source venv/bin/activate
 
+# 防并发：同一时刻只允许一个流水线实例（08:30 cron 与开机补发可能撞车）
+exec 9>"$ROOT/.daily_run.lock"
+if ! flock -n 9; then
+  echo "[$(date '+%T')] 已有 daily_run 实例在运行，本次退出"
+  exit 0
+fi
+
 mkdir -p logs
 LOG="logs/daily_$(date +%F).log"
 
