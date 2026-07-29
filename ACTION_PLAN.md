@@ -149,7 +149,7 @@ tail -f logs/daily_$(date +%F).log                  # 当日日志
 
 | # | 事项 | 状态 |
 |---|---|---|
-| 1 | species 组缺 Drosophila/insect/arthropod/Panarthropoda 等泛化物种词（7.24 整表替换 keywords.txt 时丢失；7.28 曾补回，**用户当日决定删除，species 仅保留 Bilateria**）。后果：仅标题/摘要含 Bilateria 的论文才命中物种词，果蝇等具体物种论文的关键词通道为 0，靠 AI 语义 + 期刊 + 趋势三个外部维度兜底 | 用户已定，保持现状 |
+| 1 | species 组词条变动（7.24 整表替换时丢失泛化物种词；7.28 补回四个词后用户决定删 Drosophila/insect，**7.29 确认保留 Panarthropoda、arthropod**）。现 species 组为 Bilateria / Panarthropoda / arthropod。后果：果蝇等不含这三个词的具体物种论文关键词通道为 0，靠 AI 语义 + 期刊 + 趋势三个外部维度兜底 | 用户已定，保持现状 |
 | 2 | ~~trend_value 实为 concept 词表命中的镜像，与关键词通道重复计分~~ **已解决（2026-07-28）**：trend_value 改为外部信号（PubMed 近 30 天发文热度 + 顶刊当期命中，见第 4 节），同时关键词与 AI 语义权重拉平为 0.3/0.3/0.3/0.1 | 已完成 |
 | 3 | methods/concept 组为长短语精确匹配，措辞对不上易漏命中，可考虑拆宽 | 待用户决策 |
 | 4 | 163 SMTP 曾触发 550 风控（短时高频发信），已换发信箱；如再发需控制频率 | 已缓解 |
