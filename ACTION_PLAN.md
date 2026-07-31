@@ -46,9 +46,9 @@
 |---|---|
 | `crawler/pubmed.py` `biorxiv.py` `arxiv.py` | 按 `--since` 日期抓取三源文献入 `papers` 表 |
 | `crawler/top_journals.py` | 按 ISSN 直抓顶刊清单（`config/top_journals.yaml`，16 本：Nature/Science/Cell/NEE/Nature Methods 等），**不经关键词检索**直接进主池 |
-| `processing/keyword_filter.py` | 关键词四组（species 5 / methods 8 / tools 9 / concept 10）精确匹配，输出 `rule_score` 与 `passed_filter`；negative 排除词直接剔除 |
+| `processing/keyword_filter.py` | 关键词六组（core 15 / concept 10 / tools 9 / methods 8 / species 5 / topics 2）精确匹配，输出 `rule_score` 与 `passed_filter`；negative 排除词直接剔除 |
 | `processing/paper_analyzer.py` | AI 语义评分 0-10（两批候选：关键词通过者 Top 20 + 顶刊未评分者 Top 30），prompt 在 `prompts/relevance_scoring_prompt.txt` |
-| `ranking/scoring.py` | 四维加权总分 → 定级 → 四层梯队选满 15 篇写入 `recommendations`；`--pub-date` 可按发表日期过滤；`--offline` 趋势维度只用本地语料 |
+| `ranking/scoring.py` | 四维加权总分 → 定级 → 五层梯队（A0 core 必推送 → A → B → C → D）选满 15 篇写入 `recommendations`；`--pub-date` 可按发表日期过滤；`--offline` 趋势维度只用本地语料 |
 | `ranking/trend_signals.py` | 外部趋势信号：PubMed 近 30 天发文热度（esearch count，按日缓存）+ 顶刊当期命中；本地语料频次作离线/失败回退 |
 | `ranking/trends.py` | 聚合近 30 天推荐，AI 生成约 200 字趋势总结（日报末尾展示） |
 | `email/generate_email.py` | 日报 HTML：Part1 一句话新闻摘要 / Part2 详细信息卡片（中英摘要+推荐理由+一键反馈）/ Part3 今日趋势总结；`--send` 发信 |
@@ -83,7 +83,9 @@
 
 **定级阈值**：≥7 Must Read · 5-7 Important · <5 Relate。
 
-**四层梯队选满 15 篇**：A 关键词通道 → B 顶刊+已评 AI → C AI 否决但关键词或顶刊命中 → D 放宽 30 天去重兜底；negative 排除词全层剔除；30 天内不重复推送。
+**五层梯队选满 15 篇**：A0 **core 组命中必推送**（2026-07-31 新增，脑/神经演化、发育、TF 调控等核心方向，绕过 AI 否决，negative 排除词仍优先剔除）→ A 关键词通道 → B 顶刊+已评 AI → C AI 否决但关键词或顶刊命中 → D 放宽 30 天去重兜底；negative 排除词全层剔除；30 天内不重复推送。
+
+**关键词六组**（`config/keyword_config.yaml`，2026-07-31 版）：core 15（脑/神经演化、脑/神经发育、脑/神经 TF 调控 17 词，最高优先）、concept 10、tools 9、methods 8、species 5（仅 Bilateria）、topics 2（31 条大方向词去重后 30 条，Evolutionary genomics 与 concept 组重复已去）。词条均 weight 2 locked。
 
 ---
 
@@ -135,7 +137,7 @@ cd ~/research_radar && source venv/bin/activate
 python ranking/scoring.py --pub-date 2026-07-22     # 按发表日期重算
 python email/generate_email.py --date 2026-07-22 --send
 python email/generate_digest.py --days 7 --send     # 手动周报
-python -m pytest tests/ -q                          # 69 个测试
+python -m pytest tests/ -q                          # 71 个测试
 tail -f logs/daily_$(date +%F).log                  # 当日日志
 
 # 2026 年度回填与 Must Read 合集（2026-07-29 新增，见第 10 节）
@@ -160,6 +162,7 @@ python email/mustread_collection.py [--send]        # 不加 --send 为干跑
 | 3 | methods/concept 组为长短语精确匹配，措辞对不上易漏命中，可考虑拆宽 | 待用户决策 |
 | 4 | 163 SMTP 曾触发 550 风控（短时高频发信），已换发信箱；如再发需控制频率 | 已缓解 |
 | 5 | **bioRxiv 分页 bug（2026-07-29 修复）**：API 每页固定 30 条，旧代码按"不足 100 条"停翻页，导致 7.22 上线以来日报的 bioRxiv 只抓到第一页 30 条。已改为按 `messages.total` 终止 + MAX_PAGES 500 + 重试，7.30 起日报 bioRxiv 覆盖恢复完整 | 已修复 |
+| 6 | **core 组 + topics 组（2026-07-31 新增）**：起因是 Nature Communications 论文 "Gene regulatory innovations from transposable elements in primate cerebellum development" 未推送——旧词表 title+abstract 零关键词命中，rule_score=0 被过滤。用户拍板：脑/神经演化、发育、TF 调控为最重要方向，命中必推送。新增 core 组（权重 15，17 词：5 个脑演化词自 concept 迁入 + 12 个新词）与 topics 组（权重 2，30 条大方向词）；scoring.py 加 A0 必推送层（绕过 AI 否决，negative 仍剔除）。主库重过滤通过 40 篇（原约 20），cerebellum 论文 rule_score=64、ai_score=6，当日 Rank 1 Must Read（8.60） | 已完成 |
 
 ---
 

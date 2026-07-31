@@ -1,17 +1,99 @@
 # 关键词库（唯一被 filter/scoring 读取的配置）
-# 2026-07-24 按用户最新输入 input/keywords.txt 重建：仅保留用户给定的词条，
-# 历史 AI 扩充/文献挖掘词全部移除。
+# 2026-07-31 更新：新增 core 组（脑/神经核心方向，最高权重，命中必推送——
+# 用户要求"脑/神经演化、脑/神经发育、脑/神经TF调控命中一定要推送"，
+# 其中 5 个演化类词条自 concept 组迁入）与 topics 组（31 个大方向主题词，
+# 组权重 2 为用户拍板；Evolutionary genomics 与 concept 组重复，去重后收 30 条）。
 # 二级权重规则（用户确认）：
-#   - 组权重：species 5 / methods 8 / tools 9 / concept 10
+#   - 组权重：core 15 / concept 10 / tools 9 / methods 8 / species 5 / topics 2
 #   - 词条权重：全部为种子输入词，weight=2 且 locked=true，
 #     无论负反馈如何不得降权（仅人工可删除词条）
 keywords:
-  species:
-    weight: 5
+  core:
+    weight: 15
     items:
-    - keyword: Bilateria
+    - keyword: brain evolution
       source: seed
       added_date: '2026-07-24'
+      weight: 2
+      locked: true
+    - keyword: bilaterian brain origin and evolution
+      source: seed
+      added_date: '2026-07-24'
+      weight: 2
+      locked: true
+    - keyword: nervous system evolution
+      source: seed
+      added_date: '2026-07-24'
+      weight: 2
+      locked: true
+    - keyword: neural system evolution in non-model organisms
+      source: seed
+      added_date: '2026-07-24'
+      weight: 2
+      locked: true
+    - keyword: neuron type homology
+      source: seed
+      added_date: '2026-07-24'
+      weight: 2
+      locked: true
+    - keyword: neural evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: brain development
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neural development
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neurodevelopment
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neurogenesis
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: cerebellum
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: cerebral cortex
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: brain gene regulatory network
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neural gene regulatory network
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: brain transcription factor
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neural transcription factor
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neuronal transcription factor
+      source: seed
+      added_date: '2026-07-31'
       weight: 2
       locked: true
   methods:
@@ -58,21 +140,6 @@ keywords:
   concept:
     weight: 10
     items:
-    - keyword: brain evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: bilaterian brain origin and evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: nervous system evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
     - keyword: organ evolution
       source: seed
       added_date: '2026-07-24'
@@ -84,11 +151,6 @@ keywords:
       weight: 2
       locked: true
     - keyword: evolutionary genomics
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: neural system evolution in non-model organisms
       source: seed
       added_date: '2026-07-24'
       weight: 2
@@ -108,14 +170,170 @@ keywords:
       added_date: '2026-07-29'
       weight: 2
       locked: true
-    - keyword: neuron type homology
+    - keyword: neuropeptide annotation
       source: seed
       added_date: '2026-07-24'
       weight: 2
       locked: true
-    - keyword: neuropeptide annotation
+  species:
+    weight: 5
+    items:
+    - keyword: Bilateria
       source: seed
       added_date: '2026-07-24'
+      weight: 2
+      locked: true
+  topics:
+    weight: 2
+    items:
+    - keyword: Animal evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Comparative genomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Phylogenomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Molecular evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Evolution of complexity
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: AI biology
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Comparative genome
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Genome evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Gene family evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Regulatory evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cis-regulatory evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Chromatin evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Non-coding genome
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Pangenomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Single-cell genomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cell atlas
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cell type evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cellular diversity
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cell lineage evolution
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Comparative single-cell transcriptomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Spatial transcriptomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Spatial genomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Tissue architecture
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Cellular niches
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Molecular anatomy
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Artificial intelligence for biology
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Biological foundation models
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Machine learning in genomics
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: AI-driven discovery
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: Generative biology
+      source: seed
+      added_date: '2026-07-31'
       weight: 2
       locked: true
 negative:

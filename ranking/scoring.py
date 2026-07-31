@@ -6,7 +6,8 @@
 - journal_influence：内置期刊分档 dict
 - trend_value：外部趋势信号（ranking/trend_signals.py：PubMed 近 30 天发文热度
   归一化 0-8 + 顶刊当期命中 +2；offline 模式用本地语料库文档频次）
-每日 Top 15 按四层梯队兜底选满（run() 详见其 docstring），全部写入 recommendations，
+每日 Top 15 按五层梯队兜底选满（A0 层为 core 组脑/神经关键词命中，必推送；run() 详见其
+docstring），全部写入 recommendations，
 不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate；
 同日期先清空旧记录再写入）。打印各层选取数与 Top15 简表。
 """
@@ -103,17 +104,18 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
 
 def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         ai_veto: float = 3.0, pub_date=None, offline: bool = False) -> list:
-    """对候选论文打分，按四层梯队兜底选满 Top N 写入 recommendations（同日期先清空）。
+    """对候选论文打分，按五层梯队兜底选满 Top N 写入 recommendations（同日期先清空）。
 
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
+    - A0 层：命中 core 组关键词（脑/神经核心方向，命中必推送，绕过 AI 否决）；
     - A 层：关键词通道、未被 AI 否决、不在 30 天去重窗口内；
     - B 层：顶刊通道、已评 AI、未被否决、不在去重窗口内；
     - C 层：被 AI 否决的关键词/顶刊论文、不在去重窗口内；
-    - D 层：放宽 30 天去重（按 A→C 同序，排除已入选）。
+    - D 层：放宽 30 天去重（按 A0→C 同序，排除已入选）。
     总分仍由 compute_scores 统一计算（同一归一化池，含被否决论文）；每条结果带
-    "tier" 字段（"A"|"B"|"C"|"D"）标记来源层。仅当库内论文总数不足 top_n 时
+    "tier" 字段（"A0"|"A"|"B"|"C"|"D"）标记来源层。仅当库内论文总数不足 top_n 时
     才返回少于 top_n 篇。30 天去重：近 30 天内已进过 recommendations 的论文
-    不参与 A/B/C 层候选。
+    不参与 A0/A/B/C 层候选。
     pub_date（YYYY-MM-DD）：限定候选论文的发表日期（papers.date），用于补算
     某一天发表文献的历史日报；默认 None 不过滤（日常流程靠爬虫 --since 限制）。
     offline=True 时趋势维度只用本地语料库频次（不访问 PubMed，测试/无网用）。
@@ -142,10 +144,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         return conn.execute(sql, params).fetchall()
 
     def layered(rows) -> list:
-        """统一算分后按 A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。
+        """统一算分后按 A0→A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。
 
         分层规则（顶刊通道上线后收紧，非顶刊且未过关键词过滤的论文一律不推荐，
         杜绝医学噪声兜底混入）：
+        - A0 层：命中 core 组（脑/神经核心方向）关键词的论文——用户要求"命中必
+          推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除）；
         - A 层：passed_filter=1、未被 AI 否决（关键词通道核心候选）；
         - B 层：顶刊清单内期刊、已评 AI（ai_score 非空）、未被否决；
         - C 层：被 AI 否决（ai_score<3）但属于关键词通过或顶刊清单的论文；
@@ -154,13 +158,26 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         的降噪要求，也避免日报正文含大量 cancer/tumor/clinical 词汇被邮箱
         反垃圾系统拦截（SMTP 550）。
         """
-        rows = [r for r in rows
-                if not match_keywords(r["title"], r["abstract"], kw_config)["negative"]]
+        matches = {}
+        kept = []
+        for r in rows:
+            m = match_keywords(r["title"], r["abstract"], kw_config)
+            if m["negative"]:
+                continue
+            matches[r["paper_id"]] = m
+            kept.append(r)
+        rows = kept
+
+        def core_hit(pid) -> bool:
+            return any(h["group"] == "core" for h in matches[pid]["hits"])
+
         crit = {}
         for r in rows:
             is_tj = (r["journal"] or "").strip().lower() in tj_names
             veto = r["ai_score"] is not None and float(r["ai_score"]) < ai_veto
-            if veto:
+            if core_hit(r["paper_id"]):
+                tier = "A0"
+            elif veto:
                 tier = "C" if (r["passed_filter"] == 1 or is_tj) else None
             elif r["passed_filter"] == 1:
                 tier = "A"
@@ -173,12 +190,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         eligible = [r for r in rows if r["paper_id"] in crit]
         scored = compute_scores(eligible, weights, kw_config, ai_veto=ai_veto,
                                 include_vetoed=True, trend_ctx=trend_ctx)
-        by_tier = {"A": [], "B": [], "C": []}
+        by_tier = {"A0": [], "A": [], "B": [], "C": []}
         for e in scored:
             e["tier"] = crit[e["paper_id"]]
             by_tier[e["tier"]].append(e)
         out = []
-        for t in ("A", "B", "C"):
+        for t in ("A0", "A", "B", "C"):
             by_tier[t].sort(key=lambda e: e["total_score"], reverse=True)
             out.extend(by_tier[t])
         return out
@@ -203,8 +220,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     )
     conn.commit()
     getattr(trend_ctx["count_fn"], "flush", lambda: None)()
-    counts = {t: sum(1 for e in top if e["tier"] == t) for t in "ABCD"}
-    print(f"梯队选取：A={counts['A']} B={counts['B']} C={counts['C']} "
+    counts = {t: sum(1 for e in top if e["tier"] == t) for t in ("A0", "A", "B", "C", "D")}
+    print(f"梯队选取：A0={counts['A0']} A={counts['A']} B={counts['B']} C={counts['C']} "
           f"D={counts['D']}，共 {len(top)} 篇")
     return top
 

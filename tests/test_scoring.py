@@ -235,3 +235,55 @@ def test_tiered_fallback_excludes_negative(tmp_path):
     conn.close()
     ids = [e["paper_id"] for e in top]
     assert ids == ["a:1", "b:ok"]  # negative 命中的 b:neg / c:neg 均被剔除，不兜底
+
+
+KW_CORE = {"keywords": {
+    "core": {"weight": 15, "items": [{"keyword": "brain development", "weight": 2}]},
+    "tools": {"weight": 9, "items": [{"keyword": "SAMap", "weight": 2}]}},
+  "negative": []}
+
+
+def test_core_hit_forced_first_and_bypasses_veto(tmp_path):
+    """core 组（脑/神经核心方向）命中的论文进 A0 层：排在最前且绕过 AI 否决
+    （用户要求"脑/神经相关命中一定要推送"）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("core:1", "SAMap evolution study",
+          "regulatory innovation in primate brain development", "Nature communications"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("core:1", 30, 1, 0),   # AI 否决（<3）但 core 命中 → 仍必推送
+         ("a:1", 100, 1, 9)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW_CORE, run_date="2026-07-24", offline=True)
+    conn.close()
+    assert top[0]["paper_id"] == "core:1"
+    assert top[0]["tier"] == "A0"
+    assert {e["paper_id"] for e in top} == {"core:1", "a:1"}
+
+
+def test_core_hit_negative_still_excluded(tmp_path):
+    """core 命中但同中 negative 排除词的论文仍被剔除（医学噪声规则优先于必推送）。"""
+    kw = {"keywords": KW_CORE["keywords"], "negative": ["cancer"]}
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("core:neg", "brain development cancer study", "", "Nature"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("core:neg", 30, 1, 9), ("a:1", 100, 1, 9)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, kw, run_date="2026-07-24", offline=True)
+    conn.close()
+    assert [e["paper_id"] for e in top] == ["a:1"]
