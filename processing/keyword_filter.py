@@ -28,17 +28,24 @@ def load_config(path=None) -> dict:
     return yaml.safe_load(p.read_text(encoding="utf-8"))
 
 
+# 特定词条的排除性后缀（负向先行断言）：避免脑/神经单词词条命中机器
+# 学习术语——"neural" 不应匹配 "neural network"（工程/算法类论文噪声）
+_KW_EXCLUDE_SUFFIX = {"neural": r"(?!\s+networks?\b)"}
+
+
 @lru_cache(maxsize=None)
 def _kw_pattern(kw: str) -> "re.Pattern":
     """编译关键词匹配模式（大小写不敏感）。
 
     ASCII 且首尾为单词字符的关键词加 \\b 词边界，词尾允许 s/es 复数；
     其余（中文、特殊符号起止）用普通子串匹配。
+    _KW_EXCLUDE_SUFFIX 中的词条附带排除性后缀断言。
     """
     pat = re.escape(kw)
     if kw.isascii():
         if re.match(r"\w", kw):
             pat = r"\b" + pat
+        pat += _KW_EXCLUDE_SUFFIX.get(kw.lower(), "")
         if re.search(r"\w$", kw):
             pat = pat + r"(?:e?s)?\b"
     return re.compile(pat, re.IGNORECASE)

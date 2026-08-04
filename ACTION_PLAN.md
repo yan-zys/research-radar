@@ -46,7 +46,7 @@
 |---|---|
 | `crawler/pubmed.py` `biorxiv.py` `arxiv.py` | 按 `--since` 日期抓取三源文献入 `papers` 表 |
 | `crawler/top_journals.py` | 按 ISSN 直抓顶刊清单（`config/top_journals.yaml`，16 本：Nature/Science/Cell/NEE/Nature Methods 等），**不经关键词检索**直接进主池 |
-| `processing/keyword_filter.py` | 关键词七组（core 15 / core_broad 15 / concept 10 / tools 9 / methods 8 / species 5 / topics 2）精确匹配，输出 `rule_score` 与 `passed_filter`；negative 排除词直接剔除 |
+| `processing/keyword_filter.py` | 关键词六组（core 15 / core_broad 15 / concept 10 / methods 8 / species 5 / topics 2）精确匹配，输出 `rule_score` 与 `passed_filter`；negative 排除词直接剔除；"neural" 词条带排除性后缀断言（不匹配 neural network） |
 | `processing/paper_analyzer.py` | AI 语义评分 0-10（两批候选：关键词通过者 Top 20 + 顶刊未评分者 Top 30），prompt 在 `prompts/relevance_scoring_prompt.txt` |
 | `ranking/scoring.py` | 四维加权总分 → 定级 → 五层梯队（A0 core 必推送，或 core_broad 泛词+组学锚点共现 → A → B → C → D）选满 15 篇写入 `recommendations`；`--pub-date` 可按发表日期过滤；`--offline` 趋势维度只用本地语料 |
 | `ranking/trend_signals.py` | 外部趋势信号：PubMed 近 30 天发文热度（esearch count，按日缓存）+ 顶刊当期命中；本地语料频次作离线/失败回退 |
@@ -83,9 +83,9 @@
 
 **定级阈值**：≥7 Must Read · 5-7 Important · <5 Relate。
 
-**五层梯队选满 15 篇**：A0 **core 组命中必推送**（2026-07-31 新增，脑/神经演化、脑/神经 TF 调控等精确核心方向，绕过 AI 否决，negative 排除词仍优先剔除；**同日二次更新：core_broad 广义脑/神经词——brain development、neurodevelopment、cerebellum 等 6 词——须与组学锚点 single-cell/transcriptom/genom/spatial 等共现才享 A0，单独命中只走普通关键词通道，防止纯临床/行为论文被强推**）→ A 关键词通道 → B 顶刊+已评 AI → C AI 否决但关键词或顶刊命中 → D 放宽 30 天去重兜底；negative 排除词全层剔除；30 天内不重复推送。
+**五层梯队选满 15 篇**：A0 **core 组命中必推送**（2026-07-31 新增，脑/神经演化、脑/神经 TF 调控等精确核心方向，绕过 AI 否决，negative 排除词仍优先剔除；**core_broad 广义脑/神经词——brain、neuron、neural、glia、brain development、neurodevelopment 等 8 词——须与组学锚点 single-cell/transcriptom/genom/chromatin 等共现才享 A0，单独命中只走普通关键词通道，防止纯临床/行为论文被强推；2026-08-04 锚点去掉裸 "spatial"**）→ A 关键词通道 → B 顶刊+已评 AI → C AI 否决但关键词或顶刊命中 → D 放宽 30 天去重兜底；negative 排除词全层剔除；30 天内不重复推送。
 
-**关键词七组**（`config/keyword_config.yaml`，2026-07-31 二次更新版）：core 15（脑/神经演化、脑/神经 TF 调控 11 个精确词，最高优先）、core_broad 15（6 个广义脑/神经词，权重同 core 但享 A0 需组学锚点共现，锚点见 `ranking/scoring.py` OMICS_ANCHORS）、concept 10、tools 9、methods 8、species 5（仅 Bilateria）、topics 2（31 条大方向词去重后 30 条，Evolutionary genomics 与 concept 组重复已去）。词条均 weight 2 locked。
+**关键词六组**（`config/keyword_config.yaml`，2026-08-04 五段式重排版）：core 15（脑/神经演化、脑/神经 TF 调控 11 个精确词，最高优先）、core_broad 15（8 个广义脑/神经词——brain development/neural development/neurodevelopment/neurogenesis + brain/neuron/neural/glia 单词词条，享 A0 需组学锚点共现，锚点见 `ranking/scoring.py` OMICS_ANCHORS；"neural" 不匹配 "neural network"）、concept 10（含 transposable element、cross-species cell type homology comparison 等 23 词）、methods 8（含 tools 并入的 SAMap/TranscriptFormer/MetaNeighbor + Seurat/Scanpy/ATAC-seq 等 16 词）、species 5（Bilateria + 有爪/节肢/扁形/环节/软体/脊索各门及代表物种 13 词）、topics 2（38 条大方向词，含 8 个泛 AI 词）。词条均 weight 2 locked。
 
 ---
 
@@ -163,7 +163,8 @@ python email/mustread_collection.py [--send]        # 不加 --send 为干跑
 | 4 | 163 SMTP 曾触发 550 风控（短时高频发信），已换发信箱；如再发需控制频率 | 已缓解 |
 | 5 | **bioRxiv 分页 bug（2026-07-29 修复）**：API 每页固定 30 条，旧代码按"不足 100 条"停翻页，导致 7.22 上线以来日报的 bioRxiv 只抓到第一页 30 条。已改为按 `messages.total` 终止 + MAX_PAGES 500 + 重试，7.30 起日报 bioRxiv 覆盖恢复完整 | 已修复 |
 | 6 | **core 组 + topics 组（2026-07-31 新增）**：起因是 Nature Communications 论文 "Gene regulatory innovations from transposable elements in primate cerebellum development" 未推送——旧词表 title+abstract 零关键词命中，rule_score=0 被过滤。用户拍板：脑/神经演化、发育、TF 调控为最重要方向，命中必推送。新增 core 组（权重 15，17 词：5 个脑演化词自 concept 迁入 + 12 个新词）与 topics 组（权重 2，30 条大方向词）；scoring.py 加 A0 必推送层（绕过 AI 否决，negative 仍剔除）。主库重过滤通过 40 篇（原约 20），cerebellum 论文 rule_score=64、ai_score=6，当日 Rank 1 Must Read（8.60） | 已完成 |
-| 7 | **core_broad 拆分（2026-07-31 二次更新）**：A0 强推当日即误伤——6 篇纯临床/行为/材料论文（TRAb 甲状腺队列、ECHO 产前金属暴露、ABCD 空气污染、儿童小脑心理理论、GFAP 抗体呼吸衰竭、水凝胶微针脊髓修复）仅命中单个泛脑词（neurodevelopment/cerebellum 等）且 AI 语义分 1-2 已否决，仍被 A0 推进 Top 15。修法：6 个泛脑词自 core 拆为 core_broad 组（权重同 15，rule_score 不变、无需重过滤），A0 判定改为 core 精确词直接命中，或 core_broad 与组学锚点（single-cell/transcriptom/genom/spatial/chromatin/atac 等，`ranking/scoring.py` OMICS_ANCHORS）共现；用户明确大方向为单细胞转录组、基因组、空间转录组。cerebellum TE 类组学论文（标题含 Gene regulatory）锚点共现，不受影响 | 已完成 |
+| 7 | **core_broad 拆分（2026-07-31 二次更新）**：A0 强推当日即误伤——6 篇纯临床/行为/材料论文（TRAb 甲状腺队列、ECHO 产前金属暴露、ABCD 空气污染、儿童小脑心理理论、GFAP 抗体呼吸衰竭、水凝胶微针脊髓修复）仅命中单个泛脑词（neurodevelopment/cerebellum 等）且 AI 语义分 1-2 已否决，仍被 A0 推进 Top 15。修法：6 个泛脑词自 core 拆为 core_broad 组（权重同 15，rule_score 不变、无需重过滤），A0 判定改为 core 精确词直接命中，或 core_broad 与组学锚点（single-cell/transcriptom/genom/chromatin/atac 等，`ranking/scoring.py` OMICS_ANCHORS）共现；用户明确大方向为单细胞转录组、基因组、空间转录组。cerebellum TE 类组学论文（标题含 Gene regulatory）锚点共现，不受影响 | 已完成 |
+| 8 | **五段式重排 + core_broad 单词词条（2026-08-04）**：按用户模板（research_interest/keywords/methods/species/exclude）重排全库：core_broad 删 cerebellum/cerebral cortex，新增 brain/neuron/neural/glia 单词词条；tools 组并入 methods（权重 8）；transposable element 先入 core，因植物 TE 论文被无条件强推移至 concept 10（脑 TE 论文经 brain+锚点仍 A0）；species 扩充至 13 词；negative 新增 carcinoma/disease biomarker/crop yield/plant breeding/agriculture production/food science/pathology。两处匹配层噪声修复：①"neural" 加排除性后缀断言不再命中 "neural network"（工程故障诊断、显微镜定位等 ML 论文曾借此+锚点混入 A0）；②OMICS_ANCHORS 去掉裸 "spatial"（"spatial resolution/memory" 让纯行为/成像论文大量漏入 A0；空间组学论文本就命中 transcriptom/genom/"spatial omics"）。重过滤 232/1001 通过，当日日报已按新表重发 | 已完成 |
 
 ---
 

@@ -27,14 +27,16 @@ from processing.keyword_filter import match_keywords  # noqa: E402
 from ranking.trend_signals import build_trend_ctx, heat_of, salient_terms, trend_values  # noqa: E402
 
 
-# 组学锚点词：core_broad 组（cerebellum、neurodevelopment 等广义脑/神经词）必须与
+# 组学锚点词：core_broad 组（brain、neuron、neurodevelopment 等广义脑/神经词）必须与
 # 这些词在标题+摘要中共现，才视为 A0 核心命中——大方向限定为单细胞转录组、基因组、
 # 空间转录组等组学研究，单独的临床/行为/材料类脑神经论文不再必推送
 # （2026-07-31 用户反馈：TRAb 队列、ECHO 金属暴露、ABCD 空气污染、GFAP 抗体、
 # 茶水蛋水凝胶微针等纯临床/材料论文被 A0 强推混入日报）。
+# 2026-08-04 收紧：裸 "spatial" 移出锚点（"spatial resolution/memory" 等行为/
+# 成像论文大量漏入；空间组学论文本就命中 transcriptom/genom/"spatial omics"）。
 OMICS_ANCHORS = (
     "single-cell", "single cell", "single-nucleus", "single nucleus",
-    "transcriptom", "genom", "spatial", "chromatin", "atac", "epigenom",
+    "transcriptom", "genom", "spatial omics", "chromatin", "atac", "epigenom",
     "cis-regulatory", "regulatory element", "gene regulatory", "cell atlas",
     "multi-omics", "multiomics", "proteom", "pangenom", "metagenom",
 )
@@ -122,7 +124,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
 
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
     - A0 层：命中 core 组关键词（脑/神经核心方向，命中必推送，绕过 AI 否决），
-      或 core_broad 组泛词（cerebellum/neurodevelopment 等）与组学锚点共现；
+      或 core_broad 组泛词（brain/neuron/neurodevelopment 等）与组学锚点共现；
     - A 层：关键词通道、未被 AI 否决、不在 30 天去重窗口内；
     - B 层：顶刊通道、已评 AI、未被否决、不在去重窗口内；
     - C 层：被 AI 否决的关键词/顶刊论文、不在去重窗口内；
@@ -165,7 +167,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         杜绝医学噪声兜底混入）：
         - A0 层：命中 core 组（脑/神经核心方向）关键词的论文——用户要求"命中必
           推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除）；
-          core_broad 组泛词（cerebellum、neurodevelopment 等）须与 OMICS_ANCHORS
+          core_broad 组泛词（brain、neuron、neurodevelopment 等）须与 OMICS_ANCHORS
           组学锚点（single-cell/transcriptom/genom/spatial 等）共现才进 A0，
           否则按普通关键词通道走 A/C 层——避免纯临床/行为/材料论文被强推；
         - A 层：passed_filter=1、未被 AI 否决（关键词通道核心候选）；

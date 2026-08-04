@@ -33,7 +33,7 @@ def test_collect_stats(tmp_path):
     conn.close()
     assert stats["total"] == 2  # p:old 被窗口排除
     assert stats["grade_counts"] == {"Must Read": 1, "Important": 1}
-    assert stats["group_counts"]["工具"] == 2  # 两篇都命中 SAMap（tools 组）
+    assert stats["group_counts"]["方法"] == 2  # 两篇都命中 SAMap（methods 组）
     assert stats["group_counts"]["核心"] == 1  # p:2 命中 brain evolution（core 组）
     kws = dict(stats["top_keywords"])
     assert kws.get("SAMap") == 2
