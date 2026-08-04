@@ -3,8 +3,10 @@
 # 用户要求"脑/神经演化、脑/神经发育、脑/神经TF调控命中一定要推送"，
 # 其中 5 个演化类词条自 concept 组迁入）与 topics 组（31 个大方向主题词，
 # 组权重 2 为用户拍板；Evolutionary genomics 与 concept 组重复，去重后收 30 条）。
+# 2026-07-31 二次更新：6 个广义脑/神经词自 core 拆为 core_broad 组（同权重 15），
+# 须与组学锚点共现才 A0 必推送——用户明确大方向为单细胞转录组/基因组/空间转录组。
 # 二级权重规则（用户确认）：
-#   - 组权重：core 15 / concept 10 / tools 9 / methods 8 / species 5 / topics 2
+#   - 组权重：core 15 / core_broad 15 / concept 10 / tools 9 / methods 8 / species 5 / topics 2
 #   - 词条权重：全部为种子输入词，weight=2 且 locked=true，
 #     无论负反馈如何不得降权（仅人工可删除词条）
 keywords:
@@ -41,6 +43,37 @@ keywords:
       added_date: '2026-07-31'
       weight: 2
       locked: true
+    - keyword: brain gene regulatory network
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neural gene regulatory network
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: brain transcription factor
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neural transcription factor
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+    - keyword: neuronal transcription factor
+      source: seed
+      added_date: '2026-07-31'
+      weight: 2
+      locked: true
+  # 广义脑/神经词（2026-07-31 自 core 拆出）：单独命中只算普通关键词通道，
+  # 必须与组学锚点（single-cell/transcriptom/genom/spatial 等，见 scoring.py
+  # OMICS_ANCHORS）共现才享受 A0 必推送——防止纯临床/行为/材料论文被强推
+  core_broad:
+    weight: 15
+    items:
     - keyword: brain development
       source: seed
       added_date: '2026-07-31'
@@ -67,31 +100,6 @@ keywords:
       weight: 2
       locked: true
     - keyword: cerebral cortex
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: brain gene regulatory network
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neural gene regulatory network
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: brain transcription factor
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neural transcription factor
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neuronal transcription factor
       source: seed
       added_date: '2026-07-31'
       weight: 2

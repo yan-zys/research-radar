@@ -22,8 +22,8 @@ from database.db import get_conn, init_db  # noqa: E402
 from processing.keyword_filter import load_config, match_keywords  # noqa: E402
 
 OUT_FILE = ROOT / "email" / "output" / "trend_summary.txt"
-GROUP_NAMES = {"core": "核心", "species": "物种", "methods": "方法", "tools": "工具",
-               "concept": "概念", "topics": "主题方向"}
+GROUP_NAMES = {"core": "核心", "core_broad": "核心·广义", "species": "物种", "methods": "方法",
+               "tools": "工具", "concept": "概念", "topics": "主题方向"}
 TOP_KEYWORDS = 10
 
 

@@ -238,7 +238,8 @@ def test_tiered_fallback_excludes_negative(tmp_path):
 
 
 KW_CORE = {"keywords": {
-    "core": {"weight": 15, "items": [{"keyword": "brain development", "weight": 2}]},
+    "core": {"weight": 15, "items": [{"keyword": "brain evolution", "weight": 2}]},
+    "core_broad": {"weight": 15, "items": [{"keyword": "cerebellum", "weight": 2}]},
     "tools": {"weight": 9, "items": [{"keyword": "SAMap", "weight": 2}]}},
   "negative": []}
 
@@ -250,8 +251,8 @@ def test_core_hit_forced_first_and_bypasses_veto(tmp_path):
     init_db(conn)
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
-        [("core:1", "SAMap evolution study",
-          "regulatory innovation in primate brain development", "Nature communications"),
+        [("core:1", "SAMap comparative study",
+          "regulatory innovation in brain evolution", "Nature communications"),
          ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
     )
     conn.executemany(
@@ -275,7 +276,7 @@ def test_core_hit_negative_still_excluded(tmp_path):
     init_db(conn)
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
-        [("core:neg", "brain development cancer study", "", "Nature"),
+        [("core:neg", "brain evolution cancer study", "", "Nature"),
          ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
     )
     conn.executemany(
@@ -287,3 +288,35 @@ def test_core_hit_negative_still_excluded(tmp_path):
     top = run(conn, WEIGHTS, kw, run_date="2026-07-24", offline=True)
     conn.close()
     assert [e["paper_id"] for e in top] == ["a:1"]
+
+
+def test_core_broad_requires_omics_anchor(tmp_path):
+    """core_broad 泛词（cerebellum 等）必须与组学锚点共现才进 A0：
+    共现者即使被 AI 否决也必推送；单纯临床/行为命中不进 A0（否决后落 C 层，
+    排在未否决的 A 层之后）——2026-07-31 用户反馈纯临床论文被强推混入日报。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("broad:omics", "Cerebellum development atlas",
+          "single-cell transcriptomics of the primate cerebellum", "Nature communications"),
+         ("broad:clin", "Cerebellum cohort study",
+          "behavioral scores in a clinical cohort", "Nature communications"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("broad:omics", 30, 1, 0),   # 否决但 cerebellum+single-cell 共现 → A0
+         ("broad:clin", 30, 1, 1),    # 否决且无组学锚点 → 非 A0，落 C 层
+         ("a:1", 100, 1, 9)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW_CORE, run_date="2026-07-24", offline=True)
+    conn.close()
+    tiers = {e["paper_id"]: e["tier"] for e in top}
+    assert tiers["broad:omics"] == "A0"
+    assert tiers["broad:clin"] == "C"
+    assert top[0]["paper_id"] == "broad:omics"  # A0 层在最前
+    assert [e["paper_id"] for e in top].index("broad:clin") > \
+        [e["paper_id"] for e in top].index("a:1")  # C 层排在 A 层之后
