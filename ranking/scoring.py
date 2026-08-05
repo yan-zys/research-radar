@@ -55,10 +55,16 @@ EVOLUTION_ANCHORS = (
 
 
 def journal_score(journal: str) -> float:
-    """内置期刊分档：Nature/Science/Cell 及子刊=10，eLife/PLOS=7，bioRxiv=4，默认=5。"""
+    """内置期刊分档：Nature/Science/Cell 及子刊=10，eLife/PLOS/预印本=7，默认=5。
+
+    预印本（bioRxiv/arXiv）2026-08-04 起由 4 提至 7：用户确认优质预印本
+    （关键词命中强 + AI 高分的演化方向论文）应能进入 Must Read——
+    以 kw0.3/AI0.3/期刊0.3 权重计，规则分归一化 10 + AI 8 + 期刊 7 时
+    total = 3.0+2.4+2.1 = 7.5 ≥ 7，可达 Must Read；原先 4 分天花板仅 ~6.3。
+    """
     j = (journal or "").strip().lower()
     if "biorxiv" in j or "arxiv" in j:
-        return 4.0
+        return 7.0
     if j.startswith(("nature", "science", "cell")) or j.startswith(("nat ", "nat.")):
         return 10.0
     if "elife" in j or "plos" in j:

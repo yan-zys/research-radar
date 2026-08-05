@@ -31,7 +31,7 @@ def test_journal_tiers():
     assert journal_score("Cell") == 10.0
     assert journal_score("eLife") == 7.0
     assert journal_score("PLOS Biology") == 7.0
-    assert journal_score("bioRxiv") == 4.0
+    assert journal_score("bioRxiv") == 7.0
     assert journal_score("Some Obscure Journal") == 5.0
 
 
@@ -57,9 +57,9 @@ def test_weighted_total_and_normalization():
     # a：rule 归一化 10；ai=8；期刊 10
     assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + trend_a * 0.1, 2)
     assert a["grade"] == "Must Read"
-    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=4
-    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 4 * 0.2 + trend_b * 0.1, 2)
-    assert b["grade"] == "Relate"  # <5
+    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=7（2026-08-04 起预印本提分）
+    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 7 * 0.2 + trend_b * 0.1, 2)
+    assert b["grade"] == "Important"  # 预印本提分后 ≥5
 
 
 def test_compute_scores_without_trend_ctx_trend_zero():
