@@ -93,7 +93,7 @@ def test_eligible_pool_merges_backfill_and_filters_year(tmp_path):
     )
     bf.commit()
     kw_config = mc.load_kw_config()
-    pool, conn_of = mc.eligible_pool([main, bf], kw_config, {"nature", "cell"}, year="2026")
+    pool, conn_of = mc.eligible_pool([main, bf], kw_config, {"nature", "cell"}, date_prefix="2026")
     by_id = {r["paper_id"]: r for r in pool}
     main.close()
     bf.close()

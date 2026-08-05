@@ -101,8 +101,15 @@ def main():
     ap.add_argument("--db", default="database/backfill_2026.db")
     ap.add_argument("--source", choices=["pubmed", "biorxiv", "topjournals", "all"],
                     default="all")
+    ap.add_argument("--start", default=None,
+                    help="回填起始日 YYYY-MM-DD（默认 2026-01-01）")
+    ap.add_argument("--until", default=None,
+                    help="回填截止日 YYYY-MM-DD（默认今天）")
     args = ap.parse_args()
-    until = date.today()
+    global START
+    if args.start:
+        START = date.fromisoformat(args.start)
+    until = date.fromisoformat(args.until) if args.until else date.today()
     if args.source in ("pubmed", "all"):
         backfill_pubmed(args.db, until)
     if args.source in ("topjournals", "all"):

@@ -14,6 +14,8 @@
   venv/bin/python email/mustread_collection.py            # 只评分+打印清单+写 HTML
   venv/bin/python email/mustread_collection.py --send     # 并通过 SMTP 发送
   venv/bin/python email/mustread_collection.py --offline  # 趋势用本地语料库（调试用）
+  venv/bin/python email/mustread_collection.py --month 2026-07 --min-score 5 --send
+      # 月度合集：只收该月发表的论文，Important（≥5）及以上全部入选
 
 合并库：若 database/backfill_2026.db 存在（2026 年历史回填库），自动 ATTACH 合并
 评分（主库优先去重）；--no-backfill 可关闭。只收录发表年份等于 --year 的论文。
@@ -53,9 +55,10 @@ RENDER_SQL = (
 )
 
 
-def eligible_pool(conns, kw_config, tj_names, year: str = None):
+def eligible_pool(conns, kw_config, tj_names, date_prefix: str = None):
     """多库 A/B/C 口径候选（主库优先去重）：排除 negative 词；
-    passed_filter=1 或（顶刊且已评 AI）；指定 year 时只收该年发表的论文。
+    passed_filter=1 或（顶刊且已评 AI）；指定 date_prefix（YYYY 或 YYYY-MM）
+    时只收该年/月发表的论文。
     返回 (pool, conn_of)：pool 为 dict 行列表，conn_of 记录每篇来自哪个连接。"""
     pool, conn_of = [], {}
     for conn in conns:
@@ -63,7 +66,7 @@ def eligible_pool(conns, kw_config, tj_names, year: str = None):
             pid = r["paper_id"]
             if pid in conn_of:
                 continue
-            if year and r["date"] and not str(r["date"]).startswith(year):
+            if date_prefix and r["date"] and not str(r["date"]).startswith(date_prefix):
                 continue
             if match_keywords(r["title"], r["abstract"], kw_config)["negative"]:
                 continue
@@ -99,8 +102,10 @@ def ensure_all_one_liners(conn_of, rows) -> None:
         ensure_one_liners(conn_of[subset[0]["paper_id"]], subset)
 
 
-def build_collection_html(conns, conn_of, rows, year: str, pool_size: int,
-                          user_name: str, trend: dict = None) -> str:
+def build_collection_html(conns, conn_of, rows, label: str, pool_size: int,
+                          user_name: str, trend: dict = None,
+                          min_score: float = MUST_READ_THRESHOLD,
+                          coll_name: str = "Must Read") -> str:
     """套用日报模板，替换标题/问候/分层说明为合集口径（trend 为 None 时调 AI 生成）。"""
     ensure_all_one_liners(conn_of, rows)
     if any(not r["one_line_summary_cn"] or not r["abstract_cn"] or not r["title_cn"]
@@ -115,37 +120,49 @@ def build_collection_html(conns, conn_of, rows, year: str, pool_size: int,
     config = load_config()
     cards = "\n".join(render_card(i, r, config) for i, r in enumerate(rows, 1))
     template = (ROOT / "email" / "template.html").read_text(encoding="utf-8")
-    body = (template.replace("{{date}}", year)
+    body = (template.replace("{{date}}", label)
                     .replace("{{user_name}}", html.escape(user_name))
                     .replace("{{count}}", str(len(rows)))
                     .replace("{{part1_list}}", render_news_list(rows))
                     .replace("{{part2_cards}}", cards)
                     .replace("{{part3_trend}}", render_trend_blocks(trend)))
+    period = "月度" if len(label) > 4 else "年度"
     body = body.replace(
-        f"Daily Literature Intelligence Report · {year}",
-        f"{year} 年度 Must Read 文献合集")
+        f"Daily Literature Intelligence Report · {label}",
+        f"{label} {period} {coll_name} 文献合集")
     body = body.replace(
         "今日为你筛选出",
-        f"按现行四维评分标准（总分 ≥ {MUST_READ_THRESHOLD:g}）"
+        f"按现行四维评分标准（总分 ≥ {min_score:g}）"
         f"从全库 {pool_size} 篇候选中评选出")
     body = body.replace("日报分三部分", "本合集分三部分")
-    body = body.replace("Part 1 · 今日论文新闻摘要", "Part 1 · Must Read 论文新闻摘要")
-    body = body.replace("快速浏览层 · 今日推荐逐篇速览", "快速浏览层 · 年度 Must Read 逐篇速览")
-    body = body.replace("Part 3 · 今日推荐文献价值总结", "Part 3 · 年度 Must Read 文献价值总结")
+    body = body.replace("Part 1 · 今日论文新闻摘要", f"Part 1 · {coll_name} 论文新闻摘要")
+    body = body.replace("快速浏览层 · 今日推荐逐篇速览",
+                        f"快速浏览层 · {period} {coll_name} 逐篇速览")
+    body = body.replace("Part 3 · 今日推荐文献价值总结",
+                        f"Part 3 · {period} {coll_name} 文献价值总结")
     body = body.replace("趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）",
-                        "趋势分析层 · 基于年度 Must Read 论文 AI 生成")
+                        f"趋势分析层 · 基于{period} {coll_name} 论文 AI 生成")
     return body
 
 
 def main():
-    ap = argparse.ArgumentParser(description="年度 Must Read 文献合集")
+    ap = argparse.ArgumentParser(description="年度/月度 Must Read 文献合集")
     ap.add_argument("--year", default=str(date_cls.today().year), help="合集年份标签（默认今年）")
+    ap.add_argument("--month", default=None,
+                    help="合集月份 YYYY-MM（指定后替代 --year，只收该月发表的论文）")
+    ap.add_argument("--min-score", type=float, default=MUST_READ_THRESHOLD,
+                    help="入选总分下限（默认 7=仅 Must Read；5=Important 及以上）")
     ap.add_argument("--send", action="store_true", help="生成后经 SMTP 发送")
     ap.add_argument("--offline", action="store_true", help="趋势维度只用本地语料库（不访问 PubMed）")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
     ap.add_argument("--no-backfill", action="store_true",
                     help="不合并 database/backfill_2026.db 回填库")
     args = ap.parse_args()
+
+    label = args.month or args.year
+    min_score = args.min_score
+    coll_name = "Must Read" if min_score >= MUST_READ_THRESHOLD else "Must Read & Important"
+    period = "月度" if args.month else "年度"
 
     conn = get_conn(args.db)
     init_db(conn)
@@ -158,8 +175,9 @@ def main():
         print(f"已合并回填库：{BACKFILL_DB}")
     weights, kw_config = load_weights(), load_kw_config()
     trend_ctx = build_trend_ctx(conn, date_cls.today().isoformat(), offline=args.offline)
-    pool, conn_of = eligible_pool(conns, kw_config, trend_ctx["tj_names"], year=args.year)
-    print(f"全库候选池（{args.year} 年）：{len(pool)} 篇（已排除 negative 词论文）")
+    pool, conn_of = eligible_pool(conns, kw_config, trend_ctx["tj_names"],
+                                  date_prefix=label)
+    print(f"全库候选池（{label}）：{len(pool)} 篇（已排除 negative 词论文）")
     scored = compute_scores(pool, weights, kw_config, include_vetoed=True, trend_ctx=trend_ctx)
     getattr(trend_ctx["count_fn"], "flush", lambda: None)()
     scored.sort(key=lambda e: e["total_score"], reverse=True)
@@ -167,10 +185,10 @@ def main():
     print("=== 全库 Top 15 ===")
     for e in scored[:15]:
         print(f"{e['total_score']:5.2f} {e['grade']:<10} {e['journal'][:30]:<30} {e['title'][:60]}")
-    mr = [e for e in scored if e["total_score"] >= MUST_READ_THRESHOLD]
-    print(f"Must Read（≥{MUST_READ_THRESHOLD:g}）：{len(mr)} 篇")
+    mr = [e for e in scored if e["total_score"] >= min_score]
+    print(f"{coll_name}（≥{min_score:g}）：{len(mr)} 篇")
     if not mr:
-        print("按现行评分标准无 Must Read 论文，未生成邮件。")
+        print(f"按现行评分标准无 ≥{min_score:g} 分论文，未生成邮件。")
         for c in conns:
             c.close()
         return
@@ -178,16 +196,17 @@ def main():
     env = dotenv_values(ROOT / ".env")
     user_name = (env.get("USER_NAME") or "").strip() or "研究者"
     rows = fetch_render_rows(conns, mr)
-    body = build_collection_html(conns, conn_of, rows, args.year, len(pool), user_name)
+    body = build_collection_html(conns, conn_of, rows, label, len(pool), user_name,
+                                 min_score=min_score, coll_name=coll_name)
     for c in conns:
         c.close()
 
-    out = ROOT / "email" / "output" / f"{args.year}-mustread.html"
+    out = ROOT / "email" / "output" / f"{label}-mustread.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(body, encoding="utf-8")
     print(f"合集 HTML 已生成：{out}")
     if args.send:
-        send_email(body, f"{args.year} 年度 Must Read 文献合集 · {len(mr)} 篇", env)
+        send_email(body, f"{label} {period} {coll_name} 文献合集 · {len(mr)} 篇", env)
 
 
 if __name__ == "__main__":

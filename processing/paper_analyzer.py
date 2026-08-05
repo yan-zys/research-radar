@@ -3,7 +3,9 @@
 两批候选：① passed_filter=1 且 ai_score IS NULL 的论文（--max 控制成本，默认 20，
 按 rule_score 从高到低取）；② 顶刊清单（config/top_journals.yaml）内期刊、
 ai_score IS NULL 的论文（--max-tj 默认 30，期刊声望优先、同档日期降序；顶刊
-不经关键词入池，需要 AI 语义分参与排序）。Prompt 模板在 prompts/relevance_scoring_prompt.txt，
+不经关键词入池，需要 AI 语义分参与排序）。--month 限定发表月份（回溯合集用）；
+--workers>1 线程池并行调用模型（IO 密集提速，写回仍在主线程逐条提交）。
+Prompt 模板在 prompts/relevance_scoring_prompt.txt，
 脚本只做变量填充。调用/JSON 解析失败 → 原始信息落盘 logs/ 并跳过该篇，不中断。
 """
 import argparse
@@ -51,22 +53,29 @@ def dump_failure(paper_id: str, content) -> None:
     (logs / f"ai_fail_{safe}_{ts}.txt").write_text(str(content), encoding="utf-8")
 
 
-def select_candidates(conn, max_n: int) -> list:
-    """第一批：关键词过滤通过、未评 AI 的论文（rule_score 降序）。"""
-    return conn.execute(
-        "SELECT p.paper_id, p.title, p.abstract FROM papers p "
-        "JOIN paper_scores s ON p.paper_id = s.paper_id "
-        "WHERE s.passed_filter = 1 AND s.ai_score IS NULL "
-        "ORDER BY s.rule_score DESC LIMIT ?",
-        (max_n,),
-    ).fetchall()
+def select_candidates(conn, max_n: int, month: str = None) -> list:
+    """第一批：关键词过滤通过、未评 AI 的论文（rule_score 降序）。
+
+    month（YYYY-MM）：只取该月发表的论文（回溯合集用，避免全库候选挤占额度）。"""
+    sql = ("SELECT p.paper_id, p.title, p.abstract FROM papers p "
+           "JOIN paper_scores s ON p.paper_id = s.paper_id "
+           "WHERE s.passed_filter = 1 AND s.ai_score IS NULL ")
+    params = []
+    if month:
+        sql += "AND p.date LIKE ? "
+        params.append(month + "%")
+    sql += "ORDER BY s.rule_score DESC LIMIT ?"
+    params.append(max_n)
+    return conn.execute(sql, params).fetchall()
 
 
-def select_top_journal_candidates(conn, max_tj: int, journals_path=None) -> list:
+def select_top_journal_candidates(conn, max_tj: int, journals_path=None,
+                                  month: str = None) -> list:
     """第二批：顶刊清单内期刊、未评 AI 的论文。
 
     顶刊论文不经关键词入池，需要 AI 语义分参与四维排序。按期刊声望优先
     （Nature/Science/Cell 主刊 10 分档先评），同档按日期降序（最新的优先）。
+    month（YYYY-MM）：只取该月发表的论文（回溯合集用）。
     """
     from crawler.top_journals import journal_names
     from ranking.scoring import journal_score
@@ -74,35 +83,38 @@ def select_top_journal_candidates(conn, max_tj: int, journals_path=None) -> list
     if not names or max_tj <= 0:
         return []
     marks = ",".join("?" * len(names))
-    rows = conn.execute(
-        "SELECT p.paper_id, p.title, p.abstract, p.journal, p.date FROM papers p "
-        "JOIN paper_scores s ON p.paper_id = s.paper_id "
-        f"WHERE s.ai_score IS NULL AND LOWER(p.journal) IN ({marks})",
-        names,
-    ).fetchall()
+    sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, p.date FROM papers p "
+           "JOIN paper_scores s ON p.paper_id = s.paper_id "
+           f"WHERE s.ai_score IS NULL AND LOWER(p.journal) IN ({marks})")
+    params = list(names)
+    if month:
+        sql += " AND p.date LIKE ?"
+        params.append(month + "%")
+    rows = conn.execute(sql, params).fetchall()
     rows.sort(key=lambda r: (journal_score(r["journal"]), r["date"] or ""),
               reverse=True)
     return rows[:max_tj]
 
 
-def run(conn, max_n: int, max_tj: int = 30) -> dict:
-    """分两批逐篇调用 AI 并写回 paper_scores，返回统计。"""
-    rows = list(select_candidates(conn, max_n))
-    tj_rows = list(select_top_journal_candidates(conn, max_tj))
+def run(conn, max_n: int, max_tj: int = 30, month: str = None,
+        workers: int = 1) -> dict:
+    """分两批调用 AI 并写回 paper_scores，返回统计。
+
+    workers>1 时用线程池并行调用模型（IO 密集；回溯合集提速用），
+    数据库写回始终在主线程按完成顺序逐条提交（崩溃不丢进度）。
+    """
+    rows = list(select_candidates(conn, max_n, month))
+    tj_rows = list(select_top_journal_candidates(conn, max_tj, month=month))
     seen = {r["paper_id"] for r in rows}
     rows += [r for r in tj_rows if r["paper_id"] not in seen]
     template = (ROOT / "prompts" / "relevance_scoring_prompt.txt").read_text(encoding="utf-8")
     profile = load_profile_summary()
-    done = failed = 0
-    for r in rows:
+
+    def analyze(r):
         prompt = build_prompt(template, profile, r["title"], r["abstract"])
-        try:
-            result = call_model(prompt, response_format="json")
-        except Exception as e:  # noqa: BLE001
-            dump_failure(r["paper_id"], e)
-            failed += 1
-            print(f"[跳过] {r['paper_id']} AI 调用/解析失败：{e}")
-            continue
+        return r["paper_id"], call_model(prompt, response_format="json")
+
+    def write_back(paper_id, result):
         conn.execute(
             "UPDATE paper_scores SET ai_score=?, category=?, reason=?, "
             "title_cn=?, one_line_summary_cn=?, abstract_cn=?, reproducibility=? WHERE paper_id=?",
@@ -111,24 +123,58 @@ def run(conn, max_n: int, max_tj: int = 30) -> dict:
              result.get("one_line_summary_cn", ""),
              result.get("abstract_cn", ""),
              json.dumps(result.get("reproducibility") or {}, ensure_ascii=False),
-             r["paper_id"]),
+             paper_id),
         )
         conn.commit()
-        done += 1
-        print(f"[完成] {r['paper_id']} ai_score={result.get('relevance_score')}")
-    return {"candidates": len(rows), "done": done, "failed": failed}
+
+    done = failed = 0
+    total = len(rows)
+    if workers > 1 and total:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futs = {ex.submit(analyze, r): r for r in rows}
+            for fut in as_completed(futs):
+                r = futs[fut]
+                try:
+                    paper_id, result = fut.result()
+                except Exception as e:  # noqa: BLE001
+                    dump_failure(r["paper_id"], e)
+                    failed += 1
+                    print(f"[跳过] {r['paper_id']} AI 调用/解析失败：{e}", flush=True)
+                    continue
+                write_back(paper_id, result)
+                done += 1
+                if done % 20 == 0 or done == total:
+                    print(f"[进度] {done + failed}/{total}（成功 {done}）", flush=True)
+    else:
+        for r in rows:
+            try:
+                paper_id, result = analyze(r)
+            except Exception as e:  # noqa: BLE001
+                dump_failure(r["paper_id"], e)
+                failed += 1
+                print(f"[跳过] {r['paper_id']} AI 调用/解析失败：{e}")
+                continue
+            write_back(paper_id, result)
+            done += 1
+            print(f"[完成] {paper_id} ai_score={result.get('relevance_score')}")
+    return {"candidates": total, "done": done, "failed": failed}
 
 
 def main():
     ap = argparse.ArgumentParser(description="AI 相关性深度评分")
     ap.add_argument("--max", type=int, default=20, help="本次最多评分篇数（默认 20，控制成本）")
     ap.add_argument("--max-tj", type=int, default=30, help="顶刊候选本次最多评分篇数（默认 30）")
+    ap.add_argument("--month", default=None,
+                    help="只评该月发表的论文 YYYY-MM（回溯合集用，默认不限）")
+    ap.add_argument("--workers", type=int, default=1,
+                    help="并行调用模型的线程数（默认 1 串行；回溯合集可设 8）")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
-    stats = run(conn, args.max, args.max_tj)
+    stats = run(conn, args.max, args.max_tj, month=args.month, workers=args.workers)
     conn.close()
     print(f"AI 评分完成：候选 {stats['candidates']} / 成功 {stats['done']} / 失败 {stats['failed']}")
 
