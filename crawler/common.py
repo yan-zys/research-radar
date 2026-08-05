@@ -13,12 +13,23 @@ from database.db import get_conn, init_db  # noqa: E402
 PAPER_COLS = ("paper_id", "title", "abstract", "authors", "journal", "date", "doi", "url", "source")
 
 
-def load_keywords() -> list:
-    """读取 keyword_config.yaml 所有组的词条，用于构造检索式/本地粗筛。"""
-    cfg = yaml.safe_load((ROOT / "config" / "keyword_config.yaml").read_text(encoding="utf-8"))
+def load_keywords(path=None) -> list:
+    """读取 keyword_config.yaml 中参与召回的词条，用于构造检索式/本地粗筛。
+
+    组级或词条级标注 recall: false 的关键词不参与召回——过泛的词
+    （brain/neuron/neural/glia/Cell atlas 及 species 整组，2026-08-05 用户
+    指定）只靠它们命中会把大量噪声论文拉进库；它们仍在 keyword_filter /
+    scoring 中正常计分，为已被其他词召回的论文加分。
+    """
+    p = Path(path) if path else ROOT / "config" / "keyword_config.yaml"
+    cfg = yaml.safe_load(p.read_text(encoding="utf-8"))
     kws = []
     for group in (cfg.get("keywords") or {}).values():
+        if (group or {}).get("recall") is False:
+            continue
         for item in (group or {}).get("items") or []:
+            if item.get("recall") is False:
+                continue
             kws.append(str(item["keyword"]))
     return kws
 

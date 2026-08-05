@@ -5,7 +5,8 @@ ASCII 关键词用词边界匹配并允许复数后缀（防止 "ant" 误中 "im
 同时 "ants" 仍可命中 "ant"）；非 ASCII（中文等）关键词退化为普通子串匹配：
 - negative 命中 → passed_filter=0；
 - 否则 rule_score = Σ(命中的不同词条：组 weight × 词条 weight，词条 weight 缺省按 1)，
-  passed_filter = 1 if rule_score > 0 else 0。
+  passed_filter = 1 if 召回词命中得分 > 0 else 0（组级/词条级 recall: false 的
+  泛词只计入 rule_score 加分，不能单靠它们通过初筛）。
 结果写入 paper_scores（UPSERT）。match_keywords 为纯函数，供 ranking 复用。
 """
 import argparse
@@ -59,12 +60,14 @@ def match_keywords(title: str, abstract: str, config: dict) -> dict:
     hits = []
     for group, gdata in (config.get("keywords") or {}).items():
         gw = (gdata or {}).get("weight", 1)
+        g_recall = (gdata or {}).get("recall") is not False
         for item in (gdata or {}).get("items") or []:
             kw = str(item["keyword"])
             if _kw_pattern(kw).search(text):
                 iw = item.get("weight", 1)
                 hits.append({"group": group, "keyword": kw,
-                             "group_weight": gw, "item_weight": iw, "score": gw * iw})
+                             "group_weight": gw, "item_weight": iw, "score": gw * iw,
+                             "recall": g_recall and item.get("recall") is not False})
     return {"negative": negative, "hits": hits}
 
 
@@ -94,7 +97,10 @@ def run(conn, config: dict) -> dict:
     for r in rows:
         m = match_keywords(r["title"], r["abstract"], config)
         score = rule_score(m)
-        ok = 0 if m["negative"] else (1 if score > 0 else 0)
+        # 初筛门只认召回词（recall: false 的泛词如 brain/species 命中可加分，
+        # 但不能单靠它们通过初筛——2026-08-05 用户指定）
+        recall_score = sum(h["score"] for h in m["hits"] if h["recall"])
+        ok = 0 if m["negative"] else (1 if recall_score > 0 else 0)
         passed += ok
         conn.execute(
             "INSERT INTO paper_scores (paper_id, rule_score, passed_filter) VALUES (?, ?, ?) "

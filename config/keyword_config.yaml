@@ -34,6 +34,9 @@
 #   - 组权重：core 15 / core_broad 15 / concept 10 / methods 8 / species 5 / topics 2
 #   - 词条权重：种子输入词 weight=2 且 locked=true（演化锚点词例外，weight=1），
 #     无论负反馈如何不得降权（仅人工可删除词条）
+# 召回标记（2026-08-05 用户指定）：recall: false 的词不参与检索召回与初筛门
+#   （crawler 检索式 / passed_filter），只用于评分加分——
+#   适用于 brain / neuron / neural / glia / Cell atlas 及 species 整组。
 keywords:
   core:
     weight: 15
@@ -124,21 +127,25 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
+      recall: false
     - keyword: neuron
       source: seed
       added_date: '2026-08-04'
       weight: 2
       locked: true
+      recall: false
     - keyword: neural
       source: seed
       added_date: '2026-08-04'
       weight: 2
       locked: true
+      recall: false
     - keyword: glia
       source: seed
       added_date: '2026-08-04'
       weight: 2
       locked: true
+      recall: false
   concept:
     weight: 10
     items:
@@ -357,8 +364,11 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
+  # 整组 recall: false（2026-08-05 用户指定）：物种名不参与检索召回
+  # （ant/Drosophila 等单词召回噪声太大），仅在评分时加分
   species:
     weight: 5
+    recall: false
     items:
     - keyword: Bilateria
       source: seed
@@ -554,6 +564,7 @@ keywords:
       added_date: '2026-07-31'
       weight: 2
       locked: true
+      recall: false
     - keyword: Cellular diversity
       source: seed
       added_date: '2026-07-31'

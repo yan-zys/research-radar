@@ -66,3 +66,54 @@ def test_run_writes_paper_scores(tmp_path):
     assert rows["a:2"]["passed_filter"] == 0 and rows["a:2"]["rule_score"] == 0
     assert rows["a:3"]["passed_filter"] == 0
     conn.close()
+
+
+def test_recall_false_scores_but_does_not_pass_filter(tmp_path):
+    """recall: false（组级或词条级）的词照常计入 rule_score 加分，但不能通过初筛门。"""
+    cfg = {
+        "keywords": {
+            "species": {"weight": 5, "recall": False,  # 组级 recall:false
+                        "items": [{"keyword": "octopus", "weight": 2}]},
+            "core_broad": {"weight": 15,
+                           "items": [{"keyword": "brain", "weight": 2, "recall": False}]},
+            "methods": {"weight": 8, "items": [{"keyword": "single-cell", "weight": 2}]},
+        },
+        "negative": [],
+    }
+    m = match_keywords("octopus brain study", "", cfg)
+    assert rule_score(m) == 5 * 2 + 15 * 2  # 泛词命中照常加分
+    assert all(h["recall"] is False for h in m["hits"])
+
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract) VALUES (?, ?, ?)",
+        [("a:1", "octopus brain study", ""),          # 仅泛词命中 → 加分但不通过初筛
+         ("a:2", "octopus brain single-cell", "")],   # 召回词+泛词 → 通过且泛词加分保留
+    )
+    stats = run(conn, cfg)
+    assert stats == {"total": 2, "passed": 1, "rejected": 1}
+    rows = {r["paper_id"]: r for r in conn.execute("SELECT * FROM paper_scores")}
+    assert rows["a:1"]["passed_filter"] == 0 and rows["a:1"]["rule_score"] == 40
+    assert rows["a:2"]["passed_filter"] == 1 and rows["a:2"]["rule_score"] == 40 + 16
+    conn.close()
+
+
+def test_load_keywords_skips_recall_false(tmp_path):
+    """爬虫召回词表排除 recall: false 的组与词条。"""
+    import yaml
+
+    from crawler.common import load_keywords
+    cfg = {
+        "keywords": {
+            "species": {"weight": 5, "recall": False,
+                        "items": [{"keyword": "octopus", "weight": 2}]},
+            "core_broad": {"weight": 15,
+                           "items": [{"keyword": "brain", "weight": 2, "recall": False},
+                                     {"keyword": "brain evolution", "weight": 2}]},
+        },
+        "negative": [],
+    }
+    p = tmp_path / "kw.yaml"
+    p.write_text(yaml.dump(cfg), encoding="utf-8")
+    assert load_keywords(p) == ["brain evolution"]
