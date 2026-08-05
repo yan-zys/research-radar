@@ -18,9 +18,21 @@
 # 2026-08-04 二次调整（用户指定删除）：methods 组移除 genome-wide association
 #   studies / trajectory analysis / pseudotime analysis / cell-cell communication /
 #   spatial analysis / DNA language model。
+# 2026-08-04 三次调整（用户确认，基于 5 篇方向范例 + 面上项目书诊断）：
+#   - concept 组新增演化锚点词（cell type evolution / cell type homology /
+#     whole-genome duplication / genome duplication / ohnolog / ancestral /
+#     evolutionary innovation / evo-devo / vertebrate evolution），词条 weight=1
+#     （组权重 10×1=10，与 species 命中 5×2=10 等效——用户指定 concept=5 等效）；
+#     topics 组原有 Cell type evolution 移除（避免与 concept 重复计分）；
+#   - species 组新增项目核心物种：amphioxus / lamprey / tardigrade / zebrafish /
+#     earthworm / Platynereis / axolotl / bearded dragon，并恢复 Panarthropoda；
+#   - negative 新增纯神经/临床噪声词：seizure / epilepsy / electrophysiology /
+#     electrophysiological / optogenetic / MRI / fMRI / autism / Alzheimer /
+#     Parkinson / depression / stroke / pain（不含 aging/stem cell）；
+#   - scoring.py 的 core_broad A0 判定同步收紧：须组学锚点 + 演化锚点双共现。
 # 二级权重规则（用户确认）：
 #   - 组权重：core 15 / core_broad 15 / concept 10 / methods 8 / species 5 / topics 2
-#   - 词条权重：全部为种子输入词，weight=2 且 locked=true，
+#   - 词条权重：种子输入词 weight=2 且 locked=true（演化锚点词例外，weight=1），
 #     无论负反馈如何不得降权（仅人工可删除词条）
 keywords:
   core:
@@ -245,6 +257,53 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
+    # 演化锚点词（2026-08-04 用户确认）：短而真实的演化/比较术语，
+    # 词条 weight=1 → 实际贡献 10×1=10，与 species 命中（5×2）等效
+    - keyword: cell type evolution
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: cell type homology
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: whole-genome duplication
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: genome duplication
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: ohnolog
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: ancestral
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: evolutionary innovation
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: evo-devo
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
+    - keyword: vertebrate evolution
+      source: seed
+      added_date: '2026-08-04'
+      weight: 1
+      locked: true
   methods:
     weight: 8
     items:
@@ -366,6 +425,52 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
+    # 项目核心物种（2026-08-04 用户确认，对应面上项目书物种清单）+ 恢复 Panarthropoda
+    - keyword: Panarthropoda
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: amphioxus
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: lamprey
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: tardigrade
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: zebrafish
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: earthworm
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: Platynereis
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: axolotl
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
+    - keyword: bearded dragon
+      source: seed
+      added_date: '2026-08-04'
+      weight: 2
+      locked: true
   topics:
     weight: 2
     items:
@@ -445,11 +550,6 @@ keywords:
       weight: 2
       locked: true
     - keyword: Cell atlas
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Cell type evolution
       source: seed
       added_date: '2026-07-31'
       weight: 2
@@ -585,3 +685,18 @@ negative:
 - plant breeding
 - agriculture production
 - food science
+# 纯神经/临床噪声（2026-08-04 用户确认）：seizure/epilepsy 等纯机制与
+# 疾病论文直接剔除；不含 aging/stem cell（演化图谱类论文可能涉及）
+- seizure
+- epilepsy
+- electrophysiology
+- electrophysiological
+- optogenetic
+- MRI
+- fMRI
+- autism
+- Alzheimer
+- Parkinson
+- depression
+- stroke
+- pain

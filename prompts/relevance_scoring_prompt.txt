@@ -9,7 +9,17 @@
 【论文摘要】
 {{abstract}}
 
-任务：评估该论文对研究者的价值。只输出 JSON，不要任何前后缀文字、不要代码块标记。输出 Schema：
+任务：评估该论文对研究者的价值。只输出 JSON，不要任何前后缀文字、不要代码块标记。
+
+评分硬性规则（2026-08-04 用户确认，优先级最高）：
+- 该研究者的核心视角是**演化与跨物种比较**。无论论文是否使用单细胞/空间组学等
+  技术，只要不含演化或跨物种比较视角（标题/摘要中无 evolution、origin、ancestral、
+  homology、conserved、cross-species、comparative、phylogenetic 等含义），
+  relevance_score 不得高于 4。
+- 纯临床、疾病机制、电生理、行为学、材料/工程类论文（即使涉及脑/神经），
+  relevance_score 不得高于 2。
+
+输出 Schema：
 {
   "relevance_score": 0-10 的数值（10 = 必读，0 = 完全无关）,
   "category": "核心方向" | "方法借鉴" | "趋势跟踪" | "低相关",

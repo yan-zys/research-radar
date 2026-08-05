@@ -290,16 +290,21 @@ def test_core_hit_negative_still_excluded(tmp_path):
     assert [e["paper_id"] for e in top] == ["a:1"]
 
 
-def test_core_broad_requires_omics_anchor(tmp_path):
-    """core_broad 泛词（cerebellum 等）必须与组学锚点共现才进 A0：
-    共现者即使被 AI 否决也必推送；单纯临床/行为命中不进 A0（否决后落 C 层，
-    排在未否决的 A 层之后）——2026-07-31 用户反馈纯临床论文被强推混入日报。"""
+def test_core_broad_requires_omics_and_evolution_anchors(tmp_path):
+    """core_broad 泛词（cerebellum 等）必须与组学锚点 + 演化锚点双共现才进 A0：
+    双共现者即使被 AI 否决也必推送；只有组学锚点、无演化视角的论文不进 A0
+    （否决后落 C 层，排在未否决的 A 层之后）——2026-08-04 用户确认：
+    纯神经机制论文（无演化/比较视角）即使做单细胞也不强推。"""
     conn = get_conn(tmp_path / "t.db")
     init_db(conn)
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
-        [("broad:omics", "Cerebellum development atlas",
-          "single-cell transcriptomics of the primate cerebellum", "Nature communications"),
+        [("broad:evo", "Cerebellum development atlas",
+          "single-cell transcriptomics reveals the evolution of the primate cerebellum",
+          "Nature communications"),
+         ("broad:noevo", "Cerebellum development atlas",
+          "single-cell transcriptomics of the primate cerebellum",
+          "Nature communications"),
          ("broad:clin", "Cerebellum cohort study",
           "behavioral scores in a clinical cohort", "Nature communications"),
          ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
@@ -307,16 +312,18 @@ def test_core_broad_requires_omics_anchor(tmp_path):
     conn.executemany(
         "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
         "VALUES (?, ?, ?, ?)",
-        [("broad:omics", 30, 1, 0),   # 否决但 cerebellum+single-cell 共现 → A0
-         ("broad:clin", 30, 1, 1),    # 否决且无组学锚点 → 非 A0，落 C 层
+        [("broad:evo", 30, 1, 0),    # 否决但 cerebellum+组学+演化 双共现 → A0
+         ("broad:noevo", 30, 1, 1),  # 否决、有组学锚点但无演化锚点 → 非 A0，落 C 层
+         ("broad:clin", 30, 1, 1),   # 否决且双锚点皆无 → 落 C 层
          ("a:1", 100, 1, 9)],
     )
     conn.commit()
     top = run(conn, WEIGHTS, KW_CORE, run_date="2026-07-24", offline=True)
     conn.close()
     tiers = {e["paper_id"]: e["tier"] for e in top}
-    assert tiers["broad:omics"] == "A0"
+    assert tiers["broad:evo"] == "A0"
+    assert tiers["broad:noevo"] == "C"
     assert tiers["broad:clin"] == "C"
-    assert top[0]["paper_id"] == "broad:omics"  # A0 层在最前
-    assert [e["paper_id"] for e in top].index("broad:clin") > \
+    assert top[0]["paper_id"] == "broad:evo"  # A0 层在最前
+    assert [e["paper_id"] for e in top].index("broad:noevo") > \
         [e["paper_id"] for e in top].index("a:1")  # C 层排在 A 层之后

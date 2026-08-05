@@ -41,6 +41,18 @@ OMICS_ANCHORS = (
     "multi-omics", "multiomics", "proteom", "pangenom", "metagenom",
 )
 
+# 演化锚点：core_broad 组泛词（brain、neuron 等）进 A0 除组学锚点外，还须与
+# 下列演化/比较视角词共现——用户方向是"脑/神经的演化"，纯神经机制论文
+# （癫痫、示踪、工程神经组织等）即使做单细胞/组学也不再必推送
+# （2026-08-04 用户确认，对照其 5 篇方向范例：lamprey/octopus 脑图谱、
+# WGD 与细胞类型演化、跨物种深度学习等均以演化/比较为框架）。
+EVOLUTION_ANCHORS = (
+    "evolution", "origin", "ancestral", "homolog", "conserved", "conservation",
+    "cross-species", "comparative", "phylogen", "diversification",
+    "evo-devo", "evolutionary developmental",
+    "whole-genome duplication", "genome duplication", "ohnolog",
+)
+
 
 def journal_score(journal: str) -> float:
     """内置期刊分档：Nature/Science/Cell 及子刊=10，eLife/PLOS=7，bioRxiv=4，默认=5。"""
@@ -124,7 +136,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
 
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
     - A0 层：命中 core 组关键词（脑/神经核心方向，命中必推送，绕过 AI 否决），
-      或 core_broad 组泛词（brain/neuron/neurodevelopment 等）与组学锚点共现；
+      或 core_broad 组泛词（brain/neuron/neurodevelopment 等）与组学锚点
+      + 演化锚点（EVOLUTION_ANCHORS）双共现；
     - A 层：关键词通道、未被 AI 否决、不在 30 天去重窗口内；
     - B 层：顶刊通道、已评 AI、未被否决、不在去重窗口内；
     - C 层：被 AI 否决的关键词/顶刊论文、不在去重窗口内；
@@ -168,8 +181,10 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         - A0 层：命中 core 组（脑/神经核心方向）关键词的论文——用户要求"命中必
           推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除）；
           core_broad 组泛词（brain、neuron、neurodevelopment 等）须与 OMICS_ANCHORS
-          组学锚点（single-cell/transcriptom/genom/spatial 等）共现才进 A0，
-          否则按普通关键词通道走 A/C 层——避免纯临床/行为/材料论文被强推；
+          组学锚点（single-cell/transcriptom/genom 等）和 EVOLUTION_ANCHORS
+          演化锚点（evolution/origin/ancestral/homolog/conserved/comparative 等）
+          双共现才进 A0，否则按普通关键词通道走 A/C 层——避免纯临床/行为/
+          材料论文和纯神经机制论文（无演化/比较视角）被强推；
         - A 层：passed_filter=1、未被 AI 否决（关键词通道核心候选）；
         - B 层：顶刊清单内期刊、已评 AI（ai_score 非空）、未被否决；
         - C 层：被 AI 否决（ai_score<3）但属于关键词通过或顶刊清单的论文；
@@ -194,10 +209,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
             hits = matches[pid]["hits"]
             if any(h["group"] == "core" for h in hits):
                 return True
-            # core_broad（广义脑/神经词）必须与组学锚点共现才算核心命中
+            # core_broad（广义脑/神经词）必须与组学锚点 + 演化锚点双共现
+            # 才算核心命中（2026-08-04 用户确认：纯神经机制论文不强推）
             if not any(h["group"] == "core_broad" for h in hits):
                 return False
-            return any(a in texts[pid] for a in OMICS_ANCHORS)
+            return (any(a in texts[pid] for a in OMICS_ANCHORS)
+                    and any(a in texts[pid] for a in EVOLUTION_ANCHORS))
 
         crit = {}
         for r in rows:
