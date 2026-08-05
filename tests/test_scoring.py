@@ -18,11 +18,13 @@ KW = {"keywords": {
 
 
 def test_grade_boundaries():
-    assert grade_of(7.0) == "Must Read"
-    assert grade_of(6.99) == "Important"
-    assert grade_of(5.0) == "Important"
-    assert grade_of(4.99) == "Relate"
-    assert grade_of(0.0) == "Relate"  # 低分也入选，等级为 Relate
+    assert grade_of(7.0, 8) == "Must Read"
+    assert grade_of(7.0, 6) == "Important"   # 总分够但 AI<7：只能 Important
+    assert grade_of(6.99, 9) == "Important"
+    assert grade_of(5.0, 5) == "Important"
+    assert grade_of(4.99, 10) == "Relate"
+    assert grade_of(9.0, 4) == "Relate"      # AI<5：一律 Relate（AI 定级上限）
+    assert grade_of(0.0, 10) == "Relate"  # 低分也入选，等级为 Relate
 
 
 def test_journal_tiers():
@@ -31,7 +33,7 @@ def test_journal_tiers():
     assert journal_score("Cell") == 10.0
     assert journal_score("eLife") == 7.0
     assert journal_score("PLOS Biology") == 7.0
-    assert journal_score("bioRxiv") == 7.0
+    assert journal_score("bioRxiv") == 5.0
     assert journal_score("Some Obscure Journal") == 5.0
 
 
@@ -57,9 +59,9 @@ def test_weighted_total_and_normalization():
     # a：rule 归一化 10；ai=8；期刊 10
     assert a["total_score"] == round(10 * 0.5 + 8 * 0.2 + 10 * 0.2 + trend_a * 0.1, 2)
     assert a["grade"] == "Must Read"
-    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=7（2026-08-04 起预印本提分）
-    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 7 * 0.2 + trend_b * 0.1, 2)
-    assert b["grade"] == "Important"  # 预印本提分后 ≥5
+    # b：rule 归一化 50/100*10=5；ai 缺失按 5；bioRxiv=5（2026-08-05 预印本降回 5 分）
+    assert b["total_score"] == round(5 * 0.5 + 5 * 0.2 + 5 * 0.2 + trend_b * 0.1, 2)
+    assert b["grade"] == "Relate"  # 预印本降分后 total<5 → Relate
 
 
 def test_compute_scores_without_trend_ctx_trend_zero():

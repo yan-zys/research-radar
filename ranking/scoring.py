@@ -9,7 +9,8 @@
 每日 Top 15 按五层梯队兜底选满（A0 层为 core 组脑/神经关键词命中、或 core_broad 泛词
 与组学锚点共现，必推送；run() 详见其
 docstring），全部写入 recommendations，
-不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate；
+不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate，
+且 Must Read 需 AI≥7、Important 需 AI≥5——AI 定级上限，见 grade_of；
 同日期先清空旧记录再写入）。打印各层选取数与 Top15 简表。
 """
 import argparse
@@ -55,16 +56,17 @@ EVOLUTION_ANCHORS = (
 
 
 def journal_score(journal: str) -> float:
-    """内置期刊分档：Nature/Science/Cell 及子刊=10，eLife/PLOS/预印本=7，默认=5。
+    """内置期刊分档：Nature/Science/Cell 及子刊=10，eLife/PLOS=7，预印本=5，默认=5。
 
-    预印本（bioRxiv/arXiv）2026-08-04 起由 4 提至 7：用户确认优质预印本
-    （关键词命中强 + AI 高分的演化方向论文）应能进入 Must Read——
-    以 kw0.3/AI0.3/期刊0.3 权重计，规则分归一化 10 + AI 8 + 期刊 7 时
-    total = 3.0+2.4+2.1 = 7.5 ≥ 7，可达 Must Read；原先 4 分天花板仅 ~6.3。
+    预印本（bioRxiv/arXiv）2026-08-05 由 7 降回 5（用户确认"4-5"区间，取与普通
+    期刊同级）：7 分保底贡献 2.1（权重 0.3）曾导致 AI 判定无关（1-2 分）的预印本
+    total 仍 ≥5 被标 Important；但降到 4 会让优质预印本排在无名期刊（默认 5）之后。
+    现由 grade_of 的 AI 定级上限（Important 需 AI≥5、Must Read 需 AI≥7）承担质量
+    闸门，期刊分只影响同级内排序，预印本 5 分不再能抬噪声上 Important。
     """
     j = (journal or "").strip().lower()
     if "biorxiv" in j or "arxiv" in j:
-        return 7.0
+        return 5.0
     if j.startswith(("nature", "science", "cell")) or j.startswith(("nat ", "nat.")):
         return 10.0
     if "elife" in j or "plos" in j:
@@ -72,10 +74,17 @@ def journal_score(journal: str) -> float:
     return 5.0
 
 
-def grade_of(total: float) -> str:
-    """等级分档：≥7 Must Read / ≥5 Important / 其余 Relate（全部入选，不剔除）。"""
+def grade_of(total: float, ai_score: float) -> str:
+    """等级分档：≥7 Must Read / ≥5 Important / 其余 Relate（全部入选，不剔除）。
+
+    AI 定级上限（2026-08-05 用户确认）：Must Read 需 ai_score≥7，Important 需
+    ai_score≥5，ai_score<5 一律 Relate——期刊/关键词/趋势分只决定等级内排序，
+    AI 判定无关的低分论文不再靠期刊保底分（如顶刊/预印本）抬上 Important。
+    """
+    if ai_score < 5:
+        return "Relate"
     if total >= 7:
-        return "Must Read"
+        return "Must Read" if ai_score >= 7 else "Important"
     if total >= 5:
         return "Important"
     return "Relate"
@@ -132,7 +141,7 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
             "trend_value": tv.get(e["paper_id"], 0.0),
         }
         e["total_score"] = round(sum(dims[k] * weights.get(k, 0) for k in dims), 2)
-        e["grade"] = grade_of(e["total_score"])
+        e["grade"] = grade_of(e["total_score"], float(e["ai_score"]))
     return enriched
 
 
