@@ -18,13 +18,12 @@ KW = {"keywords": {
 
 
 def test_grade_boundaries():
-    assert grade_of(7.0, 8) == "Must Read"
-    assert grade_of(7.0, 6) == "Important"   # 总分够但 AI<7：只能 Important
-    assert grade_of(6.99, 9) == "Important"
-    assert grade_of(5.0, 5) == "Important"
-    assert grade_of(4.99, 10) == "Relate"
-    assert grade_of(9.0, 4) == "Relate"      # AI<5：一律 Relate（AI 定级上限）
-    assert grade_of(0.0, 10) == "Relate"  # 低分也入选，等级为 Relate
+    # 纯总分定级（2026-08-05 用户确认）：≥7 Must Read / ≥5 Important / 其余 Relate
+    assert grade_of(7.0) == "Must Read"
+    assert grade_of(6.99) == "Important"
+    assert grade_of(5.0) == "Important"
+    assert grade_of(4.99) == "Relate"
+    assert grade_of(0.0) == "Relate"  # 低分也入选，等级为 Relate
 
 
 def test_journal_tiers():

@@ -9,9 +9,9 @@
 每日 Top 15 按五层梯队兜底选满（A0 层为 core 组脑/神经关键词命中、或 core_broad 泛词
 与组学锚点共现，必推送；run() 详见其
 docstring），全部写入 recommendations，
-不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate，
-且 Must Read 需 AI≥7、Important 需 AI≥5——AI 定级上限，见 grade_of；
-同日期先清空旧记录再写入）。打印各层选取数与 Top15 简表。
+不再因总分低剔除（grade：≥7 Must Read / ≥5 Important / 其余 Relate——纯总分定级，
+不设 AI 分门槛，2026-08-05 用户确认；同日期先清空旧记录再写入）。
+打印各层选取数与 Top15 简表。
 """
 import argparse
 import sys
@@ -61,8 +61,8 @@ def journal_score(journal: str) -> float:
     预印本（bioRxiv/arXiv）2026-08-05 由 7 降回 5（用户确认"4-5"区间，取与普通
     期刊同级）：7 分保底贡献 2.1（权重 0.3）曾导致 AI 判定无关（1-2 分）的预印本
     total 仍 ≥5 被标 Important；但降到 4 会让优质预印本排在无名期刊（默认 5）之后。
-    现由 grade_of 的 AI 定级上限（Important 需 AI≥5、Must Read 需 AI≥7）承担质量
-    闸门，期刊分只影响同级内排序，预印本 5 分不再能抬噪声上 Important。
+    取 5 后纯总分定级下 AI 1-2 分的预印本总分约 4.5，自然落在 5 分线下归 Relate，
+    期刊分只影响同级内排序，不再能抬噪声上 Important。
     """
     j = (journal or "").strip().lower()
     if "biorxiv" in j or "arxiv" in j:
@@ -74,17 +74,14 @@ def journal_score(journal: str) -> float:
     return 5.0
 
 
-def grade_of(total: float, ai_score: float) -> str:
+def grade_of(total: float) -> str:
     """等级分档：≥7 Must Read / ≥5 Important / 其余 Relate（全部入选，不剔除）。
 
-    AI 定级上限（2026-08-05 用户确认）：Must Read 需 ai_score≥7，Important 需
-    ai_score≥5，ai_score<5 一律 Relate——期刊/关键词/趋势分只决定等级内排序，
-    AI 判定无关的低分论文不再靠期刊保底分（如顶刊/预印本）抬上 Important。
+    2026-08-05 用户确认：纯总分定级，不设 AI 分门槛——加权总分已融合
+    关键词/AI/期刊/趋势四维，等级直接反映总分高低。
     """
-    if ai_score < 5:
-        return "Relate"
     if total >= 7:
-        return "Must Read" if ai_score >= 7 else "Important"
+        return "Must Read"
     if total >= 5:
         return "Important"
     return "Relate"
@@ -141,7 +138,7 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
             "trend_value": tv.get(e["paper_id"], 0.0),
         }
         e["total_score"] = round(sum(dims[k] * weights.get(k, 0) for k in dims), 2)
-        e["grade"] = grade_of(e["total_score"], float(e["ai_score"]))
+        e["grade"] = grade_of(e["total_score"])
     return enriched
 
 
