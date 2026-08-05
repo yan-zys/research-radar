@@ -1,0 +1,62 @@
+name: Daily Literature Report
+
+# 每天 08:30（Asia/Shanghai）运行日报流水线；周报/月报由 daily_run.sh
+# 内部按节假日感知逻辑自动追加发送（见 scheduler/holiday.py）。
+# 也可在 Actions 页面手动触发（workflow_dispatch）补发当天日报。
+
+on:
+  schedule:
+    - cron: "30 0 * * *" # 00:30 UTC = 08:30 北京时间
+  workflow_dispatch:
+
+concurrency:
+  group: daily-report
+  cancel-in-progress: false
+
+permissions:
+  contents: write # 运行后回写 database/papers.db 与反馈数据
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      TZ: Asia/Shanghai
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 安装依赖（daily_run.sh 会 source venv/bin/activate）
+        run: |
+          python -m venv venv
+          venv/bin/pip install -r requirements.txt
+
+      - name: 写入 .env（来自 Secret ENV_FILE，内容为整份 .env 文本）
+        run: printf '%s\n' "${{ secrets.ENV_FILE }}" > .env
+
+      - name: 运行日报流水线（抓取→过滤→评分→排序→日报/周报/月报→反馈学习）
+        run: bash daily_run.sh
+
+      - name: 回写运行状态（papers.db、反馈 jsonl、关键词候选）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add database/papers.db input/user_feedback keyword_engine/output_candidates.yaml
+          if git diff --cached --quiet; then
+            echo "无状态变化，跳过提交"
+          else
+            git commit -m "chore: 每日运行状态更新 $(date +%F)"
+            git push
+          fi
+
+      - name: 上传运行日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-log-${{ github.run_id }}
+          path: logs/
+          retention-days: 30
