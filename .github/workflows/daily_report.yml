@@ -1,12 +1,13 @@
 name: Daily Literature Report
 
-# 每天 08:30（Asia/Shanghai）运行日报流水线；周报/月报由 daily_run.sh
+# 每天 07:53（Asia/Shanghai）运行日报流水线——避开 GitHub 最拥堵的整点/半点，
+# 并预留调度延迟缓冲，保证 9 点前基本能收到；周报/月报由 daily_run.sh
 # 内部按节假日感知逻辑自动追加发送（见 scheduler/holiday.py）。
 # 也可在 Actions 页面手动触发（workflow_dispatch）补发当天日报。
 
 on:
   schedule:
-    - cron: "30 0 * * *" # 00:30 UTC = 08:30 北京时间
+    - cron: "53 23 * * *" # 23:53 UTC = 07:53 北京时间（冷门分钟，避开 :00/:30 调度高峰）
   workflow_dispatch:
 
 concurrency:
