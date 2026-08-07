@@ -11,7 +11,7 @@ Prompt 模板在 prompts/relevance_scoring_prompt.txt，
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 import yaml
@@ -96,17 +96,63 @@ def select_top_journal_candidates(conn, max_tj: int, journals_path=None,
     return rows[:max_tj]
 
 
+def select_ceiling_candidates(conn, max_n: int, min_ceiling: float = 7.0,
+                              month: str = None) -> list:
+    """Must Read-only 模式：只评"理论可达 Must Read"的论文。
+
+    AI 满分也只贡献 0.3×10=3.0 分，非 AI 三维天花板太低的论文即使 AI 满分
+    也到不了 Must Read 7 分线，不值得花 AI 调用。这里把 ai_score 强制为 10
+    计算 ceiling 总分，只保留 ceiling ≥ min_ceiling 的候选（两通道合并：
+    关键词初筛通过 ∪ 顶刊）。
+    """
+    from crawler.top_journals import journal_names
+    from ranking.scoring import compute_scores, load_kw_config, load_weights
+    from ranking.trend_signals import build_trend_ctx
+
+    names = journal_names()
+    marks = ",".join("?" * len(names))
+    sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, p.date, "
+           "s.rule_score, s.passed_filter FROM papers p "
+           "JOIN paper_scores s ON p.paper_id = s.paper_id "
+           f"WHERE s.ai_score IS NULL AND (s.passed_filter = 1 "
+           f"OR LOWER(p.journal) IN ({marks}))")
+    params = list(names)
+    if month:
+        sql += " AND p.date LIKE ?"
+        params.append(month + "%")
+    rows = [dict(r) for r in conn.execute(sql, params).fetchall()]
+    if not rows:
+        return []
+    kw = load_kw_config()
+    w = load_weights()
+    ctx = build_trend_ctx(conn, date.today().isoformat(), offline=True)
+    for r in rows:
+        r["ai_score"] = 10  # AI 满分上限 → ceiling
+    scored = {e["paper_id"]: e["total_score"]
+              for e in compute_scores(rows, w, kw, include_vetoed=True,
+                                      trend_ctx=ctx)}
+    keep = [r for r in rows if scored.get(r["paper_id"], 0) >= min_ceiling]
+    keep.sort(key=lambda r: scored[r["paper_id"]], reverse=True)
+    return keep[:max_n]
+
+
 def run(conn, max_n: int, max_tj: int = 30, month: str = None,
-        workers: int = 1) -> dict:
+        workers: int = 1, min_ceiling: float = None) -> dict:
     """分两批调用 AI 并写回 paper_scores，返回统计。
 
     workers>1 时用线程池并行调用模型（IO 密集；回溯合集提速用），
     数据库写回始终在主线程按完成顺序逐条提交（崩溃不丢进度）。
+    min_ceiling 设定时改用 ceiling 预筛（Must Read-only 模式，两通道合并，
+    忽略 max_tj）。
     """
-    rows = list(select_candidates(conn, max_n, month))
-    tj_rows = list(select_top_journal_candidates(conn, max_tj, month=month))
-    seen = {r["paper_id"] for r in rows}
-    rows += [r for r in tj_rows if r["paper_id"] not in seen]
+    if min_ceiling is not None:
+        rows = list(select_ceiling_candidates(conn, max_n, min_ceiling, month))
+        print(f"[ceiling] ≥{min_ceiling} 候选 {len(rows)} 篇", flush=True)
+    else:
+        rows = list(select_candidates(conn, max_n, month))
+        tj_rows = list(select_top_journal_candidates(conn, max_tj, month=month))
+        seen = {r["paper_id"] for r in rows}
+        rows += [r for r in tj_rows if r["paper_id"] not in seen]
     template = (ROOT / "prompts" / "relevance_scoring_prompt.txt").read_text(encoding="utf-8")
     profile = load_profile_summary()
 
@@ -170,11 +216,14 @@ def main():
     ap.add_argument("--workers", type=int, default=1,
                     help="并行调用模型的线程数（默认 1 串行；回溯合集可设 8）")
     ap.add_argument("--db", default=None, help="数据库路径（默认 database/papers.db）")
+    ap.add_argument("--min-ceiling", type=float, default=None,
+                    help="Must Read-only 模式：只评 ceiling 总分≥该值的候选（如 7），忽略 --max-tj")
     args = ap.parse_args()
 
     conn = get_conn(args.db)
     init_db(conn)
-    stats = run(conn, args.max, args.max_tj, month=args.month, workers=args.workers)
+    stats = run(conn, args.max, args.max_tj, month=args.month,
+                workers=args.workers, min_ceiling=args.min_ceiling)
     conn.close()
     print(f"AI 评分完成：候选 {stats['candidates']} / 成功 {stats['done']} / 失败 {stats['failed']}")
 

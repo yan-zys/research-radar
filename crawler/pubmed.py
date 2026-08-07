@@ -41,6 +41,33 @@ def esearch(query: str, since: date, until: date, limit: int) -> list:
     return resp.json().get("esearchresult", {}).get("idlist", [])
 
 
+def esearch_history(query: str, since: date, until: date) -> tuple:
+    """usehistory=y 检索（retmax=0），返回 (WebEnv, query_key, count)。
+
+    PubMed 的 esearch 无论是否 usehistory 都只能取回前 9,999 个 PMID
+    （retstart>9998 直接报错），大结果集必须改用 history + efetch 翻页，
+    见 efetch_history。
+    """
+    resp = requests.post(f"{EUTILS}/esearch.fcgi", data={
+        "db": "pubmed", "term": query, "retmax": 0, "usehistory": "y",
+        "retmode": "json", "datetype": "pdat",
+        "mindate": since.strftime("%Y/%m/%d"), "maxdate": until.strftime("%Y/%m/%d"),
+    }, timeout=60)
+    resp.raise_for_status()
+    res = resp.json(strict=False)["esearchresult"]
+    return res["webenv"], res["querykey"], int(res["count"])
+
+
+def efetch_history(webenv: str, qkey: str, retstart: int, retmax: int) -> str:
+    """从 history 服务器翻页 efetch（无 9,999 上限），返回 XML。"""
+    resp = requests.post(f"{EUTILS}/efetch.fcgi", data={
+        "db": "pubmed", "query_key": qkey, "WebEnv": webenv,
+        "retstart": retstart, "retmax": retmax, "retmode": "xml",
+    }, timeout=120)
+    resp.raise_for_status()
+    return resp.text
+
+
 def efetch(pmids) -> str:
     """efetch 拉取 XML 元数据。"""
     resp = requests.post(f"{EUTILS}/efetch.fcgi", data={
