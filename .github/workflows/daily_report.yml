@@ -42,11 +42,14 @@ jobs:
       - name: 运行日报流水线（抓取→过滤→评分→排序→日报/周报/月报→反馈学习）
         run: bash daily_run.sh
 
-      - name: 回写运行状态（papers.db、反馈 jsonl、关键词候选）
+      - name: 生成日报网页版（docs/daily/… 与 docs/index.html，供 GitHub Pages）
+        run: venv/bin/python email/generate_page.py
+
+      - name: 回写运行状态（papers.db、反馈 jsonl、关键词候选、日报网页）
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add database/papers.db input/user_feedback keyword_engine/output_candidates.yaml
+          git add database/papers.db input/user_feedback keyword_engine/output_candidates.yaml docs/
           if git diff --cached --quiet; then
             echo "无状态变化，跳过提交"
           else

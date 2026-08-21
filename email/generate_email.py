@@ -1,19 +1,17 @@
-"""生成当日科研日报 HTML（可选 SMTP 发送）。
+"""生成当日科研日报邮件 HTML（可选 SMTP 发送）。
 
-日报为三段式结构（模板 email/template.html，口径均为"今日"）：
-- Part 1 · 今日论文新闻摘要：当日 Top 推荐逐篇速览——序号 + 等级徽标
+日报邮件为瘦身结构（模板 email/template.html，口径均为"今日"）：
+- 正文只保留 Part 1 · 今日论文新闻摘要：当日 Top 推荐逐篇速览——序号 + 等级徽标
   （Must Read 红 / Important 橙 / Relate 灰）+ 总分数值 + 标题 + 精炼中文一句话
-  + 期刊·日期；
-- Part 2 · 论文详细信息卡片：全部推荐按评分排序，每卡含 Rank + 等级徽标 + 总分、
-  英文标题、中文标题翻译（title_cn）、作者、期刊·日期、DOI/PubMed 链接、命中关键词、
-  推荐理由、中文摘要（abstract_cn）、英文原文摘要（直接显示，灰色左边框引用样式，
-  全模板禁用 <details>）、4 项一键反馈（相关/不相关/已读/收藏 → 127.0.0.1:8710，
-  服务端返回 204，点击即记录、浏览器不显示跳转页面）；
-- Part 3 · 今日推荐文献价值总结：AI 基于今日 Must Read/Important 论文生成
-  （无 Must Read/Important 时基于评分 Top 5），prompt 在 prompts/daily_trend_prompt.txt，
-  输出 JSON {"overview","directions","common_trend","value"}，渲染为分块 HTML
-  （总览 / 聚焦方向·一是二是三是 / 共同趋势 / 对研究者的价值），正文字号 ≥14px、
-  line-height 1.7；无推荐或 AI 失败时降级为静态文案。
+  + 期刊·日期；前后各一个醒目的网页版入口按钮（page_url_for）。
+- 原邮件 Part 2（论文详细信息卡片）与 Part 3（价值总结，prompt 在
+  prompts/daily_trend_prompt.txt，输出 JSON {"overview","directions",
+  "common_trend","value"}）已迁移至网页版，由 email/generate_page.py 生成
+  （GitHub Pages: docs/daily/YYYY-MM-DD.html，卡片 <details> 折叠详情，
+  反馈按钮 JS fetch 一键提交、原地记录不跳转）。
+- 渲染辅助 render_card / render_trend_blocks / summarize_trend / feedback_links
+  等函数仍被 generate_page.py、generate_digest.py、mustread_collection.py 复用，
+  须保持其行为兼容。
 缺 one_line_summary_cn / abstract_cn / title_cn 任一的论文先调用 AI 补齐并写回
 paper_scores（COALESCE，已有值不覆盖；AI 失败才降级）。
 不带 --send：写 email/output/YYYY-MM-DD.html；带 --send：smtplib 发送
@@ -52,6 +50,7 @@ CARD_CSS = {"Must Read": "card-must", "Important": "card-important",
             "Relate": "card-relate"}
 RATINGS = (("good", "相关"), ("bad", "不相关"), ("read", "已读"), ("star", "收藏"))
 FEEDBACK_BASE = "http://127.0.0.1:8710/feedback"
+PAGE_BASE = "https://yan-zys.github.io/research-radar/daily"
 FALLBACK_SUMMARY = "今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。"
 CN_NUMERALS = ("一是", "二是", "三是", "四是", "五是", "六是")
 
@@ -265,26 +264,23 @@ def ensure_one_liners(conn, rows) -> None:
         print(f"[补齐] {r['paper_id']} 中文标题/一句话/压缩摘要已生成")
 
 
-def build_html(date_str: str, conn, mail_to: str, trend: dict = None,
-               user_name: str = "研究者") -> str:
-    """按日期生成日报 HTML（trend 为 None 时自动调用 AI 生成 Part 3 价值总结）。"""
+def page_url_for(date_str: str) -> str:
+    """当日日报网页版 URL（GitHub Pages：docs/daily/YYYY-MM-DD.html，由 generate_page.py 生成）。"""
+    return f"{PAGE_BASE}/{date_str}.html"
+
+
+def build_html(date_str: str, conn, user_name: str = "研究者") -> str:
+    """按日期生成日报邮件 HTML（瘦身版：Part 1 新闻摘要 + 网页版入口链接）。"""
     rows = fetch_rows(date_str, conn)
     ensure_one_liners(conn, rows)
-    if any(not r["one_line_summary_cn"] or not r["abstract_cn"] or not r["title_cn"]
-           for r in rows):
+    if any(not r["one_line_summary_cn"] for r in rows):
         rows = fetch_rows(date_str, conn)  # 重取，拿到补齐的内容
-    if trend is None:
-        trend = summarize_trend(rows)
-    config = load_config()
-    cards = ("\n".join(render_card(i, r, config) for i, r in enumerate(rows, 1))
-             if rows else "<p>今日暂无推荐文献。</p>")
     template = (ROOT / "email" / "template.html").read_text(encoding="utf-8")
     return (template.replace("{{date}}", date_str)
                     .replace("{{user_name}}", html.escape(user_name))
                     .replace("{{count}}", str(len(rows)))
-                    .replace("{{part1_list}}", render_news_list(rows))
-                    .replace("{{part2_cards}}", cards)
-                    .replace("{{part3_trend}}", render_trend_blocks(trend)))
+                    .replace("{{page_url}}", page_url_for(date_str))
+                    .replace("{{part1_list}}", render_news_list(rows)))
 
 
 def send_email(html_body: str, subject: str, env: dict) -> None:
@@ -321,11 +317,10 @@ def main():
     args = ap.parse_args()
 
     env = dotenv_values(ROOT / ".env")
-    mail_to = (env.get("MAIL_TO") or "").strip()
     user_name = (env.get("USER_NAME") or "").strip() or "研究者"
     conn = get_conn(args.db)
     init_db(conn)
-    html_body = build_html(args.date, conn, mail_to, user_name=user_name)
+    html_body = build_html(args.date, conn, user_name=user_name)
     conn.close()
 
     if not args.send:

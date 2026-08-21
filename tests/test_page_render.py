@@ -1,7 +1,7 @@
-"""generate_email 渲染冒烟测试（临时 DB，无网络/AI）。
+"""generate_page 网页版渲染冒烟测试（临时 DB，无网络/AI）。
 
 注意：项目 email/ 目录与标准库 email 重名（无 __init__.py，标准库优先），
-因此不能用 `from email.generate_email import ...`，须按文件路径加载模块。
+generate_page / generate_email 均须按文件路径加载。
 """
 import importlib.util
 import sys
@@ -12,9 +12,9 @@ sys.path.insert(0, str(ROOT))
 
 from database.db import get_conn, init_db  # noqa: E402
 
-_spec = importlib.util.spec_from_file_location("generate_email", ROOT / "email" / "generate_email.py")
-ge = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(ge)
+_spec = importlib.util.spec_from_file_location("generate_page", ROOT / "email" / "generate_page.py")
+gp = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(gp)
 
 TREND = {"overview": "测试趋势总览", "directions": ["方向一：测试"],
          "common_trend": "测试共同趋势", "value": "测试价值"}
@@ -60,39 +60,47 @@ def _seed_db(tmp_path):
     return conn
 
 
-def test_slim_email_part1_and_page_link(tmp_path):
-    """邮件瘦身版：只含 Part 1 新闻摘要 + 网页版入口，Part 2/3 已迁移出邮件。"""
+def test_page_overview_cards_details_and_feedback(tmp_path):
+    """网页版：概览行 + 卡片 <details> 折叠详情 + JS fetch 反馈按钮（不跳转）。"""
     conn = _seed_db(tmp_path)
-    html_body = ge.build_html("2026-07-23", conn, user_name="yan-zys")
+    html_body = gp.build_page_html("2026-07-23", conn, trend=TREND)
     conn.close()
-    assert "yan-zys，你好" in html_body
-    assert "今日为你筛选出 3 篇论文" in html_body
-    # Part 1 新闻摘要保留：标题、分数、等级徽标
-    assert "Part 1 · 今日论文新闻摘要" in html_body
-    assert "Single-cell atlas of octopus brain" in html_body
-    assert "Brain evolution in annelids" in html_body
-    assert ">7.2<" in html_body and ">5.8<" in html_body and ">3.4<" in html_body
-    assert "badge-must" in html_body and "badge-important" in html_body and "badge-relate" in html_body
-    # 网页版入口链接（前后各一处）
-    assert html_body.count(
-        "https://yan-zys.github.io/research-radar/daily/2026-07-23.html") >= 2
-    # Part 2/3 不再出现在邮件中
-    assert "Part 2 · 论文详细信息卡片" not in html_body
-    assert "Part 3 · 今日推荐文献价值总结" not in html_body
-    assert "<details" not in html_body
+    # 顶部概览行：篇数分等级统计 + 命中关键词数
+    assert "今日推送 3 篇（Must Read 1 · Important 1 · Relate 1）" in html_body
+    assert "命中关键词" in html_body
+    # 卡片：Rank + 等级配色 + 标题链接 + 中文标题
+    assert "Rank 1" in html_body and "Rank 3" in html_body
+    assert "c-must" in html_body and "c-important" in html_body and "c-relate" in html_body
+    assert "b-must" in html_body and "b-important" in html_body and "b-relate" in html_body
+    assert 'href="https://www.biorxiv.org/content/10.1"' in html_body
+    assert "章鱼脑单细胞图谱" in html_body
+    # 详情折叠进 <details>：中英文摘要、推荐理由
+    assert '<details class="card-details">' in html_body
+    assert "为理解复杂脑的独立演化提供细胞层面的证据。" in html_body
+    assert "We present" in html_body
+    assert "核心方向高度相关" in html_body
+    # 反馈按钮：data-url（& 转义为 &amp;），JS fetch 提交，无跳转链接
+    assert ('data-url="http://127.0.0.1:8710/feedback'
+            '?paper_id=biorxiv%3A10.1&amp;rating=good"') in html_body
+    for rating in ("good", "bad", "read", "star"):
+        assert f"rating={rating}" in html_body
+    for label in ("相关", "不相关", "已读", "收藏"):
+        assert label in html_body
     assert "mailto:" not in html_body
-    assert "Reference" not in html_body
+    # 底部价值总结（复用 trend 分块渲染）
+    assert "今日推荐文献价值总结" in html_body
+    assert "测试趋势总览" in html_body and "聚焦方向" in html_body
 
 
-def test_page_url_for():
-    assert (ge.page_url_for("2026-07-23")
-            == "https://yan-zys.github.io/research-radar/daily/2026-07-23.html")
-
-
-def test_render_trend_blocks_fallback_overview_only():
-    """降级趋势（仅 overview）也能渲染，不出空块。"""
-    html_out = ge.render_trend_blocks({"overview": "降级文案", "directions": [],
-                                       "common_trend": "", "value": ""})
-    assert "降级文案" in html_out
-    assert "聚焦方向" not in html_out
-    assert "共同趋势" not in html_out
+def test_write_page_and_index(tmp_path):
+    """write_page 落盘 daily/ 页；write_index 生成跳转到最新日期的归档首页。"""
+    docs = tmp_path / "docs"
+    gp.write_page(docs, "2026-07-23", "<html>p1</html>")
+    page = gp.write_page(docs, "2026-07-24", "<html>p2</html>")
+    assert page.read_text(encoding="utf-8") == "<html>p2</html>"
+    index = gp.write_index(docs)
+    text = index.read_text(encoding="utf-8")
+    assert 'content="0; url=daily/2026-07-24.html"' in text
+    assert "daily/2026-07-23.html" in text
+    # 新日期排在旧日期之前
+    assert text.index("daily/2026-07-24.html") < text.rindex("daily/2026-07-23.html")

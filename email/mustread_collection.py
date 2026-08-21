@@ -119,7 +119,8 @@ def build_collection_html(conns, conn_of, rows, label: str, pool_size: int,
         trend = summarize_trend(rows)
     config = load_config()
     cards = "\n".join(render_card(i, r, config) for i, r in enumerate(rows, 1))
-    template = (ROOT / "email" / "template.html").read_text(encoding="utf-8")
+    # 合集沿用完整三段式旧模板（日报 template.html 已瘦身为仅 Part 1 + 网页链接）
+    template = (ROOT / "email" / "collection_template.html").read_text(encoding="utf-8")
     body = (template.replace("{{date}}", label)
                     .replace("{{user_name}}", html.escape(user_name))
                     .replace("{{count}}", str(len(rows)))

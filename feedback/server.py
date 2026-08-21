@@ -1,10 +1,13 @@
 """一键反馈本地小服务（http.server，监听 127.0.0.1:8710）。
 
-日报邮件中的反馈链接指向本服务：
+日报网页版（GitHub Pages）中的反馈按钮通过 JS fetch 调用本服务：
     GET /feedback?paper_id=<id>&rating=good|ok|bad|read|star
 点击即把 {"paper_id": .., "rating": ..} 追加写入 input/user_feedback/YYYY-MM-DD.jsonl
-（同日同 paper_id+rating 去重）。成功时返回 **204 No Content**：浏览器只开一个
-空白标签页、不显示任何页面，实现"点击即记录、无跳转内容"；参数错误才返回 HTML 说明页。
+（同日同 paper_id+rating 去重）。成功时返回 **204 No Content**，页面原地标记
+"已记录"、不跳转；参数错误才返回 HTML 说明页。
+由于页面源是公网 https（GitHub Pages），浏览器对本机地址会发 CORS /
+Private Network Access 预检，故所有响应带 Access-Control-Allow-Origin: * 与
+Access-Control-Allow-Private-Network: true，并实现 do_OPTIONS 应答预检。
 仅绑定回环地址，不对外暴露；log_message 静默（访问日志不打到终端）。
 """
 import json
@@ -50,6 +53,14 @@ def append_feedback(paper_id: str, rating: str, day: str = None) -> Path:
 
 
 class FeedbackHandler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):  # noqa: N802
+        """应答 CORS / Private Network Access 预检（GitHub Pages → 127.0.0.1）。"""
+        self.send_response(204)
+        self._cors_headers()
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "*")
+        self.end_headers()
+
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
         if parsed.path != "/feedback":
@@ -64,16 +75,23 @@ class FeedbackHandler(BaseHTTPRequestHandler):
                 "text/html")
             return
         append_feedback(paper_id, rating)
-        # 204 No Content：浏览器标签页保持空白，不显示任何跳转页面
+        # 204 No Content：页面 fetch 原地处理，不跳转
         self.send_response(204)
+        self._cors_headers()
         self.end_headers()
 
     def log_message(self, format, *args):  # noqa: A002
         """静默访问日志。"""
 
+    def _cors_headers(self) -> None:
+        """允许网页版（公网 https 源）fetch 本机服务。"""
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
+
     def _reply(self, code: int, body: str, content_type: str) -> None:
         data = body.encode("utf-8")
         self.send_response(code)
+        self._cors_headers()
         self.send_header("Content-Type", f"{content_type}; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
