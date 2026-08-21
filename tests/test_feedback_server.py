@@ -39,3 +39,35 @@ def test_new_ratings_accepted_and_deduped(tmp_path, monkeypatch):
         {"paper_id": "biorxiv:10.1", "rating": "star"},
         {"paper_id": "biorxiv:10.1", "rating": "read"},
     ]
+
+
+def test_feedback_with_reason_updates_in_place(tmp_path, monkeypatch):
+    """bad 重复提交带 reason：不新增行，原地更新原记录的 reason。"""
+    monkeypatch.setattr(srv, "FEEDBACK_DIR", tmp_path)
+    path = srv.append_feedback("biorxiv:10.1", "bad", day="2026-08-21")
+    srv.append_feedback("biorxiv:10.1", "bad", reason="方向不符", day="2026-08-21")
+    srv.append_feedback("biorxiv:10.1", "bad", reason="物种不符", day="2026-08-21")
+    lines = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    assert lines == [{"paper_id": "biorxiv:10.1", "rating": "bad", "reason": "物种不符"}]
+
+
+def test_append_request_writes_inbox(tmp_path, monkeypatch):
+    """关键词/文献请求追加到收件箱 jsonl。"""
+    monkeypatch.setattr(srv, "REQUESTS_DIR", tmp_path)
+    path = srv.append_request({"type": "keywords", "text": "CRISPR 递送"}, day="2026-08-21")
+    srv.append_request({"type": "papers", "ids": ["10.1/abc", "40123456"]}, day="2026-08-21")
+    lines = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    assert lines == [
+        {"type": "keywords", "text": "CRISPR 递送"},
+        {"type": "papers", "ids": ["10.1/abc", "40123456"]},
+    ]
+    assert path.name == "2026-08-21.jsonl"
+
+
+def test_split_paper_ids_separators_and_cap():
+    """DOI/PMID 拆分：中英文逗号/分号/换行分隔，超过 10 个截断。"""
+    assert srv.split_paper_ids("10.1/abc，40123456\n 10.2/def;10.3/ghi") == \
+        ["10.1/abc", "40123456", "10.2/def", "10.3/ghi"]
+    many = " ".join(f"400000{i:02d}" for i in range(15))
+    assert len(srv.split_paper_ids(many)) == srv.MAX_PAPER_IDS
+    assert srv.split_paper_ids("") == []

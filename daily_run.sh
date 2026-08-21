@@ -50,6 +50,8 @@ run_step() {
 if [ "$SINCE" != "yesterday" ]; then
   step "节假日后合并日报：爬虫 --since $SINCE（覆盖节假日空窗）"
 fi
+# 消费网页提交的新关键词/文献，先入库再抓取，当日检索即生效
+run_step "keyword: apply_page_requests" python keyword_engine/apply_page_requests.py
 run_step "crawler: pubmed"        python crawler/pubmed.py --since "$SINCE"
 run_step "crawler: biorxiv"       python crawler/biorxiv.py --since "$SINCE"
 run_step "crawler: arxiv"         python crawler/arxiv.py --since "$SINCE"

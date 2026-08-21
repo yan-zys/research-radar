@@ -7,7 +7,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 git pull --rebase -q origin main || exit 0
-git add input/user_feedback/
+git add input/user_feedback/ input/keyword_requests/
 if git diff --cached --quiet; then
   exit 0
 fi

@@ -30,6 +30,8 @@ _spec.loader.exec_module(ge)
 
 CARD_CLASS = {"Must Read": "c-must", "Important": "c-important", "Relate": "c-relate"}
 BADGE_CLASS = {"Must Read": "b-must", "Important": "b-important", "Relate": "b-relate"}
+# “不相关”反馈后可点选的原因（落到反馈 jsonl 的 reason 字段，供后续学习）
+REASON_PRESETS = ["方向不符", "物种不符", "医学·临床噪声", "方法不相关"]
 
 
 def render_page_card(rank: int, row, config, kws: list) -> str:
@@ -59,6 +61,18 @@ def render_page_card(rank: int, row, config, kws: list) -> str:
     for rating, label in ge.RATINGS:
         fb_url = esc(f'{ge.FEEDBACK_BASE}?paper_id={quote(row["paper_id"])}&rating={rating}')
         buttons.append(f'<button class="fb-btn" data-url="{fb_url}">{label}</button>')
+    reason_base = esc(f'{ge.FEEDBACK_BASE}?paper_id={quote(row["paper_id"])}&rating=bad&reason=')
+    reason_chips = " ".join(
+        f'<button class="reason-btn" data-url="{reason_base}{quote(r)}">{r}</button>'
+        for r in REASON_PRESETS
+    )
+    reason_row = (
+        '<div class="reason-row"><span>不相关原因（可选）：</span>'
+        f'{reason_chips}'
+        '<input class="reason-input" placeholder="其他原因…">'
+        f'<button class="reason-btn reason-custom" data-base="{reason_base}">提交</button>'
+        '<span class="reason-status fb-status"></span></div>'
+    )
     return f"""
 <div class="card {card}">
   <div class="card-head"><span class="rank">Rank {rank}</span><span class="badge {badge}">{esc(row["grade"])}</span><span class="score">{row["total_score"]}</span></div>
@@ -71,6 +85,7 @@ def render_page_card(rank: int, row, config, kws: list) -> str:
     {''.join(details)}
   </details>
   <div class="fb-row">{''.join(buttons)}<span class="fb-status"></span></div>
+  {reason_row}
 </div>"""
 
 

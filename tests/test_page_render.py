@@ -92,6 +92,23 @@ def test_page_overview_cards_details_and_feedback(tmp_path):
     assert "测试趋势总览" in html_body and "聚焦方向" in html_body
 
 
+def test_page_has_keyword_submit_and_reason_ui(tmp_path):
+    """网页版：文末关键词/文献提交区块 + 每卡隐藏的不相关原因行。"""
+    conn = _seed_db(tmp_path)
+    html_body = gp.build_page_html("2026-07-23", conn, trend=TREND)
+    conn.close()
+    # 两个提交区块与对应端点
+    assert 'id="kw-submit"' in html_body and 'id="papers-submit"' in html_body
+    assert "/keywords?text=" in html_body and "/keyword_papers?ids=" in html_body
+    # 原因行：挂在每篇卡片内，默认隐藏，bad 按钮 URL 带 reason 参数
+    assert html_body.count('class="reason-row"') == 3
+    assert "不相关原因（可选）" in html_body
+    assert "reason=" in html_body
+    for reason in gp.REASON_PRESETS:
+        assert reason in html_body
+    assert 'class="reason-input"' in html_body and "reason-custom" in html_body
+
+
 def test_write_page_and_index(tmp_path):
     """write_page 落盘 daily/ 页；write_index 生成跳转到最新日期的归档首页。"""
     docs = tmp_path / "docs"
