@@ -181,3 +181,80 @@ def test_read_only_feedback_does_not_call_ai(tmp_path, monkeypatch):
     assert learning.run(args) == 0
     assert load_weights(args)["rotifer"] == 2
     assert not Path(args.candidates).exists()
+
+
+def _add_paper(args, paper_id, title, abstract=""):
+    conn = get_conn(args.db)
+    conn.execute("INSERT INTO papers (paper_id, title, abstract) VALUES (?, ?, ?)",
+                 (paper_id, title, abstract))
+    conn.commit()
+    conn.close()
+
+
+def _rewrite_config(args, mutate):
+    p = Path(args.config)
+    data = yaml.safe_load(p.read_text(encoding="utf-8"))
+    mutate(data)
+    p.write_text(HEADER + yaml.dump(data, allow_unicode=True, sort_keys=False),
+                 encoding="utf-8")
+
+
+def test_bad_with_strong_reason_downgrades_by_two(tmp_path, monkeypatch):
+    """reason 命中「方向不符」→ 非 locked 词条一次降 2；无 reason 的 bad 仍只降 1。"""
+    monkeypatch.setattr(learning, "call_model", forbid_ai)
+    args = make_env(tmp_path)
+    _rewrite_config(args, lambda d: d["keywords"]["species"]["items"].append(
+        {"keyword": "extra hit", "source": "ai", "weight": 3}))
+    _add_paper(args, "pubmed:2", "extra hit off-topic study")
+    write_feedback(args, [
+        '{"paper_id": "pubmed:2", "rating": "bad", "reason": "方向不符"}',
+        '{"paper_id": "pubmed:1", "rating": "bad"}',
+    ])
+    assert learning.run(args) == 0
+    w = load_weights(args)
+    assert w["extra hit"] == 1   # 3 - 2（方向不符，强降权）
+    assert w["rotifer"] == 1     # 2 - 1（普通 bad 维持原行为）
+    assert w["tardigrade"] == 2  # locked 种子词不降
+
+
+MEDICAL_AI_RESULT = {"exclude": ["clinical trial", "patient cohort", "cancer"]}
+
+
+def test_medical_noise_aggregates_exclude_candidates(tmp_path, monkeypatch):
+    """≥2 篇「医学·临床噪声」bad → AI 提炼英文排除词，与现有 negative 去重后入候选。"""
+    captured = {}
+
+    def fake_call_model(prompt, response_format="json"):
+        captured["called"] = True
+        return MEDICAL_AI_RESULT
+
+    monkeypatch.setattr(learning, "call_model", fake_call_model)
+    args = make_env(tmp_path)
+    _rewrite_config(args, lambda d: d.__setitem__("negative", ["cancer"]))
+    _add_paper(args, "pubmed:m1", "rotifer clinical cohort study", "patients")
+    _add_paper(args, "pubmed:m2", "annelid hospital trial", "patients")
+    write_feedback(args, [
+        '{"paper_id": "pubmed:m1", "rating": "bad", "reason": "医学·临床噪声"}',
+        '{"paper_id": "pubmed:m2", "rating": "bad", "reason": "医学·临床噪声"}',
+    ])
+    assert learning.run(args) == 0
+    assert captured.get("called")
+    cands = yaml.safe_load(Path(args.candidates).read_text(encoding="utf-8"))
+    assert [c["keyword"] for c in cands] == ["clinical trial", "patient cohort"]
+    for c in cands:
+        assert c["level"] == "exclude"        # merge 时进 negative，不进正向词组
+        assert c["status"] == "pending"       # 必须人工审核
+        assert c["source"] == "feedback_reason"
+    assert load_weights(args)["rotifer"] == 1  # 医学噪声属普通 bad，降 1 而非 2
+
+
+def test_medical_below_threshold_skips_mining(tmp_path, monkeypatch):
+    """仅 1 篇「医学·临床噪声」bad（未达阈值）→ 不降权外不调用 AI、不写候选。"""
+    monkeypatch.setattr(learning, "call_model", forbid_ai)
+    args = make_env(tmp_path)
+    _add_paper(args, "pubmed:m1", "rotifer clinical cohort study")
+    write_feedback(args,
+                   ['{"paper_id": "pubmed:m1", "rating": "bad", "reason": "医学·临床噪声"}'])
+    assert learning.run(args) == 0
+    assert load_weights(args)["rotifer"] == 1  # 降权照常
+    assert not Path(args.candidates).exists()

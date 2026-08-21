@@ -5,6 +5,8 @@
 - 首次运行时，先把科研画像中的词条作为 source: seed 写入（种子词权重最高）；
 - 候选词分组（species/methods/tools/concept）：候选若显式带 group 字段且合法则采用，
   否则与画像对应类别做归一化匹配判定，匹配不到归入 concept；
+- level: exclude 的 approved 候选（如医学噪声排除词）合并进 config 的 negative
+  排除词列表（去重），不进入正向关键词组；
 - status: rejected 的词条归档到 keyword_engine/archive_rejected.yaml，
   避免下次扩充重复推荐；
 - --dry-run 只预览不写入。
@@ -76,11 +78,18 @@ def main():
 
     existing = {normalize(i["keyword"])
                 for g in config["keywords"].values() for i in g["items"]}
+    existing_negative = {normalize(str(w)) for w in (config.get("negative") or [])}
     to_add = []
+    to_exclude = []  # level: exclude 的 approved 候选 → 进 config 的 negative 排除词列表
     for c in candidates:
         if c.get("status") != "approved":
             continue
         norm = normalize(c["keyword"])
+        if c.get("level") == "exclude":
+            if norm not in existing_negative:
+                existing_negative.add(norm)
+                to_exclude.append(str(c["keyword"]))
+            continue
         if norm in existing:
             continue
         existing.add(norm)
@@ -93,13 +102,17 @@ def main():
 
     for group, item in to_add:
         print(f"[{group}] + {item['keyword']} (source={item['source']}, level={item.get('level')})")
-    print(f"\n将新增 {len(to_add)} 条，归档 rejected {len(rejected)} 条")
+    for kw in to_exclude:
+        print(f"[negative] + {kw}（排除词）")
+    print(f"\n将新增 {len(to_add)} 条、排除词 {len(to_exclude)} 条，归档 rejected {len(rejected)} 条")
     if args.dry_run:
         print("（dry-run，未写入任何文件）")
         return
 
     for group, item in to_add:
         config["keywords"][group]["items"].append(item)
+    if to_exclude:
+        config["negative"] = (config.get("negative") or []) + to_exclude
     config_path.parent.mkdir(parents=True, exist_ok=True)
     config_path.write_text(yaml.dump(config, allow_unicode=True, sort_keys=False), encoding="utf-8")
 

@@ -1,9 +1,15 @@
 """Phase 12：用户反馈学习闭环。
 
-读取 input/user_feedback/YYYY-MM-DD.jsonl 中的用户反馈（paper_id + rating）：
-- 负反馈（bad）：对该论文命中的词条降权——weight>1 且非 locked 的词条 weight -= 1
+读取 input/user_feedback/YYYY-MM-DD.jsonl 中的用户反馈（paper_id + rating，可选 reason）：
+- 负反馈（bad）：对该论文命中的词条降权——weight>1 且非 locked 的词条按原因分档降权：
+  reason 含「方向不符」/「物种不符」→ weight -= 2，其余 bad（含无 reason）→ weight -= 1
   （下限 1）；locked=true 的种子词无论负反馈如何不得降权，跳过并打印说明；
   回写 config/keyword_config.yaml 时保留文件头部注释；
+- 医学噪声聚合：reason 含「医学」的 bad 论文当批累计 ≥ MEDICAL_EXCLUDE_THRESHOLD 篇时，
+  调用 AI 从这些论文 title+abstract 提炼 ≤5 个英文排除词，与 config 现有 negative、
+  现有候选及 archive_rejected 去重后，以 level: exclude / status: pending 追加到
+  keyword_engine/output_candidates.yaml——经 review + merge_to_config 批准后才进入
+  config 的 negative 排除词列表，绝不自动生效；
 - 正反馈（good / star）：调用 AI 从这些论文 title+abstract 中提炼关键词库之外的候选新词
   （每日 ≤ max_new 个，A/B/C 分级 + 中文理由），以 status: pending / source: feedback
   追加到 keyword_engine/output_candidates.yaml——必须经过 review_candidates.py
@@ -30,6 +36,24 @@ from processing.keyword_filter import match_keywords  # noqa: E402
 
 MAX_CHARS_PER_PAPER = 1500
 MIN_ITEM_WEIGHT = 1
+# 原因分档：reason 命中强原因 → 一次降 2；其余 bad → 降 1
+STRONG_REASON_KEYWORDS = ("方向不符", "物种不符")
+MEDICAL_REASON_KEYWORD = "医学"
+# 当批「医学」原因的 bad 论文达到该篇数才触发一次排除词提炼（避免偶发噪声反复调 AI）
+MEDICAL_EXCLUDE_THRESHOLD = 2
+MAX_MEDICAL_EXCLUDE_WORDS = 5
+
+MEDICAL_EXCLUDE_PROMPT = """以下是用户反馈为「不相关」且原因标注为医学/临床噪声的 {n} 篇论文：
+
+{papers}
+
+请从中提炼最多 {max_words} 个可用于过滤此类噪声的英文排除词或短语（小写、尽量通用，
+如 clinical trial、patient cohort 这类通用噪声词，避免疾病专名过窄的词）。
+已有的排除词列表如下，不要重复：
+
+{existing}
+
+只输出 JSON：{{"exclude": ["...", "..."]}}"""
 
 
 def load_processed(log_path: Path) -> set:
@@ -86,8 +110,10 @@ def dump_config_with_header(config: dict, path: Path) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def apply_negative_feedback(config: dict, match: dict, paper_id: str) -> bool:
-    """对 bad 论文命中的词条降权：weight>1 且未 locked → weight -= 1。返回是否有改动。"""
+def apply_negative_feedback(config: dict, match: dict, paper_id: str, step: int = 1) -> bool:
+    """对 bad 论文命中的词条降权：weight>1 且未 locked → weight -= step（下限 MIN_ITEM_WEIGHT）。
+
+    step 按 reason 分档：「方向不符」/「物种不符」为 2，其余 bad 为 1。返回是否有改动。"""
     changed = False
     for hit in match["hits"]:
         items = config["keywords"][hit["group"]]["items"]
@@ -99,14 +125,15 @@ def apply_negative_feedback(config: dict, match: dict, paper_id: str) -> bool:
         if w <= MIN_ITEM_WEIGHT:
             print(f"[下限跳过] {hit['keyword']} 已是 weight={MIN_ITEM_WEIGHT}，不再降权")
             continue
-        item["weight"] = w - 1
+        new_w = max(MIN_ITEM_WEIGHT, w - step)
+        item["weight"] = new_w
         changed = True
-        print(f"[降权] {hit['keyword']}: weight {w} -> {w - 1}（bad 反馈 {paper_id}）")
+        print(f"[降权] {hit['keyword']}: weight {w} -> {new_w}（bad 反馈 {paper_id}，step={step}）")
     return changed
 
 
 def fetch_papers(conn, entries: list) -> list:
-    """按 paper_id 关联 papers 表取 title+abstract；找不到的反馈跳过。"""
+    """按 paper_id 关联 papers 表取 title+abstract；找不到的反馈跳过。reason 原样带出。"""
     papers = []
     for e in entries:
         pid = e.get("paper_id")
@@ -116,6 +143,7 @@ def fetch_papers(conn, entries: list) -> list:
             print(f"[跳过] 数据库中找不到论文 {pid}（rating={e.get('rating')}）")
             continue
         papers.append({"paper_id": pid, "rating": e.get("rating"),
+                       "reason": e.get("reason") or "",
                        "title": row["title"] or "", "abstract": row["abstract"] or ""})
     return papers
 
@@ -161,6 +189,46 @@ def mine_positive_candidates(papers: list, config_path: Path, candidates_path: P
     return candidates
 
 
+def mine_medical_exclude_candidates(papers: list, config: dict, candidates_path: Path,
+                                    archive_path: Path) -> list:
+    """对「医学·临床噪声」bad 论文调 AI 提炼英文排除词。
+
+    与 config 现有 negative、现有候选、archive_rejected 去重后返回候选（不写文件），
+    每条形如 {"keyword": .., "level": "exclude", "source": "feedback_reason",
+    "status": "pending"}——须经 review + merge_to_config 批准才进 config["negative"]。"""
+    blocks = []
+    for i, p in enumerate(papers, 1):
+        abstract = " ".join(p["abstract"].split())[:MAX_CHARS_PER_PAPER]
+        blocks.append(f"【论文 {i}】{p['title']}\n{abstract}")
+    existing_negative = config.get("negative") or []
+    prompt = (MEDICAL_EXCLUDE_PROMPT
+              .replace("{n}", str(len(blocks)))
+              .replace("{papers}", "\n\n".join(blocks))
+              .replace("{max_words}", str(MAX_MEDICAL_EXCLUDE_WORDS))
+              .replace("{existing}", "\n".join(str(w) for w in existing_negative)))
+
+    result = call_model(prompt, response_format="json")
+
+    seen = {normalize(str(w)) for w in existing_negative}
+    for path in (candidates_path, archive_path):
+        if path.exists():
+            for c in yaml.safe_load(path.read_text(encoding="utf-8")) or []:
+                seen.add(normalize(c["keyword"]))
+
+    candidates = []
+    for kw in result.get("exclude") or []:
+        norm = normalize(str(kw))
+        if not norm or norm in seen:
+            continue
+        seen.add(norm)
+        candidates.append({"keyword": str(kw), "level": "exclude",
+                           "source": "feedback_reason",
+                           "reason": "医学噪声负反馈聚类", "status": "pending"})
+        if len(candidates) >= MAX_MEDICAL_EXCLUDE_WORDS:
+            break
+    return candidates
+
+
 def run(args) -> int:
     """主流程：读反馈 → 负反馈降权 → 正反馈挖候选 → 记录已处理。返回退出码。"""
     feedback_dir = Path(args.feedback_dir)
@@ -194,28 +262,49 @@ def run(args) -> int:
         if not m["hits"]:
             print(f"[无命中] {p['paper_id']} 未命中任何词条，无需降权")
             continue
-        changed |= apply_negative_feedback(config, m, p["paper_id"])
+        step = 2 if any(k in p["reason"] for k in STRONG_REASON_KEYWORDS) else 1
+        changed |= apply_negative_feedback(config, m, p["paper_id"], step=step)
     if changed:
         dump_config_with_header(config, config_path)
         print(f"已回写 {config_path}（保留头部注释）")
     else:
         print("关键词权重无变化。")
 
+    # 医学噪声聚合：当批 reason 含「医学」的 bad 达到阈值 → 提炼英文排除词候选
+    medical_bad = [p for p in bad if MEDICAL_REASON_KEYWORD in p["reason"]]
+    medical_candidates = []
+    if len(medical_bad) >= MEDICAL_EXCLUDE_THRESHOLD:
+        medical_candidates = mine_medical_exclude_candidates(
+            medical_bad, config, Path(args.candidates), Path(args.archive))
+        if medical_candidates:
+            print(f"医学噪声聚合：{len(medical_bad)} 篇 bad → "
+                  f"提炼排除词候选 {len(medical_candidates)} 个")
+        else:
+            print("医学噪声聚合：AI 未提炼出新的排除词。")
+    elif medical_bad:
+        print(f"医学噪声 bad 仅 {len(medical_bad)} 篇"
+              f"（阈值 {MEDICAL_EXCLUDE_THRESHOLD}），本批不提炼排除词。")
+
+    candidates = list(medical_candidates)
     if good:
-        candidates = mine_positive_candidates(good, config_path, Path(args.candidates),
-                                              Path(args.archive), args.max_new)
-        if candidates:
-            out = Path(args.candidates)
-            existing = (yaml.safe_load(out.read_text(encoding="utf-8"))
-                        if out.exists() else []) or []
-            out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(yaml.dump(existing + candidates, allow_unicode=True, sort_keys=False),
-                           encoding="utf-8")
-            print(f"新增候选 {len(candidates)} 条（status: pending，需人工审核），已追加到 {out}")
+        mined = mine_positive_candidates(good, config_path, Path(args.candidates),
+                                         Path(args.archive), args.max_new)
+        if mined:
+            print(f"AI 从 good 反馈提炼候选 {len(mined)} 条。")
+            candidates.extend(mined)
         else:
             print("AI 未提炼出新的候选词。")
     else:
         print("无 good 反馈，不调用 AI 挖掘候选词。")
+
+    if candidates:
+        out = Path(args.candidates)
+        existing = (yaml.safe_load(out.read_text(encoding="utf-8"))
+                    if out.exists() else []) or []
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(yaml.dump(existing + candidates, allow_unicode=True, sort_keys=False),
+                       encoding="utf-8")
+        print(f"新增候选 {len(candidates)} 条（status: pending，需人工审核），已追加到 {out}")
 
     mark_processed(Path(args.processed_log), [f.name for f in files])
     print(f"已记录处理标记到 {args.processed_log}")

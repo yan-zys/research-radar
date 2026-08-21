@@ -109,6 +109,18 @@ def test_page_has_keyword_submit_and_reason_ui(tmp_path):
     assert 'class="reason-input"' in html_body and "reason-custom" in html_body
 
 
+def test_page_uses_worker_with_local_fallback(tmp_path):
+    """页面 JS：SERVERS 多服务器顺序尝试——Worker 占位符未替换时跳过，本机 8710 回退。"""
+    conn = _seed_db(tmp_path)
+    html_body = gp.build_page_html("2026-07-23", conn, trend=TREND)
+    conn.close()
+    assert "var SERVERS" in html_body
+    assert "WORKER_URL_PLACEHOLDER" in html_body and "APP_KEY_PLACEHOLDER" in html_body
+    assert "indexOf('PLACEHOLDER') === -1" in html_body  # 未部署时跳过 Worker
+    assert "http://127.0.0.1:8710" in html_body          # 本机回退仍在
+    assert "async function send(" in html_body
+
+
 def test_write_page_and_index(tmp_path):
     """write_page 落盘 daily/ 页；write_index 生成跳转到最新日期的归档首页。"""
     docs = tmp_path / "docs"

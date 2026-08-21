@@ -123,12 +123,48 @@
 </div>
 
 <p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
-反馈数据保存在本机（127.0.0.1:8710），用于持续优化推荐与关键词权重</p>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
 </div>
 
 <script>
-var SERVER = 'http://127.0.0.1:8710';
-var FAIL_HINT = '记录失败：请确认本机反馈服务已启动（feedback/server.py）';
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
 
 document.querySelectorAll('.fb-btn').forEach(function (btn) {
   btn.addEventListener('click', async function () {
@@ -137,8 +173,7 @@ document.querySelectorAll('.fb-btn').forEach(function (btn) {
     status.textContent = '提交中…';
     status.className = 'fb-status pending';
     try {
-      var resp = await fetch(btn.dataset.url, { method: 'GET' });
-      if (!resp.ok) { throw new Error('HTTP ' + resp.status); }
+      await send(pathOf(btn.dataset.url));
       row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
       btn.classList.add('selected');
       status.textContent = '已记录 ✓';
@@ -169,8 +204,7 @@ function wireReasonBtn(btn) {
     status.textContent = '提交中…';
     status.className = 'fb-status pending';
     try {
-      var resp = await fetch(url, { method: 'GET' });
-      if (!resp.ok) { throw new Error('HTTP ' + resp.status); }
+      await send(pathOf(url));
       rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
       btn.classList.add('selected');
       status.textContent = '已记录原因 ✓';
@@ -194,8 +228,7 @@ function wireSubmit(btnId, inputId, statusId, path) {
     status.textContent = '提交中…';
     status.className = 'submit-status pending';
     try {
-      var resp = await fetch(SERVER + path + encodeURIComponent(text), { method: 'GET' });
-      if (!resp.ok) { throw new Error('HTTP ' + resp.status); }
+      await send(path + encodeURIComponent(text));
       status.textContent = '已提交 ✓ 次日检索生效';
       status.className = 'submit-status ok';
       input.value = '';
