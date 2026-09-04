@@ -50,8 +50,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add database/papers.db input/user_feedback input/keyword_requests \
-            keyword_engine/output_candidates.yaml keyword_engine/processed_page_requests.log \
-            config/keyword_config.yaml docs/
+            keyword_engine/output_candidates.yaml config/keyword_config.yaml docs/
+          # processed_page_requests.log 仅在当天处理过页面请求时才会生成，不存在时跳过
+          if [ -f keyword_engine/processed_page_requests.log ]; then
+            git add keyword_engine/processed_page_requests.log
+          fi
           if git diff --cached --quiet; then
             echo "无状态变化，跳过提交"
           else
