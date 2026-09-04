@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-04</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-04</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 1 · Important 0 · Relate 14）· 命中关键词 26 个</div>
+
+
+<div class="card c-must">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-must">Must Read</span><span class="score">7.79</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42691176/" target="_blank" rel="noopener">Thalamic NRXN1-mediated input to human cortical progenitors drives excitatory neurogenesis.</a></div>
+  <div class="title-cn">丘脑中NRXN1介导的人类皮层祖细胞输入驱动兴奋性神经发生</div>
+  <div class="one-line">为解决丘脑输入如何影响早期人类皮层发育问题，作者用丘脑-皮层融合类器官结合单核RNA测序，发现丘脑轴突通过NRXN1接触外放射状胶质并促进上层兴奋性神经元产生。</div>
+  <div class="meta">Science (New York, N.Y.) · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Nguyen CV, Martija A, Jaklic DC, White R, Yang MG, Nano PR, Soto JA, Mil J, Rana D, Martin JM, Schweiger HE, Hernandez S, Fazzari E, Liu Y, Parent JM, Mostajo-Radji MA, Geschwind DH, Bhaduri A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.ady5180">10.1126/science.ady5180</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42691176/">https://pubmed.ncbi.nlm.nih.gov/42691176/</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neuron, glia</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦人类丘脑-皮层类器官中的发育机制与NRXN1作用，虽用到单核转录组，但缺乏演化或跨物种比较视角，对该研究者主要属外围参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>为阐明丘脑神经投射如何调控早期人类皮层发育，作者构建丘脑与皮层融合类器官，并结合单核RNA测序和细胞成像分析丘脑输入效应。结果显示，丘脑输入增加皮层兴奋性神经元产量；NRXN1介导丘脑轴突与皮层外放射状胶质的物理接触。敲除丘脑中的NRXN1会减少此类接触，并削弱上层兴奋性神经元生成，揭示了丘脑调控人类皮层祖细胞的新机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The human cerebral cortex develops through coordinated signals from within the cortex and from other brain regions, including the thalamus. However, how thalamic neuronal projections influence early human cortical development remains less well-understood. In this study, we fused cortical and thalamic organoids to investigate how thalamic input shapes the maturation of human cortical cells. Using single-nuclei RNA-sequencing and cellular imaging, we found that thalamic input increases the production of cortical excitatory neurons. We identify neurexin-1 (NRXN1) as a mediator of physical contact between thalamic axons and cortical outer radial glia. Genetic knockout of thalamic NRXN1 reduced these contacts and attenuated the production of upper-layer excitatory neurons. These findings reveal a mechanism by which thalamic input regulates human cortical progenitors and shapes excitatory neuron production during development.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.ady5180&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.46</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.30.748061" target="_blank" rel="noopener">Kintsugi maps nucleus-poor RNA compartments in subcellular spatial transcriptomics</a></div>
+  <div class="title-cn">Kintsugi绘制亚细胞空间转录组中贫核RNA区室图谱</div>
+  <div class="one-line">为解决空间转录组难以直接测量贫核/无核组织区室问题，作者提出按捕获UMI密度确定性镶嵌分区的Kintsugi方法，发现小鼠脑中可恢复富含胶质与树突转录本的neuropil等贫核RNA区室。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yang, C.; Zhang, X.; Chen, J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.30.748061">10.64898/2026.08.30.748061</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.30.748061">https://www.biorxiv.org/content/10.64898/2026.08.30.748061</a></div><div class="d-block keywords">命中关键词：brain, Visium, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦空间转录组分区算法并在小鼠脑展示对neuropil等无核贫核区域的解析能力，但缺乏演化或跨物种比较视角，对你的价值主要在空间组学方法借鉴。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对亚细胞空间转录组中组织结构超出细胞核、固定网格或依赖细胞分割的聚合策略难以表征贫核/无核区室的问题，作者提出确定性镶嵌方法Kintsugi，依据捕获UMI密度对全部组织内bin分区，并将Pearson残差基因组成与转录本捕获密度分离。在小鼠脑Visium HD中，该方法恢复了富含胶质和树突转录本的贫核neuropil区室，且Xenium分子坐标支持树突mRNA远离细胞核定位；同一表示还识别出特发性肺纤维化瘢痕和胎儿软骨基质结构，说明贫核组织空间具有可解释的RNA生物学。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Subcellular spatial transcriptomics resolves RNA where tissue structures extend beyond nuclei, but current aggregation strategies either impose fixed areal units or use segmented cells as anchors. This leaves process-rich and extracellular compartments difficult to measure directly. Here we report Kintsugi, a deterministic tessellation method that partitions sparse count matrices by captured-UMI density and assigns every in-tissue bin. It separates Pearson-residual gene composition from captured transcript density, preserving complete tissue representation without histology or nuclear segmentation. In mouse brain Visium HD, Kintsugi recovered nucleus-poor neuropil compartments enriched for glial and dendritic transcripts, and Xenium molecule coordinates supported dendritic mRNA localisation away from nuclei. The same representation identified nucleus-poor fibrotic scar in idiopathic pulmonary fibrosis and matrix structure in fetal cartilage. CODEX proteomics further showed that captured density was not reducible to nuclear packing alone. These results show that nucleus-poor tissue spaces contain structured, interpretable RNA biology that becomes accessible through complete tissue tessellation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748061&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42691137/" target="_blank" rel="noopener">Optimizing CRISPR/Cas9 mutagenesis in Drosophila dendritic arborization neurons to avoid cytotoxicity.</a></div>
+  <div class="title-cn">优化果蝇树突分枝感觉神经元中的CRISPR/Cas9诱变以避免细胞毒性</div>
+  <div class="one-line">为解决果蝇da神经元中Cas9细胞毒性问题，作者系统评估uCas9表达滴定策略，发现其在I类和IV类da神经元中可显著降毒并保持有效特异基因编辑。</div>
+  <div class="meta">G3 (Bethesda, Md.) · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Duarte VN, Najafi V, Thompson-Peer KL</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/g3journal/jkag211">10.1093/g3journal/jkag211</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42691137/">https://pubmed.ncbi.nlm.nih.gov/42691137/</a></div><div class="d-block keywords">命中关键词：neuron, RNA interference, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦果蝇树突分枝感觉神经元中的CRISPR/Cas9工具优化，不涉及演化或跨物种比较，但对非模型/神经系统功能扰动实验有一定方法参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对Drosophila melanogaster树突分枝感觉神经元中高表达Cas9引发细胞毒性的问题，作者检验了多种用于降低Cas9表达的uCas9转基因。结果显示，uCas9在I类和IV类da神经元中几乎不致毒；免疫染色表明uCas9(L)显著降低Cas9蛋白水平。同时，uCas9(L)仍能有效且特异地编辑基因，降低GFP标记蛋白表达，并在靶向内源位点时产生缺失功能形态表型。该研究为果蝇神经元CRISPR应用提供了更稳健方案。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Genetic perturbations are one of the great strengths of the model organism Drosophila melanogaster, with approaches such as classical mutagenesis and RNA interference enabling a wealth of biological discoveries. A more recent approach for altering gene expression is CRISPR/Cas9-based mutagenesis. As with any new tool, however, its use must be optimized. High expression of Cas9 has been shown to cause cytotoxicity in some cell types, including class IV dendritic arborization (da) neurons. In this study, we provide evidence that Cas9 expression causes cytotoxicity in class I da neurons, in addition to class IV da neurons, both of which are widely used to study neuronal development and regeneration. We then systematically evaluated available Cas9 transgenes designed to titrate Cas9 expression, called uCas9 transgenes. We show that the expression of these uCas9 transgenes results in little to no cytotoxicity in various classes of da neurons. Immunostaining revealed drastic reductions in Cas9 protein levels for da neurons expressing the uCas9(L) transgene. Lastly, we demonstrate that the uCas9(L) transgene effectively and specifically gene edits in both class I and class IV da neurons, lowering the expression of GFP-tagged proteins and producing loss-of-function morphological phenotypes when targeting endogenous loci. Thus, we refine the use of CRISPR mutagenesis in Drosophila da neurons through titration of Gal4/UAS-mediated Cas9 expression using existing uCas9 transgenes, a feasible and flexible approach that may be useful for other labs encountering Cas9 cytotoxicity in their own model systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag211&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.33</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.29.748011" target="_blank" rel="noopener">Evolutionary replay of duplicate-gene retention across independent whole-genome duplications</a></div>
+  <div class="title-cn">独立全基因组复制中重复基因保留的演化重演</div>
+  <div class="one-line">为解决独立WGD后基因保留是否受祖先谱系身份预测问题，作者用共同祖先谱系坐标比较事件内百分位并做留一预测，发现植物间及跨植物-真菌存在可转移的保留重演信号。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sinha, K.; Ghosh, N.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.29.748011">10.64898/2026.08.29.748011</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.29.748011">https://www.biorxiv.org/content/10.64898/2026.08.29.748011</a></div><div class="d-block keywords">命中关键词：whole-genome duplication, genome duplication, ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦跨谱系独立全基因组复制后的保留“重演”与祖先谱系坐标比较，具备明确演化比较视角，但对象主要是植物/真菌及基因组层面，与脑/细胞类型演化仅间接相关。</div><div class="d-block"><span class="lbl">中文摘要：</span>为检验独立全基因组复制后重复基因保留是否存在可重复的祖先谱系效应，作者将复制后保留投射到共同祖先谱系坐标，在不要求各事件共享全部谱系的前提下比较事件内百分位排名。结果显示3次独立被子植物WGD存在显著重演效应（T_replay=0.210，95%CI 0.172-0.248），且冻结参考面板可预测Apple/Pear（rho=0.169，n=373）及YeastWGD（rho=0.280，n=186）；远古硬骨鱼WGD信号为正但不确定，提示普遍规律与事件特异偶然性并存。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Whole-genome duplication repeatedly presents ancestral gene lineages with an equivalent evolutionary choice: retain both descendants or return towards single-copy representation. Whether lineage identity carries information about that choice across independent duplications remains unresolved. We placed post-duplication retention in a common ancestral-lineage coordinate and compared within-event percentile ranks without requiring every lineage to be observed in every event. Three independent angiosperm whole-genome duplications showed reproducible replay (global fixed-rank effect T_replay = 0.210, bootstrap 95% confidence interval 0.172-0.248; permutation P = 1/100,001), and the signal transferred among held-out reference events. A reference-panel score frozen before target-outcome access prospectively predicted retention in Apple/Pear (Spearman rho = 0.169, n = 373) and, across the plant-fungal divide, in YeastWGD (rho = 0.280, n = 186). The corresponding teleost-genome-duplication estimate was positive but unresolved (rho = 0.107, n = 151, 95% confidence interval -0.050 to 0.260), revealing heterogeneity among events. An outcome-independent stable-complex proxy for conserved dosage constraint did not detect stronger transfer. Thus, post-duplication evolution contains a reproducible and prospectively transferable gene-lineage-associated component embedded within substantial event-specific contingency.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.29.748011&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.29</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.31.748196" target="_blank" rel="noopener">A Hymenoptera-restricted gene mediating ant castes co-opts deeply conserved machinery to control organ size</a></div>
+  <div class="title-cn">一个膜翅目特有基因通过借用深度保守机制控制蚂蚁品级的器官大小</div>
+  <div class="one-line">为解决蚂蚁品级特异器官生长效应分子不明问题，作者结合68种蚂蚁比较表达与跨物种功能实验，发现膜翅目特有基因torch通过调控Hippo通路控制器官大小。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li, R.; Song, S.; Zhang, X.; Larsen, R. S.; Qi, Y.; Li, Y.; Lin, F.; Vizueta, J.; Xiong, Z.; Zhao, J.; Zuo, D.; Dai, W.; Zheng, J.; Qiu, B.; Shi, Y.; Huang, Z.; Wang, J.; Ran, H.; Li, Q.; Boomsma, J. J.; Ma, X.; Liu, W.; Zhang, G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.31.748196">10.64898/2026.08.31.748196</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.31.748196">https://www.biorxiv.org/content/10.64898/2026.08.31.748196</a></div><div class="d-block keywords">命中关键词：ant, Drosophila, Animal evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>论文具明显演化与跨物种比较视角，揭示谱系特异新基因如何借用深度保守发育通路驱动形态创新，但不聚焦脑/神经或单细胞细胞型演化。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解释谱系特异基因如何获得复杂发育功能，作者研究蚂蚁中受幼年激素调控的品级器官生长。通过68种蚂蚁比较表达分析，鉴定出最稳定的雌蚁偏高且JH响应基因torch。敲低法老蚁Monomorium pharaonis中的torch会产生类似工蚁的多器官生长受限表型。机制上，torch受Gce-Tai激活，作为结合GA重复序列的转录因子调控深度保守的Hippo通路；其在小鼠和果蝇中的异源表达表明该基因可借用古老生长调控机制促进形态创新。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Lineage-specific genes are widespread and have been implicated as phenotypic innovation inducers, but how they acquire complex developmental functions remains poorly understood. Ant queens and workers develop dramatically different organ sizes from identical genomes under juvenile hormone (JH) control, yet the molecular effectors translating JH signalling into caste-specific organ growth remain unknown. Here we identify torch, a Hymenoptera-restricted gene, as the most consistently gyne-biased and JH-responsive gene across 68 ant species. Knockdown of torch in virgin queens of Monomorium pharaonis produces a worker-like, multi-organ growth-restricted phenotype. Mechanistically, torch harbours an E-box-like motif activated by the JH receptor Gce-Tai and acts as a GA-repeat-binding transcription factor that regulates Hippo signalling, the deeply conserved organ-size control pathway in animals. Expressing torch heterologously in mice and a growth-restricted Drosophila background shows that the gene retained its general growth-promoting activity across more than 700 million years of animal evolution in lineages that lack the gene, establishing that its function is mediated through conserved rather than ant-specific machinery. A lineage-specific gene can therefore acquire complex morphogenetic function by co-opting ancient organ-size circuitry, providing a general route by which novel genes can drive phenotypic innovation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.748196&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.21</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42691002/" target="_blank" rel="noopener">scGFormer: A Multi-Scale Graph-Transformer for Cell Type Annotation in Single-Cell RNA Sequencing.</a></div>
+  <div class="title-cn">scGFormer：用于单细胞RNA测序细胞类型注释的多尺度图Transformer</div>
+  <div class="one-line">为解决scRNA-seq细胞类型注释受稀疏性、异质性和零膨胀影响的问题，作者用整合PGA、GLA、GeneSE及生物学引导自适应对比学习的scGFormer，发现其在公开多数据集和跨物种任务中表现出更强鲁棒性与泛化性。</div>
+  <div class="meta">IEEE transactions on computational biology and bioinformatics · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yuan Z, Zhang H, Liu C, Zhang S, Liu Y, Tu L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TCBBIO.2026.3730687">10.1109/TCBBIO.2026.3730687</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42691002/">https://pubmed.ncbi.nlm.nih.gov/42691002/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, cell type annotation, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦单细胞细胞类型注释算法，虽提及跨物种数据泛化，但缺乏演化或细胞类型同源性比较视角，可作为单细胞分析方法储备参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对scRNA-seq细胞类型注释中表达稀疏、异质性强、基因层面建模不足，以及零膨胀和类别不平衡等难题，作者提出统一框架scGFormer。该方法整合Performer-based Global Attention捕获长程依赖、Graph-based Local Attention建模邻域结构，并引入GeneSE增强基因级表征；同时结合生物学引导的自适应对比学习以处理零膨胀、平衡类别并动态优化图结构。公开数据测试显示，该方法在不同数据集及物种上具有竞争性或更优的鲁棒性与泛化能力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Despite the rapid progress of single-cell RNA sequencing (scRNA-seq), accurate cell type annotation remains a major challenge. Existing approaches often struggle with sparse and heterogeneous expression profiles, insufficient genelevel modeling, and complications such as zero inflation and class imbalance. To address these issues, we propose scGFormer (Single-cell Multi-scale Graph Transformer), a unified framework that integrates: (i) Performer-based Global Attention (PGA) to capture long-range dependencies, (ii) Graph-based Local Attention (GLA) to model neighborhood structures, and (iii) a Squeeze-and-Excitation Gene Reweighting module (GeneSE) to enhance gene-level representations. Furthermore, scGFormer is equipped with a biology-guided adaptive contrastive learning strategy, which is designed to account for zero inflation, balance class distributions, and refine dynamic graphs during training, thereby facilitating robustness and adaptability. By explicitly modeling both global and local dependencies while strengthening gene-level representations, scGFormer achieves improved robustness and generalization. Extensive experiments across public datasets demonstrate that scGFormer achieves competitive or superior performance compared with state-of-theart methods, offering a robust solution for single-cell annotation across diverse datasets and species. Our code is publicly available at https://github.com/wuzi11/scGFormer.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3730687&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.2</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42690038/" target="_blank" rel="noopener">ntSynt-viz: Visualizing synteny patterns across multiple genomes.</a></div>
+  <div class="title-cn">ntSynt-viz：跨多个基因组的共线性模式可视化</div>
+  <div class="one-line">为解决多基因组共线性文本输出难以直观解释问题，作者开发ntSynt-viz自动排序、标准化并绘制ribbon plot，展示其在人类14基因组、食蚜蝇9基因组和16个果蝇基因组图上的清晰可视化效果。</div>
+  <div class="meta">Journal of evolutionary biology · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Coombe L, Warren RL, Birol I</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/jeb/voag079">10.1093/jeb/voag079</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42690038/">https://pubmed.ncbi.nlm.nih.gov/42690038/</a></div><div class="d-block keywords">命中关键词：Drosophila, Comparative genomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦多基因组共线性可视化，虽非脑或单细胞研究，但与研究者的比较基因组学和跨物种演化分析直接相关，可辅助基因组层面的保守性与重排模式比较。</div><div class="d-block"><span class="lbl">中文摘要：</span>随着染色体水平组装激增，多基因组共线性分析潜力巨大，但现有工具多为文本输出，难以直观探索大尺度模式。作者提出命令行工具ntSynt-viz，可自动完成多基因组共线性块的排序、标准化与绘图。对14个人类基因组比较时，其ribbon plot较NGenomeSyn和plotsr更清晰；在9个食蚜蝇基因组中也优于NGenomeSyn。作者还将其用于16个果蝇基因组构建的Minigraph-Cactus泛基因组图，展示其解析跨物种大尺度共线性模式的潜力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>With the explosion of chromosome-scale genome assemblies being generated in recent years, there is vast potential for comparative genomics analyses through detecting multi-genome synteny. While existing tools can detect synteny blocks between multiple genomes, their text-based outputs make it challenging to intuitively explore large-scale synteny patterns. Interpretable, information-rich and easy-to-use synteny visualization tools are imperative to enable important biological insights from the synteny block data output by the aforementioned utilities. Here, we present ntSynt-viz, a command-line tool for automated sorting, normalization and plotting of multi-genome synteny blocks. We show how ntSynt-viz provides clearer and more easily interpretable chromosome painting ribbon plots compared to the state-of-the-art tools NGenomeSyn and plotsr when evaluating synteny between 14 human genomes, and compared to NGenomeSyn when comparing 9 hoverfly genomes. As plotsr is limited to comparing genomes with equal chromosome numbers, it was not applicable to the hoverfly dataset. Furthermore, we demonstrate how ntSynt-viz can also be applied to visualize syntenic patterns encoded in pangenome graphs, using a Minigraph-Cactus graph built from 16 Drosophila genomes. We expect that ntSynt-viz will provide crucial insights into large-scale synteny patterns between divergent genomes, thereby advancing research into key evolutionary questions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jeb/voag079&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.08</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.28.747622" target="_blank" rel="noopener">Cell-type separability predicts annotation accuracy and outweighs algorithm choice: a factorial benchmark across seven scRNA paradigms</a></div>
+  <div class="title-cn">细胞类型可分性可预测注释准确率且其影响超过算法选择：跨七类scRNA范式的析因基准评测</div>
+  <div class="one-line">为解决scRNA细胞类型注释方法缺乏可归因基准问题，作者用Taguchi L9正交设计系统评测63种工具，发现准确率主要由细胞类型可分性而非算法类别决定。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wardhana, O.; Zeng, Z.; Lu, X.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.28.747622">10.64898/2026.08.28.747622</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.28.747622">https://www.biorxiv.org/content/10.64898/2026.08.28.747622</a></div><div class="d-block keywords">命中关键词：scRNA-seq, foundation model, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦单细胞细胞类型自动注释基准评测而非演化或跨物种比较，但其对注释准确性、数据可分性和工具选择的结论可为跨物种单细胞图谱构建提供方法学参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决单细胞RNA测序自动细胞类型注释方法众多但缺乏可控、公平比较的问题，作者对63种工具、七类方法范式开展基准评测，并以Taguchi L9(34)正交设计独立操控细胞数、类别不平衡、细胞类型数和差异表达强度等因素，结合模拟、同平台与跨平台真实数据、数据库连接和LLM注释及基础模型微调。结果显示不同范式准确率总体接近，Cohen&#x27;s kappa主要受数据集结构影响，且与共享表达嵌入中的kNN purity近线性相关。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Automated cell-type annotation is a prerequisite for most single-cell RNA-sequencing (scRNA-seq) analyses, but the rapid proliferation of methods spanning marker-based, correlation-based, classical machine-learning, deep-learning, semi-supervised, large-language-model (LLM), and transformer foundation-model paradigms has outpaced head-to-head evaluation. Existing benchmarks rely on convenience samples of real datasets in which cell count, class imbalance, cell-type number, and differential-expression strength co-vary uncontrollably, precluding causal attribution of performance to any dataset property. To resolve this, we benchmarked 63 tools across seven paradigms using a Taguchi L9(34) orthogonal array that varies four dataset properties independently, progressively reconfiguring experimental control across five phases: fully controlled simulation, within-platform and cross-platform real-data validation, database-connected and LLM-based annotation under ontology-aware scoring, and fine-tuned foundation models. Using standardized oracle inputs and Cohen&#x27;s {kappa}, we found that, within the ranges tested, the major paradigms achieved comparable accuracy. Accuracy was predicted near-linearly by the separability of cell types in a shared expression embedding, measured as k-nearest-neighbor (kNN) purity, a relationship that held across sequencing platforms and in fine-tuned foundation models. We attributed the vast majority of {kappa} variance to dataset structure and only a small share to tool identity. Computational cost traded against workflow accessibility rather than accuracy: accessible correlation-based and LLM-based approaches performed competitively, while foundation models matched them only after fine-tuning. Because our oracle design isolates algorithmic capability from upstream noise, these results reframe how methods should be selected: the field&#x27;s near-term gains lie in strengthening infrastructure--prioritizing tool accessibility, standardized evaluation, and robustness to pipeline variation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.28.747622&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.05</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.01.02.631126" target="_blank" rel="noopener">Phenome-wide adaptive radiation drives lineage diversification in hyperdiverse Hymenoptera</a></div>
+  <div class="title-cn">表型组范围的适应性辐射驱动超多样化膜翅目谱系分化</div>
+  <div class="one-line">为解决膜翅目复杂表型多样性的起源问题，作者重建骨骼肌肉表型组演化并比较不同解剖层级与发育阶段，发现适应性辐射由幼体—成体解耦及成体系统半独立演化共同驱动。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Porto, D. S.; Vilhelmsen, L.; Miko, I.; Tarasov, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.01.02.631126">10.1101/2025.01.02.631126</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.01.02.631126">https://www.biorxiv.org/content/10.1101/2025.01.02.631126</a></div><div class="d-block keywords">命中关键词：evolutionary innovation, ant</div><div class="d-block"><span class="lbl">推荐理由：</span>论文具有明确的演化与跨类群比较视角，但聚焦膜翅目全身骨骼肌肉表型演化而非脑、神经系统或单细胞细胞类型同源性问题，对你的研究主要是宏观演化框架上的启发。</div><div class="d-block"><span class="lbl">中文摘要：</span>膜翅目（蚂蚁、黄蜂和蜜蜂）物种超过15万，但其惊人表型多样性的演化来源仍不清楚。作者重建了膜翅目骨骼肌肉表型组的演化历史，并分析不同解剖层级与发育阶段的演化动力学。结果表明，膜翅目的适应性辐射是表型组范围的过程，受幼体与成体间演化解耦及成体不同解剖系统半独立演化促进。谱系与表型分化并非主要由单一关键创新或更高表型演化速率驱动，而是来自创新在多个解剖系统间的分配与组合，扩展了对适应性辐射机制的经典认识。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>How complex phenotypes evolve across the Tree of Life remains poorly understood because phenotypic evolution unfolds across multiple hierarchical and developmental scales. Hymenoptera (ants, wasps, and bees) represent one of the largest animal radiations (&gt;150,000 species), yet the origin of their remarkable phenotypic diversity remains unclear. Here, we reconstruct the evolution of the hymenopteran skeletomuscular phenome and analyze its dynamics across anatomical hierarchies and developmental stages. We show that hymenopteran adaptive radiation was a phenome-wide process facilitated by evolutionary decoupling between adults and larvae and the semi-independent evolution of adult anatomical systems. Phenotypic and lineage diversification was driven not simply by key innovations or elevated phenomic rates, but by the partitioning of evolutionary innovation across anatomical systems, generating a broader repertoire of adaptive solutions. These findings extend the classical view of adaptive radiation from individual key innovations to phenome-wide reorganization.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.02.631126&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">3.98</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748850" target="_blank" rel="noopener">Shared neurogenesis onset is sufficient to explain bilateral matching in the vertebrate retina</a></div>
+  <div class="title-cn">共同的神经发生起始足以解释脊椎动物视网膜的双侧匹配</div>
+  <div class="one-line">为解决脊椎动物双眼视网膜如何保持双侧匹配问题，作者用斑马鱼双视网膜同步定量3D活体成像结合随机模型与遗传扰动，发现同步的神经发生起始足以决定双侧对称性。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Garcia-Morales, D.; Alsina, A.; Salbreux, G.; Norden, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.02.748850">10.64898/2026.09.02.748850</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748850">https://www.biorxiv.org/content/10.64898/2026.09.02.748850</a></div><div class="d-block keywords">命中关键词：neurogenesis, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦斑马鱼视网膜双侧对称发育机制，虽含单细胞分辨率活体成像与神经发生内容，但缺乏演化或跨物种比较视角，对该研究者主要属一般性发育机制参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解配对器官在细胞分化开始后如何维持双侧匹配，作者以斑马鱼视网膜为模型，对双侧视网膜进行同步定量3D活体成像，并比较神经发生起始与波前推进。结果显示，神经发生波从视网膜两极向中央推进；同一胚胎两眼在起始时间、细胞数增加和空间传播上高度一致，而胚胎间差异更大。随机模型与遗传扰动表明，仅共享神经发生起始即可解释双侧匹配，而改变波传播主要影响图案形成，不显著影响双侧相似性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Bilateral symmetry is a hallmark of many paired organs and often essential for optimal functionality. The vertebrate eyes are a prominent example of this, as the matched development of the two retinas is required for accurate visual processing. While macroscopic aspects of symmetry emergence across systems have been investigated, how bilateral matching is maintained once cells start to differentiate remains less understood. Here we address this question using the zebrafish retina as a model to follow neurogenic programs in vivo at single-cell resolution. We perform quantitative 3D live imaging of both retinas simultaneously and directly compare neurogenesis onset and propagation within and across embryos. We find that neurogenic waves initiate at the retinal poles and progress towards the mid-retina in a conserved spatiotemporal pattern. Within embryos, the two eyes exhibit highly similar neurogenesis dynamics when it comes to timing of neurogenesis onset, cell number increase, and spatial wave progression. Across embryos, however, variability is larger. While these observations hint at active inter-retinal coordination, a stochastic model predicts that a shared onset of neurogenesis can be sufficient to explain bilateral matching. Targeted genetic perturbation experiments support this prediction. We find that altering wave propagation affects patterning but not bilateral similarity. Disrupting neurogenesis onset timing, however, reduces bilateral symmetry between eyes. Thus, the combination of experiment and theory identifies synchronized neurogenesis onset as a key determinant of bilateral symmetry, revealing a minimal principle for how reproducible development of paired organs can emerge from stochastic processes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748850&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">3.97</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.21.726148" target="_blank" rel="noopener">kamino: fast proteome-wide variant calling for amino acid phylogenomics</a></div>
+  <div class="title-cn">kamino：用于氨基酸系统基因组学的快速全蛋白质组变异调用</div>
+  <div class="one-line">为解决蛋白质组系统发育中正交聚类与比对耗时问题，作者用无参考无比对的kamino基于重编码k-mer占据变化提取伪比对序列，发现其在分枝杆菌、GTDB、果蝇和哺乳动物中可快速恢复可靠系统关系。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Derelle, R.; Lees, J. A.; Chindelevitch, L.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.21.726148">10.64898/2026.05.21.726148</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.21.726148">https://www.biorxiv.org/content/10.64898/2026.05.21.726148</a></div><div class="d-block keywords">命中关键词：Drosophila, Phylogenomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦跨物种蛋白质组系统发育推断，虽不直接涉及脑或单细胞，但其快速无比对同源变异提取框架可为比较基因组与非模式动物演化研究提供方法参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>传统基于氨基酸的系统发育分析依赖正交蛋白聚类和序列比对，计算代价高。作者提出无参考、无比对方法kamino，直接从蛋白质组中利用重编码k-mer占据的局部变化识别同源区域内变异位点，并构建伪比对序列。该方法在结核分枝杆菌、GTDB分类单元、果蝇和哺乳动物数据中均恢复出与已知系统树一致的关系，信号与BUSCO流程总体相近，同时运行速度比经典标记基因流程快数个数量级。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Amino acid-based phylogenetics usually relies on first clustering and aligning orthologous proteins. This approach is powerful but computationally demanding. Here, we present kamino, a reference- and alignment-free method that rapidly builds amino acid phylogenomic alignments directly from proteomes. As with similar algorithms, homologous regions are identified through shared sequences flanking variable regions. The method uses local changes in recoded k-mer occupancy to efficiently identify variable positions within these homologous regions and extract the corresponding pseudo-aligned sequences. It generates phylogenetically informative alignments across diverse prokaryotic and eukaryotic datasets. Phylogenetic analyses show that it accurately recovers Mycobacterium tuberculosis lineages, most curated GTDB taxa, and relationships consistent with published Drosophila and mammalian phylogenies, while producing signals broadly similar to BUSCO-based approaches. Runtimes are comparable to genome-based alignment-free methods and several orders of magnitude faster than classical marker-based pipelines, with moderate memory requirements. The method performs well across a broad range of divergence levels, from within-species comparisons to family-level prokaryotic and phylum-level eukaryotic datasets. kamino therefore provides a fast and simple route from proteomes to phylogenomic alignments across a broad range of evolutionary scales. The program is implemented in Rust and freely available at https://github.com/rderelle/kamino.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.21.726148&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">3.75</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.30.748098" target="_blank" rel="noopener">Ageas enables time-agnostic cell fate inference from single-cell and spatial multi-omics data</a></div>
+  <div class="title-cn">Ageas实现基于单细胞与空间多组学数据的时间无关细胞命运推断</div>
+  <div class="one-line">为解决静态单细胞/空间多组学难以推断细胞命运问题，作者用Ageas迁移学习与自适应集成模型，发现其在线谱追踪基准和3D人胚中可稳健解析命运偏向与调控梯度。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jiang, J.; Kong, A.; Yu, G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.30.748098">10.64898/2026.08.30.748098</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.30.748098">https://www.biorxiv.org/content/10.64898/2026.08.30.748098</a></div><div class="d-block keywords">命中关键词：spatial omics, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦单细胞/空间多组学的时间无关命运推断，方法上可借鉴于发育与细胞类型分析，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决缺乏时间分辨或遗传谱系追踪时难以推断细胞命运的问题，作者提出时间无关迁移学习框架Ageas，从终末细胞群学习“命运记忆”并转移到祖细胞或中间状态，同时采用数据自适应集成与自动模型选择以适配单细胞转录组、表观组和空间转录组。在线谱追踪基准数据及3D人类胚胎中，Ageas表现优于现有方法，并揭示上胚层前后轴命运预设及区域性调控程序梯度。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Understanding cell fate decisions is fundamental to developmental biology and disease research. However, experimental lineage tracing requires genetic manipulation, which is impractical in many systems, particularly in humans. Computational approaches often rely on time-resolved measurements, which single-cell and spatial omics studies rarely provide. Here, we present Ageas, a time-agnostic transfer learning framework for cell fate inference from single-cell and spatial multi-omics data. Ageas overcomes these limitations by learning fate memory from terminal cell populations and transferring this information to progenitor or intermediate cells, enabling fate bias inference from static molecular snapshots. To enable robust generalization across molecular modalities, Ageas employs a data-adaptive ensemble strategy with automated model selection. In benchmark datasets with lineage-traced single-cell transcriptomic and epigenomic profiles, as well as spatial transcriptomics, Ageas achieves strong performance compared to existing methods. Applying Ageas to a 3D human embryo reveals a spatially organized anterior-posterior gradient of epiblast fate priming, with anterior epiblast cells biased toward ectodermal fates and posterior cells toward primitive streak-derived lineages, accompanied by regionally graded fate-associated regulatory programs. Together, these results establish Ageas as a general framework for decoding cell fate decisions from static molecular snapshots.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.30.748098&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">3.69</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42691111/" target="_blank" rel="noopener">Balanced DNA interpolation improves learning of genetic distance-informed embeddings in plants.</a></div>
+  <div class="title-cn">平衡化DNA插值提升植物中遗传距离知情嵌入的学习效果</div>
+  <div class="one-line">为解决植物DNA数据量不足且遗传距离分布不均问题，作者用邻居引导的DNAInterpolator插值增强并平衡距离分布，发现模型在全距离范围的遗传距离预测更稳健。</div>
+  <div class="meta">PLoS computational biology · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kösters LM, Karbstein K, Hodač L, Albreht L, Sahuquillo Balbuena E, Botello D, Hardy O, Odufuwa P, Pardo Otero E, Phang A, Pimentel M, Piñeiro R, Smith J, Wilkie P, Mäder P, Wäldchen J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014722">10.1371/journal.pcbi.1014722</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42691111/">https://pubmed.ncbi.nlm.nih.gov/42691111/</a></div><div class="d-block keywords">命中关键词：machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦植物DNA序列机器学习增强与遗传距离嵌入，不涉及脑演化、跨物种细胞类型同源或单细胞比较，仅可作为遗传数据表示学习的边缘方法参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对分类学研究中DNA数据量不足、常规随机突变增强会模糊群体与物种边界的问题，作者提出基于数据集内序列插值的DNAInterpolator，作为邻居引导的增强策略，并在4个开花植物数据集上测试其对人工神经网络学习成对样本遗传距离的作用。结果显示，通过筛选插值序列以平衡训练集中的距离分布，可提升模型在低代表性距离区间的表现，从而更好覆盖全距离范围。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In taxonomic research, traditional phylogenetic tree- and structure-based analyses of genetic data are increasingly complemented by machine-learning-based identification and representation learning. Although the amount of DNA data needed to train state-of-the-art machine learning models often exceeds what can realistically be collected and sequenced in biological studies, the number of samples can be extended artificially through data augmentation. Genetic data augmentation usually refers to the introduction of random base variations, translocations, and reverse complementing. These augmentations do not take into account the inherent structures of populations and species, potentially blurring the lines between entities within genetic datasets. Here, we propose DNAInterpolator, an approach based on interpolation of DNA sequences within a given dataset that presents a neighbor-guided alternative to random mutations. We tested interpolation as an augmentation technique using four flowering plant datasets and an artificial neural network trained to predict genetic distances between paired samples. To address unequally distributed distances within our training datasets, we examined the effect of balancing the distance distribution by curating interpolated sequences. We found that balancing helps models capture genetic distances across the full distance range by strengthening performance in underrepresented regions of the distribution. Our new approach leverages the potential of taxonomic DNA datasets for modern machine learning applications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014722&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.56</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42691134/" target="_blank" rel="noopener">Genomic signatures of cold adaptation in a Himalayan drosophilid.</a></div>
+  <div class="title-cn">喜马拉雅果蝇中寒冷适应的基因组特征</div>
+  <div class="one-line">为解决喜马拉雅果蝇寒冷适应机制问题，作者用Illumina+Nanopore混合策略完成D. nepalensis de novo基因组组装并开展6种果蝇比较直系同源分析，发现其伴侣蛋白、丝氨酸蛋白酶和神经递质转运家族显著扩张而核心组蛋白家族收缩。</div>
+  <div class="meta">G3 (Bethesda, Md.) · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chakraborty A, Rajpurohit S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/g3journal/jkag190">10.1093/g3journal/jkag190</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42691134/">https://pubmed.ncbi.nlm.nih.gov/42691134/</a></div><div class="d-block keywords">命中关键词：Drosophila, Gene family evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>论文具备比较基因组与基因家族演化视角，且研究果蝇这一相关类群，但核心聚焦寒冷适应而非脑/神经系统演化或跨物种细胞类型同源。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解析喜马拉雅特有耐寒果蝇Drosophila nepalensis的寒冷适应基础，作者结合Illumina短读长与Nanopore长读长完成首个de novo基因组组装，得到约178 Mb基因组，N50为83.6 kb，BUSCO完整度98%，注释10,560个蛋白编码基因。基于6种果蝇的比较直系同源分析，共鉴定14,168个同源簇，其中9,173个为共享核心集。D. nepalensis具有83个特有orthogroups和50个singletons，并显示丝氨酸蛋白酶、伴侣蛋白和神经递质转运家族扩张、核心组蛋白家族收缩，提示谱系特异的染色质重塑与生态适应。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Drosophila nepalensis is a cold-adapted drosophilid endemic to the Himalayan region. Its ability to survive in harsh, cold conditions makes it a valuable Drosophila model for investigating how adaptation to thermal extremes may influence species persistence under future climate change. Here, we report the first de novo genome assembly of D. nepalensis, based on a hybrid sequencing strategy that combines Illumina short reads and Oxford Nanopore long reads. Illumina sequencing generated 49.88 million 150 bp paired-end reads (∼14.96 Gbp), while Nanopore sequencing produced 1.35 million long reads totaling ∼0.76 Gbp. The assembled genome spanned ∼178 Mb with an N50 of 83.6 kb and 98% BUSCO completeness, comparable to other well-annotated Drosophila genomes. Annotation identified 10,560 protein-coding genes, including transcription factor-rich and stress-related domains such as zinc fingers, WD40 repeats, and ankyrin motifs. Comparative orthology analysis across 6 Drosophila species identified 14,168 orthologous clusters, of which 9,173 were shared among all 6 species, indicating a conserved core genomic set across the sampled taxa. D. nepalensis showed 83 unique orthogroups and 50 singletons, suggesting some lineage-specific gene expansions associated with cold adaptation and endemicity, including families encoding caspase-family apoptotic regulators, chromatin remodeling proteins (HMGB/protamine-like), and SNARE-domain vesicle trafficking factors. Gene family evolution analysis revealed the highest expansions in the cold-tolerant Himalayan drosophilid, D. nepalensis, including significant expansions in serine protease, chaperone, and neurotransmitter transporter families, alongside dramatic contractions of core histone gene families, suggesting lineage-specific chromatin remodeling and ecological specialization.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/g3journal/jkag190&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.5</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.27.747659" target="_blank" rel="noopener">An Information Geometry approach to model topological trajectories and Gene Expression Radius from UMAP geometry.</a></div>
+  <div class="title-cn">一种基于信息几何的方法：从UMAP几何建模拓扑轨迹与基因表达半径</div>
+  <div class="one-line">为解决单细胞基因表达动力学与细胞身份关系问题，作者用信息几何结合模糊拓扑与UMAP建模并提出表达半径公式，发现可识别富集关键调控通路和转录因子的潜在基因集。</div>
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Villalba, M. P. C.; Bustamante, F. E.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.27.747659">10.64898/2026.08.27.747659</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.27.747659">https://www.biorxiv.org/content/10.64898/2026.08.27.747659</a></div><div class="d-block keywords">命中关键词：cell state</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦单细胞UMAP几何与信息几何建模，虽可作为分析思路参考，但缺乏演化或跨物种比较视角，与研究者核心问题关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解单细胞中基因表达动态与细胞身份的关系，作者提出整合信息几何、模糊拓扑和UMAP的数学框架，将基因表达数据形式化为模糊拓扑空间，并通过Fisher度量计算反映细胞分化过程的测地轨迹。研究进一步推导出表征局部邻域的表达半径解析条件，可用于识别干细胞状态相关基因及过渡细胞类型预测。应用于单细胞数据后，该方法得到富集于关键调控通路和转录因子的生物学相关基因集，显示其在刻画复杂表达景观方面的潜力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Understanding the relationship between gene expression dynamics and cellular identity remains a central challenge in single cell biology. Here, we introduce a novel computational and mathematical framework that integrates information geometry, fuzzy topology, and UMAP analysis to model gene expression landscapes derived from single cell RNA sequencing data. We formalize gene expression data as a fuzzy topological space, where interactions between expression points are governed by probabilistic distributions inspired by manifold learning approaches such as UMAP. Within this framework, we define an information geometric structure through a Fisher metric induced by these distributions, enabling the computation of geodesic trajectories that capture cellular differentiation processes. A key contribution of this work is the derivation of analytical conditions, expressed as expression radius formulas, that characterize local neighborhoods in gene expression space. These conditions allow for the identification of genes associated with stem cell states and predictions in transitional cell types in future work. Application of the proposed framework to single cell datasets reveals biologically meaningful gene sets enriched in key regulatory pathways and transcription factors, demonstrating the capacity of our approach to uncover latent structure in complex gene expression data. Our results suggest that integrating differential geometry with statistical learning theory offers a powerful paradigm for modeling genotype and phenotype relationships and cellular state transitions, with potential implications for precision medicine and systems biology.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.27.747659&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦人类大脑早期发育中跨区域神经回路对皮层神经发生的调控机制。最值得注意的工作是利用丘脑-皮层融合类器官与单核RNA测序，直接解析丘脑轴突如何接触外放射状胶质，并通过NRXN1相关机制促进上层兴奋性神经元产生，为理解人类皮层扩增与分层形成提供了关键证据。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>丘脑对皮层发育的早期影响：通过融合类器官重建丘脑-皮层连接，揭示远程输入可直接塑造皮层祖细胞命运。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>外放射状胶质调控机制：聚焦人类皮层关键祖细胞类型，发现其可接收丘脑轴突信号并影响兴奋性神经发生。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>细胞黏附分子介导的发育通讯：以NRXN1为代表，提示突触相关分子在神经发生阶段已参与跨区域细胞互作。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">该研究体现出发育神经科学正从静态细胞图谱转向“类器官重建回路+单细胞解析机制”的综合路线。不仅关注祖细胞自身转录状态，也强调外源神经输入、细胞接触与分子配对对人类特有发育过程的驱动作用，增强了对早期脑区互作的可实验验证性。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这项工作提示可从跨脑区输入、祖细胞微环境和黏附分子信号三个层面重新审视皮层发育问题。方法上，融合类器官结合单核RNA测序适合用于追踪细胞来源、连接建立与命运变化；应用上，可进一步用于神经发育疾病中丘脑-皮层通讯异常的机制研究。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
