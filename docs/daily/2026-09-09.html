@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-09</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-09</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 1 · Important 3 · Relate 11）· 命中关键词 18 个</div>
+
+
+<div class="card c-must">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-must">Must Read</span><span class="score">7.5</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.19.745872" target="_blank" rel="noopener">Coupled transcriptomic divergence establishes a human-specific synaptic glial precursor state</a></div>
+  <div class="title-cn">耦合的转录组分化建立一种人类特异性的突触型胶质前体状态</div>
+  <div class="one-line">为解决人类大脑皮层演化的调控变化问题，作者重建并比对人、猕猴、小鼠和雪貂发育皮层连续单细胞分化轨迹，发现突触基因网络在人类OPC中被特异重部署并形成新发育微环境。</div>
+  <div class="meta">bioRxiv · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sheu, X. D.; Yamauchi, Y. Y.; Amano, R.; Nakano, Y.; Yoshino, J.; Suzuki, I. K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.19.745872">10.64898/2026.08.19.745872</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.19.745872">https://www.biorxiv.org/content/10.64898/2026.08.19.745872</a></div><div class="d-block keywords">命中关键词：brain evolution, brain, neuron, neural, glia</div><div class="d-block"><span class="lbl">推荐理由：</span>该文以人、猕猴、鼠和雪貂皮层发育的跨物种单细胞轨迹比较解析人类特异脑演化调控重连，与你关注的脑演化、细胞类型演化和比较单细胞图谱高度契合。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解析驱动人类大脑皮层演化的调控变化，作者重建并对齐人、猕猴、小鼠和雪貂发育皮层的连续单细胞分化轨迹。结果发现，哺乳动物皮层发育中多数基因表达稳定，而发生分化的基因会同步改变其沿分化轨迹的分配与发育时序。进一步定位到人类谱系后，作者发现经典突触基因网络被特异重部署到早期少突胶质前体细胞。结合人、黑猩猩和大猩猩皮层类器官及空间转录组，研究表明该神经元样OPC状态为人类特有创新，并可通过突触黏附信号影响邻近外放射状胶质细胞，揭示人类皮层演化的分子机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The mammalian cerebral cortex is built from a conserved developmental program, yet exhibits profound species-specific complexity. To decode the regulatory changes driving human brain evolution, we reconstructed and aligned continuous single-cell differentiation trajectories across the developing human, macaque, mouse, and ferret cortices. This comparative framework revealed a fundamental principle of transcriptomic evolution during mammalian cortical development: while stable expression is the mammalian default, genes that diverge strictly shift their allocation to cell differentiation trajectories and developmental timing in tandem. By isolating these coupled regulatory shifts to the human lineage, we revealed that a canonical synaptic gene network uniquely redeployed into early human oligodendrocyte precursor cells (OPCs). Human, chimpanzee, and gorilla cortical organoids confirmed that this neuron-like OPC state is an exclusively human innovation. Spatial transcriptome analysis found that these specialized OPCs engage adjacent neural progenitors (outer radial glia) via synaptic-adhesion signaling during neurogenetic period. These findings demonstrate that this coupled spatiotemporal rewiring establishes novel developmental microenvironments, providing a discrete molecular engine for human cortical evolution.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745872&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709819/" target="_blank" rel="noopener">Cell-type-specific circadian and light-responsive transcriptional dynamics in adult Drosophila neurons.</a></div>
+  <div class="title-cn">成年果蝇神经元中细胞类型特异的昼夜节律与光响应转录动态</div>
+  <div class="one-line">为解决成年果蝇昼夜节律神经元时序转录图谱受技术差异干扰问题，作者用遗传多重化结合El-INTACT纯化冷冻头部细胞核的12时点snRNA-seq，发现多数调控为转录性且受昼夜节律驱动，并识别少量光依赖转录本。</div>
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Berglund G, Ojha P, Ivanova M, Pérez Torres M, Rosbash M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2619143123">10.1073/pnas.2619143123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709819/">https://pubmed.ncbi.nlm.nih.gov/42709819/</a></div><div class="d-block keywords">命中关键词：brain, neuron, snRNA-seq, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦果蝇昼夜节律神经元的细胞类型特异转录动态，虽采用单核转录组并解析神经元亚型异质性，但缺乏演化或跨物种比较视角，对该研究者主要是技术与数据分析思路参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>为更准确解析成年果蝇中央脑240个昼夜节律神经元的分子异质性及其时序变化，作者采用三种互补策略：遗传多重化降低时点间批次效应、利用El-INTACT从冷冻头部纯化细胞核开展大规模snRNA-seq，并在明暗循环与持续黑暗下采集12个时点。结果显示，多种昼夜节律神经元亚型在不同时点存在显著转录差异，大多数调控具有转录性且受内源昼夜时钟驱动；同时识别出少量光依赖转录本，包括与哺乳动物即刻早期基因对应的基因，提示其可能参与特定神经元中的光同步或相位调节。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The Drosophila adult central brain contains 240 circadian neurons, of which there are more than 25 different neuron subtypes based on connectomic data. Recent single-cell RNA-seq characterization of these neurons &quot;around the clock&quot; also indicates a similar number of molecular subtypes of circadian neurons, but other conclusions from these transcriptomic studies warranted verifying and extending with other approaches. To address these limitations, we used three complementary approaches: 1) We used a genetic multiplexing strategy to profile the transcriptomes of circadian neurons from multiple time points in a single experiment, reducing confounding technical variation between timepoints; 2) Large numbers of single nuclei were sequenced (snRNA-seq), which was enabled because the method El-INTACT purifies nuclei from frozen heads; 3) We assayed 12 time points under both light-dark and constant darkness conditions. These approaches showed dramatic transcriptional differences between time points in many circadian neuron types and enhanced time-of-day gene expression analysis. The data indicate that most of this regulation is transcriptional and circadian. There were however a small number of light-dependent transcripts, including some that correspond to mammalian immediate-early genes. They probably play a role in the light-regulation of gene expression and behavior in specific neurons, perhaps circadian entrainment or phase-shifting. The results taken together provide a more comprehensive picture of gene expression heterogeneity within adult Drosophila circadian neurons including how intrinsic clock mechanisms and light cues are integrated across circadian neuron subtypes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2619143123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.03</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748960" target="_blank" rel="noopener">A common structure in recurrent networks supports neural sequence generation locally and in downstream neurons</a></div>
+  <div class="title-cn">循环网络中的一种共同结构支持局部及下游神经元的神经序列生成</div>
+  <div class="one-line">为解决神经序列如何被灵活生成和维持问题，作者训练可生成多种序列动力学的循环神经网络并提取共同连接谱，发现连接谱而非具体连接矩阵决定序列特征及扰动响应。</div>
+  <div class="meta">bioRxiv · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Braun, L. M.; Karsrud Nordal, M.; Hanssen Rambo, S.-N.; Clopath, C.; Gonzalo Cogno, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.02.748960">10.64898/2026.09.02.748960</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748960">https://www.biorxiv.org/content/10.64898/2026.09.02.748960</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦循环神经网络中神经序列生成的计算机制，虽提到跨脑区和跨物种实验一致性，但缺乏演化、同源性或跨物种比较分析，和该研究者核心演化视角相关度较低。</div><div class="d-block"><span class="lbl">中文摘要：</span>神经序列广泛存在于不同脑区和物种，但其如何在回路中灵活生成并动态维持缺乏统一框架。作者训练可产生多类序列动力学的循环神经网络，比较不同连接矩阵后提出“连接谱”概念，即按序列距离统计的平均连接权重。结果显示，不同连接矩阵可产生同一序列，但共享相同连接谱；该连接谱决定序列特征及对神经活动扰动的响应，并与跨脑区、跨物种实验数据一致，还可影响下游脑区序列形成。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neural sequences, characterized by neurons or groups of neurons that fire one after the other, have been observed in multiple brain regions, across species, and are known to underlie a diversity of brain functions. To flexibly support behaviour and cognition, neural sequences exhibit much variability in properties like their temporal width, baseline, and peak firing rate. Despite this variability and the central role that sequences play in supporting brain function, a framework that explains how flexible sequences are generated and dynamically maintained within a circuit is still missing. Here we go beyond traditional approaches that investigate a one-to-one relationship between network connectivity and specific sequential dynamics. Instead, we train recurrent neural network models to generate a repertoire of sequential dynamics and characterize the obtained connectivity matrices. We found that different connectivity matrices can generate the same neural sequence, yet all connectivity matrices that generate a specific sequence share a common connectivity profile, defined here as the average weight between pairs of neurons as a function of their distance in the sequence ordering. It is the connectivity profile, as opposed to the connectivity matrix, that serves as a fingerprint of the sequential dynamics and shapes the network response to perturbations of the neural activity. Our model predictions were consistent with results obtained from experimental data recorded across brain regions and across species. Finally, we demonstrated that neural sequences can facilitate and constrain the formation of a large repertoire of sequences in downstream brain regions, with the potential of acting as scaffolds for a wide range of computations. Altogether, our results explain how network connectivity can generate a diversity of neural sequences across circuits and how those sequences can be flexibly adapted. Our framework reveals sequences as a common algorithm to support brain function across brain regions and species.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748960&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709547/" target="_blank" rel="noopener">Staphylococcus aureus biofilm infection impairs efferocytosis in wound-macrophages via induction of a MARCOhiMERTKlo subset.</a></div>
+  <div class="title-cn">金黄色葡萄球菌生物膜感染通过诱导MARCO高MERTK低亚群损害创面巨噬细胞的凋亡细胞清除作用</div>
+  <div class="one-line">为解决金黄色葡萄球菌生物膜如何阻碍慢性创面清除凋亡细胞问题，作者联合单细胞与Xenium空间转录组等方法，发现MARCO高MERTK低巨噬细胞亚群导致清除失败并维持炎症。</div>
+  <div class="meta">Cell reports · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Das Ghatak P, Muniz de Oliveira F, Yadav A, Abouhashem AS, Srivastava R, Banerjee P, Mukherjee S, Singh S, Singh K, Zamarripa C, Gordillo GM, Sen CK, Ghatak S, Roy S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.celrep.2026.117915">10.1016/j.celrep.2026.117915</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709547/">https://pubmed.ncbi.nlm.nih.gov/42709547/</a></div><div class="d-block keywords">命中关键词：Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是金黄色葡萄球菌生物膜感染中的巨噬细胞疾病机制研究，虽用到单细胞与空间转录组，但缺乏演化或跨物种比较视角，对该研究者仅具有限方法参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>慢性不愈合创面常受金黄色葡萄球菌生物膜维持，但其如何重编程负责炎症消退的免疫细胞并不清楚。作者用不同生物膜能力的USA300同基因变体条件培养基处理人巨噬细胞，并结合单细胞转录组、Xenium空间转录组、CyTOF与PhenoCycler，鉴定出由可溶性生物膜因子诱导的MARCO高MERTK低巨噬细胞亚群。该亚群可识别凋亡细胞却无法吞噬，且经C/EBPβ入核抑制MERTK；MARCO中和可恢复清除，提示其为生物膜相关疾病干预靶点。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Chronic, non-healing wounds are sustained by Staphylococcus aureus biofilms, yet how biofilm reprograms the immune cells tasked with resolving injury has remained unclear. We show that biofilm-derived soluble cues, not bacterial contact, generate a previously undescribed biofilm-associated macrophage (BAM) subset marked by high Macrophage receptor with collagenous structure (MARCO) and suppressed MERTK, which recognizes apoptotic cells but fails to engulf them. Using isogenic S. aureus USA300 variants of graded biofilm capacity, only high biofilm-conditioned medium elicited this state in human macrophages; MARCO neutralization restored corpse clearance. Mechanistically, biofilm factors drove phospho-C/EBPβ into the nucleus to repress MERTK, severing sensing from engulfment. Single-cell and Xenium spatial transcriptomics, with cytometry by time of flight (CyTOF) and PhenoCycler, localized BAMs to biofilm-proximal niches as a hybrid CD64+CD163+ state outside M1/M2 categories, populating 60%-80% of infected chronic wounds. In vivo, myeloid-restricted MARCO overexpression by tissue nanotransfection recapitulated impaired efferocytosis and persistent inflammation, nominating MARCOhiMERTKlo macrophages as a druggable checkpoint in biofilm-associated disease.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117915&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709727/" target="_blank" rel="noopener">Artificial intelligence-driven identification and mechanistic exploration of synergistic anti-aging compounds from Dengzhan Shengmai formulation.</a></div>
+  <div class="title-cn">人工智能驱动的灯盏生脉方协同抗衰老化合物鉴定及机制探索</div>
+  <div class="one-line">为解决灯盏生脉方协同抗衰老成分难识别问题，作者用整合VGAE网络嵌入与ResNetDNN的DeepSMCA方法，发现3组最佳组合可逆转D-Gal诱导PC12细胞衰老表型与1001-1037个DEGs。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hou J, Li X, Gu M, Ding K, Yang K, Xu B</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0356888">10.1371/journal.pone.0356888</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709727/">https://pubmed.ncbi.nlm.nih.gov/42709727/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, machine learning, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦中药复方抗衰老组合的AI筛选与PC12细胞验证，不涉及演化、跨物种比较或单细胞细胞类型同源性问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为系统识别灯盏生脉方中的协同抗衰老化合物，作者开发DeepSMCA，整合分子描述符、ADMET参数、PPI网络VGAE嵌入、ResNetDNN分类器与Bliss独立性模型，在914个化合物上训练，验证集AUC达0.9849。化学分析鉴定出30个成分，筛得3组最佳组合，并在D-Gal诱导的衰老PC12细胞中验证其提高活力、降低ROS和β-gal阳性率。转录组显示其逆转1001-1037个DEGs，富集于FoxO、p53、自噬和长寿调控通路。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Aging is a complex biological process involving multiple dysregulated pathways, and synergistic compound combinations offer distinct therapeutic advantages through multi-target and multi-pathway interactions. Traditional Chinese Medicine (TCM) formulations are inherently synergistic, yet systematically identifying their active anti-aging combinations remains a major challenge. Here, we developed DeepSMCA, a deep learning-based framework integrating molecular descriptors, ADMET parameters, and protein-protein interaction (PPI) network embeddings learned via a variational graph auto-encoder (VGAE), combined with a ResNetDNN classifier and the Bliss independence model, to identify synergistic combinations of anti-aging compound from the Dengzhan Shengmai (DZSM) formulation. Trained on 914 curated compounds, DeepSMCA achieved an area under the curve (AUC) of 0.9849 on the validation set, outperforming conventional machine learning and deep learning baselines, and interpretability analysis revealed that PPI network features contributed most (59.5%) to model predictions. Chemical profiling identified 30 constituents in DZSM, from which the three top-ranked synergistic combinations (Com1-3) were validated in D-galactose (D-Gal)-induced senescent PC12 cells. All three combinations enhanced cell viability, alleviated oxidative stress, attenuated intracellular reactive oxygen species accumulation, and decreased senescence-associated β-galactosidase-positive cells by up to 54.79%. Transcriptomic analysis showed that the combinations reversed 1,001-1,037 D-Gal-induced differentially expressed genes (DEGs), which were enriched in 18 shared aging-related pathways centered on longevity regulation, FoxO, p53, and autophagy signaling. Compound-target-aging-pathway network analysis further revealed complementary target engagement among constituents. This study establishes an interpretable, proof-of-concept computational-experimental pipeline for dissecting multi-component synergy in complex formulations, providing a generalizable strategy for anti-aging drug discovery from TCM.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356888&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.32</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709858/" target="_blank" rel="noopener">The implementation of a smart safety protection system using DL and IoT technologies.</a></div>
+  <div class="title-cn">利用深度学习和物联网技术实现智能安全防护系统</div>
+  <div class="one-line">为解决实时安全监测问题，作者用结合IoT、GPS与基于WESAD多模态传感数据的MLP模型，发现系统可实现异常检测并以93%准确率识别情绪状态。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Omri K, Himdi H, Khayyat MM, Eshmawi AA, Khayyat MM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0354273">10.1371/journal.pone.0354273</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709858/">https://pubmed.ncbi.nlm.nih.gov/42709858/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是面向可穿戴安全监测的IoT与深度学习工程系统研究，不涉及演化、跨物种比较、脑或神经系统细胞类型演化问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>安全防护需要实时监测、定位追踪和紧急告警。作者设计并实现了一种智能安全防护系统（SSPS），将可穿戴设备、传感器、GPS、智能手机应用和云数据库整合，并加入基于WESAD多模态传感数据训练的深度学习模型。经Adam与Softmax优化的多层感知机（MLP）情绪识别准确率达93%。功能与集成测试表明，该原型在传感精度、数据传输速度和实时应急响应方面具有可靠性，展示了DL与IoT提升受监护人安全的潜力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Safety has always been a concern. Thus, employing and utilizing technology is vital to help society address this concern. This paper looks at the design and implementation of a Smart Safety Protection System (SSPS), which employs the Internet of Things (IoT) to solve the issue of real-time monitoring, geolocation tracking, and emergency alert features. The proposed system is a wearable device that uses sensors and GPS to send continuous data to both an application on smartphones and a database on the cloud. The system&#x27;s features include detecting unauthorized removal of the device as well as falls and abnormal temperature or heart rate. If anything happens as mentioned, the system will send alerts to the linked mobile application. A Deep Learning (DL) model is integrated into the SSPS system using multimodal WESAD sensor data. A trained Multi-Layer Perceptron (MLP) neural network achieved 93% accuracy when optimized with Adam and Softmax, enabling reliable identification of Monitored Individuals&#x27; emotional states. Steps of functional and integration testing of the prototype proved the reliability of sensor accuracy, data transmission speed, and real-time emergency response. Ultimately, this work emphasizes the potential of using DL and the IoT to improve Monitored Individuals&#x27; safety.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354273&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.26</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709892/" target="_blank" rel="noopener">Divergent biological consequences of APOE isoforms across industrialized and non-industrial environments.</a></div>
+  <div class="title-cn">工业化与非工业化环境中APOE同工型的不同生物学后果</div>
+  <div class="one-line">为解决APOE同工型在不同生活方式环境中的效应差异问题，作者在肯尼亚Turkana和马来半岛Orang Asli人群中比较基因型×环境作用，发现ε4对胆固醇效应稳定、对先天免疫和生殖寿命影响具人群/环境依赖性。</div>
+  <div class="meta">PLoS genetics · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Watowich MM, Petersen RM, Brassington L, Arner AM, Rodenberg G, Tan Boon Huat TBTA, Tam KL, Schellenberg E, Bin Mohd Sayed I, John E, Kahumbu JC, Muhoya B, Gurven M, Trumble BC, Njeru SN, Martins D, Ayroles JF, Lim YAL, Venkataraman VV, Wallace IJ, Kraft TS, Lea AJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pgen.1012285">10.1371/journal.pgen.1012285</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709892/">https://pubmed.ncbi.nlm.nih.gov/42709892/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦人群中APOE基因型在工业化与非工业化环境下的GxE效应，虽含进化背景讨论，但缺乏跨物种比较、脑演化或单细胞细胞类型演化内容。</div><div class="d-block"><span class="lbl">中文摘要：</span>围绕祖先型APOE ε4为何在人类中长期保留的问题，作者研究了肯尼亚Turkana和马来半岛Orang Asli中处于非工业化到城市化连续生活方式的人群，检测APOE基因型与胆固醇、免疫及生殖性状的关系，并分析基因型×环境互作。结果显示，ε4等位基因稳定关联更高总胆固醇和LDL、更低HDL；其对先天免疫标志物的生活方式依赖效应仅见于Orang Asli；与延长生殖寿命的相关性较弱且不一致，提示局部环境决定其成本与收益。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The apolipoprotein ε4 (APOE ε4) isoform directly alters cholesterol and immune biology and is associated with an increased risk of neurodegenerative and cardiometabolic disease in industrialized settings; nevertheless, APOE ε4-which is ancestral in humans-has persisted over evolutionary time. One potential explanation is that the costs and benefits of APOE ε4 were significantly different in the environments in which humans evolved compared to those we experience today. In support, previous work has suggested that living in a high pathogen environment, engaging in high levels of physical activity, or eating a low fat diet can dampen the detrimental effects of APOE ε4, and has revealed positive effects for fertility. However, direct tests of whether APOE isoforms are associated with different biological outcomes in non-industrial versus industrialized contexts are lacking. Working with the Turkana of Kenya and the Orang Asli of Peninsular Malaysia-two Indigenous groups in which individuals of shared ancestry span a continuum of subsistence, non-industrial to urban, industrialized lifestyles-we investigated how APOE genotypes impact cholesterol, immunological, and reproductive traits and tested for genotype x environment (GxE) interactions. First, we confirmed established genotype effects across lifestyles, showing that more APOE ε4 alleles are associated with higher total cholesterol, higher LDL cholesterol, and lower HDL cholesterol. Second, we tested for lifestyle interactions, finding lifestyle-dependent effects of genotype on innate immune biomarkers in the Orang Asli but not Turkana. Finally, we show that more APOE ε4 alleles are correlated with an extended reproductive lifespan, however this effect is relatively weak, is not consistent across populations, and does not correspond with a higher reproductive output. Together, our study provides evidence that industrialized environments can modify the biology of APOE ε4; however, we find that APOE ε4 is not universally beneficial in non-industrial contexts, highlighting the role of local environmental variation in determining its specific costs and benefits.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pgen.1012285&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.2</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.05.742815" target="_blank" rel="noopener">A sex-specific regulator expands the embryonic ocular field to generate a novel visual system</a></div>
+  <div class="title-cn">一种性别特异性调控因子通过扩展胚胎眼区生成新的视觉系统</div>
+  <div class="one-line">为解决蜉蝣雄性TurbEyes起源问题，作者结合单细胞转录组、染色质可及性谱和功能遗传学，发现dsxM通过调控eyeless/Pax6扩展胚胎眼区并再部署祖先RDGN。</div>
+  <div class="meta">bioRxiv · 2026-08-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rossello, M.; Senar-Serra, T.; Chowdhury, R.; Tandonnet, S.; Garcia-Castro, H.; Ortega-Flores, L.; Pallares-Albanell, J.; Gual, M.; Anderson, N.; Roy, S. W.; Maeso, I.; Casares, F.; Solana, J.; Almudi, I.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.05.742815">10.64898/2026.08.05.742815</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.05.742815">https://www.biorxiv.org/content/10.64898/2026.08.05.742815</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦蜉蝣雄性新型视觉系统的演化起源，结合单细胞转录组解析保守发育程序的再部署机制，与研究者关注的神经系统演化与器官创新高度契合。</div><div class="d-block"><span class="lbl">中文摘要：</span>形态新性状常由保守发育程序在新情境中的再部署产生，但其激活机制不清。作者研究蜉蝣雄性特有附加视觉系统TurbEyes的演化起源，结合单细胞转录组、染色质可及性分析和功能遗传学，发现该结构通过祖先视网膜决定基因网络（RDGN）的再部署形成；并鉴定出性别决定转录因子Doublesex的新型雄性特异旁系同源基因dsxM，其可调控eyeless/Pax6并促进胚胎眼区扩张。抑制dsxM会削弱雄性特异眼区扩展并导致TurbEyes发育缺陷，揭示了性别特异调控创造新发育领域并驱动新视觉系统产生的机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Morphological novelties often emerge through the redeployment of conserved developmental programs, but how such programs become activated in new developmental contexts remains poorly understood. We investigated the evolutionary origin of the turbanate eyes (TurbEyes) of mayflies, a male-specific additional visual system. Using single-cell transcriptomics, chromatin accessibility profiling and functional genetics, we show that this novelty develops through deployment of the ancestral retinal determination gene network (RDGN). We identify a novel, male-specific paralog of the sex determination transcription factor Doublesex, DsxM, that regulates the eye-specification gene eyeless/Pax6 and promotes the expansion of the embryonic ocular field. Functional assays impairing dsxM activity reduce this male-specific expansion and causes defects in TurbEye development. Our findings reveal a developmental mechanism by which a sex-specific regulator generates a new developmental territory, enabling the spatial redeployment of a conserved developmental program and to generate a novel male-specific visual system.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742815&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.19</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709722/" target="_blank" rel="noopener">SiBot: A hybrid framework for fine-grained semantic attribution of AI-generated text and its production deployment.</a></div>
+  <div class="title-cn">SiBot：用于AI生成文本细粒度语义归因及其生产部署的混合框架</div>
+  <div class="one-line">为解决AI文本仅被二分类检测的问题，作者用融合TF-IDF与DeBERTa嵌入的混合框架SiBot，发现其在10类来源归因上达92.38%准确率并可识别人机协作文本。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Iqbal MS, Abul Kashem M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357405">10.1371/journal.pone.0357405</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709722/">https://pubmed.ncbi.nlm.nih.gov/42709722/</a></div><div class="d-block keywords">命中关键词：large language model, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦AI生成文本溯源与部署，不涉及演化、跨物种比较、脑或单细胞转录组学，对该研究者仅有极弱的方法学泛参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对现有AI文本检测只回答“人写还是AI写”的局限，作者提出端到端归因框架SiBot，将任务扩展为细粒度多类别来源识别，并发布含22种AI来源的6.6万样本和含人机协作流程的3万样本TXD-22数据集。结果显示，10类任务中融合TF-IDF词汇特征与DeBERTa上下文嵌入并用Random Forest分类的混合模型准确率达92.38%，显著优于单独DeBERTa与TF-IDF基线，并已部署为在线平台。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Large language models such as ChatGPT, Gemini, Claude and DeepSeek now generate text that is routinely indistinguishable from human writing, yet virtually every deployed detector answers only one binary question: human or AI. This is the wrong question for the settings that matter most. Digital forensics needs to know which model produced a text; academic-integrity adjudication needs to know whether a human was involved at all; and neither can be answered by a single probability, least of all for the hybrid human-AI drafts that now dominate real-world writing. This paper addresses that gap with SiBot, an end-to-end framework that reformulates AI-text detection as fine-grained multi-class source attribution and carries it through to public deployment. We construct two purpose-built corpora using a controlled bank of 3,000 prompts spanning six subject domains and five task types: a 66,000-sample corpus covering 22 AI sources, and a 30,000-sample corpus covering 10 classes that explicitly models five pure sources and four human-AI collaboration workflows; both are publicly released as the TXD-22 benchmark dataset. On the 22-class corpus we benchmark twelve feature-classifier combinations and find that TF-IDF with Random Forest attains 68.2% accuracy and an AUC of 0.742. On the 10-class corpus we benchmark fifteen classical, deep-learning and fine-tuned transformer baselines, and propose a hybrid architecture that fuses sparse TF-IDF lexical features with DeBERTa contextual embeddings at the feature level before Random Forest classification. The proposed hybrid attains 92.38% accuracy, 92.41% precision, 92.38% recall and 92.31% F1 under prompt-aware 10-fold cross-validation, a 17.73-point gain over the strongest fine-tuned transformer (DeBERTa, 74.65%) and a 34.30-point gain over TF-IDF with Random Forest alone, with non-overlapping 95% confidence intervals. An ablation confirms that both branches are necessary, and SHAP and LIME analyses expose the lexical evidence behind individual decisions. Because the 10-class hybrid is both substantially more accurate and interpretable, it is the model served by the live SiBot platform; the 22-class model is reported here as a research benchmark, and extending the deployment to all 22 classes is left to future work. In a controlled three-way benchmark against QuillBot, Turnitin, ZeroGPT and TextGuard, SiBot is the only system that names the generating model of AI text (Gemini, 96.7% confidence) and the only one that recognises hybrid provenance (97.7% confidence, against verdicts ranging from 0% to 76% among the commercial tools on the identical input).</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357405&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.18</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709658/" target="_blank" rel="noopener">The Thyroid-Brain Network: Exploring Inflammation, Immune Mechanisms and Common Triggers in Thyroid-Related Neurological Dysfunction.</a></div>
+  <div class="title-cn">甲状腺-脑网络：探索甲状腺相关神经功能障碍中的炎症、免疫机制及共同触发因素</div>
+  <div class="one-line">为解决甲状腺相关神经功能障碍机制不清问题，作者以综述方式整合炎症与免疫证据，发现甲状腺自身免疫可经神经炎症、肠-甲状腺-脑轴和线粒体损伤共同影响脑功能。</div>
+  <div class="meta">Neuroendocrinology · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ullah MF</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1159/nen/advag005">10.1159/nen/advag005</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709658/">https://pubmed.ncbi.nlm.nih.gov/42709658/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是甲状腺相关神经功能障碍的免疫炎症综述，缺乏演化或跨物种比较视角，与研究者核心问题基本无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>该综述聚焦自身免疫性甲状腺疾病（Hashimoto甲状腺炎、Graves病）为何伴随神经精神异常。作者整合炎症、免疫和代谢证据，指出甲状腺激素失衡通过基因组/非基因组机制影响神经发育、突触可塑性和认知；AITD还可经分子模拟、细胞因子异常、HMGB1介导胶质激活及血脑屏障破坏诱发神经炎症。文中进一步强调肠道菌群失衡、线粒体功能障碍和神经递质系统紊乱是连接甲状腺与脑功能损害的共同机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Autoimmune thyroid diseases (AITD), including Hashimoto&#x27;s thyroiditis and Graves&#x27; disease, represent the most prevalent endocrine disorders worldwide, affecting hundreds of millions with profound but often under recognized neurological consequences. There are emerging lines of evidence establishing inflammation and immunity as the critical missing link connecting peripheral thyroid dysfunction to central nervous system manifestations. Thyroid hormones function as essential neuromodulators governing neurodevelopment, synaptic plasticity, and cognitive processing through integrated genomic and non-genomic mechanisms, with region-specific cerebral metabolic disturbances correlating with distinct neuropsychiatric symptoms. The immunological perspective reveals that AITD propagates neuroinflammation through convergent pathways: molecular mimicry enabling cross-reactivity between thyroid and neural antigens, cytokine-mediated disruption of neurotransmitter metabolism, HMGB1-driven glial activation, and blood-brain barrier compromise facilitating immune cell infiltration. The thyroid-gut-microbiota axis emerges as a critical mediator wherein dysbiosis perpetuates both thyroid autoimmunity and neuroinflammation through impaired serotonin precursor availability and increased intestinal permeability. Mitochondrial dysfunction represents an energetic common denominator, as thyroid hormone dysregulation directly impairs oxidative phosphorylation, producing region-specific cerebral metabolic disturbances. Simultaneous compromise of monoamine systems, cholinergic signaling abnormalities, and glutamate excitotoxicity creates a particularly toxic neurochemical state in untreated thyroid dysfunction. Common triggers such as psychological stress, gut dysbiosis, and mitochondrial impairment may activate interconnected pathways that simultaneously compromise thyroid and brain function, revealing that these disorders share fundamental mechanistic origins. These insights have been discussed in the current review to enhance the understanding of thyroid-brain function, the core mechanisms and consequences of functional deficits.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/nen/advag005&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.18</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.03.749125" target="_blank" rel="noopener">AnnoAudit: a marker-based protocol for auditing single-cell atlas annotations reveals annotation-driven artifacts in a widely used traumatic brain injury resource</a></div>
+  <div class="title-cn">AnnoAudit：一种基于标记基因的单细胞图谱注释审计流程，揭示广泛使用的创伤性脑损伤资源中由注释驱动的伪影</div>
+  <div class="one-line">为解决单细胞图谱注释未经验证的问题，作者提出整合4重检查的AnnoAudit与ACS评分，发现CEREBRI中4.5万“谷氨酸能神经元”标签大面积被胶质细胞污染。</div>
+  <div class="meta">bioRxiv · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang, L.; Rao, H.; Li, M.; Qian, X.; Zhang, Y.; Yan, Q.; Gao, R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.03.749125">10.64898/2026.09.03.749125</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.03.749125">https://www.biorxiv.org/content/10.64898/2026.09.03.749125</a></div><div class="d-block keywords">命中关键词：brain, neuron, single-cell atlas, Cell atlas</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦创伤性脑损伤单细胞图谱注释质控，虽可借鉴单细胞注释审计思路，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>单细胞图谱注释常被当作真值却少有系统验证。作者提出基于标记基因的AnnoAudit，整合marker评分、无监督聚类、margin-gated模块评分和applicability-gated预训练模型，形成ACS及轨迹相关指纹。应用于TBI图谱CEREBRI（GSE269748）时，45,051个“谷氨酸能神经元”中仅963个被确认，其余多为小胶质细胞、星形胶质细胞和少突胶质细胞。该污染造成离子通道基因轨迹等伪信号；校正后显示KCNC3急性上调在4个数据集、3种损伤模型中保守存在。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell atlas annotations are routinely treated as ground truth but rarely validated before use. We present AnnoAudit, a marker-based audit protocol that combines four convergent checks - marker scoring, unsupervised clustering, margin-gated module scoring, and applicability-gated pretrained models - into a composite Annotation Contamination Score (ACS), plus a trajectory-correlation fingerprint tracing suspicious signals to their cell type of origin. Applied to CEREBRI (GSE269748), the most widely used single-cell TBI atlas (73 citations), the official &quot;glutamatergic neuron&quot; label is systematically contaminated: of 45,051 labeled cells, only 963 (2.1%) are marker-confirmed glutamatergic neurons; the remainder are microglia (31.4%), astrocytes (18.6%), oligodendrocytes (15.9%), and other types. The contamination generates coherent false signals - a biphasic trajectory for 40 of 307 ion-channel genes, a KCNC3-specific OXPHOS signature, and an inversion of KCNC3 regulation at 7 days - whereas the corrected response is a sustained acute KCNC3 up-regulation conserved across four datasets and three injury models, and the fingerprint traces 96.3% of 244 informative ion-channel trajectories to non-neuronal populations. Simulation-calibrated ACS is 82.6% for CEREBRI and 70.4% for a human ALS atlas (GSE330130); three marker-defined controls pass. AnnoAudit needs only the deposited count matrix and a canonical panel; we propose it as a routine quality step.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.03.749125&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709851/" target="_blank" rel="noopener">Multimodal protective and susceptibility clusters in paediatric atopic dermatitis: A machine learning-based, data-driven observational study.</a></div>
+  <div class="title-cn">儿童特应性皮炎中的多模态保护性与易感性簇：一项基于机器学习、数据驱动的观察性研究</div>
+  <div class="one-line">为解决AmaXhosa儿童特应性皮炎相关因素不清问题，作者用可解释机器学习与DIABLO整合217名儿童环境、细胞因子、抗体和转录组数据，发现1个保护簇和2个易感簇。</div>
+  <div class="meta">PLoS medicine · 2026-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhakparov D, Lunjani N, Schmid M, Moriarty K, Roquero D, Dreher A, Heldstab-Kast JI, Nadeau KC, Akdis C, Levin M, Hlela C, Sokolowska M, O&#x27;Mahony L, Baerenfaller K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pmed.1004917">10.1371/journal.pmed.1004917</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709851/">https://pubmed.ncbi.nlm.nih.gov/42709851/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是儿童特应性皮炎的多模态机器学习研究，缺乏演化、跨物种比较或单细胞细胞型同源性视角，对该研究者仅有极弱的方法参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解析南非AmaXhosa儿童特应性皮炎（AD）的环境与免疫机制，作者重分析217名12–36个月城乡儿童的环境、细胞因子、抗体和转录组多模态数据。研究以GeneSelectR筛选560个区分AD的基因，结合SHAP解释模型输出，并用DIABLO整合各模态，识别出3个与AD状态相关的簇：1个与农村环境、自噬相关基因表达及细胞因子相关的健康保护簇，以及2个分别由转录组特征、IgE抗体与MCP-4/TARC相关的AD易感簇。结果为理解AD相关因素提供了数据驱动框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Atopic dermatitis (AD) is a chronic inflammatory skin disease that typically develops in early childhood. Differences in AD prevalence and allergy sensitisation patterns have been observed in African populations, including the AmaXhosa population in South Africa, suggesting alternative pathogenic and immune mechanisms underlying AD. Differences in AD prevalence have also been documented between urban and rural communities, making AmaXhosa children, who share a common ethnogenetic background but differ in environmental exposures, a unique population in which to investigate environmental and immune mechanisms underlying AD. To address this, we performed a machine learning (ML)-based multimodal observational study to identify features associated with AD in 217 AmaXhosa children. To gain deeper insights into AD pathogenesis, we re-analysed a previously established multimodal dataset comprising environmental, cytokine, antibody, and transcriptomic data from healthy AmaXhosa children and children with AD, aged 12-36 months, living in rural or urban settings. We applied ML to analyse each data modality individually and subsequently integrate them to identify multimodal signatures associated with AD. Specifically, we used the GeneSelectR workflow to identify informative genes, SHAP values to explain the ML outputs, and DIABLO to integrate the datasets and identify protective and susceptibility clusters. In the environmental and antibody datasets, we found that the combined effects of environmental features and higher levels of allergen-specific and total IgE antibodies contributed to the prediction of AD. In the transcriptomic dataset, we identified a subset of 560 genes that discriminated between children with and without AD and used these for the subsequent analyses. In the integrated analysis, we identified three multimodal clusters associated with AD status. One cluster associated with the healthy phenotype comprised environmental features primarily found in the rural setting, which correlated with plasma cytokine levels and the expression of autophagy-related genes. Two additional clusters were characterised by correlations between allergen-specific and total IgE antibodies and the cytokines MCP-4 and TARC, and by a transcriptomic feature signature associated with the AD endotype. Limitations of this study include the exploratory nature of the explainable ML framework and the lack of validation in an independent cohort. Complementary ML approaches enabled explainable analysis of a complex multimodal dataset. Integrated analyses identified a multimodal protective cluster comprising environmental, cytokine, and transcriptomic features, together with two AD susceptibility clusters, one dominated by transcriptomic features and the other by correlated cytokine and antibody levels. These findings improve our understanding of the factors associated with AD. Furthermore, the feature-selection and integration workflow provides a framework for analysing complex multimodal datasets in future biomedical research.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pmed.1004917&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.11</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709678/" target="_blank" rel="noopener">Retraction: Sentiment analysis of classical Chinese literature: An unsupervised deep learning model with BERT and graph attention networks.</a></div>
+  <div class="title-cn">撤稿：经典中国文学的情感分析：一种结合BERT与图注意力网络的无监督深度学习模型</div>
+  <div class="one-line">为解决中国古典文学情感分析问题，作者用结合BERT与图注意力网络的无监督深度学习模型开展研究，但摘要缺失且论文已撤稿。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>PLOS One Editors</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357748">10.1371/journal.pone.0357748</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709678/">https://pubmed.ncbi.nlm.nih.gov/42709678/</a></div><div class="d-block keywords">命中关键词：deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文为中国古典文学情感分析的深度学习研究，且已撤稿，不涉及演化、生物学或跨物种比较。</div><div class="d-block"><span class="lbl">中文摘要：</span>该论文主题为经典中国文学的情感分析，方法上涉及BERT与图注意力网络的无监督深度学习模型。然而当前未提供摘要，且标题明确标注为撤稿。根据现有信息，论文不涉及脑演化、神经系统演化、单细胞转录组、跨物种比较或细胞类型同源性等研究者核心方向，因此对该研究者几乎没有参考价值。</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357748&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709739/" target="_blank" rel="noopener">Forecasting alcohol lapse risk up to two weeks in advance using time-lagged machine learning models.</a></div>
+  <div class="title-cn">使用时间滞后机器学习模型提前两周预测饮酒复发风险</div>
+  <div class="one-line">为解决酒精使用障碍复发预警过短问题，作者用基于每日4次EMA的时间滞后机器学习模型，发现可提前1天至2周预测复发且auROC达0.85-0.89。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wyant K, Fronk GE, Yu J, Punturieri CE, Curtin JJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0356893">10.1371/journal.pone.0356893</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709739/">https://pubmed.ncbi.nlm.nih.gov/42709739/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是酒精使用障碍的临床预测研究，既无演化或跨物种比较视角，也与单细胞细胞类型演化问题无直接关联。</div><div class="d-block"><span class="lbl">中文摘要：</span>酒精使用障碍易复发，现有模型多聚焦即刻风险，难以支持需提前筹划的干预。作者基于151名早期戒酒者在3个月内每日4次生态瞬时评估数据，构建滞后1天、3天、1周和2周的24小时预测窗口机器学习模型，并用嵌套交叉验证评估。各模型中位后验auROC为0.85-0.89，随滞后时间延长略降。既往饮酒、自我戒断效能和渴求是关键特征，但模型在非优势群体中的表现较差，提示公平性仍需改进。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Alcohol use disorder is a chronic, relapsing condition. Individuals must monitor risk and take proactive steps to manage and reduce it indefinitely to prevent lapse. Smartphone sensing and machine learning offer promise as scalable tools for automating risk monitoring and delivering personalized support during recovery. Research has demonstrated that machine learning models using ecological momentary assessment can generate highly accurate predictions of immediate lapse risk (e.g., within the next hour or day). However, many risks require supports that are not immediately available. These supports may need to be planned or involve coordination with others. In such cases, individuals may benefit from advance warning about changes in their lapse risk and the contributing factors. To meet this need, we developed machine learning models to predict future alcohol lapses within 24-hour prediction windows, lagged by 1 day, 3 days, 1 week, and 2 weeks from the prediction timepoint. We engineered features from 4x daily ecological momentary assessments from individuals (N = 151; 51% male; mean age = 41; 87% non-Hispanic White) in early recovery (≤ 8 weeks of abstinence) from alcohol use disorder over a three-month period. We trained and evaluated models using nested cross-validation. Median posterior auROC values were high (0.85-0.89) across models, though performance decreased modestly with longer lag time. Models performed worse for non-advantaged groups (non-White and/or Hispanic, income below federal poverty line, female) compared to advantaged groups (non-Hispanic White, income above federal poverty line, male). Past alcohol use, abstinence self-efficacy, and craving were the most important features, with the magnitude of their importance varying meaningfully by lag time. These findings demonstrate the feasibility of predicting alcohol lapses up to two weeks in advance. Embedding these models within a recovery monitoring and support system could enable adaptive, personalized care with enough warning to implement recovery supports not immediately available. Improving model fairness and optimizing the delivery of model feedback to sustain engagement remain critical next steps.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356893&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709700/" target="_blank" rel="noopener">Prediction model for compressive strength of alkali-activated multi-source solid-waste grouting materials based on generative adversarial networks and machine learning.</a></div>
+  <div class="title-cn">基于生成对抗网络和机器学习的碱激发多源固废灌浆材料抗压强度预测模型</div>
+  <div class="one-line">为解决多源固废灌浆材料抗压强度难预测问题，作者用WGAN-GP数据增强结合NRBO-XGBoost与SHAP分析，发现模型测试期R2达0.964且水胶比等因素主导强度。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yue Q, Yu G, Yao Y, Yang Z, Li Y, Bai L, Xiong G</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357051">10.1371/journal.pone.0357051</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709700/">https://pubmed.ncbi.nlm.nih.gov/42709700/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于材料与工程机器学习预测研究，不涉及演化、跨物种比较、神经系统或单细胞转录组学，对该研究者几乎无直接价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对碱激发多源固废灌浆材料成分复杂、小样本、高维和强非线性条件下抗压强度难以预测的问题，作者整合3项研究建立179条UCS数据库，保留15条作外部验证，用WGAN-GP扩增164条建模样本，并比较多种机器学习模型。NRBO优化后的XGBoost表现最佳，测试期R2=0.964、RMSE=3.411 MPa、MAE=2.474 MPa。SHAP显示水泥掺量、水胶比、养护龄期、碱当量和矿渣含量是关键因素。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Alkali-activated multi-source solid-waste grouting materials have attracted increasing attention in geotechnical and underground engineering due to their low carbon footprint, environmental friendliness, and potential for large-scale resource utilization. However, the complex composition and multiple influencing factors of these materials pose significant challenges for understanding and predicting their compressive strength, particularly under conditions characterized by small sample sizes, high-dimensional variables, and strong nonlinearity. To address these issues, an experimental database comprising 179 UCS records compiled from three independent experimental studies was established. Fifteen experimental records were reserved for external validation, while WGAN-GP was trained using the remaining 164 model-development samples, thereby keeping the external validation set completely isolated from model development. Multiple machine learning models were then developed to establish a UCS prediction framework. Furthermore, the Newton-Raphson-Based Optimizer (NRBO) was applied to optimize the hyperparameters of the XGBoost model, resulting in an NRBO-XGBoost prediction model. The SHAP method was introduced to interpret the prediction results and quantify the contribution of each input variable. The results demonstrate that WGAN-GP effectively preserves the statistical characteristics and inter-variable correlations of the original data, thereby improving model-training stability and generalization performance. Among all models considered, NRBO-XGBoost exhibited the best predictive performance, achieving an R2 of 0.964, an RMSE of 3.411 MPa, and an MAE of 2.474 MPa in the testing phase. SHAP analysis further revealed that cement content, water-to-binder ratio, curing age, alkali equivalent, and ground granulated blast-furnace slag content play dominant roles in governing compressive strength development. The integrated framework of data augmentation, optimized modeling, and interpretable analysis proposed in this study provides reliable data-driven decision support for mix design optimization and engineering application of alkali-activated multi-source solid-waste grouting materials, and offers a novel technical pathway for performance prediction of complex cementitious materials.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357051&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦“细胞状态—时序动态—网络机制”三层尺度的生命过程解析：既有跨物种单细胞轨迹重建，揭示人类皮层中人特异的突触胶质前体状态；也有对成年果蝇昼夜节律神经元转录动态的高时间分辨率描绘；同时从循环网络结构与慢性创面免疫失衡出发，分别解释神经序列生成和生物膜感染持续炎症的机制。其中最值得注意的是人类发育皮层中新型OPC微环境的发现。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>脑与神经系统发育调控：跨物种单细胞连续轨迹比较揭示人类皮层OPC中突触基因网络重部署，指向人特异胶质前体状态。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>时序转录调控与昼夜节律：通过多时点snRNA-seq描绘成年果蝇节律神经元转录波动，区分昼夜节律驱动与少量光依赖响应。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>神经动力学与理论建模：从可生成多类序列的循环神经网络中提取共同连接谱，说明序列特征更多由结构规则而非具体连接决定。</div>
+<div class="trend-dir"><span class="trend-dir-no">四是</span>感染微环境与免疫失衡：单细胞联合空间转录组发现生物膜感染诱导MARCO高MERTK低巨噬细胞亚群，削弱凋亡细胞清除并维持炎症。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这组论文共同体现出从“静态描述”走向“动态机制解析”的方法学趋势：一方面依赖单细胞、细胞核测序与空间转录组等高分辨率技术重建细胞状态变化；另一方面结合跨物种比较、多时间点采样和计算建模，从发育、节律到网络活动与感染过程，提炼决定表型的关键调控结构与细胞亚群。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批工作提供了几个直接借鉴点：其一，重视连续轨迹和时间维度，而非只比较终点状态；其二，将单细胞数据与空间定位、遗传标记或理论模型结合，以增强机制解释力；其三，聚焦少数关键细胞亚群或连接结构，往往更容易找到可验证、可干预的核心节点，适合延伸到发育神经科学、节律生物学和感染免疫研究。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
