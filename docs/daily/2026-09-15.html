@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-15</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-15</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 2 · Important 2 · Relate 11）· 命中关键词 25 个</div>
+
+
+<div class="card c-must">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-must">Must Read</span><span class="score">7.8</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42600003/" target="_blank" rel="noopener">The extreme diversity of retinal amacrine cells has deep evolutionary roots.</a></div>
+  <div class="title-cn">视网膜无长突细胞的极端多样性具有深远的演化根源</div>
+  <div class="one-line">为解决脊椎动物视网膜无长突细胞多样性起源问题，作者整合24种脊椎动物单细胞与单核图谱，重建42类正交AC类型，发现其分子身份保守并提出AC-RGC混合祖细胞模型。</div>
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tommasini D, Monavarfeshani A, Dinesh V, Hahn J, Tangeman J, Marre O, Blackshaw S, Puthussery T, Sanes JR, Shekhar K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeg3223">10.1126/sciadv.aeg3223</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42600003/">https://pubmed.ncbi.nlm.nih.gov/42600003/</a></div><div class="d-block keywords">命中关键词：neuron, transcriptomic atlas, vertebrate evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>该文以24种脊椎动物单细胞/单核转录组重建视网膜无长突细胞的跨物种同源与起源，和研究者关注的细胞类型演化、跨物种比较与神经系统演化高度一致。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解脊椎动物视网膜无长突细胞（AC）极端多样性的演化起源，作者整合24种脊椎动物的单细胞与单核转录组图谱，重建42种正交AC类型。结果显示，多数AC类型在羊膜动物间呈一对一对应，且许多在更广泛脊椎动物中也保守存在；其核心分子身份保守，但丰度与基因表达随物种视觉生态而变化。AC多样性还与RGC多样性协同扩张，并支持AC源自AC-RGC混合前体、甘氨酸能AC较早分化的演化框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Amacrine cells (ACs) comprise a heterogeneous class of inhibitory neurons in the vertebrate retina, exhibiting morphological and functional complexity rivaling that of cortical interneurons. Here, we integrate single-cell and single-nucleus transcriptomic atlases from 24 vertebrate species to reconstruct the evolutionary origins of this extreme diversity. We identify 42 orthologous AC types, most of which exhibit a one-to-one correspondence across amniotes and, in many cases, across vertebrates. While core molecular identities are conserved, AC types vary in abundance and gene expression across species, likely reflecting adaptations to distinct visual ecologies. AC diversity scales with that of retinal ganglion cells (RGCs), indicative of coevolution. Last, we suggest that ACs arose from an AC-RGC hybrid precursor, with glycinergic ACs diverging early in vertebrate evolution, followed by a bifurcation between RGCs and GABAergic ACs. Together, these findings establish a unified evolutionary framework for understanding the diversity, development, and function of a class of inhibitory neurons across vertebrates.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3223&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-must">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-must">Must Read</span><span class="score">7.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42599956/" target="_blank" rel="noopener">A single-cell transcriptomic atlas reveals the emergence of medusa-specific cell states in the Aurelia coerulea scyphozoan.</a></div>
+  <div class="title-cn">单细胞转录组图谱揭示钵水母Aurelia coerulea中水母特异性细胞状态的出现</div>
+  <div class="one-line">为解决钵水母从水螅体到水母体转变中的细胞类型与演化来源问题，作者构建Aurelia coerulea单细胞转录组图谱并与海葵跨物种比较，发现神经亚型扩增、横纹肌出现及部分神经谱系具古老同源性。</div>
+  <div class="meta">PLoS biology · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Link O, Jahnel SM, Janicek K, Guerguerian D, Kraus J, Montenegro JD, Zimmermann B, Wick B, Khalturin K, Cole AG, Technau U</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pbio.3003931">10.1371/journal.pbio.3003931</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42599956/">https://pubmed.ncbi.nlm.nih.gov/42599956/</a></div><div class="d-block keywords">命中关键词：neuron, neural, transcriptomic atlas, cell state, ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>该文以单细胞图谱结合跨物种同源转录因子比较，讨论刺胞动物神经/肌肉细胞类型起源与演化创新，和研究者的细胞类型演化与比较单细胞方向高度契合。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解析钵水母Aurelia coerulea由无性固着水螅体到有性游泳水母体转变是否伴随细胞组成重塑，作者构建该过程的单细胞转录组图谱。结果显示转变期细胞类型多样性增加，表现为神经亚型扩增和横纹肌出现；与海葵Nematostella vectensis比较发现两类神经谱系由同源转录因子指定，提示其可追溯至约5亿年前共同祖先。研究还提出基因复制可能驱动刺胞动物神经腺体谱系复杂化，并表明平滑肌收缩调控可能更为祖先型。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The life cycle of most medusozoan cnidarians is marked by the metagenesis from the asexually reproducing sessile polyp and the sexually reproducing motile medusa. At present, it is unknown to what extent this drastic morphological transformation is accompanied by molecular changes in the cell type composition. Here, we provide a single-cell transcriptome atlas of the cosmopolitan scyphozoan Aurelia coerulea focusing on changes in individual cell states during the transition from polyp to medusa. Notably, this transition is marked by an increase in cell type diversity, including an expansion of neural subtypes and the appearance of striated muscles. We find that two families of neuronal lineages are specified by homologous transcription factors in the sea anemone Nematostella vectensis and A. coerulea, suggesting an origin in the common ancestor of medusozoans and anthozoans about 500 Myr ago. Our analysis suggests that gene duplications might be drivers for the increase of cellular complexity during the evolution of cnidarian neuroglandular lineages and highlights the close relationship of neurons and muscles. One key medusozoan-specific cell type is the striated muscle in the subumbrella. Evaluating muscle types by fiber anatomy and gene expression validation of their individual molecular profiles made it possible for the first time to investigate transcriptome differences between smooth and striated muscles. Although smooth and striated muscles are phenotypically different, both have a similar regulation of the contractile complex, reminiscent to the regulation of smooth muscles in bilaterians. This contrasts with bilaterian striated muscles, where the regulation of muscle contraction involves Ca2+ binding troponins and their interaction with Tropomyosin. These data suggest that smooth muscle contraction regulation is ancestral and the use of troponins in striated muscles only evolved in bilaterians.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003931&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.99</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42598888/" target="_blank" rel="noopener">Sibling chimerism among microglia in marmosets.</a></div>
+  <div class="title-cn">狨猴小胶质细胞中的同胞嵌合现象</div>
+  <div class="one-line">为解决狨猴器官嵌合是否超出血源细胞问题，作者用单细胞RNA-seq结合转录SNP鉴定同胞基因组细胞，发现脑内嵌合仅见于小胶质细胞和巨噬细胞。</div>
+  <div class="meta">eLife · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Del Rosario RCH, Krienen FM, Zhang Q, Goldman M, Mello C, Lutservitz A, Ichihara K, Wysoker A, Nemesh J, Feng G, McCarroll SA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.93640">10.7554/eLife.93640</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42598888/">https://pubmed.ncbi.nlm.nih.gov/42598888/</a></div><div class="d-block keywords">命中关键词：brain, neuron, glia</div><div class="d-block"><span class="lbl">推荐理由：</span>虽用单细胞RNA-seq解析狨猴脑内小胶质细胞嵌合现象，但缺乏演化或跨物种比较视角，对该研究者主要价值在单细胞鉴定策略与脑免疫细胞分析思路。</div><div class="d-block"><span class="lbl">中文摘要：</span>狨猴因胎内双胎/三胎循环相通而常见嵌合，但器官嵌合是否涉及非血源细胞长期未明。作者分析多只狨猴血液、肝、肾及多个脑区的单细胞RNA-seq数据，利用转录SNP识别携带同胞基因组的细胞。结果显示，各组织中的同胞来源嵌合完全限于造血来源细胞；脑内仅小胶质细胞（20-52%）和巨噬细胞（18-64%）存在嵌合，神经元、其他胶质和室管膜细胞均无。小胶质细胞表达谱更受局部脑区环境而非遗传差异影响。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Chimerism happens rarely among most mammals, but is common in marmosets and tamarins, a result of fraternal twin or triplet birth patterns in which in utero connected circulatory systems (through which stem cells transit) lead to persistent blood chimerism (12-80%) throughout life. The presence of Y-chromosome DNA sequences in organs of female marmosets has long suggested that chimerism might also affect these organs. However, a longstanding question is whether this chimerism is driven by blood-derived cells or involves contributions from other cell types. To address this question, we analyzed single-cell RNA-seq data from blood, liver, kidney, and many brain regions across a number of marmosets, using transcribed single-nucleotide polymorphisms (SNPs) to identify cells with the sibling&#x27;s genome in various cell types within these tissues. Sibling-derived chimerism in all tissues arose entirely from cells of hematopoietic origin (i.e., myeloid and lymphoid lineages). In brain tissue this was reflected as sibling-derived chimerism among microglia (20-52%) and macrophages (18-64%) but not among other resident cell types (neurons, glia, or ependymal cells). The percentage of microglia that were sibling-derived showed significant variation across brain regions, even within individual animals, likely reflecting distinct responses by genetic-sibling microglia to local recruitment or proliferation cues or, potentially, distinct clonal expansion histories in different brain areas. In the animals and tissues we analyzed, microglial gene expression profiles bore a much stronger relationship to local/host context than to sibling genetic differences. Naturally occurring marmoset chimerism will provide new ways to recognize the effects of genes, mutations, and brain contexts on microglial biology and to distinguish between effects of microglia and other cell types on brain phenotypes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.93640&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.04</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42600100/" target="_blank" rel="noopener">From Neuropeptides to Toxins: Illuminating the Origins of Venom Complexity in Cone Snails.</a></div>
+  <div class="title-cn">从神经肽到毒素：揭示芋螺毒液复杂性起源</div>
+  <div class="one-line">为解决芋螺毒素起源机制不清问题，作者利用Conus textile基因组并结合跨谱系演化分析，发现神经肽基因经历20余次独立招募并经多机制新功能化为毒素。</div>
+  <div class="meta">Molecular biology and evolution · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Koch TL, Ferrari G, Sumanam SB, Salcedo PF, Watkins M, Chase K, Tooming-Klunderud A, Lluisma AO, Yanagihara A, Young ND, Olivera BM, Undheim EAB, Safavi-Hemami H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/molbev/msag206">10.1093/molbev/msag206</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42600100/">https://pubmed.ncbi.nlm.nih.gov/42600100/</a></div><div class="d-block keywords">命中关键词：transposable element, whole-genome duplication, genome duplication, ohnolog, evolutionary innovation</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦毒液基因组中的基因招募与新功能化演化，具备明确演化视角，但与研究者关注的脑/神经细胞类型演化和单细胞跨物种比较仅间接相关。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解毒液复杂性如何演化，作者基于Conus textile基因组研究芋螺毒素起源，发现神经肽基因被招募进入毒液系统并新功能化为“拟态毒素”。研究鉴定出Conus谱系中20余次独立招募事件，且这些毒素并非源自约2亿年前全基因组复制的ohnolog，而是通过外显子重排、可变剪接和异位重组等多种机制产生，且常受谱系特异转座元件促进。结果揭示了基因组结构与分子创新共同驱动复杂基因库演化的过程。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>New genes and gene functions are key drivers of evolutionary innovation. Venomous animals, such as cone snails, provide striking examples of gene innovation, yet the mechanisms by which toxins arise remain poorly understood. Using the Conus textile genome, we uncover how neuropeptide genes were recruited into the venom and neofunctionalized as doppelgänger toxins. We identify over 20 independent recruitment events that evolved dynamically across the Conus lineage. Rather than arising from ohnologs of a whole-genome duplication event ∼200 mya, these toxins evolved through diverse mechanisms, including exon shuffling, alternative splicing, and ectopic recombination, often facilitated by lineage-specific transposable elements. Our findings reveal a dynamic interplay between genome architecture and molecular innovation, offering broad insight into the evolution of complex gene repertoires in venoms and beyond.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/molbev/msag206&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.82</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42599963/" target="_blank" rel="noopener">scKanFormer: A Transformer-KAN framework with biologically informed attention for cell type annotation in large-scale scRNA-seq data.</a></div>
+  <div class="title-cn">scKanFormer：一种具有生物学信息引导注意力的大规模scRNA-seq细胞类型注释Transformer-KAN框架</div>
+  <div class="one-line">为解决大规模scRNA-seq细胞类型注释中的批次效应与可解释性问题，作者用融合生物学信息注意力、CNN、Transformer和KAN的scKanFormer，发现其在基准数据上实现准确、稳健且可迁移的高分辨率注释。</div>
+  <div class="meta">PLoS computational biology · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yuan L, Cao J, Sun S, Wang S, Ye L, Huang DS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014607">10.1371/journal.pcbi.1014607</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42599963/">https://pubmed.ncbi.nlm.nih.gov/42599963/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, cell type annotation, deep learning, transformer, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦大规模scRNA-seq细胞类型注释算法，虽与单细胞分析有关，但缺乏演化、跨物种比较或细胞同源性视角，对该研究者主要是一般方法层面的参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对scRNA-seq细胞类型注释需兼顾大规模数据、批次效应与模型可解释性的难题，作者提出监督式框架scKanFormer。该方法以Transformer替代自编码降维，结合生物学信息、局部与全局注意力、Kolmogorov-Arnold Networks及CNN，以提升特征追溯性、可解释性和抗批次效应能力。与9种先进方法在基准数据系统比较后，scKanFormer在不同注释场景和细胞类型中均表现出更准确、稳健且可迁移的高分辨率注释能力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>A key challenge in single-cell RNA sequencing (scRNA-seq) data analysis is accurately and efficiently identifying the cell type of each cell. Cell type annotation for scRNA-seq data not only needs to overcome batch effects caused by various factors but also requires effective handling of large-scale scRNA-seq datasets. Although deep learning has achieved remarkable progress in cell type annotation tasks, it still exhibits limitations in interpretability and robustness against batch effects. To tackle these issues, we propose a supervised framework based on the Transformer architecture, named scKanFormer, for cell type annotation on large-scale multi-class scRNA-seq data. To mitigate the problems of untraceable latent space, poor interpretability, and feature loss caused by the nonlinear aggregation of features in autoencoders, we employ the Transformer framework. This framework avoids dimensionality reduction and enables traceability from the attention layers back to the original input features. By integrating biological information, local and global attention mechanisms, and leveraging Kolmogorov-Arnold Networks (KAN), we enhance the model&#x27;s ability to identify and interpret cellular features. The combination of Convolutional Neural Network (CNN) and Transformer enables more comprehensive data processing, thereby mitigating batch effects. To evaluate the effectiveness and robustness of scKanFormer, we compared it with nine state-of-the-art methods on benchmark datasets. Through systematic comparisons under different cell type annotation scenarios and across various cell types, we demonstrate that scKanFormer delivers precise, robust, and transferable high-resolution annotations. These annotations are insensitive to batch effects and exhibit clear biological interpretability. The data and source code are available at https://github.com/nathanyl/scKanFormer.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014607&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.07.749966" target="_blank" rel="noopener">Stressor-Selective Sympathetic Preganglionic Modules for Organ-Biased Control</a></div>
+  <div class="title-cn">应激源选择性的交感神经节前模块介导器官偏向性控制</div>
+  <div class="one-line">为解决应激下交感输出如何实现器官选择性控制问题，作者结合空间转录组、即时早期基因定位、解剖追踪和功能扰动，发现小鼠SPN亚型按脊髓节段和性别组织并形成应激源选择性输出模块。</div>
+  <div class="meta">bioRxiv · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yamada, S.; Uchida, S.; Tsurutani, M.; Cho, D.; Kadota, M.; Kondo, T.; Miyamichi, K.; Sato, H.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.07.749966">10.64898/2026.09.07.749966</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.07.749966">https://www.biorxiv.org/content/10.64898/2026.09.07.749966</a></div><div class="d-block keywords">命中关键词：brain, neuron, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠交感神经节前神经元的生理应激回路分工，虽有空间转录组与细胞类型解析，但缺乏演化或跨物种比较视角，对以神经系统演化为核心的研究者参考价值有限。</div><div class="d-block"><span class="lbl">中文摘要：</span>交感神经系统在应激中协调器官功能，但脊髓如何将自主神经指令转化为选择性外周输出仍不清楚。作者在小鼠中结合空间转录组、即时早期基因映射、解剖追踪和功能扰动，解析交感神经节前神经元（SPNs）的细胞逻辑。结果显示，SPN转录组亚型按脊髓节段与性别空间组织，并被不同生理应激以特定组合募集，形成应激源选择性输出模块。下胸段Nts+ SPNs连接下交感干和主动脉肾神经节，促进雌性偏向的白脂动员，并在缺食寒冷条件下维持耐寒。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The sympathetic nervous system coordinates organ function during stress, yet the spinal organization that converts autonomic commands into selective peripheral outputs remains poorly understood. Here, we combined spatial transcriptomics, immediate early gene mapping, anatomical tracing, and functional perturbation to define the cellular logic of spinal sympathetic preganglionic neurons (SPNs) in mice. SPN transcriptomic subtypes were spatially organized by spinal segment and sex and recruited in distinct combinations by physiological stressors, revealing stressor-selective sympathetic output modules. Focusing on cold-responsive neurotensin-expressing (Nts+) SPNs in the lower thoracic spinal cord, we found that they formed a distinct output channel to the lower sympathetic trunk and aorticorenal ganglia, promoted female-biased mobilization of white adipose tissue lipids, and were required for cold tolerance when food was unavailable. These findings establish a cell-type-resolved spinal architecture that links physiological demand to organ-biased sympathetic output and identifies the preganglionic layer as a key organizer of brain-body control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.07.749966&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">3.85</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.11.748700" target="_blank" rel="noopener">Single-cell splice isoform usage reveals distinct axes of cellular identity and senescence</a></div>
+  <div class="title-cn">单细胞剪接异构体使用揭示细胞身份与衰老的不同轴线</div>
+  <div class="one-line">为解决短读长难解析单细胞全长异构体问题，作者构建覆盖人类26种组织的单细胞长读长异构体图谱，发现异构体使用是区别于基因表达的细胞身份轴线并揭示衰老相关重塑。</div>
+  <div class="meta">bioRxiv · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mantri, M.; Detweiler, A. M.; Lee, J.; Kwon, J. H.-Y.; Zhou, A.; Tong, L.; Jones, R. C.; Neff, N. F.; Tabula Sapiens Consortium,  ; Quake, S. R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.11.748700">10.64898/2026.09.11.748700</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.11.748700">https://www.biorxiv.org/content/10.64898/2026.09.11.748700</a></div><div class="d-block keywords">命中关键词：single-cell atlas, transcriptomic atlas, Cell atlas</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人类跨组织单细胞长读长异构体图谱与衰老程序，虽对单细胞分辨率转录本分析有方法启发，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>可变剪接显著扩展人类基因组产物多样性，但既有单细胞图谱多停留在基因表达层面，难解析全长异构体。作者构建覆盖人类26种组织的单细胞长读长异构体图谱，鉴定出数十万新异构体，并发现超过三分之一表达异构体未被现有参考数据库收录。研究表明，异构体使用构成区别于基因表达的、可测量的细胞身份轴线；在细胞衰老中，还解析了CDKN2A位点p16INK4a与p14ARF转录本及其细胞类型依赖的异构体重塑。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Alternative splicing greatly expands the diversity of gene products encoded by the human genome. Single-cell transcriptomic atlases have characterized human cell types through gene-level expression, but short-read sequencing has limited the ability to resolve full-length isoforms and their functional consequences. Here, we present a cross-tissue single-cell long-read isoform atlas spanning 26 human tissues. We identify hundreds of thousands of novel isoforms along with their cell-type-specific usage, and discover that over one-third of expressed isoforms are absent from existing reference databases. We further demonstrate that isoform usage is a structured, measurable axis of cellular identity that is distinct from gene expression. Applying this framework to cellular senescence, we resolve p16INK4a and p14ARF transcripts from the CDKN2A locus in individual cells and uncover cell-type-dependent isoform remodeling associated with the p16INK4a senescence program. This isoform-resolved single-cell atlas offers a versatile framework to dissect the cellular logic of isoform regulation in senescence and beyond.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.748700&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">3.82</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734529/" target="_blank" rel="noopener">AutoMulti: An Integrated Graphical Platform for Computational Chemistry Analysis and Molecular Data Generation.</a></div>
+  <div class="title-cn">AutoMulti：用于计算化学分析与分子数据生成的一体化图形平台</div>
+  <div class="one-line">为解决计算化学流程分散问题，作者开发集成图形平台AutoMulti，完成催化剂枚举、批量GFN2-xTB计算与描述符提取，并导出可供GNN复现能量差标签的数据集。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu Y, Lin J, Xiong C, Li Y, Ke Z</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01910">10.1021/acs.jcim.6c01910</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734529/">https://pubmed.ncbi.nlm.nih.gov/42734529/</a></div><div class="d-block keywords">命中关键词：machine learning, graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦计算化学与分子数据生成平台，不涉及演化、跨物种比较、神经系统或单细胞转录组研究。</div><div class="d-block"><span class="lbl">中文摘要：</span>计算化学中的分子构建、量化输入准备、结果分析、参考数据检索和描述符生成常由不同软件分散完成。作者开发桌面图形平台AutoMulti，将这些操作整合于统一环境中，并在二亚胺-Ni催化剂案例中实现催化剂枚举、批量GFN2-xTB计算、QM特征与描述符提取及结构化数据导出。导出数据随后用于独立GNN流程，并成功复现GFN2-xTB得到的IM/TS能量差标签。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Computational chemistry supports molecular interpretation and the generation of reusable data sets for statistical modeling and machine learning. However, molecular construction, quantum-chemical input preparation, result analysis, reference-data retrieval, and descriptor generation are often handled by separate programs and assembled manually. AutoMulti is a graphical platform that connects these operations in one desktop environment. In a diimine-Ni catalyst case study, AutoMulti was used for catalyst enumeration, batch GFN2-xTB calculations, QM-feature and descriptor extraction, and structured data export. The exported data set was subsequently analyzed in an independent graph neural network (GNN) workflow, which reproduced the GFN2-xTB-derived IM/TS energy-difference labels.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01910&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">3.76</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734553/" target="_blank" rel="noopener">Automated Classification and Representation of sp2-sp2 Atropisomers in the MolBar Identifier.</a></div>
+  <div class="title-cn">MolBar标识符中sp2-sp2阻旋异构体的自动分类与表征</div>
+  <div class="one-line">为解决分子数据库中sp2-sp2阻旋异构难以自动识别问题，作者用MolBar结合位阻物理分类器与消息传递图神经网络，实现在三维结构中自动标注稳定键及其绝对构型。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>van Staalduinen N, Bannwarth C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c00688">10.1021/acs.jcim.6c00688</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734553/">https://pubmed.ncbi.nlm.nih.gov/42734553/</a></div><div class="d-block keywords">命中关键词：machine learning, graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦化学信息学中的轴手性自动识别，与演化、跨物种比较及单细胞脑演化研究几乎无直接关联。</div><div class="d-block"><span class="lbl">中文摘要：</span>阻旋异构由单键受限旋转产生，在药物学中具有重要意义，但其在分子数据库和化学信息学工具中的自动识别与表征仍很有限。作者扩展了MolBar，对三维分子结构中的每个sp2-sp2键自动判定为快速互变或构型稳定（旋转势垒≥20 kcal/mol），并为后者指定绝对构型。方法结合面向位阻效应的物理启发式分类器与处理电子效应的消息传递图神经网络，可用于大规模无监督注释并支持药物发现中的阻旋异构感知机器学习。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Atropisomerism, a form of chirality arising from restricted rotation around single bonds, holds significant pharmacological importance. Yet, the automated identification and representation of atropisomerism in molecular databases and cheminformatics tools remain limited. Identifying bonds that lead to stable atropisomers typically involves labor-intensive experiments or costly quantum chemical scans. In this work, we present an extension of the molecule identifier MolBar that automatically classifies each sp2-sp2 bond in a three-dimensional molecular structure as either rapidly convertible or configurationally stable (rotational barrier ≥ 20 kcal/mol), specifying the absolute configuration for the latter. Our methodology uses two distinct classifiers: a physically motivated classifier for steric hindrance and a message-passing graph neural network for electronic effects. Integrated into MolBar, this module enables unsupervised, large-scale annotation of atropisomeric bonds along with their absolute configurations. This advancement facilitates the representation of atropisomerism in databases and supports atropisomerism-aware machine learning in drug discovery. A new version of MolBar (1.2.0) is available on the Python Package Index (PyPI) and can be installed using the pip command: pip install molbar.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c00688&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">3.72</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734510/" target="_blank" rel="noopener">Unimodal vs Multimodal Learning: A Systematic Evaluation of Fusion Strategies and Model Design for Molecular Property Prediction and Uncertainty Quantification.</a></div>
+  <div class="title-cn">单模态与多模态学习：用于分子性质预测与不确定性量化的融合策略和模型设计系统评估</div>
+  <div class="one-line">为解决实验数据有限下分子性质预测与不确定性评估问题，作者系统比较5种分子模态、早晚期融合及4类算法，发现多模态对精度提升有限但可明显改善不确定性校准。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wasswa J, Kajjumba GW, Ramsundar B</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01878">10.1021/acs.jcim.6c01878</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734510/">https://pubmed.ncbi.nlm.nih.gov/42734510/</a></div><div class="d-block keywords">命中关键词：graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦环境化学中的分子性质预测与多模态机器学习，不涉及演化、生物体脑/神经系统或跨物种比较，仅可作一般算法评估思路参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>为应对环境化学中实验数据有限条件下的分子性质预测难题，作者围绕14项理化性质，系统评估5种分子模态（RDKit描述符、Mol2Vec、GNN嵌入、SMILES、MS2谱）在早期/晚期融合及LightGBM、RF、AttentiveFP、DMPNN四类算法中的表现。结果显示，多模态模型较最佳单模态仅有有限且多不显著的精度增益，但能更明显提升预测误差与估计不确定性的一致性；其中元学习器选择对不确定性校准影响最大，提示多模态价值更多体现在可靠性提升而非单纯精度提高。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate prediction of molecular properties is fundamental to environmental chemistry, yet remains challenging when experimental data are limited. Multimodal fusion provides a promising strategy for integrating complementary molecular representations; however, the relative contributions of molecular representation, fusion strategy, and learning algorithm to the predictive accuracy and uncertainty remain poorly understood. Five molecular modalities (RDKit descriptors, Mol2Vec embeddings, graph neural network embeddings, SMILES representations, and MS2 fragmentation spectra) were evaluated by using early and late fusion strategies with four learning algorithms (LightGBM, RF, AttentiveFP, and DMPNN). Across 14 physicochemical properties, multimodal models exhibited modest numerical improvements over the best unimodal models, although these differences were generally not statistically significant. In contrast, uncertainty quantification revealed clearer distinctions among the modeling strategies. Multimodal integration significantly improved the alignment between prediction error and estimated uncertainty. The fusion strategy had a modest influence on epistemic uncertainty, with significant early versus late differences observed only for selected modality combinations, whereas meta-learner selection had the greatest effect on uncertainty calibration. Ablation, grouped SHAP, and RDKit descriptor reduction analyses showed that RDKit descriptors remained consistently informative despite substantial descriptor reduction, while Mol2Vec, SMILES, GNN embeddings, and MS2 contributed in a property-dependent and partially redundant manner. Computational cost increased substantially with multimodal complexity, whereas predictive accuracy exhibited diminishing returns, indicating that intermediate multimodal configurations often provided the most favorable balance among computational efficiency, predictive performance, and uncertainty reliability. Overall, the results demonstrate that successful multimodal learning depends on the coordinated selection of complementary molecular representations, fusion strategy, and learning algorithm rather than simply increasing the number of integrated modalities. Multimodal integration may provide particular value by improving the reliability of uncertainty estimation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01878&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">3.69</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734969/" target="_blank" rel="noopener">From people to prompts: Understanding susceptibility to persuasion in conversations with artificial intelligence.</a></div>
+  <div class="title-cn">从人与提示词：理解在与人工智能对话中易受说服性的机制</div>
+  <div class="one-line">为解决人与AI对话中谁更具说服力问题，作者用5个真实对话实验操控伙伴框架，发现AI框架因降低争辩性而带来更大态度改变。</div>
+  <div class="meta">Journal of personality and social psychology · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tomaino G, Jung S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1037/pspi0000531">10.1037/pspi0000531</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734969/">https://pubmed.ncbi.nlm.nih.gov/42734969/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦人与AI对话中的说服心理机制，不涉及演化、生物学、跨物种比较或单细胞转录组学，对该研究者核心方向几乎无参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>生成式AI正 increasingly 被用于消费和生活决策，但其在对话中是否能替代人类意见尚不清楚。作者通过5项真实对话实验，让参与者围绕观点性话题与被框定为AI或人类的伙伴交流，实际对话对象均为被提示去改变其想法的大语言模型。结果显示，AI框定比人类框定更能促发参与者向反态度立场转变；原因在于人们认为AI更不易被说服，因此在对话中更少争辩，而这种较低争辩性可预测更大态度改变。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Influencing others through conversation is fundamental to social interactions. With the rise of generative artificial intelligence (GenAI), people are increasingly relying on conversational AI for guidance on consumption and lifestyle choices, from picking a cuisine to choosing a travel destination. However, can conversational AI exert enough persuasive influence to serve as a viable substitute for human opinions? Across five experiments involving real conversations, participants discussed an opinion-based topic (e.g., whether it is worth subscribing to more than one streaming service) with a conversation partner framed as either an AI or a human. Unbeknownst to them, all participants actually conversed with a large language model prompted to try to change their minds on the topic. We found that participants showed greater attitude change toward their partner&#x27;s counterattitudinal position (i.e., became more persuaded) when their partner was framed as an AI (vs. a human). We demonstrate that this occurs because people tend to view AI as inherently less persuadable than humans. As a result, they become less argumentative with an AI-framed (vs. human-framed) partner, and this reduced argumentativeness, in turn, predicts greater attitude change. Consistent with this mechanism, the effect is mediated by linguistic markers of reduced argumentativeness and attenuated when people have a goal to persuade their partner, when an AI-framed partner is described as persuadable, and when the interaction format is constrained (i.e., when argumentation is precluded and thus the partner is structurally unpersuadable). These findings advance understanding of how persuasion unfolds in conversations with AI. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1037/pspi0000531&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">3.69</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734549/" target="_blank" rel="noopener">Toward Imbalanced Molecular Property Regression: A Benchmark Study and Interval-Aware Mixture of Experts.</a></div>
+  <div class="title-cn">迈向不平衡分子性质回归：一项基准研究与区间感知混合专家方法</div>
+  <div class="one-line">为解决分子性质回归中的标签不平衡问题，作者用区间感知混合专家IA-MoE方法（按连续目标区间促进专家专门化），发现其在5个基准和4种GNN骨干上提升稀疏标签区域预测性能。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sun Y, Shi Y, Deng A, Jing Z, Leung C, Hu P</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01847">10.1021/acs.jcim.6c01847</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734549/">https://pubmed.ncbi.nlm.nih.gov/42734549/</a></div><div class="d-block keywords">命中关键词：graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦药物发现中的分子性质回归与标签不平衡学习，不涉及演化、生物体跨物种比较或神经系统/单细胞问题，对该研究者仅有极弱的方法学参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对AI药物发现中分子性质回归任务普遍存在但研究不足的标签不平衡问题，作者系统分析常用数据集，发现目标值高度失衡且误差集中于标签稀疏区。进一步评估通用回归不平衡学习方法后，提出可插拔的区间感知混合专家框架IA-MoE，将连续目标空间划分区间并促进专家分工。其在5个分子性质基准和4种图神经网络骨干上均改善了低代表性区域预测，同时保持或提升总体精度。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Molecular property prediction is a key task in AI-driven drug discovery, yet the prevalence and impact of label imbalances in molecular property regression remain poorly understood. Through a systematic benchmark of widely used molecular property data sets, we show that target values are often highly imbalanced and that prediction errors are consistently concentrated in sparsely represented regions of the label space. We further evaluate representative imbalance-learning approaches developed for general regression tasks and find that their effectiveness on molecular data sets is limited. To address this challenge, we propose interval-aware mixture-of-experts (IA-MoE), a plug-in framework that partitions the continuous target space into intervals and promotes expert specialization across different regions of the label distribution. IA-MoE can be seamlessly integrated with diverse molecular encoders without modifying their underlying architectures. Experiments on five molecular property benchmarks and four graph neural network backbones demonstrate that IA-MoE consistently improves the predictive performance in underrepresented regions while maintaining or improving overall accuracy. Our findings establish label imbalance as an important challenge in molecular property regression and highlight interval-aware expert learning as an effective strategy for addressing this challenge.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01847&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">3.67</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734563/" target="_blank" rel="noopener">Coupled-Cluster Theory for Water Empowered by Quantum Fragmentation and Deep Learning.</a></div>
+  <div class="title-cn">由量子碎片化与深度学习赋能的水的耦合簇理论</div>
+  <div class="one-line">为解决通用水模型缺失问题，作者结合量子碎片化计算与深度学习构建CCSD(T)级DP-CC势能，发现其可较好再现液态水和冰Ih的结构、动力学与热力学性质。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu J, Zhou X, Chen J, He X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01715">10.1021/acs.jcim.6c01715</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734563/">https://pubmed.ncbi.nlm.nih.gov/42734563/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文属于量子化学与深度学习势能函数建模，不涉及演化、跨物种比较、神经系统或单细胞转录组学问题，对该研究者几乎无直接价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>水具有多种反常性质，但能够跨多种热力学条件统一描述其行为的“通用水模型”仍未建立。作者结合先进的基于碎片的量子力学计算与深度学习方法，构建了处于耦合簇CCSD(T)理论水平的深度神经网络势能模型DP-CC，用于表示水的第一性原理势能面。基于该势能的模拟结果与液态水和冰Ih的结构、动力学及热力学实验观测总体一致，为高效开展耦合簇水平的水体系模拟提供了可靠工具，并有助于理解水反常性质的起源。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Water exhibits many anomalous properties, which have given rise to uninterrupted interest in it. A large number of theoretical models have been proposed to elucidate the unique behavior of water, yet the long-sought-after &quot;universal water model&quot; capable of describing the properties of water across diverse thermodynamic conditions remains elusive. Herein, combining advanced fragment-based quantum mechanical calculation and deep learning approach, we present a Deep neural network Potential at the Coupled Cluster considering single, double, and perturbative triple excitations (CCSD(T)) level of theory (DP-CC) to represent the first-principles potential energy surface of water. Utilizing the DP-CC potential, our simulations demonstrate overall good agreement with experimental observations regarding the structural, dynamical, and thermodynamic properties of liquid water and ice Ih. The DP-CC potential provides a reliable way for efficient coupled-cluster-level simulations of liquid water and ice Ih, which may contribute to a better understanding of the origin of the anomalous water properties.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01715&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.66</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734539/" target="_blank" rel="noopener">The Chemical Imitation Game: Navigating Spaces of Meaning in Language and Chemistry.</a></div>
+  <div class="title-cn">化学模仿游戏：在语言与化学的意义空间中导航</div>
+  <div class="one-line">为解决如何理解化学与语言表征演进问题，作者用概念性框架结合分子机器学习、FEP与扩散生成建模，提出以“化学意义”导航化学空间的视角。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Moro S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01773">10.1021/acs.jcim.6c01773</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734539/">https://pubmed.ncbi.nlm.nih.gov/42734539/</a></div><div class="d-block keywords">命中关键词：machine learning, large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦语言学与化学表征空间及分子AI，不涉及演化、跨物种比较或神经系统/单细胞研究，对该研究者仅具极弱方法论启发。</div><div class="d-block"><span class="lbl">中文摘要：</span>本文是一篇观点性文章，旨在阐释化学与语言在知识表征上的共同演进路径：从符号系统走向几何化表示与可导航空间。作者结合计算语言学、分子机器学习、Free Energy Perturbation、扩散生成模型和normalizing-flow架构，提出将分子性质视作由结构涌现的“化学意义”，并以Chemical Imitation Game作为评估分子AI化学推理能力的框架，强调人类直觉与机器导航协同推动化学创新。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The historical evolution of chemistry bears striking parallels to the evolution of language. Both disciplines began as domains governed by tacit practitioner knowledge, underwent successive stages of formalization through systematic symbolic representations, and have ultimately converged toward geometric frameworks that enable machine-guided exploration. From Lavoisier&#x27;s nomenclature and Kekulé&#x27;s structural formulas to SMILES notation, molecular fingerprints, and learned embeddings, chemistry has progressively transformed molecular representations into navigable spaces. A comparable trajectory can be traced in linguistics, from Dante&#x27;s formalization of the vernacular and de Saussure&#x27;s structural linguistics to distributed semantic embeddings, large language models, and generative AI. In this Perspective, we argue that these parallels are not merely historical or metaphorical but reflect a deeper representational transition shared by both disciplines: symbols become representations, representations become geometries, and geometries become spaces that can be explored by humans and machines alike. Building on concepts from computational linguistics, molecular machine learning, Free Energy Perturbation (FEP), and diffusion-based generative modeling, we propose a conceptual framework in which molecular properties may be interpreted as forms of chemical meaning emerging from molecular structure. Within this framework, semantic interpolation in latent spaces and alchemical transformations in molecular simulation appear as related strategies for navigating continuous manifolds that connect discrete chemical states. We suggest that modern molecular AI is best understood not simply as a collection of predictive or generative algorithms, but as a new set of tools for exploring chemical meaning within learned representations of chemical space. Recent examples from molecular generative modeling, including our own work on normalizing-flow architectures, illustrate both the promise and the inherent challenges of machine-guided navigation of chemical space. We further propose the concept of a Chemical Imitation Game as a possible framework for evaluating progress in molecular AI beyond syntactic validity and toward chemically meaningful reasoning. This Perspective highlights the opportunities and the limitations of such approaches and argues for a future in which human intuition and machine navigation operate as complementary and mutually reinforcing components of chemical innovation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01773&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.63</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734115/" target="_blank" rel="noopener">Self-Limiting Oxide Dielectric Enables Interface-State Engineering in p-Type m-GaTe Transistors Toward Bio-Inspired Visual Recognition.</a></div>
+  <div class="title-cn">自限性氧化介电层实现 p 型单斜 GaTe 晶体管界面态工程并用于类生物视觉识别</div>
+  <div class="one-line">为解决2D材料光电突触器件难扩展且缺乏空气稳定p型半导体问题，作者用CVD外延生长具自限性表面氧化层的m-GaTe，实现在单晶体管中可调忆阻开关、突触可塑性及紫外视觉感知。</div>
+  <div class="meta">Small (Weinheim an der Bergstrasse, Germany) · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gao B, Xu R, Shao H, Zhang S, Zhang Y, Wu Z, Shen Y, Meng Y, Wang W, Hu S, Li B, Xie P, Yip S, Lu Y, Ho JC</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/smll.75621">10.1002/smll.75621</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734115/">https://pubmed.ncbi.nlm.nih.gov/42734115/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是二维半导体与类脑视觉硬件的材料/器件工程研究，不涉及演化、生物比较或单细胞细胞类型同源性问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决二维材料光电突触器件依赖复杂界面工程、可扩展性与稳定性不足，以及空气稳定p型半导体缺乏的问题，作者采用化学气相沉积实现高质量单斜GaTe（m-GaTe）定向外延生长，并揭示其自限性表面氧化层可同时作为封装层和介电层，引入界面陷阱态调控空穴输运。结合接触工程，器件实现了可调忆阻开关和突触可塑性；依托其强紫外响应，构建的器件阵列结合卷积神经网络可用于类生物视觉识别。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The development of efficient artificial intelligence hardware has spurred interest in neuromorphic systems that unify sensing, memory, and computing. Optoelectronic synaptic transistors are appealing due to their rapid response times, broad spectral range, and low energy consumption. However, most 2D material-based systems require complex structural and interfacial engineering, which limits scalability and stability. Moreover, the lack of air-stable p-type 2D semiconductors hinders the creation of energy-efficient architectures. In this study, we present monoclinic GaTe (m-GaTe), an intrinsically p-type layered semiconductor, as a robust alternative. Through chemical vapor deposition, we achieve orientation-controlled epitaxial growth of high-quality m-GaTe, and reveal a unique self-limiting surface oxidation. This native oxide serves as both an encapsulation layer and a dielectric, introducing interfacial charge-trapping states that facilitate effective modulation of hole transport in p-type m-GaTe transistors. By exploiting these oxide-mediated properties and engineered contacts, we achieve tunable memristive switching and synaptic plasticity in a single p-type transistor. More importantly, the strong ultraviolet photoresponse of m-GaTe supports a device-array-based sensing system that, when paired with convolutional neural networks, excels in ultraviolet feature extraction and bio-inspired visual perception. This work offers a scalable and reliable pathway to integrated opto-neuromorphic systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/smll.75621&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦“细胞类型演化与功能创新”的前沿研究，涵盖脊椎动物视网膜回路、刺胞动物生活史转变、灵长类脑免疫细胞嵌合以及芋螺毒液起源。最值得注意的是对24种脊椎动物无长突细胞的跨物种整合，系统重建保守细胞类型并提出祖细胞模型，为理解神经细胞多样性深层起源提供了高分辨率框架。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>跨物种单细胞图谱解析细胞类型深层同源性，代表性工作是重建脊椎动物无长突细胞正交类型并提出AC-RGC混合祖细胞模型。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>以单细胞图谱追踪复杂生活史中的新细胞状态出现，代表性工作揭示钵水母特异细胞状态、神经亚型扩增与横纹肌出现。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>用单细胞转录组结合转录SNP识别个体来源，解析狨猴脑内嵌合的细胞范围，发现其主要局限于小胶质细胞和巨噬细胞。</div>
+<div class="trend-dir"><span class="trend-dir-no">四是</span>从基因组与跨谱系演化比较出发追溯新功能起源，代表性工作显示神经肽基因被反复招募并演化为芋螺毒素。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这组论文共同体现出以高分辨率细胞与基因图谱为核心、结合跨物种比较和演化推断来回答经典生物学问题的趋势。单细胞RNA测序、单核图谱、转录SNP分型以及基因组比较被整合使用，不再停留于“描述有哪些细胞或基因”，而是进一步追问它们的同源性、起源路径及功能转化机制。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批工作提示了几个可直接借鉴的切入点：一是通过跨物种单细胞整合提升细胞类型定义的稳健性；二是将发育阶段、生活史转换与演化比较结合，寻找新细胞状态来源；三是把基因组证据与表达谱、谱系信息联动，解析功能创新。适合跟进的方向包括祖细胞模型验证、特异细胞状态功能实验及基因招募机制研究。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
