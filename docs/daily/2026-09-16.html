@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-16</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-16</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 3 · Relate 12）· 命中关键词 20 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.65</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743278/" target="_blank" rel="noopener">Gene expression programs underlying spinal commissural neuron differentiation and axon growth across the midline.</a></div>
+  <div class="title-cn">支配脊髓连合神经元分化及轴突跨中线生长的基因表达程序</div>
+  <div class="one-line">为解决脊髓连合神经元共享与亚型特异转录程序不清问题，作者结合遗传标记、单细胞RNA测序和出生时序分析，发现跨中线轴突生长伴随大规模基因表达切换并定义多种分子亚型。</div>
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Abolafia JR, Hameedy H, Prakash L, Wang Z, Amileviciute E, Dudipala S, Jaworski A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2607727123">10.1073/pnas.2607727123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743278/">https://pubmed.ncbi.nlm.nih.gov/42743278/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文用小鼠胚胎脊髓单细胞转录组解析连合神经元分化与轴突跨中线程序，具备神经细胞类型与发育转录轨迹参考价值，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>脊髓连合神经元负责轴突跨越中线，但其异质性使共享的跨中线程序和亚型特异分子特征长期不清。作者结合遗传标记策略、单细胞RNA测序、出生时序分析及互补实验，研究小鼠胚胎脊髓发育中的连合神经元产生与转录轨迹。结果鉴定出多种分子上可区分的连合神经元亚型，显示其分层超越祖细胞身份和神经发生时间队列，并发现轴突左右侧性与出生时间无关；同时揭示轴突跨中线期间发生大规模基因表达切换，驱动趋向和离开中线的差异蛋白表达。该研究为连合神经元发育与功能研究提供资源。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Commissural neurons in the spinal cord project axons across the midline to fulfill various critical functions in somatosensory information processing and left-right coordination of motor output. These neurons have long served as a powerful model system for axon pathfinding, driving the identification of molecules and mechanistic principles for neuronal wiring that apply widely across neural circuits and model organisms. Aside from their shared initial projection path, commissural neurons are highly heterogenous, which has hampered lineage-based methods for accessing them, and most prior studies have been limited to small subpopulations of dorsal commissural neurons. The shared transcriptional programs for axonal midline crossing and the divergent gene expression signatures that define commissural neuron subtypes have therefore remained largely elusive. Here, we combine a genetic labeling strategy with single-cell RNA sequencing, birthdating, and complementary methods to study the production and transcriptomic trajectories of developing commissural neurons in the mouse embryonic spinal cord. We identify molecularly distinct commissural neuron subtypes that reveal stratification of this neuronal population beyond progenitor identities and temporal cohorts of neurogenesis, and we provide evidence that axon laterality is not linked to neuronal birthdate. We also uncover a large-scale gene expression switch that coincides with commissural axon growth across the midline and underlies differential axonal protein expression for guidance toward and away from the midline. Our findings elucidate both shared and subtype-specific gene expression programs that drive commissural neuron differentiation and axon midline crossing, and they provide a valuable resource for future studies of commissural neuron development and function.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607727123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.37</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743262/" target="_blank" rel="noopener">Ten quick tips for spatial transcriptomics analysis.</a></div>
+  <div class="title-cn">空间转录组分析的十条速用建议</div>
+  <div class="one-line">为解决空间转录组入门门槛高问题，作者以平台中立方式总结ST全流程分析建议，并梳理平台选择、数据处理、可视化与多模态整合要点。</div>
+  <div class="meta">PLoS computational biology · 2026-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kurogi N, Shimbara K, Koreeda T, Tsuyuzaki K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014757">10.1371/journal.pcbi.1014757</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743262/">https://pubmed.ncbi.nlm.nih.gov/42743262/</a></div><div class="d-block keywords">命中关键词：MERFISH, Visium, Slide-seq, Stereo-seq, Spatial transcriptomics, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦空间转录组分析通用流程与平台选择，虽与单细胞整合有关，但缺乏演化或跨物种比较视角，对该研究者主要是技术层面的外围参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>空间转录组在保留组织空间背景的同时进行全基因组表达检测，但平台类型、数据结构与计算工具繁多，给初学者带来挑战。本文以综述形式提出十条速用建议，覆盖研究问题适配性判断、平台选择、数据理解与处理、软件分析和可视化，并讨论与单细胞RNA测序、空间蛋白组学整合及公共数据利用。文章还指出当前局限，尤其是基于连续切片重建三维组织结构的困难，为开展ST研究提供平台中立路线图。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spatial transcriptomics (ST) enables genome-wide gene expression profiling while retaining spatial context within tissue sections. Since the foundational work by Ståhl et al. in 2016, the field has expanded rapidly, with diverse platforms now spanning sequencing-based (e.g., Visium, Visium HD, Slide-seq, Stereo-seq, and Seq-Scope) and imaging-based (e.g., MERFISH, Xenium, and CosMx SMI) approaches. The breadth of platforms, data structures, and computational tools, however, can be daunting for newcomers. Here, we present ten quick tips spanning the entire ST research workflow: whether ST suits a given biological question, how to select a platform aligned with study objectives, how to understand and process ST data, and which software tools to employ for analysis and visualization. We further discuss interpreting spatial patterns in biological context, integrating complementary modalities such as single-cell RNA sequencing and spatial proteomics, and leveraging public datasets and sharing results. Finally, we highlight current limitations of ST, particularly the challenge of reconstructing three-dimensional tissue architecture from serial tissue sections. This review provides biologists, bioinformaticians, and clinician-scientists with a concise, platform-neutral roadmap for incorporating ST into research, from experimental design to biological discovery.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014757&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.25</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42742132/" target="_blank" rel="noopener">Comprehensive RNA velocity by modeling the cascade of gene regulation, transcription, and splicing from single-cell RNA sequencing data with TSvelo.</a></div>
+  <div class="title-cn">利用TSvelo从单细胞RNA测序数据中通过建模基因调控、转录与剪接级联过程实现全面RNA速度分析</div>
+  <div class="one-line">为解决现有RNA velocity难准确刻画复杂基因动力学问题，作者用可解释神经常微分方程TSvelo联合建模调控-转录-剪接级联，发现其在6个scRNA-seq数据集含2个多谱系数据中表现更优。</div>
+  <div class="meta">eLife · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li J, Wang Z, Shen HB, Yuan Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.108950">10.7554/eLife.108950</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42742132/">https://pubmed.ncbi.nlm.nih.gov/42742132/</a></div><div class="d-block keywords">命中关键词：neural, scRNA-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦单细胞RNA velocity建模而非演化或跨物种比较，但其细胞状态转变与潜在时间推断方法可为跨物种神经发育单细胞分析提供技术参考。</div><div class="d-block"><span class="lbl">中文摘要：</span>现有RNA velocity方法主要基于剪接过程建模，但受剪接时间尺度短、噪声高和数据复杂度大影响，常难以准确刻画单基因和单细胞的速度动力学。作者提出TSvelo，以高可解释性的神经常微分方程统一建模基因调控、转录与剪接级联过程，可同时捕获全部基因的transcription-unspliced-spliced三维动力学，并推断细胞内基因共享的统一潜在时间，且适用于多谱系数据。在6个scRNA-seq数据集（含2个多谱系数据集）中，TSvelo显示出更优性能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>RNA velocity approaches fit gene dynamics and infer cell fate by modeling the splicing process using single-cell RNA sequencing (scRNA-seq) data. However, due to the short time scale of splicing, high noise, and large complexity of data, existing RNA velocity methods often fail to precisely capture the complex velocity dynamics for individual genes and single cells, which makes their downstream analysis less reliable and less robust. We propose TSvelo, a comprehensive RNA velocity mathematics framework that can model the cascade of gene regulation, Transcription and Splicing using highly interpretable neural ordinary differential equations. TSvelo can precisely capture the transcription-unspliced-spliced 3D dynamics of all genes simultaneously, infer unified latent time shared by genes within a single cell, and be applied to multi-lineage datasets. Experiments on six scRNA-seq datasets, including two multi-lineage datasets, demonstrate TSvelo&#x27;s superiority.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108950&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.75</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743026/" target="_blank" rel="noopener">Domain Elastic Transform: Bayesian Function Registration for High-Dimensional Scientific Data.</a></div>
+  <div class="title-cn">域弹性变换：用于高维科学数据的贝叶斯函数配准</div>
+  <div class="one-line">为解决不规则稀疏流形上高维空间转录组难以同时进行几何与功能配准问题，作者提出无网格贝叶斯框架DET，发现其在90例小鼠MERFISH基准中取得最强空间重叠与拓扑表现。</div>
+  <div class="meta">IEEE transactions on pattern analysis and machine intelligence · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hirose O, Rodola E</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TPAMI.2026.3733393">10.1109/TPAMI.2026.3733393</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743026/">https://pubmed.ncbi.nlm.nih.gov/42743026/</a></div><div class="d-block keywords">命中关键词：brain, MERFISH, Stereo-seq, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文与研究者的单细胞/空间组学方法需求有一定交集，但缺乏演化或跨物种比较视角，主要价值在于为空间转录组配准提供可借鉴的通用计算方法。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对空间转录组中高维基因表达定义在不规则稀疏流形上、现有方法需在体素化与忽略功能信号间二选一的痛点，作者提出无网格概率框架DET，将数据视为不规则域上的函数，在广义贝叶斯框架下以联合空间-功能似然建模弹性形变，并通过采样点配准与位移插值实现无监督可扩展分析。在小鼠脑MERFISH切片与小鼠胚胎Stereo-seq/MOSTA图谱上，DET在90例MERFISH基准中于强扰动且无初始化条件下取得最佳空间重叠和拓扑指标。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Nonrigid registration is conventionally divided into point set registration, which aligns sparse geometries, and image registration, which aligns continuous intensity fields on regular grids. However, this dichotomy creates a bottleneck for emerging scientific data, such as spatial transcriptomics, where high-dimensional vector-valued functions, e.g., gene expression, are defined on irregular, sparse manifolds. Consequently, researchers currently face a forced choice: either sacrifice single-cell resolution via voxelization to utilize image-based tools, or ignore the functional signal to utilize geometric tools. To resolve this dilemma, we propose Domain Elastic Transform (DET), a grid-free probabilistic framework that combines geometric and functional alignment. By treating data as functions on irregular domains, DET registers high-dimensional signals directly without binning. We for mulate the problem within a generalized Bayesian framework, modeling domain deformation as an elastic motion guided by a joint spatial functional likelihood. The method is fully unsupervised and scalable through registration on sampled points followed by displacement interpolation. We evaluate DET on spatial-transcriptomics registration tasks using MERFISH mouse-brain slices and Stereo-seq mouse-embryo at lases. On a 90-case MERFISH benchmark under severe perturbations without prior initialization, DET achieved the strongest spatial overlap and topology among the evaluated pipelines, while an accelerated PASTE2 variant achieved the highest label-transfer ARI. In an atlas scale MOSTA feasibility study without cross-stage ground truth, non rigid refinement improved several within-pipeline anatomical-domain and boundary-consistency measures. The results suggest that grid free function registration is a useful complement to existing point set-based, image-based, and optimal-transport approaches for high dimensional scientific data. The implementation of DET is available at https://github.com/ohirose/bcpd.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3733393&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.66</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750430" target="_blank" rel="noopener">Allele-Resolved Hybrid Embryos Reveal the Fates of Regulatory Divergence</a></div>
+  <div class="title-cn">等位基因分辨的杂交胚胎揭示调控分化的命运</div>
+  <div class="one-line">为解决跨物种调控差异如何沿胚胎谱系传递问题，作者构建海鞘Ciona intestinalis与Ciona savignyi杂交胚胎的时间分辨、等位基因分辨单细胞图谱，发现等位差异会按谱系背景和GRN层级被维持或重塑。</div>
+  <div class="meta">bioRxiv · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lei, J.; Lemaire, L. A.; Hashimoto, H.; Rodman, L.; Levine, M.; Cao, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.11.750430">10.64898/2026.09.11.750430</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750430">https://www.biorxiv.org/content/10.64898/2026.09.11.750430</a></div><div class="d-block keywords">命中关键词：single-cell atlas, Regulatory evolution, Cell atlas</div><div class="d-block"><span class="lbl">推荐理由：</span>论文以跨物种杂交胚胎单细胞图谱追踪调控分化在发育谱系中的传递，虽不聚焦脑演化，但其比较演化与GRN层级分析思路对细胞类型演化研究很有借鉴价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解在发育程序保守背景下，大量进化形成的调控差异如何在胚胎发育中被传递，作者构建了Ciona intestinalis与Ciona savignyi杂交胚胎的时间分辨、等位基因分辨单细胞图谱。结果显示，等位基因差异会以谱系特异方式被维持或重塑，且其结局与调控来源及等位特异染色质可及性相关；在多种组织中，等位分化沿基因调控网络层级由上游调控因子向下游调控因子和效应基因增加。心咽谱系中的Foxf提示等位显性可部分补偿高度分化的调控序列，支持developmental system drift的发育基础。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Developmental programs can remain conserved despite extensive regulatory divergence, but how evolved regulatory differences are transmitted through embryonic lineages remains unclear. Here we generate a time resolved, allele resolved single-cell atlas of hybrid embryogenesis between Ciona intestinalis and Ciona savignyi, enabling regulatory differences accumulated between species to be followed across defined developmental lineages. We find that allelic differences are maintained or remodeled in lineage specific ways, with their outcomes associated with regulatory origin and allele specific chromatin accessibility. Across multiple tissues, allelic divergence increases along gene regulatory network (GRN) hierarchy from upstream regulators toward downstream regulators and effector genes. In the cardiopharyngeal lineage, Foxf illustrates how allelic dominance provides partial compensation for highly divergent regulatory sequences and thereby contributes to developmental system drift. Together, our results reveal that regulatory divergence is dynamically sorted during development according to lineage context and GRN hierarchy. This lineage resolved framework provides a developmental basis for understanding how extensive regulatory evolution can accumulate while conserved embryonic programs are maintained.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750430&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743193/" target="_blank" rel="noopener">A novel deep learning prediction method for PM2.5 integrating improved MSTL decomposition and FATA optimization algorithm.</a></div>
+  <div class="title-cn">一种结合改进MSTL分解和FATA优化算法的PM2.5新型深度学习预测方法</div>
+  <div class="one-line">为解决PM2.5时间序列预测难题，作者用RFECV、Pearson分析、GSPMSTL分解与FATA优化的CNN-LSTM方法，发现其在广州和咸阳供暖季与非供暖季预测更准确稳定。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhao X, Qiao P, Bharti B, Li H, Yang S, Shi Q, Qin Q, Chen J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358271">10.1371/journal.pone.0358271</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743193/">https://pubmed.ncbi.nlm.nih.gov/42743193/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦PM2.5时间序列预测与深度学习优化，不涉及演化、跨物种比较、神经系统或单细胞转录组学问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为提升PM2.5时间序列预测精度，作者提出FATA-GSPMSTL-CNN-LSTM模型。先结合RFECV与Pearson相关分析筛选最优特征，再在MSTL基础上引入谱密度分析和网格搜索，构建GSPMSTL自适应分解算法并进行特征融合，随后用FATA优化超参数，最终由CNN-LSTM完成预测。在广州和咸阳供暖季及非供暖季的测试中，该模型表现出更高准确性与稳定性，可用于空气质量预警与污染控制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate prediction of PM2.5 time series remains challenging. To address this issue, this paper proposes a novel PM2.5 concentration prediction model named FATA-GSPMSTL-CNN-LSTM.Firstly,the optimal feature descriptor set is determined by combining Recursive Feature Elimination with Cross-Validation (RFECV) and Pearson correlation analysis. On the basis of Multiple Seasonal-Trend decomposition using Loess (MSTL), a novel adaptive decomposition algorithm-Grid Search-based Power Spectral MSTL (GSPMSTL)-is constructed by introducing spectral density analysis and grid search strategy, which is adopted to decompose the PM2.5 time series, and the dataset is reconstructed through feature data fusion. The newly developed Fata morgana optimization algorithm (FATA) is utilized to optimize the model hyperparameters for further improving prediction accuracy. Finally, the Convolutional Neural Network- Long Short-Term Memory network (CNN-LSTM) is employed to obtain the final prediction results. Considering climate, topography and seasonal factors, PM2.5 prediction and evaluation are separately conducted in heating seasons and non-heating seasons for Guangzhou and Xianyang cities. The results demonstrate that the proposed model achieves higher prediction accuracy and stability, which can provide important application value for air quality early warning and pollution control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358271&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.26</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743351/" target="_blank" rel="noopener">Mapping coastal forest retreat using convolutional neural networks and different satellite imagery.</a></div>
+  <div class="title-cn">利用卷积神经网络和不同卫星影像绘制海岸森林退缩图谱</div>
+  <div class="one-line">为解决海岸森林退化监测问题，作者用结合物候和地形指数的CNN分析Landsat 8与Sentinel-2影像，发现1985—2021年森林损失21%且退化速率加快。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tajudeen TT, Ardon M, Tulbure M, Martin KL</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357346">10.1371/journal.pone.0357346</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743351/">https://pubmed.ncbi.nlm.nih.gov/42743351/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦海岸森林退化的遥感监测与CNN分类，不涉及演化、生物跨物种比较、神经系统或单细胞转录组学。</div><div class="d-block"><span class="lbl">中文摘要：</span>为量化北卡罗来纳海岸平原森林向幽灵森林、沼泽和灌丛转化的动态及驱动因素，作者基于Landsat 8和Sentinel-2表面反射率，结合多光谱、双季节、地形和物候指数，利用卷积神经网络进行土地覆盖分类，并追踪1985—2021年长期变化。结果显示，加入物候和地形指标可提升幽灵森林识别；Sentinel-2在2021年表现优于Landsat（F1=96.3 vs 93.4）。Landsat分析表明1985—2021年森林损失21%，且2010—2021年退化面积高于此前时期，主要受距水道、盐度和相对海平面上升驱动。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Coastal forests are increasingly threatened by saturated soil and elevated salinity levels resulting from sea level rise, saltwater intrusion, and storm surges. In response to rising salinization and flooding, healthy coastal forests that rely on freshwater (both wetland forests and low-elevation upland forests) are transitioning into landscapes dominated by dead or dying trees, known as ghost forests. Situated among salt-tolerant shrubs and grasses, ghost forests eventually become marshes or open water. Here, our main objective was to quantify the dynamics and pathways of these forest landscape conversions, as well as the factors contributing to the changes, which is vital for understanding the progression of coastal ecosystem degradation and forecasting future changes. We focused first on identifying the best method to track forest landscape change by exploring the role of multiple remote sensing indices (i.e., multispectral, bi-seasonal, topographical, and phenological metrics) in enhancing the performance of deep learning models (convolutional neural networks, CNNs) for land cover classification in the coastal plain of North Carolina using surface reflectance of Landsat 8 and Sentinel-2 images. Then, we used the best available data (Landsat 8) to understand long-term change and identify patterns of land cover change from 1985 to 2021. Our study reveals that incorporating phenology and topographical indices enhances the separability of the ghost forests class from all other vegetation classes. In our assessment, the higher-resolution Sentinel-2 data (F1 Score = 96.3) outperformed Landsat images (F1 score = 93.4) for the 2021 co-available year. However, Landsat remains an important tool used due to its long-term data record. Therefore, we used Landsat to determine that 21% of forests were lost between 1985 and 2021, and that the rate of loss is increasing. Between 2010 and 2021, 23,876 ha of forest were converted to marsh, ghost forest, and shrub, which is 1.5 times higher than the 16,968 ha lost between 1985 and 2010. These conversions from forest to ghost forest and marshes were driven primarily by proximity to the channel, salinity, and the increasing rate of relative sea level rise (RSLR), which are the key environmental drivers of observed changes. By quantifying these changes, we highlight regions most vulnerable to environmental stressors, providing a basis for targeted conservation strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357346&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.2</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743259/" target="_blank" rel="noopener">A systematic review of prolonged posture monitoring with accelerometer-based wearable sensors.</a></div>
+  <div class="title-cn">基于加速度计可穿戴传感器的长时间姿势监测系统综述</div>
+  <div class="one-line">为解决长时间坐姿/站姿监测方法异质性问题，作者系统综述14项加速度计可穿戴研究，发现定义、数据处理与反馈应用均缺乏一致性。</div>
+  <div class="meta">PLOS digital health · 2026-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liao M, Huang K, Libeert E, Vanrumste B, Brumagne S, Chen Z, Aerts JM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pdig.0001538">10.1371/journal.pdig.0001538</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743259/">https://pubmed.ncbi.nlm.nih.gov/42743259/</a></div><div class="d-block keywords">命中关键词：deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦久坐/久站姿势监测的可穿戴加速度传感器综述，不涉及演化、跨物种比较或神经系统单细胞研究，对该研究者仅具极弱方法学参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为应对长时间坐姿和站姿监测中姿势识别、连续bout分割及反馈应用不一致的问题，作者系统检索10个数据库，从27,334条记录中纳入14项研究，并按研究设计使用JBI与WEAR-BOT评估偏倚。结果显示研究主要关注久坐，activPAL最常用，bout阈值和中断规则差异很大，深度学习在坐姿识别与姿势转换检测中表现最好，但实时反馈转化明显不足。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Prolonged sitting and standing are associated with health risks. Unlike generic sedentary behaviour monitoring based on energy expenditure, prolonged posture monitoring requires posture-specific detection and uninterrupted bout segmentation, yet current accelerometer-based approaches remain heterogeneous. This systematic review synthesises current practices and identifies research gaps across the sensing-to-feedback pipeline, including data collection, preparation, analysis, and user feedback. Ten databases, including Web of Science, Scopus, ProQuest Central, PubMed/MEDLINE, EMBASE, CINAHL, SPORTDiscus, IEEE Xplore, ACM Digital Library, and Engineering Village, were searched. Eligible studies monitored uninterrupted sitting or standing bouts of at least ten minutes during wake time using body-worn accelerometer-based sensors, provided sufficient methodological detail, and were published as peer-reviewed journal articles or full conference proceedings in English. From 27,334 records, fourteen studies were included. Risk of bias was assessed using design-specific tools: JBI checklists for randomised and cross-sectional studies, and WEAR-BOT for wearable-sensor validation or algorithm-development studies. Prolonged sitting was the primary target, while prolonged standing was not assessed as a dedicated bout-level outcome. Thigh-worn activPAL devices were most frequently used for posture measurement or as reference criteria. Bout duration thresholds and interruption rules varied substantially. Deep learning models reported the strongest performance for sitting recognition and transition detection. Four studies included feedback components, but none used real-time posture monitoring outcomes to trigger feedback. Substantial heterogeneity precluded quantitative synthesis, and the evidence base was concentrated in Western, office-based populations. Overall, accelerometer-based wearable sensors provide a feasible basis for monitoring prolonged sitting. Key gaps include inconsistent definitions, limited specific detection, heterogeneous data preparation and validation reporting, and a lack of translation from monitoring to actionable feedback. Future research should prioritise transparent bout definitions, reproducible pipelines, inclusive external validation, and interpretable feedback systems. PROSPERO registration: CRD42025637387.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pdig.0001538&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.11</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743364/" target="_blank" rel="noopener">Gender and disciplinary differences in grant proposal peer review: Content and sentiment in 39,280 reports.</a></div>
+  <div class="title-cn">基金申请同行评审中的性别与学科差异：基于39280份评审报告的内容与情感分析</div>
+  <div class="one-line">为解决基金同行评审内容与语气受性别和学科影响不清问题，作者用监督机器学习分析39280份评审报告的句子内容与情感，发现SSH更长且更批判、女性评审更积极且更贴合评审标准。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Müller S, Okasa G, Strinzel M, Jorstad A, Milzow K, Egger M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0352900">10.1371/journal.pone.0352900</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743364/">https://pubmed.ncbi.nlm.nih.gov/42743364/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文研究基金评审文本中的性别与学科差异，不涉及演化、跨物种比较或神经系统/单细胞问题，对该研究者仅有极弱的科研生态参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为了解基金申请同行评审中性别与学科差异如何影响评审内容与语气，作者分析了瑞士国家科学基金会2016至2023年间11385份申请对应的39280份评审报告，覆盖SSH、LS和MINT共21个学科，并用监督机器学习对超过130万句子进行评价标准和情感分类。结果显示，SSH评审更长、更批判，较少关注申请人履历；MINT评审更简洁、更积极，更关注履历。女性评审撰写更长、与标准更一致且更积极，女性申请人也获得略更积极评价，提示资助评审公平性与一致性存在系统差异。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Peer review by experts is central to the evaluation of grant proposals, but little is known about how gender and disciplinary differences shape the content and tone of grant peer review reports. We analyzed 39,280 review reports submitted to the Swiss National Science Foundation between 2016 and 2023, covering 11,385 proposals for Project Funding across 21 disciplines from the Social Sciences and Humanities (SSH), Life Sciences (LS), and Mathematics, Informatics, Natural Sciences, and Technology (MINT). Using supervised machine learning, we classified over 1.3 million sentences by evaluation criteria and sentiment. Reviews in SSH were significantly longer and more critical, with less focus on the applicant&#x27;s track record, while those in MINT were more concise and positive, with a greater focus on the track record, as compared to those in LS. Compared to male reviewers, female reviewers wrote longer reviews that more closely aligned with the evaluation criteria and expressed more positive sentiments. Female applicants tended to receive reviews with slightly more positive sentiment than male applicants. The tone, length, and focus of peer review reports varied systematically by applicant gender and disciplinary context. These differences have important implications for fairness and consistency in research funding.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0352900&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.11</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743238/" target="_blank" rel="noopener">HMOX2-driven crosstalk between vascular aging and heart failure: A multimodal bioinformatics and explainable machine learning approach with experimental validation.</a></div>
+  <div class="title-cn">HMOX2驱动的血管衰老与心力衰竭串扰：结合多模态生物信息学与可解释机器学习及实验验证的研究</div>
+  <div class="one-line">为解决血管衰老与心衰联动机制不清问题，作者用GSE57338、WGCNA及SHAP-XGBoost等多模态分析并结合细胞/小鼠验证，发现HMOX2是关键预测因子。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li J, Zhou G, Wang Q, Song Z, Liu J, Shen C, Luo C, Wang D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357886">10.1371/journal.pone.0357886</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743238/">https://pubmed.ncbi.nlm.nih.gov/42743238/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是心血管衰老与心衰的多组学生信和机器学习研究，缺乏演化、跨物种比较或神经系统细胞类型同源性视角，对该研究者价值很低。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解析血管衰老（VA）与心力衰竭（HF）共病机制，作者分析GSE57338中136例对照和177例HF样本，结合差异分析、WGCNA、GeneCards靶点交集、功能富集、LASSO、随机森林、SHAP-XGBoost和GeneMANIA筛得272个共识基因与12个核心基因。HMOX2预测性能最高（AUC=0.978）。随后在阿霉素诱导的大鼠原代VSMC、人VSMC、H9C2及小鼠HF模型中验证，支持HMOX2、S1PR3、SERPINA3参与VA-HF串扰。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The molecular mechanisms linking vascular aging (VA) and heart failure (HF) remain elusive, hindering therapeutic strategies for their comorbidity. This study aimed to identify key biomarkers and pathways potentially involved in VA-HF synergy using integrative computational approaches. We analyzed the GSE57338 dataset (136 controls, 177 HF samples) to identify HF-associated differentially expressed genes (DEGs) and constructed a weighted gene co-expression network (WGCNA). Vascular aging-related targets were retrieved from GeneCards (n = 16,243). Consensus genes (CGs) were derived by intersecting DEGs, WGCNA hub genes, and VA-related targets. Functional enrichment, machine learning prioritization (LASSO regression, Random Forest, and SHAP-XGBoost), and network analysis (GeneMANIA) were applied to identify potential regulators. Top candidates were experimentally validated using qPCR in doxorubicin-induced rat primary vascular smooth muscle cells and human VSMC cell line for the VA model, and H9C2 cardiomyoblast injury model for HF. Further validation was performed in a mouse model of doxorubicin-induced HF, assessing cardiac function by echocardiography, myocardial fibrosis by Masson&#x27;s trichrome staining, and vascular aging markers (P16, P21) by qPCR. We identified 272 CGs enriched in cGMP-PKG signaling, cytoskeletal regulation, and PPAR pathways. Machine learning prioritized 12 core genes, with HMOX2 as the top predictor (AUC = 0.978). qPCR analysis confirmed upregulation of HMOX2, S1PR3, and SERPINA3 in doxorubicin-treated rat primary vascular smooth muscle cells, human VSMC cell line, and H9C2 cardiomyoblasts compared to controls (P &lt; 0.05). In the mouse model, doxorubicin administration induced significant cardiac dysfunction and myocardial fibrosis, accompanied by elevated expression of senescence markers P16 and P21 in vascular tissues. These findings collectively suggest that these genes may play important roles in VA-HF comorbidity (P &lt; 0.05).</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357886&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.11</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743176/" target="_blank" rel="noopener">Vernacular english literacy practices among language students using AI: A case study in Saudi Arabia.</a></div>
+  <div class="title-cn">使用AI的语言学习者英语俗语素养实践：沙特阿拉伯的一项案例研究</div>
+  <div class="one-line">为解决课堂外AI介导英语素养实践认知不足问题，作者用12名研究生焦点小组与回顾性访谈分析，发现其实践集中于语言发展、日常生活和学业三领域。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bin Dahmash N</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358237">10.1371/journal.pone.0358237</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743176/">https://pubmed.ncbi.nlm.nih.gov/42743176/</a></div><div class="d-block keywords">命中关键词：artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦沙特阿拉伯EFL学生的AI辅助英语素养实践，不涉及演化、跨物种比较、神经系统或单细胞转录组学，对该研究者几乎无参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为填补EFL课堂外AI介导英语素养实践研究不足，作者在沙特一所大学对12名研究生开展定性案例研究，结合焦点小组与回顾性访谈并进行内容分析。结果显示，学生利用AI进行英语读写说训练、辅助日常个人与职业事务，以及服务考试准备、学术研究和作业完成，其中约50%的AI使用指向英语能力发展。研究据此界定了AI介导英语素养实践概念，并为EFL教学提供参考。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent developments in Artificial Intelligence (AI) have encouraged teachers of English as a Foreign Language (EFL) to evaluate its potential benefits to the process of language learning. However, little is currently known about how language learners use AI outside the EFL classroom. Accordingly, this study addresses the underexplored area of informal, AI-mediated English literacy practices among EFL learners. Data from a qualitative case study involving 12 postgraduate students who participated in a focus group and retrospective interviews at a Saudi Arabian university were analyzed. Content analysis revealed the students engaged in English literacy practices using AI, and that these were categorized according to their usage in three domains: (1) practices for English language development, (2) to assist with daily life, and (3) to benefit academic studies. Approximately 50% of AI engagement in the English language aimed to practice the participants&#x27; English reading, writing, and speaking skills, while leveraging customized learning opportunities. In addition, examples serving daily life functions were related to personal and vocational activities, and those serving academic life focused on preparing for examinations, academic research, and university assignments. The study therefore defined the concept of AI-mediated English literacy practices, ultimately providing insights into how language students engage in informal AI-mediated literacy practices in EFL settings. Thus, the findings reveal valuable pedagogical insights to inform EFL teachers.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358237&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743213/" target="_blank" rel="noopener">Research on a lead-acid battery fault detection method based on LSTM-AE-Cosine.</a></div>
+  <div class="title-cn">基于LSTM-AE-Cosine的铅酸电池故障检测方法研究</div>
+  <div class="one-line">为解决商用车铅酸电池故障检测准确率低和标注故障数据不足问题，作者用LSTM-自编码器结合多种重构误差与贝叶斯优化阈值，发现余弦相似度检测效果最佳。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu L, Xu H, Tang H, Cui J, Feng L, Deng K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357237">10.1371/journal.pone.0357237</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743213/">https://pubmed.ncbi.nlm.nih.gov/42743213/</a></div><div class="d-block keywords">命中关键词：deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于车辆铅酸电池故障检测的工程方法研究，不涉及演化、跨物种比较、神经系统或单细胞转录组学，对该研究者几乎无直接价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对商用车铅酸电池故障检测准确率低且标注故障数据不足的问题，作者提出无监督异常检测框架，采用结合时序建模能力与重构机制的LSTM-Autoencoder，并系统比较多种重构误差指标。模型分别在静态和行驶工况数据子集上训练，在固定结构和实验条件下评估性能，并用贝叶斯优化确定各指标最优阈值。结果表明，不同重构误差会显著影响检测表现，其中余弦相似度效果最佳，可用于在线电池诊断。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Existing fault detection methods for lead-acid batteries in commercial vehicles are subject to several critical limitations, such as low detection accuracy and a shortage of labeled fault data. To address these issues, this paper presents an unsupervised deep learning framework for anomaly detection. In the framework, a hybrid LSTM-Autoencoder architecture is used to integrate the temporal feature extraction capability of long short-term memory networks with the reconstruction mechanism of Autoencoders, thus markedly improving the temporal modeling of battery data. Since the detection performance is highly dependent on the selection of reconstruction error metrics, multiple such metrics are employed in the model, and are systematically evaluated and compared to determine the most suitable metric for battery anomaly detection. The model is trained separately for static and driving conditions based on corresponding subsets of the battery datasets. With a fixed model structure and experimental conditions, model performance is evaluated using various reconstruction error metrics, and Bayesian optimization is used to identify the optimal detection threshold for each metric. Experimental results show that detection performance changes with different reconstruction error metrics and cosine similarity yields the best performance. This study offers a practical solution for online battery diagnosis and helps lower vehicle maintenance costs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357237&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743247/" target="_blank" rel="noopener">Sentiment classification optimization based on improved Senti-BERT and BiLSTM-Attention.</a></div>
+  <div class="title-cn">基于改进型Senti-BERT与BiLSTM-Attention的情感分类优化</div>
+  <div class="one-line">为解决复杂文本与多模态情感分类准确率不足问题，作者用改进Senti-BERT联合BiLSTM-Attention（含情感词典引导、动态加权与Stacking），发现分类准确率与AUC均提升。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang J, Liu J, Xu Z</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358103">10.1371/journal.pone.0358103</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743247/">https://pubmed.ncbi.nlm.nih.gov/42743247/</a></div><div class="d-block keywords">命中关键词：transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于社交媒体多模态情感分类工程研究，不涉及演化、跨物种比较、神经系统或单细胞转录组学问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为提升复杂文本及多模态场景下的情感分类性能，作者提出融合Senti-BERT与BiLSTM-Attention的优化方法，在词向量生成中引入情感词典引导，并以动态加权融合文本、表情和图像特征，再结合层次注意力与Stacking集成多模型优势。结果显示，动词情感识别F1达84.6%，形容词识别达90.1%，较BERT提升4.8%；全模态融合准确率89.4%，跨语言英文任务超过90%，AUC达0.943，且量化模型在10000QPS下延迟92ms。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>This study focuses on the problem of insufficient accuracy in sentiment classification in complex texts and multimodal scenarios. A sentiment classification optimization method is proposed, which integrates a bidirectional encoder representation Transformer model for sentiment analysis (Senti-BERT)and a bidirectional Long Short-Term Memory with Attention (BiLSTM-Attention). Firstly, the Senti-BERT layer is introduced to optimize the generation of word vectors by introducing an emotion dictionary leading mechanism, and a dynamic weighting strategy is adopted to fuse multi-modal features such as text, emoticons, and images. Subsequently, the hierarchical attention mechanism of BiLSTM-Attention structure is used to enhance contextual modeling. Finally, the stacking method is adopted to integrate the advantages of multiple models. The experimental results show that this method performs well in multiple dimensions. This optimization method achieved an F1 score of 84.6% in verb sentiment word recognition and 90.1% in adjective recognition, which is 4.8% higher than the bidirectional encoder representation Transformer. The full modal fusion results in a classification accuracy of 89.4%, and the English accuracy exceeds 90% in cross language tasks. The accuracy of emotion segment localization using dynamic weight attention mechanism reaches 90%. The quantization model maintains a low latency of 92ms under 10000QPS concurrency, and the Stacking strategy increases the AUC value to 0.943. The research provides a high-precision solution for social media sentiment analysis through innovative multi-level architecture design.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358103&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743179/" target="_blank" rel="noopener">Improving sport horse selection using machine learning: Early prediction of elite-level show jumping performance.</a></div>
+  <div class="title-cn">利用机器学习改进运动马选拔：早期预测场地障碍赛精英级表现</div>
+  <div class="one-line">为解决场地障碍运动马精英潜力难以早期识别问题，作者用基于10岁前纵向比赛记录的XGBoost模型，发现其预测冠军马优于阈值规则且7岁后性能明显提升。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zanchi M, Bordin C, Ablondi M, Asti V, Summer A, Valle E, Ozella L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357799">10.1371/journal.pone.0357799</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743179/">https://pubmed.ncbi.nlm.nih.gov/42743179/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦运动马竞技成绩预测与机器学习选育，不涉及演化、跨物种比较、神经系统或单细胞研究。</div><div class="d-block"><span class="lbl">中文摘要：</span>场地障碍运动马的精英潜力通常难以早期识别，因为比赛结果波动大且顶级表现形成较晚。作者整合FEI及瑞典、比利时、法国国家级比赛记录，使用10岁前纵向竞赛历史训练XGBoost分类器，并以嵌套交叉验证评估。模型优于基于最大障碍高度的单规则分类器，平均ROC AUC达83.5%，平均精确率80.0%。SHAP与置换重要性分析显示，障碍难度、表现稳定性和年龄相关进展是关键预测因子，可用于更循证的运动马选拔。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Early identification of sport potential in show jumping horses remains challenging because competition outcomes vary widely, and elite-level performance develops after considerable time. In this study, we evaluated the applicability of machine learning approaches to competition records from horses identified through FEI participation, complemented by national-level records from Sweden, Belgium and France, with the aim of identifying horses likely to reach elite performance. Performance data from Fédération Équestre Internationale (FEI) competitions were analysed using an Extreme Gradient Boosting (XGBoost) classifier trained on longitudinal competition histories recorded before horses reached ten years of age. Animals were classified as champions if they achieved at least one clear round at 160 cm, while non-champions were defined as those that completed their competitive career without reaching this level. Model performance was assessed using nested cross-validation and compared with two single-rule-based classifiers based on maximum obstacle height thresholds. XGBoost outperformed baseline approaches across all evaluation metrics, achieving an average area under the ROC curve of 83.5% and an average precision of 80.0%. Analysis of probability trajectories showed that predictive information accumulates progressively over a horse&#x27;s career, with increasing separation between champion and non-champion predictions as competition history expands. Model performance improved substantially from approximately seven years of age onward. Permutation importance and SHapley Additive exPlanations (SHAP) analyses revealed that obstacle difficulty, performance consistency and age-related progression were among the most influential predictors. Overall, these findings demonstrate that interpretable machine learning models can extract meaningful predictive signals from early competition trajectories and support evidence-based talent identification in show jumping, while maintaining attention to performance development and horse welfare.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357799&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.06</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743354/" target="_blank" rel="noopener">Laboratory evolution drives continued genome degradation in the facultative tsetse symbiont Sodalis glossinidius.</a></div>
+  <div class="title-cn">实验室演化驱动兼性采采蝇共生菌Sodalis glossinidius基因组持续降解</div>
+  <div class="one-line">为解决共生菌基因组退化动态难以实时观察问题，作者用Oxford Nanopore+Illumina混合组装与比较基因组学，发现实验室传代10年的S. glossinidius发生16,493 bp缺失及多种小突变并持续基因组降解。</div>
+  <div class="meta">PLoS neglected tropical diseases · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Pescod P, Haines LR, Darby AC, Goodhead I</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pntd.0014725">10.1371/journal.pntd.0014725</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743354/">https://pubmed.ncbi.nlm.nih.gov/42743354/</a></div><div class="d-block keywords">命中关键词：Genome evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>论文虽有演化与比较基因组视角，但聚焦采采蝇共生菌基因组退化，与研究者关注的脑/神经系统演化及跨物种细胞类型比较关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解昆虫共生菌从自由生活向宿主依赖转变中的基因组缩减动态，作者比较了同一Glossina morsitans morsitans实验种群来源的两株Sodalis glossinidius，其中一株经10年连续实验室传代。利用Oxford Nanopore与Illumina混合组装获得4.29 Mbp高质量基因组，含1条环状染色体和4个质粒。结果发现一段16,493 bp缺失，涉及31个基因，包括thiM和硫转运蛋白基因，并检测到8个缺失、39个插入和11个SNP，提示在稳定无宿主选择压力下其基因组仍持续退化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Bacterial symbionts of insects undergo dramatic genome reduction during their evolutionary transition from free-living to host-dependent lifestyles, but the dynamics of genome degradation remain poorly understood due to the difficulty of observing these processes in real-time. Sodalis glossinidius, a facultative bacterial endosymbiont of tsetse flies, provides an exceptional opportunity to study this transition experimentally: Unlike highly specialised obligate symbionts, S. glossinidius can be cultured in vitro and retains a large genome (4 Mbp) with extensive pseudogene content (49%, vs. ~ 1% in free-living bacteria), suggesting a recent evolutionary transition. Here, we present a comparative genomic analysis of S. glossinidius strains isolated from laboratory colony-derived Glossina morsitans morsitans, comparing one strain after ten years of serial passaging in laboratory culture (SgGmmC1*) to a counterpart isolated at the same time from the same colony (SgGmmB4). Hybrid genome assembly using Oxford Nanopore and Illumina technologies produced a high-quality 4.29 Mbp genome comprising one circular chromosome and four plasmids. Comparative analysis revealed a significant deletion (16,493 bp) containing 31 genes, including thiM (involved in thiamine biosynthesis) and genes encoding sulfur transporters. Additionally, we identified multiple small-scale chromosomal mutations (8 deletions, 39 insertions, 11 SNPs) resulting in frameshifts in genes including a hemolysin precursor (shlA). Our findings demonstrate that, under stable laboratory conditions without the selective pressures of the host environment, S. glossinidius continues to undergo genome degradation. The loss of thiM supports previous hypotheses of complementary metabolic pathways between S. glossinidius and the primary symbiont Wigglesworthia glossinidia for thiamine biosynthesis. This study provides insights into the evolutionary trajectory of facultative symbionts and has implications for studying the patterns of genome evolution in bacterial symbionts adapting to novel ecological niches, as well as paratransgenic approaches using S. glossinidius for trypanosome control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pntd.0014725&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦单细胞与空间组学的方法学升级及其在神经发育中的应用：一项研究以遗传标记、单细胞RNA测序和出生时序分析解析脊髓连合神经元跨中线生长时的转录程序切换；另一项系统梳理空间转录组分析流程；最值得注意的是TSvelo，将调控、转录与剪接级联纳入统一动力学建模，提升RNA velocity对复杂过程的刻画能力。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经发育转录程序解析：以单细胞RNA测序结合遗传标记与出生时序，刻画脊髓连合神经元共享与亚型特异分化轨迹。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>空间转录组分析规范化：从平台选择、预处理、可视化到多模态整合，提供面向初学者的全流程实践建议。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>单细胞动态建模增强：TSvelo通过可解释神经常微分方程联合建模调控、转录和剪接，改进RNA velocity推断表现。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同体现出组学研究正从“静态描述”走向“动态机制与标准化分析”并重。一方面，研究者借助单细胞与空间数据追踪细胞状态转换和发育过程；另一方面，更强调方法的可解释性、跨平台适用性与多模态整合能力，使复杂生物过程的解析更稳健、可复用。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这组工作既提供了具体生物学范例，也给出了可直接借鉴的方法路线。做发育与神经方向者可参考单细胞结合时序设计解析状态切换；布局空间组学者可据此建立分析流程；关注算法者则可从RNA velocity的级联建模切入，提升对复杂谱系与非线性动力学的刻画。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
