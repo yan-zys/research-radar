@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-17</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-17</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 2 · Relate 13）· 命中关键词 15 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42746700/" target="_blank" rel="noopener">How serially homologous neuroblasts produce different temporal cohorts along the Drosophila larval body axis.</a></div>
+  <div class="title-cn">连续同源神经母细胞如何沿果蝇幼虫身体轴产生不同的时间性细胞群</div>
+  <div class="one-line">为解决果蝇不同体段连续同源NB3-3谱系如何形成区域特化回路问题，作者用谱系追踪、Notch操控、标记分析、阻断细胞死亡和回路追踪，发现部分区域通过增删时间性细胞群生成专门神经元且均保留“基础”时间群。</div>
+  <div class="meta">Development (Cambridge, England) · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Vasudevan D, Wang YW, Carr H, Paniel E, Corcoran S, Wreden CC, Kushkowski E, Lee-Smith C, Heckscher ES</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1242/dev.205389">10.1242/dev.205389</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42746700/">https://pubmed.ncbi.nlm.nih.gov/42746700/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron, neural, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦果蝇体轴上连续同源神经母细胞的区域化发育机制，虽涉及serial homology，但缺乏演化或跨物种比较视角，对该研究者仅有有限概念借鉴价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解果蝇CNS中连续同源神经母细胞如何在不同体段产生区域特化神经回路，作者以NB3-3谱系为模型，结合谱系追踪、Notch操控、分子标记分析、细胞死亡阻断和回路追踪，系统描绘各体段神经发生与回路组装。结果显示，某些区域通过改变增殖模式增添或省略时间性细胞群，从而生成额外神经元；共识别4类时间性细胞群，其中一种“基础”时间群存在于所有区域，并在有丝分裂后进一步精细化，驱动区域回路特化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neural stem cells are highly flexible, generating different neuronal lineages depending on context. In the Drosophila CNS, 30 types of neural stem cells, or neuroblasts, are repeated in each segment as serial homologs, but produce distinct circuits specialized for different body regions. The full in vivo heterogeneity in stem cell development is still poorly understood. This study aimed to uncover the cellular mechanisms behind the development of regionally specialized circuits from serially homologous neuroblasts, focusing on NB3-3 lineages as a model. Using lineage tracing, Notch manipulations, marker analysis, cell death blockade, and circuit tracing, we mapped neurogenesis and circuit assembly for each NB3-3 lineage across all segments. Our results show that serially homologous neuroblasts in certain regions modify proliferation patterns, adding or omitting temporal cohorts, leading to extra neurons for specialized circuits. Four types of temporal cohorts are produced, but one type, which we term a &quot;fundamental&quot; temporal cohort, appears in every region. Neurons from this cohort are further refined post-mitotically, enabling regional circuit specialization. Our study reveals a framework for the heterogeneous development of serially homologous stem cells.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205389&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.17</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42747963/" target="_blank" rel="noopener">Toward a more precise immunophenotypic and molecular definition of human cMoPs.</a></div>
+  <div class="title-cn">迈向对人类共同单核细胞祖细胞更精确的免疫表型与分子定义</div>
+  <div class="one-line">为解决人类cMoPs定义不一致问题，作者结合流式细胞术、scRNA-seq、ATAC-seq及分化实验，发现纳入CD115比CLEC12A更能准确界定cMoPs及其分子异质性。</div>
+  <div class="meta">Cell reports · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Calzetti F, Signoretto I, Finotti G, Bianchetto-Aguilera F, Angelini G, Lattanzi C, Gasperini S, Gardiman E, Tecchio C, Kawamura S, Ziegler-Heitbrock L, Tamassia N, Ohteki T, Cassatella MA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.celrep.2026.117970">10.1016/j.celrep.2026.117970</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42747963/">https://pubmed.ncbi.nlm.nih.gov/42747963/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, ATAC-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>论文使用scRNA-seq和ATAC-seq解析人类单核细胞祖细胞异质性，方法上可作参考，但缺乏演化或跨物种比较视角，与该研究者核心问题关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为澄清人类共同单核细胞祖细胞（cMoPs）究竟应定义为CLEC12A+CD64hi还是CD115+CD64hi/int，作者结合流式细胞术、scRNA-seq、形态学、功能分化实验和ATAC-seq进行比较。结果显示，将CD115纳入分选策略比CLEC12A更准确；CD115+CD64int可向CD115+CD64hi过渡，且二者生成单核细胞能力相近。scRNA-seq识别出5类转录特征，包括成熟相关程序、IFN应答和应激基因；ATAC-seq提示IRF8、PU.1及C/EBPδ可能参与单核细胞发育。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Monocytes arise from hematopoietic progenitors in the bone marrow and play crucial roles in both homeostasis and inflammation. Human common monocyte progenitors (cMoPs) were originally identified as CLEC12A+CD64hi cells but have recently been redefined as CD115+CD64hi/int cells. We therefore evaluated whether CLEC12A+CD64hi cMoPs and CD115+CD64hi/int cMoPs represent the same cell type using flow cytometry, scRNA-seq, morphological, and functional analyses. We demonstrate that including CD115 in the gating strategy, rather than CLEC12A, yields a more accurate definition of cMoPs. Differentiation assays demonstrate the transition of CD115+CD64int cMoPs into CD115+CD64hi cMoPs and a comparable capacity for the two cMoPs to generate monocyte progeny. scRNA-seq clustering of the CD115+CD64hi/int cMoPs identified five different transcriptional features including maturation-associated programs, IFN response and stress-related genes. ATAC-seq analysis of CD115+CD64hi/int cMoPs identified IRF8, PU.1, and also C/EBPδ as transcription factors putatively involved in monocyte development. Based on a more accurate definition and analysis, our data demonstrate the molecular complexity of human cMoPs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117970&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748123/" target="_blank" rel="noopener">The 6G integrated perception and networking technology enables the low-altitude economy to achieve carbon neutrality: Dynamic sleep strategy for eVTOL wireless charging based on time-energy-carbon coupling.</a></div>
+  <div class="title-cn">6G一体化感知与网络技术助力低空经济实现碳中和：基于时间-能量-碳耦合的eVTOL无线充电动态休眠策略</div>
+  <div class="one-line">为解决低空经济能耗与碳排放问题，作者构建TEC-6G模型并设计GNN-PSO两阶段框架，发现可使38%基站休眠、eVTOL单次飞行电网用电最高降27.4%。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chen H, Wang X, Yuan L, Gong J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0347398">10.1371/journal.pone.0347398</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748123/">https://pubmed.ncbi.nlm.nih.gov/42748123/</a></div><div class="d-block keywords">命中关键词：graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文属于6G通信与eVTOL无线充电/碳减排工程研究，不涉及演化、生物学或跨物种比较视角，对该研究者几乎无直接价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对低空经济快速发展带来的能耗和碳排放瓶颈，作者将6G感知一体化基站重构为可休眠的“电力-信息”双模节点，建立时间-能量-碳三元耦合模型TEC-6G，并基于长三角5G-A基站拓扑和1.2万条eVTOL航线数据，在MATLAB中构建3.5 GHz相控阵无线能量传输链路，结合实测毫米波信道响应，提出GNN-PSO两阶段优化框架。结果显示，在任务时延损失≤2%下，38%基站可智能休眠，单次飞行电网用电最高降低27.4%，保守条件下降低11.2%，为绿色运营提供参数化决策工具。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In response to the bottleneck issues of energy consumption and carbon emissions caused by the explosive growth of the low-altitude economy, we break away from the traditional single-machine energy-saving research paradigm and innovatively reconfigure the sixth-generation mobile communication (6G) perception-integration base station into a &quot;power-information&quot; dual-mode supply node that can enter a dormant state. The time-energy-carbon ternary coupling model (TEC-6G) was constructed, and the collaborative trade-off mechanism of the base station sleep ratio, the pointing angle of the microwave energy beam and the quality of service (QoS) of the eVTOL task was quantified for the first time. Based on the real geographical topology of 5G-A base stations in the Yangtze River Delta region and the dataset of 12,000 eVTOL flight paths. A 3.5 GHz phased array wireless energy transmission link was built on the MATLAB platform, specifically designed for opportunistic hovering-stage trickle charging and emergency power supplementation during eVTOL mission profiles, rather than sustained cruising power delivery. By integrating the measured millimeter-wave channel impulse responses, a two-stage solution framework of graph neural network-Particle swarm hybrid (GNN-PSO) was designed. Experiments show that under the strict constraint of task delay loss ≤2 %, 38% of the base stations in the entire network can enter the intelligent sleep state. The opportunistic wireless charging reduces the average grid electricity consumption of eVTOL per flight by 27.4% under idealized line-of-sight conditions (equivalent to 0.92 kg carbon reduction at the theoretical upper bound), achieved through 8-15 minute hovering windows at designated vertiports where RF beam power transfer supplements battery reserves. Under practical deployment assumptions-accounting for 3 dB cable/feed loss, 2 dB impedance mismatch, 40% effective aperture utilization due to eVTOL fuselage curvature and attitude variation, and a regulatory EIRP ceiling of 47 dBm (3 dB below the theoretical 50 dBm limit for the 3.5 GHz band in urban China)-the net DC power drops to 0.68 kW at 10 m, yielding a conservative 11.2% grid electricity reduction (0.38 kg CO2e per flight). The 27.4% figure is retained as the Pareto-optimal theoretical upper bound for algorithm benchmarking. The system-level energy utilization rate has jumped from the benchmark 31.2% to 48.6%. Under an annual operation scale of 100,000 flights, the cumulative carbon reduction of 92 tCO2e is equivalent to the annual sequestration of 4,200 mature broadleaf trees (22 kg CO2e/tree/year, IPCC central estimate), with a conservative uncertainty range of [3,100, 6,100] trees accounting for species and climate variability. The research results provide deployable parametric decision-making tools and a phased carbon peak roadmap for 2025-2030 for the green operation of the low-altitude economy.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0347398&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.19</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748198/" target="_blank" rel="noopener">SpaMOAL is a deep learning method that enables accurate spatial domain identification from multi-omics data.</a></div>
+  <div class="title-cn">SpaMOAL：一种可基于多组学数据实现准确空间域识别的深度学习方法</div>
+  <div class="one-line">为解决空间多组学中多模态与空间信息难整合问题，作者用基于图的对比学习方法SpaMOAL整合坐标、组织图像与分子谱，实现人和小鼠空间域的更准确识别。</div>
+  <div class="meta">PLoS biology · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wang J, Huo Y, Zhao R, Pan Y, Wu J, Wang H, Li X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pbio.3003690">10.1371/journal.pbio.3003690</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748198/">https://pubmed.ncbi.nlm.nih.gov/42748198/</a></div><div class="d-block keywords">命中关键词：Tissue architecture, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人和小鼠空间多组学整合与空间域识别，虽对单细胞/空间组学方法有一定借鉴，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对空间多组学分析中分子信息、空间坐标及高分辨率组织学图像难以有效整合的问题，作者提出SpaMOAL，一种基于图的对比学习方法。该方法联合空间坐标、组织学图像特征以及转录组、表观组、蛋白组等分子特征，学习更适于聚类的表示，从而识别组织空间域。在多个人和小鼠配对空间多组学数据集上的基准测试显示，SpaMOAL持续优于现有方法，可用于更准确解析组织结构与细胞微环境。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent advances in spatial multi-omics technologies have opened new avenues for characterizing tissue architecture and function in situ, by simultaneously providing multimodal and complementary information-such as spatially resolved transcriptomic, epigenomic, and proteomic features. Current computational approaches face substantial challenges, such as effective integration of multi-omics molecular information with spatial information and corresponding high-resolution histology images. To address this challenge, we proposed SpaMOAL (Spatially Multi-Omics graph contrAstive Learning), a graph-based contrastive learning approach for spatial domain identification. SpaMOAL learns clustering-friendly representations from spatial multi-omics data by integrating spatial coordinates, histological image features, and molecular profiles, enabling accurate delineation of spatial tissue domains. Benchmarking across multiple recent paired spatial multi-omics datasets from mouse and human demonstrated that SpaMOAL consistently outperforms existing methods. By enabling accurate spatial domain delineation, SpaMOAL provides a powerful framework for interpreting tissue organization and cellular microenvironments.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3003690&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.13</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748119/" target="_blank" rel="noopener">A practical risk framework for large language model use in life science research.</a></div>
+  <div class="title-cn">生命科学研究中大型语言模型使用的实用风险框架</div>
+  <div class="one-line">为解决生命科学研究中LLM使用风险缺乏统一管理问题，作者提出将提示设计与分级验证整合的实用框架，形成面向文献综述、代码生成等任务的规范化流程。</div>
+  <div class="meta">PLoS computational biology · 2026-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sharpton T, Davis Ii EW, Alexiev A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014776">10.1371/journal.pcbi.1014776</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748119/">https://pubmed.ncbi.nlm.nih.gov/42748119/</a></div><div class="d-block keywords">命中关键词：large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦生命科学研究中LLM使用风险与验证框架，虽可辅助文献整理和代码生成，但不涉及演化或跨物种比较这一研究者核心视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对生命科学研究中大型语言模型使用缺乏统一风险管理框架的问题，作者分析LLM架构带来的能力与典型失误，如幻觉和迎合性，并强调提示设计本身是首要风险控制策略。研究进一步提出按输出可验证性、研究者专业度和错误后果分级配置验证强度，并将其应用于文献综合、代码生成、写作辅助、统计推理和行政事务等常见任务，同时提供补充指南、示例清单及开源资源以支持规范记录与负责任使用。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Responsible use of large language models (LLMs) in life science research demands a unified approach to risk, yet existing guidance treats prompting and verification as separate topics rather than as integrated components of a single risk management framework. This paper addresses that gap for life science researchers. We explain how LLM architecture produces both remarkable capabilities and characteristic failures including hallucination and sycophancy, with particular attention to vulnerabilities most relevant to life science workflows. We argue that effective prompt design is itself a primary risk management strategy, reducing the probability and severity of characteristic failures before verification is required, and introduce a structured framework for matching downstream verification effort to risk across dimensions of output verifiability, researcher expertise, and consequence of error. We apply both layers to common research tasks, including literature synthesis, code generation, writing assistance, statistical reasoning, and administrative work, with documentation practices and ethical obligations addressed throughout. Six supplementary guides extend each component into detailed workflows, worked examples, and reference checklists, and a companion open-source repository (https://github.com/SharptonLab/PromptLab) provides tested prompts and verification tools for immediate use. Together, these resources are designed to help researchers use these tools carefully and document how they did so.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014776&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748078/" target="_blank" rel="noopener">Large language model enhanced public opinion monitoring for China&#x27;s portable energy market: A data driven analysis of social media comments.</a></div>
+  <div class="title-cn">大语言模型增强的中国便携能源市场舆情监测：基于社交媒体评论的数据驱动分析</div>
+  <div class="one-line">为解决便携能源市场短文本舆情难解析问题，作者用LLM增强多视图表征、图共识谱聚类和多LLM共识投票，发现47023条评论中电气安全与共享租赁便利性负面明显。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang Y, Xie W, Li X, Liao W, Shu T, Zhou J, Wang J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357018">10.1371/journal.pone.0357018</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748078/">https://pubmed.ncbi.nlm.nih.gov/42748078/</a></div><div class="d-block keywords">命中关键词：large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦中国便携能源市场社交媒体舆情监测，既无演化或跨物种比较视角，也与脑/神经系统单细胞研究无直接关联。</div><div class="d-block"><span class="lbl">中文摘要：</span>为应对中国便携电源/充电宝市场中短小、噪声大、用户生成评论难以被传统舆情挖掘方法准确解析的问题，作者收集47023条社交媒体评论，构建LLM驱动框架：先以LLM增强多视图表征并结合图共识谱聚类挖掘潜在主题，再通过多标签主题分配与多LLM共识投票开展方面级情感分析。结果识别出12个关键话题，其中电气安全负面占86.1%，共享租赁便利性负面占78.4%，磁吸设计创新正面占76.6%；舆情波动与价格争议及安全事件密切相关。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Portable power banks, as a cornerstone of China&#x27;s mobile and shared energy market, are closely integrated into daily life and work. The recent, ongoing exposure of safety incidents has led to stricter control measures in specific industries and regions, and even to the revision of relevant administrative management standards, posing a significant challenge to an industry with over a decade of rapid growth. The expectations of the public and government administrative management for product safety, reliability, and service quality have risen rapidly. Therefore, real-time public opinion monitoring is vital for supporting technological innovation, safety governance, and the sustainable development of the industry. However, traditional opinion mining methods struggle to interpret short, noisy, and user-generated data and often lack generalizable semantic understanding. This study therefore develops an LLM-driven framework that first clusters LLM-augmented multi-view representations via graph-based consensus spectral clustering to discover latent topics, followed by multi-label topic assignment and aspect-based sentiment analysis through multi-LLM consensus voting. A total of 47,023 public comments were collected from China&#x27;s leading social media platforms, yielding 12 key discussion topics covering electrical safety, charging performance, device durability, shared rental experiences, and emerging magnetic attachment design. The results show that there are strong negative views on electrical safety (86.1%) and the convenience of shared rental services (78.4%), while the views on magnetic connection innovation are mainly positive (76.6%). The topic-event correlation analysis further indicates that opinion fluctuations are closely related to pricing disputes and security-related events. This study demonstrates the effectiveness of LLM-enhanced semantic modeling in public opinion monitoring in the consumer electronics energy field. The results offer reference value for emerging industry market norms under discussion, while the proposed framework can further support the sustainability of portable energy market development by guiding product optimization, risk early warning, and data-informed regulatory strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357018&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748126/" target="_blank" rel="noopener">Spatially resolved gene expression analysis illuminates location-specific functions in the reef-building coral Pocillopora acuta.</a></div>
+  <div class="title-cn">空间解析基因表达分析揭示造礁珊瑚鹿角杯形珊瑚中的位置特异性功能</div>
+  <div class="one-line">为解决鹿角杯形珊瑚组织功能分区缺乏空间转录信息问题，作者结合激光显微切割与RNA测序，发现口侧与反口侧组织分别富集免疫感知和生物矿化相关基因。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Dellaert Z, Putnam HM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358454">10.1371/journal.pone.0358454</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748126/">https://pubmed.ncbi.nlm.nih.gov/42748126/</a></div><div class="d-block keywords">命中关键词：Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦珊瑚组织空间转录组与骨骼形成功能分区，虽与转录组方法相关，但缺乏演化或跨物种比较视角，与该研究者核心问题关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为弥补造礁珊瑚组织功能空间分辨转录组信息不足，作者对鹿角杯形珊瑚采用激光显微切割结合RNA测序，比较口侧与反口侧组织表达差异。口侧有1253个上调基因，富集氨基酸合成、跨膜转运、信号传导及免疫识别通路，如mucins、lectins、TLRs和MyD88；反口侧有552个上调基因，富集发育、细胞黏附和刺激响应，并检出Chitin Synthase及Wnt通路成员与骨骼形成相关。结果提示珊瑚功能标志更可能依赖多基因组合而非单基因。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Reef-building coral polyps contain multiple specialized tissue types with distinct functions, from feeding and defense to symbiosis and skeleton formation. While these cell types have been characterized microscopically and more recently via single-cell RNA sequencing, spatially resolved high-throughput gene expression profiling remains limited in corals. Here we combine Laser Capture Microdissection with RNA sequencing to characterize tissue-specific gene expression in the reef building coral Pocillopora acuta. Oral tissues, adjacent to the seawater, exhibited 1,253 upregulated genes enriched for amino acid synthesis, transmembrane transport, signaling, environmental sensing, and secretion. These tissues showed high expression of immune and microbial-recognition genes consistent with their interface with seawater microbiota: mucins, lectins, toll-like receptors (TLRs), and MyD88 that connects TLRs to the NF-κB pathway. Aboral tissues, which build the coral&#x27;s skeleton, exhibited 552 upregulated genes enriched for developmental processes, cell adhesion, and stimulus response. We identified strong differential expression of biomineralization- associated genes, including Chitin Synthase and Wnt pathway members, suggesting previously underdescribed roles in skeleton formation. Critically, many genes implicated in specialized functions were expressed in multiple tissues. This lack of location specificity suggests functional biomarkers will likely entail multi-gene expression patterns rather than single genes. Collectively, we highlight the need for greater spatial resolution (e.g., single cell/nuclei and spatial transcriptomics) to fully resolve coral responses within their native tissue complexity. As anthropogenic climate change increasingly threatens coral reefs, spatially resolved molecular insight into coral biology will be critical for interpreting stress response mechanisms, forecasting their limits, and applying human interventions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358454&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743358/" target="_blank" rel="noopener">IoT-RiceMobileNet: An improved lightweight MobileNetV2 Model for real-time multi-class rice disease detection using IoT.</a></div>
+  <div class="title-cn">IoT-RiceMobileNet：一种用于物联网实时多类水稻病害检测的改进型轻量化MobileNetV2模型</div>
+  <div class="one-line">为解决水稻叶病难以实时低成本检测问题，作者用改进MobileNetV2整合7092张图像并接入IoT框架，获得99.19%测试准确率和85.17 FPS推理速度。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Masud KI, Zihad MY, Shuvo MH, Jannat MR, Uddin J, Ali S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0356383">10.1371/journal.pone.0356383</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743358/">https://pubmed.ncbi.nlm.nih.gov/42743358/</a></div><div class="d-block keywords">命中关键词：deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是面向智慧农业的水稻病害图像识别与IoT部署研究，不涉及演化、生物脑/神经系统、跨物种比较或单细胞转录组学。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对农村地区水稻叶病早期、实时检测受限且传统深度学习模型计算开销大的问题，作者整合自采与Kaggle数据构建7092张图像数据集，提出轻量化改进MobileNetV2模型IoT-RiceMobileNet，并集成至移动端、网页端和云端IoT推理框架。该模型测试准确率99.19%、精确率99.20%，在5折和10折分层交叉验证中均表现稳定，且模型紧凑、推理速度达85.17 FPS，适合智慧农业实时部署。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Early and real-time detection of rice leaf diseases (RLD) poses a significant challenge for farmers, especially in rural regions with limited access to advanced technology. Conventional deep learning models often require substantial computational resources, rendering them impractical for deployment on mobile or edge devices commonly used in agricultural environments. Although models such as ResNet50, VGG16, and InceptionV3 can achieve high accuracy, they are computationally expensive and may be less suitable for real-time deployment in smart agricultural systems. Furthermore, many existing studies rely on limited datasets, which can restrict model generalizability under diverse real-world conditions. Although transfer learning can improve classification performance, developing lightweight models suitable for real-time IoT deployment remains challenging. To address these limitations, we curated a hybrid dataset of 7,092 rice leaf images by combining self-collected and Kaggle samples and proposed IoT-RiceMobileNet, a lightweight improved MobileNetV2-based model that can be effectively integrated into our developed IoT system. The proposed model outperformed transfer learning and deep learning baseline models, achieving 99.19% test accuracy and 99.20% precision while maintaining low computational complexity. We further confirmed model stability using stratified 5-fold and 10-fold cross-validation on both the constructed RLD and multi-source datasets, achieving mean accuracies of 98.04% and 98.13% on the constructed RLD dataset and 98.11% and 98.58% on the multi-source dataset, respectively. Moreover, our models compact size and 85.17 FPS inference speed support real-time deployment. Finally, the model was integrated into an IoT-enabled mobile, web, and cloud-based inference framework, demonstrating its practical potential for scalable rice disease detection in smart agriculture.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0356383&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743381/" target="_blank" rel="noopener">Investor sentiment and stock portfolio construction: A study based on the black-litterman model.</a></div>
+  <div class="title-cn">投资者情绪与股票投资组合构建：一项基于Black-Litterman模型的研究</div>
+  <div class="one-line">为解决融入投资者情绪的股票组合优化问题，作者用BERT情绪指数结合LSTM与Black-Litterman模型，发现BERT_BL组合取得106.58%年化收益和更优风险调整表现。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sun L, Fu B, Liu W</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358348">10.1371/journal.pone.0358348</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743381/">https://pubmed.ncbi.nlm.nih.gov/42743381/</a></div><div class="d-block keywords">命中关键词：deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦投资者情绪、股票收益预测与Black-Litterman组合优化，不涉及演化、生物学、跨物种比较或单细胞研究，对该研究者几乎无参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为提升股票收益预测与资产配置效果，研究基于上证50指数中8只代表性股票的东方财富股吧评论数据，分别采用词典法和BERT构建加权投资者情绪指数，并用LSTM预测收益，将预测结果作为投资者观点纳入Black-Litterman模型。结果显示，引入情绪信息可显著提高预测精度，其中BERT情绪指数误差最低；BERT_BL组合在回测中实现106.58%年化收益，Sharpe比率2.64、Sortino比率4.18，且在交易成本、参数调整和不同市场环境下保持稳健。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>This study integrates the Black-Litterman (BL) model with deep learning techniques to construct a stock portfolio that incorporates investor sentiment. We develop a weighted investor sentiment index using comment data from the Eastmoney Stock Bar for eight representative stocks in the SSE 50 Index. The sentiment index is constructed through both a dictionary-based approach and the BERT model. Long Short-Term Memory (LSTM) networks are then employed to predict stock returns, which are incorporated as investor views into the BL framework for portfolio optimization. Empirical results demonstrate that incorporating investor sentiment significantly enhances stock price prediction accuracy, and the BERT-based sentiment index achieves the lowest prediction error. Within the BL model, the portfolio integrating the BERT sentiment index (BERT_BL) achieves an annualized return of 106.58% during the backtesting period, along with superior risk-adjusted performance metrics: a Sharpe ratio of 2.64, and a Sortino ratio of 4.18. The model remains robust even after accounting for transaction costs, parameter adjustments, and across different market environments. This study validates the application of textual sentiment analysis in quantitative investment, offering a methodological innovation by integrating unstructured data with classical asset allocation models. The findings provide practical insights for investors seeking to optimize portfolio management strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358348&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42743368/" target="_blank" rel="noopener">WSD-YOLO: A lightweight YOLO-based model with enhanced feature representation for maize pest detection.</a></div>
+  <div class="title-cn">WSD-YOLO：一种具有增强特征表征能力的轻量级玉米害虫检测YOLO模型</div>
+  <div class="one-line">为解决复杂田间背景下玉米害虫漏检问题，作者用改进YOLOv11n的WSD-YOLO方法（含WMConv、SHLT和DAWA），发现其在IPMaize上平均mAP@0.5达78.77%。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Qu S, Liu Z, Zhao H, Wu Y, Yang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357034">10.1371/journal.pone.0357034</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42743368/">https://pubmed.ncbi.nlm.nih.gov/42743368/</a></div><div class="d-block keywords">命中关键词：transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是农业害虫目标检测的计算机视觉工程研究，既无演化也无跨物种比较视角，与研究者核心问题基本无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>玉米生长周期内易受害虫侵袭，但因害虫不同发育阶段形态差异大且田间背景复杂，检测常出现漏检。作者基于YOLOv11n提出WSD-YOLO，结合WindmillConv提升多方向纹理感知、Single-Scale High-Level Transformer抑制背景噪声、Dual-Attention Weighted Aggregation增强同尺度特征融合。IPMaize三次重复训练平均mAP@0.5为78.77%，mAP@0.5:0.95为52.63%，并在Tomato Pest&amp;Diseases和IP102上显示较好泛化能力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>As a major staple crop with global significance, maize is highly vulnerable to pest infestations throughout its growth cycle, which can substantially limit plant development and reduce yield. In practice, accurate detection remains challenging due to pronounced morphological variations across pest life stages, as well as interference from complex field backgrounds, often leading to missed detections. To address these challenges, we propose WSD-YOLO (YOLOv11n with WindmillConv, Single-Scale High-Level Transformer, and Dual-Attention Weighted Aggregation), a high-accuracy maize pest detection model built upon an improved YOLOv11n framework. The WindmillConv (WMConv) module enhances the model&#x27;s sensitivity to multi-directional pest textures, thereby improving low-level feature representation while maintaining a lightweight convolutional design. At a deeper level, the Single-Scale High-Level Transformer (SHLT) introduces global self-attention, enabling effective suppression of background noise with minimal computational overhead. In addition, the Dual-Attention Weighted Aggregation (DAWA) module adaptively fuses same-scale features, improving the detection of pests with diverse morphological characteristics. Experimental results from three repeated training runs (random seeds: 42, 2026, 3407) on the IPMaize dataset demonstrate that the proposed method achieves an averaged mAP@0.5 of 78.77% (79.7% with seed = 42) and averaged mAP@0.5:0.95 of 52.63%. Cross-dataset evaluations on the Tomato Pest&amp;Diseases and IP102 datasets further confirm the model&#x27;s strong generalization capability.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357034&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748204/" target="_blank" rel="noopener">Exploring Nile Red and machine learning for microplastics detection in Tridacna maxima.</a></div>
+  <div class="title-cn">探索将尼罗红与机器学习用于砗磲 Tridacna maxima 中微塑料检测</div>
+  <div class="one-line">为解决SIDS微塑料低成本监测问题，作者用尼罗红三通道荧光成像结合Labkit标注与U-Net分割，发现T. maxima各岛样品均检出微塑料但NR会高估计数。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Godéré I, Edmunds T, Gaertner-Mazouni N, Gimenez F, Wong-Wah-Chung P, Lebarillier S, Baudrimont M, Pupier C, Maihota N, Gaertner JC</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357014">10.1371/journal.pone.0357014</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748204/">https://pubmed.ncbi.nlm.nih.gov/42748204/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦巨蚌体内微塑料检测方法与机器学习分割，不涉及演化、跨物种比较或神经/单细胞问题，对该研究者仅有极弱的方法层面参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为应对小岛发展中国家微塑料监测基础设施不足，作者评估巨蚌Tridacna maxima作为生物整合监测对象，建立KOH/HNO3消化、DAPI/FITC/TRITC三波段复合成像及Labkit+CLIP/UMAP辅助标注、U-Net分割流程，并以µFTIR验证。模型基于6711张图像训练，在样本与对照上F1分别为0.741和0.657。三岛样品均检出微塑料，鳃中浓度高于内脏，但尼罗红法因蛋白、纤维素和硬脂酸盐干扰而高估绝对数量。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Small Island Developing States (SIDS) face unique challenges for microplastics (MPs) monitoring due to limited infrastructure and resources. In this context, we propose and test innovative approaches toward a standardized, low-cost methodology for quantifying MPs in SIDS. We evaluate the giant clam T. maxima as a bio-integrator, combining Nile red (NR) fluorescence staining with automated machine-learning detection. We optimized a digestion protocol using KOH and HNO3 for T. maxima viscera, and developed a DAPI-guided multi-spectra composite imaging approach based on triband fluorescence (DAPI, FITC, TRITC), to enhance polymer detection while reducing blooming artifacts. A semi-automated annotation pipeline using Labkit interactive segmentation with CLIP/UMAP clustering efficiently generated training data from 6711 fluorescence images. A U-Net model was trained on composite images to segment fluorescent particles. The workflow was applied to giant clams from three French Polynesian islands (Makemo, Hao, Tubuai), and NR-based estimates were validated against µFTIR spectroscopy. The model achieved F1-scores of 0.741 for giant clam samples and 0.657 for controls, comparable to human annotation (F1 = 0.680). MPs were detected across all islands, with highest concentrations in gills (16.9-52.7 particles·g-1 wet weight) compared to viscera (2.5-11.0 particles·g-1 ww). µFTIR validation revealed that NR overestimates MP counts (µFTIR: 0.80 ± 0.16 particles·g-1 ww at Tubuai), primarily due to false positives from proteins, cellulose, and stearates. In Tubuai, polyamide (28.9%), PVC (12.6%), and polystyrene (10.7%) were the dominant polymers, suggesting contributions from fishing gear, agriculture, and household waste. While NR-based quantification overestimates absolute MP counts, the automated pipeline demonstrates potential for high-throughput image processing, reproducible sample analysis, and methodological standardization. This workflow represents a first step toward scalable, low-cost approaches for MPs monitoring in insular systems, highlighting areas for further calibration and optimization. Future work should refine fluorescence thresholds and expand validation across species and locations.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357014&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.0</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748070/" target="_blank" rel="noopener">Tracing settlement dynamics in Latium vetus: Explainable machine learning perspectives from the Bronze to the Early iron age.</a></div>
+  <div class="title-cn">追踪拉提姆古区的聚落动态：从青铜时代到早期铁器时代的可解释机器学习视角</div>
+  <div class="one-line">为解决拉提姆古区长期聚落选址驱动因素问题，作者用Random Forest结合SHAP的可解释机器学习，发现聚落偏好由水文可达性转向地形与海拔主导。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Alessandri L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0357054">10.1371/journal.pone.0357054</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748070/">https://pubmed.ncbi.nlm.nih.gov/42748070/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦意大利青铜至早期铁器时代聚落考古与可解释机器学习，不涉及演化、生物跨物种比较或单细胞/神经系统问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为厘清意大利中部Latium vetus自早期青铜时代至早期铁器时代（约2100–725 BCE）聚落选址的长期驱动因素，作者基于108个可靠断代遗址和环境约束伪缺失点，构建分时期Random Forest模型，并结合标准化分裂频率与SHAP值评估变量重要性及效应方向。结果显示，早期聚落主要受水文可达性影响，自MBA3起地形格局与海拔逐渐占主导，最终在晚期形成更具防御性的聚落特征，并揭示景观趋于饱和与层级化组织。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Understanding the long-term drivers of settlement location requires disentangling ecological constraints from historically contingent choices. Here I apply a Random Forest machine-learning framework, coupled with explainable AI techniques, to investigate settlement dynamics in Latium vetus (central Italy) from the Early Bronze Age to the early Iron Age (c. 2100-725 BCE). Using 108 securely dated sites and a set of environmentally constrained pseudo-absence points, I model phase-specific patterns and evaluate predictor importance through both normalized split frequencies and SHAP values, capturing structural roles as well as the magnitude and direction of effects. The results reveal a coherent diachronic transformation in the environmental logic of settlement. Early phases are primarily structured by hydrological accessibility, whereas from MBA3 onwards topographic configuration and elevation progressively dominate, marking a shift towards morphologically distinctive and defensible locations. This transition culminates in highly canalised settlement signatures during the Final Bronze Age and RMCA phases, before the RMCAIII phase signals a landscape that is increasingly saturated, hierarchically organised and functionally diversified, despite overall political stability. While the reliance on pseudo-absences and uneven sample sizes constrain predictive robustness, the approach demonstrates the value of Random Forest and SHAP as exploratory tools to expose non-linear, threshold-like relationships and to formalise long-standing archaeological interpretations. The study shows how explainable machine learning can provide a quantitative backbone for reconstructing the emergence, consolidation and transformation of territorially structured landscapes in protohistoric central Italy.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0357054&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">3.62</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42747502/" target="_blank" rel="noopener">Image-based high-dimensional deep learning framework for spatiotemporal modeling, prediction and transfer learning of microbial cultivation processes.</a></div>
+  <div class="title-cn">基于图像的高维深度学习框架用于微生物培养过程的时空建模、预测与迁移学习</div>
+  <div class="one-line">为解决微生物培养监测维度不足问题，作者用CNN与ConvLSTM结合受控时序成像和迁移学习，发现其可较好预测枯草芽孢杆菌培养图像并迁移至独立摇瓶条件。</div>
+  <div class="meta">Bioprocess and biosystems engineering · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jang BJ, Shin HS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s00449-026-03426-3">10.1007/s00449-026-03426-3</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42747502/">https://pubmed.ncbi.nlm.nih.gov/42747502/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦枯草芽孢杆菌培养过程的图像建模与迁移学习，缺乏演化、跨物种比较或神经系统相关视角，对该研究者仅有极弱的方法学参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为弥补OD、DO和pH等低维传感器指标难以全面表征培养体系的问题，作者建立受控成像系统，采集枯草芽孢杆菌培养的时序图像，并构建CNN与ConvLSTM深度学习模型进行高维分析和时间序列预测。结果显示，CNN在原始发酵罐条件下具有更优像素级预测表现，迁移学习可将预训练CNN适配到独立摇瓶培养条件。相关性分析表明，部分图像特征与OD600保持较强关联，但与Abs450关系较不稳定，说明该框架可补充常规培养监测。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Microbial culture processes exhibit complex and nonlinear dynamics, and accurate monitoring and prediction are essential for effective process optimization. Conventional monitoring methods primarily rely on low-dimensional sensor measurements, such as optical density (OD), dissolved oxygen (DO), and pH, which provide useful quantitative information but do not fully capture the physicochemical characteristics of the culture system. In this study, an image-based analytical framework was developed for high-dimensional analysis and time-series prediction during the cultivation of Bacillus subtilis. A controlled imaging system was established to acquire reproducible time-series images, and deep learning models based on convolutional neural networks (CNN) and convolutional long short-term memory (ConvLSTM) networks were constructed. The CNN provided superior pixel-level prediction performance under the original fermentor condition, while transfer learning (TL) enabled adaptation of the pretrained CNN to independent flask cultivation conditions with strong pixel-level reconstruction. Correlation analysis further showed that several image-derived features retained strong associations with OD600 in CNN-predicted images, whereas relationships with Abs450 were less consistent. These findings demonstrate that controlled image-based modeling can complement conventional process monitoring by providing high-dimensional visual information and a transferable framework for microbial cultivation analysis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s00449-026-03426-3&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.61</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42735375/" target="_blank" rel="noopener">Evaluation of the Square Eyes Model as a Screening Tool for Identifying Digital Technologies in Wearable Camera Images Among Children: Laboratory Study.</a></div>
+  <div class="title-cn">将Square Eyes模型作为筛查工具识别儿童可穿戴相机图像中数字技术的评估：实验室研究</div>
+  <div class="one-line">为解决儿童可穿戴相机图像人工编码负担大问题，作者用Square Eyes目标识别模型结合N-back筛查算法，发现其在221,226张图像中总体准确率为78.0%。</div>
+  <div class="meta">Journal of medical Internet research · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rasmussen CL, Sanders T, Howie EK, Beynon A, Hendry D, Zabatiero J, Campbell A, Straker L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.2196/100559">10.2196/100559</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42735375/">https://pubmed.ncbi.nlm.nih.gov/42735375/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是儿童可穿戴相机图像中的数字设备识别研究，既无演化也无跨物种比较视角，与脑演化和单细胞比较研究基本无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>为准确测量儿童数字技术使用并降低图像人工编码负担，作者在48名3-14岁儿童约1小时实验室任务中采集221,226张可穿戴相机图像，并评估Square Eyes目标识别模型及其内置N-back算法的筛查表现。结果显示模型总体准确率为78.0%，对电视和笔记本识别一致性较高，对智能手机和平板较低；N-back仅漏过7144张含技术图像，面部方形模糊边框可能降低识别性能，提示其可用于减少人工复核工作量。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate measurements of children&#x27;s digital technology use are essential for understanding its potential implications on health and well-being. Wearable cameras can provide such measurements, but image coding is a high burden for researchers. Machine learning-based object-recognition models have the potential to reduce this burden by identifying images containing technology. This study aims to evaluate the performance of an object recognition model, the Square Eyes model, as a screening tool for identifying technologies in wearable camera images among children for further human review, as well as to examine the potential influence of face-blurring methods on the model&#x27;s performance. This study used data collected on 48 children (aged 3-14 y) during an approximately 1-hour laboratory session. The children performed various technology-related tasks while wearing a camera. A total of 221,226 images were coded by humans and processed through the Square Eyes model. The performance of the Square Eyes model as a screening tool was evaluated by (1) assessing agreement between the model and human coding; (2) evaluating the N-back algorithm, an algorithm embedded in the model aimed to flag images requiring human review; and (3) examining the potential influence of facial-blurring on model performance. Humans detected technology in 92,745 (41.9%) images, and the Square Eyes model detected technologies with an overall accuracy of 78.0%. When considering specific technologies, agreement between the model and human coders was the highest for Television (n=19,148, 54.3%) and Laptop (n=8492, 44.5%) and lowest for smaller devices such as Smartphone (n=2600, 31.3%) and Tablet (n=3685, 25.1%). The model&#x27;s N-back algorithm effectively flagged images that required further human review, with only 7144 (3.2%) images that were not flagged for screening containing a human-coded technology. An explorative analysis indicated that using a square face-blurring with border could have reduced the model&#x27;s ability to accurately detect technologies. The Square Eyes model demonstrated overall satisfying accuracy in detecting technologies and successfully flagged images that required further review by humans. These findings suggest that the model could be used as an effective screening tool for reducing the burden of human coding. However, the model could be improved to more accurately detect smaller devices, and the form of facial blurring in images should be considered.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/100559&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.61</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734515/" target="_blank" rel="noopener">Combining AI Structure Prediction and Integrative Modeling for Nanobody-Antigen Complexes.</a></div>
+  <div class="title-cn">结合AI结构预测与整合建模进行纳米抗体-抗原复合物建模</div>
+  <div class="one-line">为解决纳米抗体-抗原复合物结构难预测问题，作者结合AlphaFold2/ImmuneBuilder与HADDOCK集成对接流程，发现有表位信息时其成功率优于AlphaFold基线。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sánchez-Marín M, Giulini M, Bonvin AMJJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01301">10.1021/acs.jcim.6c01301</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734515/">https://pubmed.ncbi.nlm.nih.gov/42734515/</a></div><div class="d-block keywords">命中关键词：artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦纳米抗体-抗原复合物结构预测与对接建模，不涉及演化、跨物种比较或单细胞细胞类型同源性研究。</div><div class="d-block"><span class="lbl">中文摘要：</span>纳米抗体虽具高亲和力和小尺寸优势，但因缺乏共进化信号及CDR3环构象空间广，复合物三维结构预测困难。作者评估机器学习纳米抗体结构预测方法，并比较多种HADDOCK工作流在不同输入构象集合和信息条件下的表现，提出基于AlphaFold2与ImmuneBuilder模型的集成对接流程。在已知部分表位信息时，该流程在所有生成模型上均较AlphaFold基线取得更高成功率。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Nanobodies exhibit antigen-binding affinities of the same order as those of antibodies, which, along with their small size and unique structural characteristics, makes them well-suited for therapeutic and diagnostic applications. The lack of coevolutionary signals in nanobody-antigen complexes, together with the broad complementarity determining region 3 loop (CDR3) conformational space, poses a challenge for predicting the 3D structure of those complexes with computational modeling and artificial intelligence-based methods. In this context, physics-based information-driven docking can provide an alternative solution. This study evaluates the state-of-the-art machine-learning-based methods for nanobody structure prediction and benchmarks various HADDOCK workflows to model their interaction with antigens using different input nanobody ensembles and information scenarios. We propose an ensemble docking pipeline that achieves high success rates starting from nanobody structural models predicted by AlphaFold2 and ImmuneBuilder. Provided that some information on the epitope is available, our pipeline achieves higher success rates than the AlphaFold baseline on all generated models.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01301&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦两类前沿问题：一是发育神经生物学中，同源神经母细胞如何沿体轴生成区域特化神经回路；二是人类髓系祖细胞中，如何以更精准的免疫表型与分子特征界定cMoPs。最值得注意的是，两项研究都不止停留于“找到标记”，而是结合谱系、功能操控与多组学证据，推动细胞类型定义从表型描述走向机制解析。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>发育神经谱系与区域特化：果蝇研究解析连续同源NB3-3谱系如何通过增删时间性细胞群形成节段差异回路，同时保留基础时间群。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>祖细胞精准界定与重定义：人类cMoPs研究显示，将CD115纳入界定标准比CLEC12A更能准确定义该群体及其分子异质性。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>多层证据整合验证细胞命运：两项工作都结合标记、操控与功能或分化证据，提升了对细胞来源、状态与结局判断的可信度。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这两篇论文共同体现出一个明显趋势：单一标记或静态观察已不足以支撑细胞类型定义，研究正转向“谱系追踪/功能操控/多组学测定”相结合的综合框架。无论是解析神经发生中的时间序列与回路构建，还是重塑免疫祖细胞的分类标准，关键都在于用多维证据把细胞身份、形成过程与功能结果贯通起来。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批工作提示了两个可借鉴方向：其一，在发育与细胞命运研究中，应重视沿空间位置与时间窗口的系统比较，而非只看单一模型部位；其二，在细胞群体定义上，可通过流式分选、多组学和分化验证联合建立更稳健的判定标准。后续可围绕区域差异形成机制、关键表面标记组合及群体异质性的功能意义展开跟进。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
