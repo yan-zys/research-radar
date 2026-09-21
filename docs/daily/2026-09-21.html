@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-21</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-21</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 1 · Relate 14）· 命中关键词 17 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42623474/" target="_blank" rel="noopener">Genomes of Poaceae relatives reveal key metabolic innovations preceding the evolution of grasses.</a></div>
+  <div class="title-cn">禾本科近缘类群基因组揭示先于禾本科演化发生的关键代谢创新</div>
+  <div class="one-line">为解决禾本科关键代谢创新起源问题，作者测序Pharus、Joinvillea、Ecdeiocolea和Typha基因组并结合系统基因组、功能和结构研究，发现ρWGD与PAL串联复制分别推动胞质淀粉与双木质素生物合成途径演化。</div>
+  <div class="meta">Science (New York, N.Y.) · 2026-08-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Takeda-Kimura Y, Moore B, Holden S, Morris JS, Deb SK, Sanders C, El-Azaz J, Barrett M, Lorence D, de Oliveira MVV, Havranek W, Grimwood J, Williams M, Boston LB, Jenkins J, Plott C, Shu S, Barry K, Goodstein DM, Schmutz J, Jez JM, Moscou MJ, McKain MR, Leebens-Mack JH, Maeda HA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.adv0443">10.1126/science.adv0443</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42623474/">https://pubmed.ncbi.nlm.nih.gov/42623474/</a></div><div class="d-block keywords">命中关键词：whole-genome duplication, genome duplication</div><div class="d-block"><span class="lbl">推荐理由：</span>该文具备明确的演化与跨物种比较视角，但聚焦禾本科代谢创新与植物基因组演化，对脑/神经系统和单细胞细胞类型演化仅有间接方法学参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>禾本科具有双淀粉与木质素生物合成等独特代谢特征，但其起源时间与分子基础不清。作者测序Pharus、Joinvillea、Ecdeiocolea和Typha基因组，结合系统基因组、 生化、功能与结构分析，追踪相关创新出现时点。结果表明，通向所有禾本科最近共同祖先的谱系内ρ全基因组复制促进了胞质淀粉生物合成相关基因家族扩张；更早期的PAL串联复制产生PTAL，支撑双木质素生物合成。研究揭示了早于禾本科起源的关键代谢创新机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The grass family (Poaceae) has immense economic and ecological importance and exhibits distinctive metabolic traits, including dual starch and lignin biosynthetic pathways. We sequenced the genomes of Pharus, Joinvillea, Ecdeiocolea, and Typha species to investigate when and how these metabolic innovations evolved relative to the origin of the grass family. The rho whole-genome duplication (ρWGD) within the lineage that led to the last common ancestor of all grasses contributed to the gene family expansions underlying cytosolic starch biosynthesis, whereas an earlier tandem duplication of phenylalanine ammonia lyase (PAL) gave rise to phenylalanine/tyrosine ammonia lyase (PTAL), which is responsible for the dual lignin biosynthesis. Integrated biochemical, functional, and structural studies, guided by phylogenomic analyses, further revealed the molecular basis of key metabolic innovations predating the evolution of grasses.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adv0443&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.68</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42424436/" target="_blank" rel="noopener">Autonomous biomedical research with an artificial intelligence agent.</a></div>
+  <div class="title-cn">利用人工智能代理开展自主生物医学研究</div>
+  <div class="one-line">为解决生物医学研究流程重复且碎片化问题，作者开发通用AI代理Biomni，以文献挖掘动作空间并结合检索增强规划与代码执行，实现多类研究任务的自主完成。</div>
+  <div class="meta">Science (New York, N.Y.) · 2026-08-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Huang K, Zhang S, Wang H, Qu Y, Lu Y, Li R, Roohani Y, Qiu L, Cao S, Li G, Zhang J, Yin D, Wierenga R, Kavi D, Liu S, She T, Marwaha S, Carter JN, Zhou X, Wheeler MT, Bernstein JA, Wang M, He P, Zhou J, Snyder MP, Cong L, Regev A, Leskovec J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.adz4351">10.1126/science.adz4351</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42424436/">https://pubmed.ncbi.nlm.nih.gov/42424436/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦通用生物医学AI代理而非演化或跨物种比较，但其自动化整合工具与工作流的能力可间接借鉴于比较单细胞与基因组分析。</div><div class="d-block"><span class="lbl">中文摘要：</span>为应对生物医学研究中重复、割裂的工作流限制，作者提出通用AI代理Biomni。其通过动作发现代理从覆盖25个领域的数千篇论文中挖掘工具、数据库与实验协议，构建统一代理环境，并结合大语言模型推理、检索增强规划和代码执行动态组装流程。基准测试显示其在因果基因优先级排序、药物再利用、罕见病诊断、微生物组分析和分子克隆等异构任务中具备较强泛化能力，展示了AI辅助科学发现的潜力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Biomedical research is increasingly constrained by repetitive, fragmented workflows that slow discovery. We introduce Biomni, a general-purpose biomedical artificial intelligence agent that autonomously executes diverse research tasks. To map the biomedical action space, Biomni&#x27;s action-discovery agent mines tools, databases, and protocols from thousands of publications across 25 domains, building a unified agentic environment. Its general-purpose architecture integrates large language model reasoning with retrieval-augmented planning and code-based execution, dynamically composing workflows without predefined templates. Systematic benchmarking shows strong generalization across heterogeneous tasks-causal gene prioritization, drug repurposing, rare-disease diagnosis, microbiome analysis, and molecular cloning-without task-specific tuning. Real-world case studies demonstrate Biomni interpreting multimodal datasets, optimizing protein stability, orchestrating wet-lab instruments, and generating experimentally testable protocols. Biomni envisions artificial intelligence augmenting human scientists and accelerating discovery.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adz4351&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.62</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.05.723027" target="_blank" rel="noopener">BART-spatial unravels biologically significant transcriptional regulators from spatial omics data</a></div>
+  <div class="title-cn">BART-spatial 从空间组学数据中解析具有生物学意义的转录调控因子</div>
+  <div class="one-line">为解决空间组学中活性TR难识别问题，作者开发整合空间变异性、拟时序与公开TR结合谱的BART-spatial，发现其在多平台数据中优于现有方法并识别状态特异TR。</div>
+  <div class="meta">bioRxiv · 2026-08-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wang, J.; Zhang, H.; Wang, Z.; Zang, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.05.723027">10.64898/2026.05.05.723027</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.05.723027">https://www.biorxiv.org/content/10.64898/2026.05.05.723027</a></div><div class="d-block keywords">命中关键词：spatial omics, Visium, ATAC-seq, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦空间组学中转录调控因子推断，虽可为神经发育/单细胞调控网络分析提供方法参考，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>转录调控因子(TR)决定细胞命运，但在空间转录组/表观组数据中因TR低表达且活性与mRNA不一致而难以识别。作者开发BART-spatial，整合空间变异性、拟时序信息及公开TR结合谱，用于推断功能性TR。该方法在10x Visium、Visium HD、Atera和spatial RNA-ATAC-seq等多类数据上均优于现有方法，可识别状态特异TR及表达水平难以发现的调控因子，并可用于空间表观组交叉验证。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Transcriptional regulators (TRs) are crucial regulators of cell fate decisions by activating or repressing lineage-specific genes and integrating environmental signals with intrinsic networks. Identifying functional TRs is essential for understanding development, tissue organization, and disease. Emerging spatial transcriptomics and epigenomics technologies now provide near-single-cell resolution mapping of genomic features while preserving information of each cell&#x27;s physical location and microenvironment which influence TR activity. Despite these advances, identifying active TRs in spatial data remains challenging due to low TR expression and the fact that TR activity often does not correlate directly with mRNA levels. Moreover, existing tools mainly designed for non-spatial single-cell data overlook spatial heterogeneity. To bridge this gap, we developed BART-spatial (Binding Analysis for Regulation of Transcription for spatial omics data), an innovative computational method to infer functional TRs from spatial omics data. BART-spatial integrates spatial variability and pseudotemporal information with publicly available TR binding profiles. Applied to multiple spatial datasets from diverse platforms, including 10x Visium, Visium HD, Atera, and spatial RNA-ATAC-seq, BART-spatial consistently outperforms existing methods, identifying state-specific TRs and revealing regulators undetectable by expression alone. Its compatibility with spatial epigenomics data further strengthens its utility and enables cross-validation. Overall, BART-spatial provides a powerful and robust tool for decoding spatially resolved gene regulatory programs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.05.723027&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">3.64</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.04.01.714123" target="_blank" rel="noopener">Task-dependent Performance of Single-cell Foundation Models under Low Supervision</a></div>
+  <div class="title-cn">低监督条件下单细胞基础模型的任务依赖性表现</div>
+  <div class="one-line">为解决标签稀缺时单细胞基础模型价值不明问题，作者比较7种基础模型与3种经典表示在多任务中的表现，发现模型效用强烈依赖下游任务且无统一最优者。</div>
+  <div class="meta">bioRxiv · 2026-08-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xu, Y.; Li, Y.; Yuan, Y.; Tao, H.; Hu, F.; Zang, Z.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.04.01.714123">10.64898/2026.04.01.714123</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.04.01.714123">https://www.biorxiv.org/content/10.64898/2026.04.01.714123</a></div><div class="d-block keywords">命中关键词：cell type annotation, foundation model</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦单细胞基础模型在低监督任务中的性能评测，虽可为单细胞分析流程选型提供参考，但缺乏演化或跨物种比较视角，对该研究者仅具方法层面借鉴价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>为评估百万级细胞训练的单细胞基础模型在低监督场景中的实用性，作者比较7种基础模型和3种经典表示在聚类、批次校正、细胞类型注释、基因表达重建与扰动预测中的表现；冻结表示用于聚类和批次校正，并配合轻量任务头进行少样本预测。结果显示CellPLM在聚类、注释和批次校正总体领先，scMulan在扰动预测最佳，而PCA在重建中最优，提示细胞表示的价值取决于具体下游任务需求。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell foundation models are trained on millions of cells, but their value when downstream labels are scarce remains uncertain. Here we compare seven such models with three established representations across clustering, batch correction, cell type annotation, gene expression reconstruction and perturbation prediction. Frozen representations are tested directly for clustering and batch correction and with lightweight task heads for few-shot prediction. CellPLM led the aggregate clustering, annotation and batch-correction comparisons, scMulan led perturbation prediction, and principal component analysis led reconstruction. Of the seven foundation models, one exceeded the strongest classical baseline in clustering, three in batch correction, four in annotation, none in reconstruction and six in perturbation prediction. Representation analyses linked reconstruction performance to preservation of linear gene relationships, but cross-model gene-relation agreement did not exceed a dimension-matched random-projection null. These results show that the utility of a cell representation depends on the information required by the downstream task.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.01.714123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">3.61</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42616677/" target="_blank" rel="noopener">Haplotypes across the Oceans: worldwide phylogeography, evolution, conservation and nomenclature standardization in the leatherback sea turtle (Dermochelys coriacea).</a></div>
+  <div class="title-cn">跨越海洋的单倍型：棱皮龟的全球系统地理、演化、保护与命名标准化</div>
+  <div class="one-line">为解决棱皮龟mtDNA单倍型命名混乱问题，作者整合GenBank 304条控制区序列并提出473/681 bp标准命名，发现其基部节点可能起源于太平洋并多次扩散至大西洋和印度洋。</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Colombo WD, Teodoro SSA, da Fonseca JLG, Schultz GL, Vargas SM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0354151">10.1371/journal.pone.0354151</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42616677/">https://pubmed.ncbi.nlm.nih.gov/42616677/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>论文涉及系统地理、祖先区域重建与演化时间估计，具备演化视角，但聚焦棱皮龟种内mtDNA单倍型命名标准化，与脑演化、细胞类型同源和跨物种单细胞比较关联很弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决棱皮龟（Dermochelys coriacea）线粒体DNA控制区单倍型命名不一致、妨碍群体遗传与系统地理整合的问题，作者回顾了GenBank中覆盖大西洋、印度洋和太平洋的304条序列，基于473 bp短序列和681 bp长序列提出统一命名体系。长、短数据集分别识别出32和24种单倍型。单倍型网络显示明显遗传结构，Dc1.1/Dc1分布最广。祖先区域重建支持基部节点源于太平洋，随后多次扩散至大西洋和印度洋；现生类群起源约4.86 Ma。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Inconsistent haplotype nomenclature complicates the integration of genetic data in population genetics and phylogeographic studies of the leatherback sea turtle (Dermochelys coriacea). Previous studies using control region mitochondrial DNA (mtDNA) sequences of varying lengths (e.g., 496 bp, 711 bp, 763 bp) have led to redundant classifications and misinterpretations of population structure. In this study, we reviewed 304 control region mtDNA sequences from GenBank, representing all published haplotypes across the Atlantic, Indian, and Pacific Oceans. We proposed a standardized nomenclature based on two sequence lengths: 473 bp (short) and 681 bp (long). We identified 32 haplotypes in the long-sequence dataset and 24 in the short-sequence dataset, with 21 and 14 variable sites, respectively. Haplotype network analyses revealed strong genetic structure, with Dc1.1 (long) and Dc1 (short) as the most widely distributed haplotypes. Ancestral area reconstruction indicated a Pacific origin for the most basal D. coriacea nodes, followed by multiple transitions into the Atlantic and Indian Oceans. Divergence time estimates placed the origin of the D. coriacea contemporary clade at ~4.86 million years ago (Ma), with Dc1.1 emerging around 0.49 Ma. Atlantic colonizations occurred at ~1.75 Ma and ~1.73 Ma, and Indian Ocean colonization at ~3.00 Ma. These findings support the adoption of a unified haplotype nomenclature to clarify population genetic structure and enhance the consistency of genetic assessments for conservation applications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0354151&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">3.61</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.14.744874" target="_blank" rel="noopener">From life history to proteome via mutagenesis: an ecological footprint in genome evolution</a></div>
+  <div class="title-cn">从生活史到蛋白质组：诱变作用在基因组演化中的生态足迹</div>
+  <div class="one-line">为解决生活史相关诱变压力如何传递到蛋白质组演化问题，作者比较白蚁与非白蚁蜚蠊线粒体基因组，发现更强A&gt;G突变特征伴随同义位点、密码子和氨基酸组成协同变化。</div>
+  <div class="meta">bioRxiv · 2026-08-19</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Voronka, A.; Koshel, A.; Osadchiy, G.; Efimenko, B.; Gunbin, K.; Popadin, K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.14.744874">10.64898/2026.08.14.744874</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.14.744874">https://www.biorxiv.org/content/10.64898/2026.08.14.744874</a></div><div class="d-block keywords">命中关键词：Molecular evolution, Genome evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>论文具备明确的跨物种演化比较视角，但聚焦线粒体突变谱与蛋白质组演化，而非脑/神经系统、细胞类型或单细胞比较。</div><div class="d-block"><span class="lbl">中文摘要：</span>物种的寿命、生理和社会组织会暴露于不同内源性与环境诱变因素，但这些差异如何影响后续分子演化尚不清楚。作者基于哺乳动物中已知的年龄相关线粒体A&gt;G突变特征，比较长寿白蚁与短寿非白蚁蜚蠊，发现白蚁mtDNA中A&gt;G突变特征更强，并伴随同义核苷酸组成、密码子使用和氨基酸组成的协调转变。结果表明，生态与生活史相关的突变压力可沿“突变谱—核苷酸组成—蛋白质组”层级传递，线粒体基因组因此也记录了物种演化时的生物学条件。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Species differ in longevity, physiology, and social organization, and these properties expose them to distinct endogenous and environmental mutagens. Mutational spectra generated by these processes can shape downstream molecular evolution, influencing synonymous nucleotide composition, codon usage, and even amino acid composition. Tracing this signal from life history to proteome through mutagenesis could reveal how mutational pressure interacts with the fitness landscape, including the direction of molecular change and the extent to which proteins remain functional while following mutational biases. Here, building on the recently identified age-associated mitochondrial A&gt;G mutational signature in mammals, we test the universality of this signature and its downstream effects on genome and proteome evolution by comparing long-lived termites with short-lived non-termite cockroaches. We find that termite mtDNA exhibits a stronger A&gt;G mutational signature than that of non-termite cockroaches, accompanied by coordinated shifts in synonymous nucleotide composition, codon usage, and amino acid composition. Our results show that ecological and life-history-associated mutational pressures can be transmitted through a hierarchy from mutational spectra to nucleotide composition and ultimately to proteome evolution. Mitochondrial genomes may therefore function not only as records of ancestry but also as molecular archives of the biological conditions under which species evolve.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.14.744874&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">3.61</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42747015/" target="_blank" rel="noopener">Oral Health Indicators as Important Predictors of Frailty in Korean Adults Aged 50 Years and Older: A Sex-Stratified Explainable Machine Learning Approach.</a></div>
+  <div class="title-cn">口腔健康指标是韩国50岁及以上成年人衰弱的重要预测因子：一项按性别分层的可解释机器学习方法</div>
+  <div class="one-line">为解决衰弱预测中较少纳入口腔健康指标问题，作者用KNHANES 2016-2019中12,302名≥50岁成人的性别分层可解释机器学习，发现咀嚼和言语困难是高于高血压的重要预测因子。</div>
+  <div class="meta">Journal of applied gerontology : the official journal of the Southern Gerontological Society · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kim HN, Jung H, Park HJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1177/07334648261488554">10.1177/07334648261488554</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42747015/">https://pubmed.ncbi.nlm.nih.gov/42747015/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>这是一篇韩国中老年人群口腔健康与衰弱预测的临床机器学习研究，缺乏演化、生物比较或神经系统相关视角，对该研究者价值极低。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对衰弱预测模型很少纳入口腔健康指标的问题，作者分析韩国KNHANES 2016-2019中12,302名≥50岁成人横断面数据，按性别分别构建5种机器学习模型，并用独立测试集评估、SHAP解释结果。衰弱按改良Fried表型定义，调查加权患病率为14.1%。测试集AUROC男性为0.73-0.78、女性为0.75-0.81，XGBoost表现最佳。咀嚼和言语困难在两性中均排名靠前，且咀嚼困难在变量移除分析中得到支持。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>BackgroundFrailty is a major public health concern, yet oral health indicators are rarely incorporated into prediction models.ObjectiveTo develop sex-stratified explainable machine-learning models for frailty prediction.MethodsCross-sectional data from 12,302 adults aged ≥50 years (KNHANES 2016-2019) were analyzed. Frailty was defined using a modified Fried phenotype, with robust and prefrail participants combined as non-frail. Five algorithms were developed separately for men and women and evaluated on independent test sets. Top-performing models were interpreted using SHAP.ResultsThe survey-weighted frailty prevalence was 14.1% (95% CI, 13.3-14.9). Test-set AUROCs ranged from 0.73 to 0.78 in men and 0.75 to 0.81 in women. XGBoost was selected for interpretation. Chewing and speaking difficulties ranked above hypertension in both sexes. Chewing difficulty showed complementary support in removal analyses. Smoking status and toothbrushing after meals ranked more prominently in men, whereas unmet dental care need and mouthwash use ranked more prominently in women.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07334648261488554&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42714214/" target="_blank" rel="noopener">PLC-IP3 signaling promotes sensory hair cell formation in zebrafish neuromast.</a></div>
+  <div class="title-cn">PLC-IP3信号促进斑马鱼神经丘感觉毛细胞形成</div>
+  <div class="one-line">为解决斑马鱼神经丘毛细胞形成与成熟效率不足问题，作者用药理扰动、scRNA-seq与遗传分析结合轨迹/RNA velocity，发现PLC-IP3信号促进毛细胞分化与成熟。</div>
+  <div class="meta">Development (Cambridge, England) · 2026-09-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yang C, Qian F, Gong J, Wang X, Liu D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1242/dev.205705">10.1242/dev.205705</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42714214/">https://pubmed.ncbi.nlm.nih.gov/42714214/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦斑马鱼侧线毛细胞发育与再生机制，虽用单细胞转录组和轨迹分析，但缺乏演化或跨物种比较视角，对该研究者仅有有限方法参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>感觉神经性听力损失常源于感觉毛细胞不可逆损伤，但毛细胞再生与功能成熟效率有限。作者在斑马鱼神经丘中结合药理扰动、单细胞转录组测序和遗传分析，发现PLC信号是调控毛细胞发育成熟的细胞内因子。激活PLC可增加毛细胞数量和FM4-64标记，抑制则减少毛细胞并损害感觉驱动行为。轨迹与RNA velocity分析显示PLC不改变谱系拓扑，而是促进毛细胞分化进程；其中plcd4a在毛细胞中富集且对其形成成熟必需，并与Notch、Wnt通路发生功能互作。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Sensorineural hearing loss primarily results from irreversible damage to sensory hair cells (HCs), and regenerative strategies remain limited by inefficient HC formation and incomplete functional maturation of newly generated cells. Here, using pharmacological perturbation, single-cell transcriptomics sequencing (scRNA-seq), and genetic analysis in zebrafish neuromasts, we identify phosphoinositide-specific phospholipase C (PLC) signaling as an intracellular regulator of HC development and maturation. Activation of PLC signaling increases the number of HCs and FM4-64 labeling, whereas inhibition reduces HC number and impairs sensory-driven behavior. Single-cell trajectory and RNA velocity analyses reveal that PLC signaling does not alter lineage topology, but promotes progression along the HC differentiation trajectory. Among PLC isoforms, plcd4a is selectively enriched in HCs and is necessary to promote HC formation and maturation. Mechanistically, pathway perturbation experiments suggest that PLC-IP3 signaling functionally interacts with Notch and Wnt pathways during HC differentiation. Together, these findings support a model in which PLC signaling promotes HC differentiation and maturation-associated progression, providing insight into mechanisms that may promote HC regeneration.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205705&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42721176/" target="_blank" rel="noopener">DMGRN: Enhancing Diffusion Models for Gene Regulatory Network Inference.</a></div>
+  <div class="title-cn">DMGRN：用于基因调控网络推断的增强型扩散模型</div>
+  <div class="one-line">为解决scRNA-seq数据高噪声和高稀疏性下GRN推断不准问题，作者用融合SEM和基因相似性对齐损失的改进DDPM方法，发现其在28个BEELINE基准中有18个配置取得最高EPR。</div>
+  <div class="meta">IEEE transactions on computational biology and bioinformatics · 2026-09-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li R, Wu J, Chen C, Li G, Liu J, Hu H, Xuan J, Liu J, Deng Z, Gong D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TCBBIO.2026.3731227">10.1109/TCBBIO.2026.3731227</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42721176/">https://pubmed.ncbi.nlm.nih.gov/42721176/</a></div><div class="d-block keywords">命中关键词：scRNA-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦单细胞转录组GRN推断算法改进，与研究者的调控网络比较分析方法相关，但缺乏演化或跨物种比较视角，主要价值在方法层面借鉴。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对单细胞RNA测序数据高噪声、高稀疏性导致基因调控网络推断性能受限的问题，作者提出DMGRN框架。该方法基于改进的去噪扩散概率模型，先对原始表达数据逐步加入高斯噪声，再在反向过程中结合结构方程模型预测噪声，并引入基因相似性对齐损失以保持基因层面的相关性一致。实验显示，在28个BEELINE基准数据集上，DMGRN在18个配置中获得最高Early Precision Ratio，并表现出更好的稳定性和计算效率。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Gene regulatory networks (GRNs) encode the intricate interactions between transcription factors (TFs) and their target genes, playing a pivotal role in orchestrating cellular metabolism, proliferation, and differentiation, thereby illuminating the molecular mechanisms underlying disease onset and progression. The increasing availability of single-cell RNA sequencing (scRNA-seq) data offers unprecedented opportunities for computational GRN inference. However, the inherent high noise and sparsity of scRNA-seq data considerably impair the performance of existing inference methods. To overcome these limitations, we propose DMGRN, a novel GRN inference frame work built upon an improved Denoising Diffusion Probabilistic Model (DDPM). Our approach first applies a forward diffusion process to progressively introduce Gaussian noise into the raw expression data, and subsequently employs a reverse process integrated with a structural equation model (SEM) to predict the noise, thereby accurately recovering gene regulatory relationships. To further enhance inference fidelity, we introduce a gene similarity alignment loss that encourages correlation consistency between the predicted noise and the perturbed data at the gene level, enabling the model to simultaneously capture cellular-level noise residuals and gene-level regulatory co-expression patterns. Experimental results on 28 BEELINE benchmark datasets demonstrate that DMGRN achieves the highest Early Precision Ratio (EPR) on 18 out of 28 BEELINE benchmark configurations, demonstrating superior stability and computational efficiency compared to state-of-the-art methods.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3731227&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734531/" target="_blank" rel="noopener">Data-Driven Critical Evaluation of the General Solubility Equation.</a></div>
+  <div class="title-cn">基于数据驱动的通用溶解度方程严格评估</div>
+  <div class="one-line">为解决通用溶解度方程适用范围不清问题，作者用2740种化合物实验数据与监督学习分类模型（创新为GSESolver）评估其预测可靠性，发现可仅凭SMILES预测GSE是否能在±1 log S内准确预测。</div>
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bertsch-Aguilar E, Quirós N, Schosinsky F, Pinheiro S, Medina-Franco JL, Zamora WJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01182">10.1021/acs.jcim.6c01182</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734531/">https://pubmed.ncbi.nlm.nih.gov/42734531/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦药物样化合物溶解度预测与机器学习分类，不涉及演化、跨物种比较、神经系统或单细胞转录组学问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>溶解度是药物设计与农化开发中的关键理化性质，但通用溶解度方程（GSE）的适用边界缺乏系统评估。作者基于2740个以药物样分子为主的化合物实验熔点和log PN数据，结合化学信息学描述符分析影响GSE在±1 log S误差内准确预测的主要因素，并据此开发监督学习分类工具GSESolver，可仅通过SMILES判断GSE是否适用。该工具以Google Colab形式按FAIR原则发布，并展示了在最大可吸收剂量和农化设计中的应用价值。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Solubility is a widely measured physicochemical property and a highly sought-after descriptor in the evaluation of molecules for drug design and development, medicinal chemistry, and agrochemical sciences. Consequently, a wide range of in silico models based on deductive and inductive reasoning have been developed. However, the General Solubility Equation (GSE) stands out as a simple, thermodynamically derived equation to predict intrinsic solubility (log S0, in mol/L) of molecules from their melting point and n-octanol/water partition coefficient (log PN). Despite its widespread use, the applicability of this equation has not been rigorously evaluated to establish when it can or cannot produce accurate predictions. Therefore, a large-scale evaluation of the GSE was conducted using an extensive database of fully experimental melting point and log PN data for 2740, mostly drug-like compounds. A systematic analysis based on cheminformatics descriptors was conducted to identify the primary factors that allow the GSE to achieve predictions within the experimental uncertainty range (±1 log S unit). This information has been used to create GSESolver: a supervised machine learning classification model that, based on the selected descriptors, can predict whether the GSE will perform accurately solely from its SMILES string. GSESolver tool can be used by anyone in the scientific community to quickly assess molecule solubility and it was developed under the FAIR principles (Findable, Accessible, Interoperable, and Reusable) in a Google Colab notebook to ensure ease of use. Finally, the utility of the GSESolver tool was exploited in medicinal chemistry applications for the in silico prediction of the Maximum Absorbable Dose (MAD) of potential drugs, and in a rational agrochemical design application where solubility is a key factor.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01182&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748426/" target="_blank" rel="noopener">Using Natural Language Processing to Examine State Child Maltreatment Policies and Associations With Outcomes: Multistate Cross-Sectional Study.</a></div>
+  <div class="title-cn">使用自然语言处理分析美国各州儿童虐待政策及其与结局的关联：一项多州横断面研究</div>
+  <div class="one-line">为解决各州儿童虐待政策环境难以整体评估问题，作者用6种NLP零样本分类模型分析52个辖区411项政策，发现3类政策域和4类政策集群与虐待发生及复发相关。</div>
+  <div class="meta">JMIR public health and surveillance · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Luo Z, Epstein RA, Sambamoorthi N, Muhammad LN, Jordan N</div><div class="d-block meta">DOI: <a href="https://doi.org/10.2196/99643">10.2196/99643</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748426/">https://pubmed.ncbi.nlm.nih.gov/42748426/</a></div><div class="d-block keywords">命中关键词：transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦美国儿童虐待政策与公共卫生结局，虽使用NLP与聚类分析，但无演化、跨物种比较或单细胞/神经系统进化内容。</div><div class="d-block"><span class="lbl">中文摘要：</span>为评估美国各州儿童虐待政策环境及其与结局的关系，作者基于2021年50州、华盛顿特区和波多黎各共52个辖区的411项政策条目，使用BART、BERT、RoBERTa、DeBERTa、Copilot和LLaMA 3.1进行零样本分类，并结合因子分析与k-means聚类。DeBERTa表现最佳，识别出虐待定义、强制报告和替代响应3个政策域及4类政策集群。报告要求较弱辖区的虐待发生率和复发率更高，提示应从综合政策框架而非单项政策评估其影响。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Child maltreatment is a major public health issue in the United States, with substantial variation in how states define, report, and respond to abuse and neglect. While prior research has examined individual policy components, less is known about how multiple policies jointly shape broader policy environments and relate to maltreatment outcomes. This study used natural language processing (NLP) to characterize state child maltreatment policy environments and examine their associations with maltreatment incidence, recurrence, and fatalities across US jurisdictions. A cross-sectional study was conducted using 2021 data from 50 US states, the District of Columbia, and Puerto Rico (N=52). A total of 411 state maltreatment policy items were derived from the State Child Abuse &amp; Neglect Policies Database. A total of 6 NLP models (bidirectional and auto-regressive transformer [BART], bidirectional encoder representations from transformers [BERT], robustly optimized BERT approach [RoBERTa], decoding-enhanced BERT with disentangled attention [DeBERTa], Copilot, and LLaMA 3.1) were applied using a zero-shot classification framework to quantify policy characteristics. Models were evaluated using intrinsic (category consistency and semantic alignment) and extrinsic (factor analysis and clustering performance) metrics. Exploratory factor analysis was used to identify latent policy domains, and k-means clustering was applied to group jurisdictions with similar policy profiles. Maltreatment outcomes, including incidence, recurrence, and fatalities, were obtained from the National Child Abuse and Neglect Data System. Outcome differences across clusters were assessed using ANOVA with post hoc pairwise comparisons. The study population included 72,838,819 children and 3,774,528 maltreatment reports, of which 751,283 were substantiated or indicated cases. Across 6 NLP models, DeBERTa demonstrated the best overall performance. Exploratory factor analysis identified 3 primary policy domains: maltreatment definition, mandated reporting, and alternative response. A total of 4 policy clusters were identified. Jurisdictions with weaker reporting requirements and fewer penalties (cluster 2) had the highest incidence of maltreatment (mean 17.51, SD 6.13 vs mean 9.65, SD 4.10; mean 10.28, SD 6.47; and mean 11.74, SD 6.47 per 1000 children; P=.07) and recurrence (mean 1.74, SD 0.87 vs mean 0.52, SD 0.44; mean 0.66, SD 0.52; and mean 0.68, SD 0.43 per 1000 children; P&lt;.001). Jurisdictions with stronger reporting requirements, broader definitions, and greater use of alternative response systems (cluster 1) had the lowest incidence and recurrence. No statistically significant differences in maltreatment fatalities were observed across clusters (P=.89). However, in a subanalysis of 18 fatality-related policy items, clusters differed significantly in fatality rates, with jurisdictions characterized by less clearly defined fatality policies exhibiting higher fatality rates (mean 47.91, SD 8.35 vs mean 22.64, SD 11.82; mean 25.63, SD 18.62; and mean 19.03, SD 11.64 per 1,000,000 children; P=.03). State child maltreatment policies form distinct, multidimensional patterns associated with maltreatment outcomes. The findings highlight the importance of evaluating integrated policy frameworks rather than isolated components and demonstrate the use of NLP for large-scale, data-driven policy analysis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/99643&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748398/" target="_blank" rel="noopener">Development and Temporal External Validation of a Parsimonious, Interpretable Machine Learning Model for Predicting 6-Month Mortality in Long-Term Care Facilities: A Retrospective Cohort Study.</a></div>
+  <div class="title-cn">用于预测长期照护机构6个月死亡率的简约可解释机器学习模型的开发与时间外部验证：一项回顾性队列研究</div>
+  <div class="one-line">为解决台湾长期照护机构入院老年人6个月死亡风险评估不足问题，作者用HybridXGBRF结合时间外部验证与SHAP解释，发现模型在23901例开发队列和6216例验证队列中AUROC达0.89-0.90。</div>
+  <div class="meta">JMIR aging · 2026-09-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tsai YC, Wu YL, Yu YC, Chen YW, Chen YW, Yang YC, Lo YT</div><div class="d-block meta">DOI: <a href="https://doi.org/10.2196/94567">10.2196/94567</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748398/">https://pubmed.ncbi.nlm.nih.gov/42748398/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文为长期照护机构老年人6个月死亡风险预测的临床机器学习研究，不涉及演化、跨物种比较或单细胞转录组学核心问题。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决台湾长期照护机构入院时缺乏可解释且无需医院电子病历联动的死亡风险预测工具，作者基于覆盖636家机构的JUBO数据库开展回顾性队列研究，构建并时间外部验证HybridXGBRF模型。开发队列23,901人，验证队列6,216人，结局为180天全因死亡。模型在内部交叉验证AUROC为0.89，外部验证AUROC为0.90，准确率0.85、F1为0.68；SHAP显示近期住院、日常生活活动受损和体重下降为关键预测因子。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Early mortality after long-term care facility (LTCF) admission is common; yet, prognostic tools are often derived from Western minimum dataset-based cohorts or require hospital electronic health record linkages that are unavailable at intake in many LTCFs. There is also limited evidence on explainable, admission-feasible machine learning-based prognostication in Asian LTCF settings. The aim of the study is to develop and temporally externally validate an interpretable machine learning model for predicting 6-month all-cause mortality among older adults newly admitted to LTCFs in Taiwan using routinely collected LTCF assessment data. We conducted a retrospective cohort study using the JUBO Long-Term Care Database, a nationwide private administrative registry covering 636 LTCFs (37.4% of the national LTCFs) in Taiwan. We included residents with first-time LTCF admission and prespecified nonoverlapping cohorts for temporal validation: development (January 1, 2020, to December 31, 2023; n=23,901) and external validation (January 1 to December 31, 2024; n=6216). The outcome measure was death within 180 days of admission. We compared a nonlinear ensemble model (hybrid of extreme gradient boosting and random forest [HybridXGBRF]) with 7 other algorithms, including tree-based and linear benchmarks. Discrimination (area under the receiver operating characteristic curve [AUROC]), classification metrics (accuracy, precision, recall, and F1), and calibration (Brier score and calibration plots) were assessed. Model interpretability was examined using Shapley Additive Explanations. In the development cohort, 5272 of 23,901 (22.1%) residents died within 180 days. In the 2024 temporal validation cohort, 1781 of 6216 (28.7%) residents died. In internal cross-validation, HybridXGBRF had the highest AUROC among the evaluated models (0.89, 95% CI 0.88-0.89). In temporal validation, HybridXGBRF maintained strong discrimination (AUROC 0.90, 95% CI 0.89-0.91), with an accuracy of 0.85 and an F1-score of 0.68. Calibration plots indicated close agreement between predicted and observed risks across most probability ranges, with mild divergences at higher predicted risks. Shapley Additive Explanations analysis identified frequent hospitalizations within 6 months, activities of daily living impairment, and weight loss as influential predictors. The model showed stable AUROC across sex and age strata (0.89-0.90) and maintained high discrimination among residents with improving activities of daily living scores (AUROC 0.91, 95% CI 0.90-0.92). An interpretable machine learning model using routinely collected Taiwanese LTCF assessment data achieved strong discrimination, acceptable calibration, and stable temporal validation performance without requiring hospital-based electronic health record linkage. The HybridXGBRF had the highest AUROC among the evaluated models, but performance differences from extreme gradient boosting were small. The model may serve as a risk-stratification tool to help identify residents who could benefit from structured care review, advance care planning, or palliative care assessment. Prospective implementation studies could determine its impact on care processes and resident- or family-centered outcomes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.2196/94567&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">3.59</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/41903265/" target="_blank" rel="noopener">Geographical origin discrimination and quality testing of Angelica dahurica slices based on mid-infrared spectroscopy and machine learning.</a></div>
+  <div class="title-cn">基于中红外光谱与机器学习的白芷饮片产地判别和质量检测</div>
+  <div class="one-line">为解决白芷饮片产地难辨和质量控制问题，作者用中红外光谱结合PLS-DA/PLSR及VIP特征筛选，发现产地判别准确率达99.26%、香豆素预测提升至RPD 2.22。</div>
+  <div class="meta">Spectrochimica acta. Part A, Molecular and biomolecular spectroscopy · 2026-09-05</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ye M, Pan Y, Xu R, Xu Z, Zhou J, Luo X, Huang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.saa.2026.127790">10.1016/j.saa.2026.127790</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/41903265/">https://pubmed.ncbi.nlm.nih.gov/41903265/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦白芷饮片产地鉴别与质量检测，采用红外光谱和机器学习，不涉及演化、生物比较或单细胞研究。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解决白芷饮片不同产地外观相近、难以批量识别且质量控制困难的问题，作者采用中红外光谱结合机器学习进行产地判别和理化指标预测。结果显示，RAW预处理的PLS-DA模型在预测集上宏平均准确率达99.26%，优于DA模型；PLSR对水分预测较好（RPD=2.34），对香豆素为中等（RPD=1.72），对灰分较差（RPD=1.16）。进一步基于VIP筛选特征波长后，DA总体准确率提升至98.0%，香豆素PLSR提升至RPD 2.22。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Angelica dahurica, a geo-authentic medicinal herb with dual food-medicinal applications, is under key protection by the Chinese government and has gained increasing international attention. However, its quality is closely related to geographical origin, and since dried slices from different regions are visually similar, origin identification and quality control remain challenging when handling large sample sizes. This study employed mid-infrared spectroscopy combined with machine learning to discriminate the geographical origin and predict basic physicochemical indicators of Angelica dahurica slices. For origin discrimination, the Partial Least Squares Discriminant Analysis (PLS-DA) model outperformed the Discriminant Analysis Model Based on Mahalanobis Distance (DA), with the RAW-preprocessed PLS-DA model achieving a macro accuracy of 99.26% on the prediction set. The Partial Least Squares Regression (PLSR) modeling results showed excellent prediction performance for moisture with a residual predictive deviation (RPD) of 2.34, moderate performance for coumarin (RPD = 1.72), and poor performance for ash content (RPD = 1.16). Furthermore, Variable Importance in Projection (VIP) values from the optimal PLS-DA model were used to select feature wavelengths significantly contributing to classification. These were then used as input variables for both the DA model and the coumarin PLSR model. The optimal DA model with standard normal variate (SNV) preprocessing improved the overall accuracy by 16.7% to 98.0%, while the optimal coumarin PLSR model using RAW and Savitzky-Golay (S-G) preprocessing achieved an RPD of 2.22, representing an improvement of 0.50. Thus, this study proposes and validates a strategy for origin discrimination and quality testing of Angelica dahurica slices, contributing to the quality maintenance of geo-authentic medicinal materials.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.saa.2026.127790&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.59</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.01.748597" target="_blank" rel="noopener">High-throughput genomic feature extraction reveals environmental adaptations of prokaryotes</a></div>
+  <div class="title-cn">高通量基因组特征提取揭示原核生物的环境适应</div>
+  <div class="one-line">为解决原核生物环境适应机制难以高通量解析问题，作者用FxTractor提取13,554株分离物基因组特征并结合机器学习，发现与盐度、温度、氧和pH偏好相关的基因与ncRNA家族。</div>
+  <div class="meta">bioRxiv · 2026-09-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Walter Costa, M. B.; Brouns, R.; Schreiber, M.; Litos, A.; Bisiach, F.; do Carmo Franca, H. F.; Hubert, C. R. J.; Marz, M.; Dutilh, B. E.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.01.748597">10.64898/2026.09.01.748597</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.01.748597">https://www.biorxiv.org/content/10.64898/2026.09.01.748597</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦原核生物环境适应的基因组特征提取与机器学习预测，虽含大规模比较分析，但缺乏研究者关注的脑/神经系统演化、细胞类型同源或单细胞跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>为理解微生物对环境的适应机制，作者从13,554株原核生物分离物中高通量提取基因家族、ncRNA、寡核苷酸和氨基酸使用等基因组特征，并训练机器学习模型关联其盐度、温度、氧和pH偏好。作者构建了可扩展流程FxTractor，并用新分离的深海极端菌Limnochorda验证预测有效性。结果鉴定出与四类环境参数相关的特定基因和ncRNA家族，如高温相关large SRP和低盐相关anti-hemB ncRNA，为微生物-环境互作提供新线索。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Understanding the adaptations of microorganisms to their environment is key to predicting the stability and dynamics of microbial communities. To uncover molecular mechanisms of environmental response, we extracted genomic features from 13,554 prokaryotic isolates, and trained machine learning models to identify which ones are most strongly associated with the microbial salinity, temperature, oxygen, and pH preferences. To extract these features in high throughput, including gene families, non-coding RNAs (ncRNAs), oligonucleotides, and amino acid usage, we built FxTractor, a scalable and adjustable pipeline available at: https://github.com/MGXlab/FxTractor. We validated the performance of our models with experimental data from a newly isolated deep-sea extremophile belonging to the genus Limnochorda that is not well-represented among the ML training sets, showing strong agreement between predictions and the conditions used to isolate this strain. Our analysis revealed specific gene and ncRNA families associated with each of the four environmental parameters, uncovering both established and potentially new molecular mechanisms. Examples include the bacterial large Signaling Recognition Particle in isolates that are able to grow at high temperatures ([&amp;ge;]55{degrees}C), suggesting a role in translational pausing and structural stability under thermal stress. We also found the anti-hemB ncRNA to be associated with low-salinity (&lt;0.7% NaCl), indicating a conserved antisense mechanism regulating the energetic costs of heme biosynthesis. Together, these findings provide new insights into microbe-environment interactions, and show how FxTractor enables high throughput discovery of genomic associations.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.01.748597&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.59</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42703625/" target="_blank" rel="noopener">Predicting longitudinal post-traumatic stress disorder symptoms using psychological measures and heart rate variability: a machine-learning approach.</a></div>
+  <div class="title-cn">利用心理测量和心率变异性预测纵向创伤后应激障碍症状：一种机器学习方法</div>
+  <div class="one-line">为解决PTSD症状长期预测问题，作者用稀疏多核学习整合176名创伤暴露大学生心理量表与HRV，发现负性情感是T1和18个月T2最重要预测因子。</div>
+  <div class="meta">European journal of psychotraumatology · 2026-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xavier M, Mocaiber I, Fernandes O, Portugal LCL, Viana Machado A, Volchan E, Berger W, Christina Muchaluat-Saade D, Antunes David I, Menezes Gonçalves R, Monteiro Fabricio Gama C, Soares Alves RC, Oliveira L, Garcia Pereira M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1080/20008066.2026.2715185">10.1080/20008066.2026.2715185</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42703625/">https://pubmed.ncbi.nlm.nih.gov/42703625/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是针对PTSD症状预测的纯临床机器学习研究，既无演化也无跨物种比较视角，与研究者核心关注的脑与细胞类型演化基本无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>为提升创伤后应激障碍（PTSD）风险的早期识别，作者在176名有创伤暴露的非临床本科生中，结合心理测量指标与负性刺激暴露时的心率变异性（HRV），采用稀疏多核学习回归模型预测T1及18个月后T2的PCL-5症状严重度。结果显示模型可成功预测两个时间点的症状，其中负性情感在横断与纵向模型中均是最重要预测因子，此外强直不动、童年虐待和应对策略也具有贡献。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Background: Posttraumatic stress disorder (PTSD) is a multifactorial condition shaped by numerous biopsychosocial risk and protective factors. Machine learning methods provide powerful tools to model these complex and interacting influences on symptom expression, although many existing approaches rely on data that are impractical for large-scale application.Objective: In this study, we combined accessible psychometric measures with heart rate variability (HRV) to model vulnerability and resilience factors associated with PTSD symptoms in trauma-exposed individuals from a nonclinical sample. Importantly, a longitudinal follow-up complemented the cross-sectional design, allowing us to examine whether early psychological and physiological markers predict subsequent PTSD symptoms.Method: Regression models were implemented using a sparse multiple kernel learning (MKL) approach, allowing an estimation of the relative contribution of predictors both at the construct level (e.g. psychometric and HRV measures) and at the individual item level. The sample comprised 176 undergraduate students who completed psychometric scales assessing tonic immobility, optimism, positive and negative affect, coping strategies, and childhood maltreatment. HRV during exposure to negative stimuli was included as an autonomic predictor. PTSD symptom severity (PCL-5) was assessed cross-sectionally (T1) and after 18 months (T2).Results: MKL successfully predicted PTSD symptom severity at both time points. Across cross-sectional and longitudinal models, negative affect was identified consistently as the most influential predictor at T1 and T2. Additional relevant predictors included tonic immobility, childhood maltreatment, and coping strategies.Conclusions: These findings emphasise the potential of combining easily measurable predictors to enhance the early detection of PTSD risk and to guide the development of more personalised prevention and intervention strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/20008066.2026.2715185&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐聚焦禾本科起源前后的关键代谢创新与基因组演化。最值得注意的工作是通过测序Pharus、Joinvillea、Ecdeiocolea和Typha等近缘类群基因组，结合系统基因组学、功能验证与结构分析，追溯了在真正禾草出现之前，胞质淀粉合成和双木质素生物合成相关机制如何被逐步塑造。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>禾本科近缘类群比较基因组：通过扩展关键谱系基因组采样，重建禾本科出现前的重要演化事件与分化节点。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>代谢通路起源机制解析：聚焦胞质淀粉与双木质素生物合成，揭示关键代谢创新的形成路径及时间顺序。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>复制事件驱动功能创新：以ρWGD和PAL串联复制为代表，说明全基因组复制与局部扩增如何共同推动新性状演化。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这项研究体现出当前植物演化研究正从单一模式物种转向关键过渡谱系的深度比较，强调“基因组测序+系统发育基因组学+功能研究+结构分析”的综合路线。方法上不仅关注基因是否存在，更重视复制类型、基因家族扩张与具体代谢通路之间的因果联系，从而把宏观演化事件与分子机制对应起来。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这项工作提示应优先补齐关键近缘类群的高质量基因组资源，并围绕重要代谢性状开展跨谱系比较。可跟进的切入点包括：检验其他禾本科相关性状是否也受WGD或串联复制驱动，解析通路关键酶的功能分化，并结合结构与表达证据建立从复制事件到性状形成的完整链条。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
