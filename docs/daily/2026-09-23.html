@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-23</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-23</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 6 · Relate 9）· 命中关键词 18 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">6.66</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42771689/" target="_blank" rel="noopener">OT-knn: A neighborhood-aware optimal transport framework for aligning spatial transcriptomics data.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PLoS computational biology · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Song J, Li Q</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014041">10.1371/journal.pcbi.1014041</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42771689/">https://pubmed.ncbi.nlm.nih.gov/42771689/</a></div><div class="d-block keywords">命中关键词：brain, MERFISH, Visium, Stereo-seq, axolotl, Spatial transcriptomics</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spatial transcriptomics (ST) measures gene expression while preserving spatial context within tissues, enabling detailed characterization of tissue organization. As ST technologies advance, aligning datasets across tissue sections, individuals, platforms, and developmental stages has become increasingly important but remains challenging due to sparse expression, biological heterogeneity, and geometric distortions between slices. We introduce OT-knn, a method for ST alignment that integrates local neighborhood information within an optimal transport framework. Rather than relying solely on single-spot expression, OT-knn reconstructs each spot using its spatial k-nearest neighbors, capturing microenvironment context that is more robust to noise and variability. These representations are then used to derive probabilistic correspondences between slices. We evaluate OT-knn using simulated data with known ground-truth alignment and real datasets from multiple ST platforms, including human dorsolateral prefrontal cortex data (10x Genomics Visium), mouse brain aging data with both within-donor and cross-donor comparisons (MERFISH), a multi-stage axolotl brain dataset (Stereo-seq), and a cross-platform analysis using mouse embryo datasets profiled by Stereo-seq and seqFISH. Across these settings, OT-knn achieves accurate and robust alignment, particularly in the presence of spatial deformation, donor heterogeneity, developmental variation and technological differences.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014041&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.92</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42771501/" target="_blank" rel="noopener">System-level synchronization and subtype-specific modules govern brain-wide serotonin axon innervation.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-29</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Adams AMJ, Wu KLK, Li Z, Li P, Pan H, Huang Z, Migliarini S, Dear R, Sun B, Chan ZC, Liang J, Li H, Vértes PE, Pasqualetti M, Isakova A, Ren J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2611533123">10.1073/pnas.2611533123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42771501/">https://pubmed.ncbi.nlm.nih.gov/42771501/</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The serotonin system modulates nearly all neural circuits across development and adulthood and is a major pharmacological target for mood and anxiety disorders. Forebrain-projecting serotonin neurons are organized into projection-defined subsystems that align with molecular heterogeneity, but how these subsystems assemble during development remains unclear. We combined whole-brain developmental projection maps with single-cell transcriptomics to define the spatiotemporal and molecular logic of postnatal serotonin innervation. Using a deep-learning pipeline, we generated four-dimensional whole-brain maps of postnatal serotonin axon density and uncovered two coupled modes of regulation: region-specific trajectories of axon growth and refinement, and an early-postnatal, brain-wide synchronization of innervation. To link these dynamics to cell-intrinsic programs, we profiled single-cell transcriptomes of forebrain-projecting serotonin neurons from embryonic through postnatal stages and reconstructed developmental trajectories. We found that serotonin neuron heterogeneity was established embryonically and that the subtype taxonomy was largely conserved between mice and humans. Across serotonin subtypes, we observed a coordinated surge in wiring-molecule expression at mouse postnatal day 4 that aligned with the subsequent global innervation wave. Tracing subtypes defined by developmentally conserved markers at birth revealed complementary projection territories and engagement of distinct postnatal wiring modules that matched region-specific terminal maturation. Together, these results show that brain-wide serotonin innervation is built through embryonic subtype specification and two layers of postnatal control: system-level synchronization and subtype-specific terminal development.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2611533123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.73</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42770280/" target="_blank" rel="noopener">Pathogenic O-GlcNAc dyshomeostasis is associated with cortical malformations and hyperactivity.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">eLife · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Authier F, Jan A, Faress I, Skoven CS, Esperon-Abril I, Tharmakulasingam Balasubramaniam S, Coquelin KS, Nyengaard JR, Scavenius C, Attianese B, Sevillano-Quispe OG, Eskildsen SF, Thomsen JS, Hansen B, van Aalten DMF</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.107170">10.7554/eLife.107170</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42770280/">https://pubmed.ncbi.nlm.nih.gov/42770280/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Missense variants in the O-GlcNAc transferase (OGT) gene have recently been shown to segregate with a syndromic form of intellectual disability (OGT-ID), underscoring the importance of protein O-GlcNAcylation in brain function. However, the underlying pathophysiological mechanisms linking ID to potential OGT malfunction-whether developmental, neurophysiological, or both - remain unclear. Here, we present comprehensive analyses encompassing behaviour and brain architecture of a rodent model carrying the pathogenic C921Y OGT-ID variant. These mice show a range of behavioural deficits, including hyperactivity, impulsivity, and associative learning phenotypes. Structural studies, using micro-computed tomography and magnetic resonance imaging, revealed reduced skull size, microcephaly, reduced cortical thickness and hypoplastic corpus callosum. Detailed histological analyses revealed dysplastic changes in the neocortex, predominantly affecting the superficial layers of the cingulate cortex. Mechanistically, quantitative proteomic analyses revealed O-GlcNAc dyshomeostasis associated with distinct perturbed molecular pathways involved in brain development. Taken together, these data reveal neurodevelopmental defects associated with O-GlcNAc dyshomeostasis and provide a platform for dissecting mechanism and treatments of OGT-ID.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107170&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.69</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42770519/" target="_blank" rel="noopener">Ameliorating effect of α-glycosyl isoquercitrin treatment from gestation on disruption of hippocampal neurogenesis induced by maternal exposure to imidacloprid in rats.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Food &amp; function · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zou X, Ebizuka Y, Tang Q, Sakamaki Y, Shobudani M, Kigata T, Woo GH, Koyanagi M, Shibutani M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1039/d6fo01737a">10.1039/d6fo01737a</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42770519/">https://pubmed.ncbi.nlm.nih.gov/42770519/</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neural</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>There is a growing concern about developmental brain impairment following exposure to neonicotinoid pesticides. Experimentally, imidacloprid (IMI), a representative neonicotinoid pesticide, impairs postnatal hippocampal neurogenesis in rat offspring after maternal exposure. This study examined how IMI disrupts neurogenesis and whether the synthetic flavonoid α-glycosyl isoquercitrin (AGIQ) can counteract these effects through its antioxidant action. Maternal rats were given a diet containing 750 ppm IMI and drinking water with or without 0.3% AGIQ from gestation day 6 until weaning on day 21 post-delivery. Then, male offspring similarly received AGIQ until postnatal day 77 or 79 during adulthood. Continuous AGIQ exposure restored IMI-suppressed neurogenesis and proliferation of neural progenitor cells, granule cell synaptic plasticity, the numbers of reelin+ and calbindin-D-29K+ GABAergic interneurons, and BDNF-TrkB signaling in the dentate gyrus at weaning, improving spatial memory. In adulthood, AGIQ also reversed IMI-induced persistent deficits in neurogenesis, synaptic plasticity, and BDNF-TrkB signaling. AGIQ normalized the IMI-induced immunocompromised state (evidenced by downregulation of pro-inflammatory cytokine genes but an increase in the number of pro-inflammatory microglia/macrophages) by increasing acetylcholinesterase activity at weaning. AGIQ also recovered the IMI-induced suppression of antioxidant capacity observed at weaning by restoring antioxidant gene expression and elevating the reduced glutathione/oxidized glutathione ratio in adulthood. Overall, maternal IMI exposure caused immunosuppression and heightened oxidative stress sensitivity in the dentate gyrus, disrupting neurogenesis and synaptic plasticity through suppression of the BDNF-TrkB pathway, as well as reelin and calbindin-D-29K+ interneuron signaling. AGIQ mitigated IMI-induced hippocampal immunosuppression and antioxidant system damage by enhancing acetylcholinesterase activity and antioxidant gene expression.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1039/d6fo01737a&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.17</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42771685/" target="_blank" rel="noopener">Shaping Slow Manifolds in Equivariant Recurrent Neural Networks.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Neural computation · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bernardo AD, Valente A, Mastrogiuseppe F, Ostojic S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1162/NECO.a.1577">10.1162/NECO.a.1577</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42771685/">https://pubmed.ncbi.nlm.nih.gov/42771685/</a></div><div class="d-block keywords">命中关键词：neuron, neural, deep learning, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recordings of increasingly large neural populations have revealed that the firing of individual neurons is highly coordinated. When viewed in the space of all possible patterns, the collective activity forms nonlinear structures called neural manifolds. Because such structures are observed even at rest or during sleep, an important hypothesis is that activity manifolds may correspond to continuous attractors shaped by recurrent connectivity between neurons. Classical models of recurrent networks have shown that continuous attractors can be generated by specific symmetries in the connectivity. Although a variety of attractor network models have been studied, general principles linking network connectivity and the geometry of attractors remain to be formulated. Here, we address this question by using group representation theory to formalize the relationship between the symmetries in recurrent connectivity and the resulting fixed-point manifolds. We start by revisiting the classical ring model, a continuous attractor network generating a circular manifold. Interpreting its connectivity as a circular convolution, we draw a parallel with feedforward convolutional neural networks. Building on principles of geometric deep learning, we then generalize this architecture to a broad range of symmetries using group representation theory. Specifically, we introduce a new class of equivariant recurrent neural networks, where the connectivity is based on group convolution. Using the group Fourier transform, we reduce such networks to low-rank models. This formulation gives us a low-dimensional nonlinear description that can be fully analyzed to determine the symmetry, dimensionality, and stability of fixed-point manifolds. Our results underline the importance of stability considerations: for a connectivity with a given symmetry, depending on parameters, several manifolds with different topology can coexist, some stable and others consisting of saddle points. Our framework unifies a variety of existing models and offers a principled approach to build new types of continuous attractor models of neural systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1577&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.13</span></div>
+  <div class="title-en"><a href="http://arxiv.org/abs/2609.25970v1" target="_blank" rel="noopener">Emotions as intrinsic colored noise in biological systems</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">arXiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>V. I. Yukalov, E. P. Yukalova</div><div class="d-block meta">原文链接: <a href="http://arxiv.org/abs/2609.25970v1">http://arxiv.org/abs/2609.25970v1</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The idea that emotions in biological systems are analogous to intrinsic colored noise is advanced and justified. A model describing the dynamics of operation of biological networks under the influence of colored noise is suggested. The agents of a biological network can be represented either by biological species, such as humans and animals, or by neurons of the brain, or by the nodes of a neural network. Operational actions, or decisions, in a biological noisy network are based not only on the evaluation of utility of alternatives, but also on the agents emotions. The model is probabilistic, with the choice of alternatives characterized by the related probabilities. At the initial step, the agents make decisions individually and then start exchanging information with each other and imitating the actions of other agents, thus forming a biological network of interacting agents. Numerical simulations are accomplished for a heterogeneous society consisting of three groups of agents, one group possessing long-range memory, the other group, short-range memory, and the third group of super-rational agents acting strictly on the basis of utility, being deprived of emotions. Dynamics of opinions in different groups can be smooth, oscillatory, or chaotic. Altogether, eight types of operation are found, depending on the dynamics of group decisions. Under strong imitation effect, there appears chaotic motion in the evolution of decision choice. It is shown how the Ellsberg paradox can be resolved and how the exchange of information influences the dynamics of this paradox.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2609.25970v1&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.96</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.16.752041" target="_blank" rel="noopener">From Genes to Brains: Molecular Evolution and Mammalian Brain Cellular Diversity</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Solovyov, A.; Kazanskii, M. A.; Suraganov, A.; Kasianov, A.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.16.752041">10.64898/2026.09.16.752041</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.16.752041">https://www.biorxiv.org/content/10.64898/2026.09.16.752041</a></div><div class="d-block keywords">命中关键词：brain, neural, Molecular evolution, Cellular diversity</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Mammalian brains exhibit extensive diversity in size, cellular composition, and organization, yet the molecular evolutionary changes associated with this phenotypic diversification remain incompletely understood. Here, we investigated whether protein-sequence evolution covaries with quantitative differences in brain phenotypes across mammals. We integrated 29 brain and body traits with orthologous protein sequences from 18 mammalian species and obtained gene-specific molecular evolutionary measures for 10,395 genes. To reduce redundancy among strongly correlated phenotypes, we selected five representative traits that explained 88.12% of the standardized trait variance under linear reconstruction. Using RERconverge, we tested for associations between gene-specific relative evolutionary rates and evolutionary changes in these five representative traits. The primary analysis, based on log-transformed phenotypes, identified 25 significant gene--trait associations involving 23 genes, 19 of which were also recovered using untransformed phenotypes, indicating that a substantial subset of the associations was robust to phenotype transformation. Expression profiling of these shared candidate genes across adult human GTEx brain tissues revealed heterogeneous patterns ranging from broad expression across the examined tissues to low adult brain expression. Functional enrichment analysis further showed that the gene set retained for comparative analysis was enriched for diverse biological processes, including metabolic, cellular, and neural pathways. These results identify gene-specific evolutionary-rate associations with quantitative mammalian phenotypes and provide functional context for the genes represented in the comparative analysis. Our study provides a comparative framework linking relative evolutionary rates of protein-coding genes to quantitative variation in mammalian brain cellular architecture while accounting for shared evolutionary history.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752041&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.91</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.21.753234" target="_blank" rel="noopener">Recording proteome dynamics in the late-stage embryo at hour-timescale, spatial, and single-cell resolution with MEMBRYO</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Couce-Iglesias, M.; Oliani, E.; Kerridge, R.; Mutschler, F.; Valdes, D. S.; Welter, A. S.; Lukaszewska-McGreal, B.; Meierhofer, D.; Imami, K.; Fornasiero, E. F.; Coscia, F.; Selbach, M.; Kraushar, M. L.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.21.753234">10.64898/2026.09.21.753234</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.21.753234">https://www.biorxiv.org/content/10.64898/2026.09.21.753234</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Cell fate during development is directed by new gene expression states that replace prior ones. When and where a protein is first translated, and how long it will remain in the cell, dictate the timing and extent of a gene&#x27;s phenotypic effect. Accessing protein synthesis and turnover information in the rapidly developing embryo remains a major challenge. Here we present MEMBRYO: a method for continuous stable isotope labeling (SILAC) of newly synthesized proteins throughout the live embryo at the hour-timescales of developmental phenotypes. We extend embryo culture into the late stages of organogenesis, thereby accessing the proteome of neurogenesis in the forebrain ex utero. Variations in protein synthesis and turnover activity lead to expression patterns that diverge from the corresponding transcripts, impacting molecular pathways and key milestones of cortical neuron differentiation. The high labeling depth enabled both spatial and single-cell SILAC proteomics analysis of cortical cells, revealing distinct layers of post-transcriptional gene expression regulation in progenitors and neurons. By continuous metabolic labeling in the live embryo, MEMBRYO tracks the past, present, and future of the developmental proteome.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.21.753234&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.71</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752622" target="_blank" rel="noopener">Folate deficiency disrupts key metabolic transitions within the developing neural ectoderm</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Dias, N.; Lewinsohn, D. P.; Colgan, W. N.; Wang, M.; Kijima, Y.; Villagrana, J.; Hou, T.-C. J.; Gowri, G.; Chau, A.; Aktas, T.; Sumigray, K.; Weissman, J. S.; Koblan, L. W.; Wagner, A.; Smith, Z. D.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.18.752622">10.64898/2026.09.18.752622</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752622">https://www.biorxiv.org/content/10.64898/2026.09.18.752622</a></div><div class="d-block keywords">命中关键词：neural, scRNA-seq</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Despite long-standing epidemiological associations, the mechanism linking folate availability to gestational neural tube defects remains unclear, partly because measuring and interpreting metabolic activity in dynamic biological systems remains challenging. Here, we apply a deep-learning-based graph-guided variational autoencoder (MeRN; Metabolic Representation Network) to infer single-cell metabolic activity and states from scRNA-seq data of mouse embryogenesis. By analyzing folate-deficient embryogenesis from E7.0 to E9.0, we identify a transient state within the nascent neural lineage that is acutely sensitive to folate availability, leading to an interconnected disruption between key bioenergetic pathways and de novo purine biosynthesis. Moreover, metabolically induced growth defects lead to permanent morphological disruptions along the dorsal-ventral axis, which we confirm by generating whole-embryo fate maps using a prime-editing-based lineage recorder (PEtracer). Collectively, our results establish a highly scalable framework for interpreting dynamic changes in embryonic metabolism and elucidating the mechanistic bases underlying environmentally linked congenital disorders.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752622&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.54</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.01.09.632276" target="_blank" rel="noopener">Neural plate morphogenesis and pre-patterning enable specification of intermediate progenitors in the spinal cord</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Nandagopal, S.; Cha, A.; Jia, B. Z.; Liao, H.; Comenho, C.; Lahav, G.; Wagner, D. E.; Tsai, T. Y.-C.; Megason, S. G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.01.09.632276">10.1101/2025.01.09.632276</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.01.09.632276">https://www.biorxiv.org/content/10.1101/2025.01.09.632276</a></div><div class="d-block keywords">命中关键词：neural, cell state</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spinal cord organization begins with the specification of a series of neural progenitor domains along the dorsal-ventral axis of the neural tube. Patterning at the dorsal and ventral ends is established by canonical morphogen gradients. Intermediate progenitor domains are located distally to morphogen sources yet display similar organization. How this is achieved is unclear and the relevant positional cues have not been identified. Here we show that intermediate progenitor domains are established through a distinct mechanism that operates in the preceding neural plate stage and leverages its multiple signaling inputs and morphogenesis. An integrated spatial atlas of transcription factor expression, signaling activity, and cell movement reveals that the neural plate comprises an array of cell states, defined by combinatorial signaling and morphogenesis-driven transitions between local signaling environments. Specifically, we find that p0 and p1 intermediate progenitors, located immediately outside the morphogen-patterned region, arise from specific precursor states that are established in the posterior neural plate by tailbud-derived Wnt signaling. Convergent-extension movements subsequently drive progenitor specification by displacing precursors out of Wnt/FGF signaling fields while shaping them into stripe-like domains. Thus, by controlling signaling exposure, tissue dynamics convert positional information encoded by signaling history into downstream fate specification. This mode of patterning may operate broadly across developmental contexts, with implications for tissue engineering and patterning-related disorders.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.01.09.632276&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.4</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.06.14.732153" target="_blank" rel="noopener">Quantum machine learning for detection of sleep deprivation from EEG signals</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sarma-Sarkar, P.; Saini, R.; Roy, P. P.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.06.14.732153">10.64898/2026.06.14.732153</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.06.14.732153">https://www.biorxiv.org/content/10.64898/2026.06.14.732153</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Approximately 50% of the population in India is estimated to experience sleep-related disorders. Sleep deprivation is a prevalent condition that adversely impacts cognitive performance, neural functioning, and overall health. Electroencephalography (EEG) offers an objective means of capturing neural alterations associated with sleep loss, making it well-suited for automated detection frameworks. In this study, we explore the application of a Quantum Support Vector Machine and Hybrid Quantum Neural Networks to classify sleep-deprived and well-rested states using resting-state EEG signals. A comprehensive feature extraction pipeline is employed, incorporating spectral band power, band ratios, Hjorth parameters, and functional connectivity measures. These features are subsequently encoded into quantum states to construct a quantum kernel, which is then utilized for classification. Model performance is evaluated under both epoch-level and subject-level data partitioning schemes. The Hybrid Quantum Neural Network (HQNN) achieves the highest performance across both evaluation settings, attaining an accuracy of 96.88% at the epoch level and 81.25% at the subject level. The Quantum Support Vector Machine (QSVM) model achieves accuracies of 93.75% and 75.00% for epoch-level and subject-level evaluations, respectively. At subject-level and epoch-level evaluation, HQNN outperforms previously reported results (95.72% and 68.23%). Overall, these findings highlight the potential of quantum machine learning as a competitive approach for EEG-based sleep deprivation detection, with promising implications for real-world biomedical applications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.06.14.732153&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.27</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42771698/" target="_blank" rel="noopener">Associative Emotional Learning in Convolutional Neural Networks.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Neural computation · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Leem S, Keil A, Ding M, Fang R</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1162/NECO.a.1580">10.1162/NECO.a.1580</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42771698/">https://pubmed.ncbi.nlm.nih.gov/42771698/</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Associative emotional learning enables organisms to adaptively link pleasant or unpleasant outcomes to the presence of predictive stimuli. Whereas computational models such as the Rescorla-Wagner model have shed light on this important function, the limitations of these models are also known, especially when they are applied to neural data. The advent of deep neural networks has opened another avenue for modeling associative emotional learning. In this work, we proposed a deep neural network model of visual valence processing, consisting of a visual module that encodes complex natural scenes and a module that recognizes their emotional significance in terms of valence, a key dimension of emotion, and tested a novel Pavlovian learning paradigm on the model. The results showed that with learning, the model reproduced several observations from human associative learning studies, including association formation and generalization, and that the neural representations of the conditioned and the unconditioned stimuli became increasingly aligned at both the single unit and the neural population level. Comparison between the model and human experimental data provided further validation of our approach. This study thus suggests that deep neural network models, when combined with appropriate learning algorithms, can be used to model behavioral and neural signatures of associative emotion/valence learning.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1580&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.27</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42771680/" target="_blank" rel="noopener">The Thousand Brains Theory 2.0: An Extension for the Long-Range Connections of the Neocortical Heterarchy.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Neural computation · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hawkins J, Leadholm N, Clay V</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1162/NECO.a.1579">10.1162/NECO.a.1579</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42771680/">https://pubmed.ncbi.nlm.nih.gov/42771680/</a></div><div class="d-block keywords">命中关键词：brain, artificial intelligence</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Vernon Mountcastle hypothesized that the basis for intelligence in mammals is the replication of a general computational unit, the cortical column. The Thousand Brains Theory proposed that each column is a sensorimotor system, capable of learning structured models of objects by integrating sensory input over multiple movements. Previous papers on the Thousand Brains Theory focused on the computations that occur within individual cortical columns and how columns can use long-range connections to rapidly reach a consensus. However, several prominent long-range connection types in the neocortex were not addressed by the theory. These include hierarchical feedforward and feedback connections, as well as those that go through the thalamus. In addition, several theoretical requirements were not addressed. These include how the cortex learns compositional objects and how information is converted from the egocentric perspective of sensors to the allocentric perspective of models in the cortex. In this letter, we extend the Thousand Brains Theory to address these issues. We begin by reviewing the anatomy of long-range neocortical connections, arguing that they form a heterarchy, rather than hierarchy, which has made their functions challenging to understand through existing theoretical models. We then propose specific roles for each of these connections. First, the thalamus converts the orientation of features and movement information from an egocentric perspective to the allocentric perspective of learned models. Second, hierarchical feedforward, feedback, and cortico-thalamo-cortical projections enable columns to learn compositional models. We discuss the relationship of our proposals to experimental findings at the levels of anatomy, neurophysiology, and behavior, along with testable predictions for future experimental work. We conclude by discussing the implications of the extended Thousand Brains Theory for the design of artificial intelligence.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1579&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.23</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42765475/" target="_blank" rel="noopener">A Single Quasi-Vertical van der Waals Heterostructure Memristor as Opto-Reconfigurable Artificial Intelligence Hardware.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Advanced materials (Deerfield Beach, Fla.) · 2026-09-21</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li Y, Yin C, Zhang X, Luo G, Wang Y, Zhou W, Xiong Y, He J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/adma.75098">10.1002/adma.75098</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42765475/">https://pubmed.ncbi.nlm.nih.gov/42765475/</a></div><div class="d-block keywords">命中关键词：neuron, artificial intelligence</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The explosive advancement of artificial intelligence (AI) has driven vast amounts of unstructured data that directly emerges at sensory interaction interfaces. Memristors with superior computing ability are among the most promising computing blocks. However, conventional vertical Metal/Resistive layer/Metal (V-MRM) memristors tend to generate intense electric fields, suffer from limited sensory response, inflexible, and rigid functional modes, as well as long-standing variability and overshoot issues. Here, we present an unconventional two-terminal quasi-vertical (QV) van der Waals heterostructure (vdWH) memristor as opto-reconfigurable hardware. Unlike the V-MRM memristor with a strong, rigid vertical electric field, this QV-vdWH memristor realizes a significantly softened, tunable electric field, enabling parametric configurable and wavelength-dependent reconfigurable modes across nonvolatile/volatile memory, neurons, synapses, and optical perception. Moreover, the light-memristive switching-vdWH coupling triggers a super-additive synergistic enhancement of memristive performance (&gt; 100-fold) and photoresponse (&gt; 3000-fold). Meanwhile, the long-standing variability and overshoot issues are overcome, yielding ultra-uniform memristive behavior with even a single-valued distribution. Leveraging the opto-reconfigurability, high-accuracy object tracking, and human motion recognition (∼96.8%) are successfully performed. Breaking through the inherent functional limitation of the conventional V-MRM memristive structure, the QV-vdWH memristor provides a flexible, opto-reconfigurable hardware platform for emerging computing paradigms, and AI applications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75098&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.22</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752793" target="_blank" rel="noopener">Generative Neuromorphic Programming of Mammalian Cells</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Disset, J.; Van De Mark, C.; Wachter, G. K. A.; Kuo, S.-H.; Moorman, A.; Xu, W.; Palanques Tost, E.; Buritica Monroy, A.; Belta, C.; Weiss, R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.18.752793">10.64898/2026.09.18.752793</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752793">https://www.biorxiv.org/content/10.64898/2026.09.18.752793</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Cells make decisions through densely interconnected regulatory networks that compute graded, analog responses. Synthetic biology has made cells programmable, but the field&#x27;s dominant abstractions poorly match the analog nature of cells. Designing analog circuits that work in cells is challenging: predicting how components combine remains difficult, and the vast combinatorial space of parts, weights and topologies exceeds what experiments can explore. Here we establish generative programming of mammalian cells through a neuromorphic framework that compiles desired behavior into DNA. Composable regulatory devices built from RNA-targeting endoribonucleases (ERNs) supply signed weights and nonlinear activation, enabling multi-layer circuits with diverse multi-input analog responses. To predict and design such circuits, we develop biomorphic neural networks (BMNs): a compositional architecture that mirrors biological interactions, in which each basic process (transcription, translation, cleavage) is captured by a reusable neural block learned from the behavior of whole circuits that contain it. Recomposed into architectures absent from training, these models predict responses with errors often comparable to variability between experimental repeats. Inverting this process, our software package, the biocompiler, jointly optimizes topology, parts, and weights to realize specified target behaviors. Challenged with three target behaviors, the biocompiler proposed three previously unseen architectures; we built all three, and each reproduced its target behavior in mammalian cells in a single design pass without manual tuning. Generative neuromorphic programming thus offers a systematic route to engineering the analog computation native to living cells.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752793&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。</div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
