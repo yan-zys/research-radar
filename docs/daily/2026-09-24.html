@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-24</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-24</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 7 · Relate 8）· 命中关键词 17 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">6.51</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776996/" target="_blank" rel="noopener">Failure to classically condition G. dorotocephala and S. mediterranea flatworms using historical and contemporary light-shock paradigms.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kelso ZS, Snyder MC, Gershman SJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358756">10.1371/journal.pone.0358756</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776996/">https://pubmed.ncbi.nlm.nih.gov/42776996/</a></div><div class="d-block keywords">命中关键词：neural development, brain, neural, planarian</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Planarian flatworms represent one of the most evolutionarily informative nervous systems for an account of ancient bilaterian brains. Likewise, the unparalleled regenerative ability of planarians makes possible certain investigations of neural development, memory, and behavior that are simply impossible with other model organisms. Despite these facts, learning and memory are today underexplored in planarians, likely due in part to the controversial legacy of 20th-century experiments on the transfer of memories between individual flatworms. Here, we attempted to replicate and extend the classical conditioning experiments in planarians that were the basis of the later memory transfer work. We failed to find evidence of learning using both historical and contemporary conditioning protocols, and using computer vision methods to avoid subjectivity in manual video annotation. Our results cast doubt on the suitability of historic conditioning protocols for Girardia dorotocephala and Schmidtea mediterranea planarians. We encourage future researchers to explore more ethologically relevant conditioning paradigms to establish a behavioral foundation for investigating the molecular basis of learning.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358756&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">6.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777036/" target="_blank" rel="noopener">Coordinated neural progenitor adaptations contribute to primate neocortical downscaling.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tynianskaia L, Bastidas-Betancourt CM, Grewe EM, Kniep JM, Liutikaite N, Esiyok N, Göloğlu İB, Heide S, Rüger N, Lindenwald D, Drummer C, Petkov S, Di Donato N, Heide M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeg5563">10.1126/sciadv.aeg5563</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777036/">https://pubmed.ncbi.nlm.nih.gov/42777036/</a></div><div class="d-block keywords">命中关键词：neural, ancestral</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Most primates have a large, highly folded (gyrencephalic) neocortex, a feature present in the primate common ancestor. In contrast, several New World monkey species display a comparatively small and largely smooth, unfolded (lissencephalic) neocortex. One prominent example is the common marmoset, an increasingly popular model in neuroscience. This phenotype likely reflects an evolutionary reduction from the ancestral primate condition, implying modifications in neurodevelopmental programs. One essential basis for neocortical development is the activity and behavior of neural progenitor cells (NPCs). Here, we identify coordinated adaptations in NPC biology that bias neurodevelopmental trajectories toward neocortical downscaling. By combining marmoset and human cerebral organoids with analyses of fetal marmoset neocortical tissue and previously published histological data, we uncover multiple adaptations in apical and basal progenitors that converge on reduced progenitor capacity, alter early progenitor dynamics, and likely constrain neuronal output, thereby limiting the size and folding of the marmoset neocortex.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg5563&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.88</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776746/" target="_blank" rel="noopener">Neonatal enteric infection disrupts the microbiota-gut-brain axis through pattern recognition receptors and altered neuroimmune signaling.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-29</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Park J, Orahood O, Banginwar M, Andrade A, Pore G, Sanchez K, Cremin M, Miller A, Reynoso-Garcia J, Lee S, Jung E, Li J, Kikkeri N, Brust-Mascher I, Barboza M, Lebrilla CB, Woo T, Margolis KG, Ozdemir Kumral ZN, Reardon C, Gareau MG</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2606222123">10.1073/pnas.2606222123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776746/">https://pubmed.ncbi.nlm.nih.gov/42776746/</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neuron</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Early-life enteric infection disrupts the developing microbiota-gut-brain (MGB) axis. Using a neonatal Enteropathogenic Escherichia coli (EPEC) model, we show that intestinal epithelial cell (IEC) nucleotide oligomerization domain (NOD)1 signaling coordinates neuroimmune outcomes throughout early development and into adulthood. Neonatal mice infected at postnatal day (P)7 exhibited ileal inflammation, with increased pro-inflammatory cytokines and monocyte/macrophage infiltration, and loss of myenteric neurons in wild-type mice but not in NOD1 conditional knockout (Nod1ΔIEC) mice. These deficits persisted into adulthood (P56), with increased intestinal permeability, sustained inflammatory/repair signatures, neuroinflammation, altered neurogenesis, and impaired recognition memory, which were absent in Nod1ΔIEC mice, establishing a crucial role for IEC NOD1 in long-term MGB remodeling. Last, bioactive peptidoglycan fragments (muropeptides) were isolated from probiotic Lactobacillus strains and tested as possible therapeutics. Excitingly, supplementation of muropeptides attenuated neonatal EPEC-induced mucosal inflammation and enteric neuron loss without altering bacterial burden, potentially via IEC NOD2. Together, these findings identify IEC NOD-dependent signaling linking early-life enteric infection to enduring gut-brain dysfunction and reveal probiotic-derived muropeptides as candidate therapeutics.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2606222123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.87</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777033/" target="_blank" rel="noopener">Transposable elements as evolutionary catalysts of ant macrodiversity.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Schrader L, Rinke JL, Errbii M, Teresi SJ, van den Bos E, Xiong Z, Vizueta J, Boomsma JJ, Gadau J, Zhang G</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee0306">10.1126/sciadv.aee0306</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777033/">https://pubmed.ncbi.nlm.nih.gov/42777033/</a></div><div class="d-block keywords">命中关键词：transposable element, ant, Genome evolution</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Transposable elements (TEs) are key contributors to genome evolution, yet their macroevolutionary roles in adaptive radiations remain poorly understood, as high-quality genomic resources at sufficient phylogenetic breadth and appropriate comparative methods have been lacking. Here, we analyze 163 genomes spanning 12 of 16 extant ant subfamilies to characterize TE impacts over the past 100 million years. We identify convergent TE acquisition bursts in ancestors of the most speciose ant clades, preceding rapid diversification following the Cretaceous-Paleogene extinction event approximately 66 million years ago. We demonstrate that TEs associate with expansions of odorant receptors and other key gene families and reveal notable compartmentalization of ant genomes into faster-evolving TE-rich and more conserved TE-poor regions. Our findings demonstrate the broad-scale impact of TE-dependent genome evolution during ant adaptive radiation and suggest that similar comparative analyses across other major lineages will be worthwhile to reconstruct the wider macroevolutionary impact of TEs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee0306&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.72</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776333/" target="_blank" rel="noopener">DNA Topoisomerase IIβ Suppresses Microglial Inflammatory Cytokine Release: A Potential Regulator of Neuroinflammation.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Neurochemical research · 2026-09-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Şeyhali Abutayeh R, Akbayır R, Akül NB, Eren MC, Avşar T, Neğiş Y, Yeman-Kıyak B, Işık S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s11064-026-04899-0">10.1007/s11064-026-04899-0</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776333/">https://pubmed.ncbi.nlm.nih.gov/42776333/</a></div><div class="d-block keywords">命中关键词：neural development, neuron, neural</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>DNA topoisomerase IIβ (topo IIβ) is a nuclear enzyme that regulates DNA topology and gene expression, especially in post-mitotic cells such as neurons. Although its roles in neural development and transcriptional control are well-established, its involvement in neuroinflammatory processes is still to be investigated. This study aims to investigate whether topo IIβ modulates inflammatory responses in human microglial HMC3 cells under immune-stimulated conditions, considering that microglial cells are pivotal mediators of neuroinflammation in the central nervous system (CNS). Inflammation was induced using lipopolysaccharide (LPS), interferon-gamma (IFNγ), Adenosine triphosphate (ATP), whereas topo IIβ expression was modulated by overexpression and siRNA-mediated silencing. Western blot analysis demonstrated that LPS, IFNγ, and ATP stimulation did not alter the endogenous topo IIβ protein levels, indicating that its protein levels are stable under inflammatory conditions. Analysis of cytokine release indicated that topo IIβ overexpression decreased the release of key proinflammatory cytokines, suggesting an anti-inflammatory role. Conversely, the silencing of topo IIβ resulted in increased cytokine release, suggesting that topo IIβ typically functions to mitigate microglial inflammatory responses. Significantly, treatment with Lipofectamine™ 3000 alone increased cytokine release, indicating an intrinsic immunostimulatory impact of the transfection reagent. Collectively, these findings reveal an unacknowledged function of topo IIβ in attenuating neuroinflammatory signaling in microglia and underscore the necessity for careful interpretation of cytokine data when transfection reagents are present. Topo IIβ may represent a novel therapeutic target for modulating microglial activation in neuroinflammatory diseases.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11064-026-04899-0&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.17</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777052/" target="_blank" rel="noopener">Global dispersal of macroalgae-derived recalcitrant DOC may substantially contribute to deep-ocean carbon storage.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Feng X, Nair S, Hancke K, Lønborg C, Li H, Zhang Z, Zheng Q, He C, Shi Q, Li X, Bellerby R, Jiao N, Zhang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeg3815">10.1126/sciadv.aeg3815</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777052/">https://pubmed.ncbi.nlm.nih.gov/42777052/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Macroalgae, the dominant primary producers of Earth&#x27;s most productive coastal vegetated ecosystems and a vital component driving ocean carbon sequestration, produce ∼5 to 80% of their net primary productivity as dissolved organic carbon (DOC). However, the global extent, fate, and contribution of this macroalgae-derived DOC to the pelagic carbon pool remain poorly understood. We establish a molecular fingerprint of the dominant coastal macroalga Saccharina japonica-derived DOC (kelp-derived DOC) using ultrahigh-resolution mass spectrometry and conservative filtering. We differentiate the kelp-derived DOC into labile (LDOC) and recalcitrant fractions (RDOC) based on prolonged resistance to microbial degradation, identify discriminating molecular traits through machine learning, and integrate them into a stability metric, molecular recalcitrance score (MRS). Both candidate kelp-associated RDOC signals and the more persistent, semilabile subset of candidate kelp-associated LDOC signals are detected throughout the global ocean, as far as ∼10,000 kilometers from kelp ecosystems and at depths of ∼5500 meters. Detected candidate kelp-associated DOC signals exhibit elevated MRS, with values positively correlated with distance from source regions, indicating selective long-distance transport of intrinsically more stable compounds. We preliminarily estimate that coastal macroalgal ecosystems globally may contribute 320.7 to 481.1 teragrams of carbon per year of RDOC. The detection of candidate kelp-associated RDOC signals throughout the global ocean provides molecular-level evidence of the long-distance export of macroalgae-derived RDOC to the pelagic and deep ocean, highlighting a major, previously unrecognized pathway of long-term storage of macroalgae-derived DOC in global oceans, although the precise fraction exported to the deep ocean remains to be quantified.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3815&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777027/" target="_blank" rel="noopener">Fine-grained multi-level gesture recognition based on a stretchable multichannel ultrasonic device.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lin X, Liu H, Lin K, Chen J, Huang Y, Song J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aef1101">10.1126/sciadv.aef1101</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777027/">https://pubmed.ncbi.nlm.nih.gov/42777027/</a></div><div class="d-block keywords">命中关键词：neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Discrete gesture recognition provides a direct output form for command-based human-machine interaction, while fine-grained multi-level recognition can expand command capacity by mapping subtle graded finger movements to distinct commands or different levels of the same command, thereby reducing the need for large or repetitive hand gestures. However, reliably distinguishing fine-grained multi-level gestures remains challenging. Here, we present a stretchable multichannel ultrasonic device comprising four functional sites and sixteen piezoelectric modules. Its fan-shaped substrate stretches up to 30%, enabling conformal forearm attachment and alignment with target muscle regions. Experimental characterization demonstrated sub-millimeter spatial resolution and excellent signal quality. Integrated with a one-dimensional convolutional neural network, the system achieved up to 98.75% accuracy in recognizing metacarpophalangeal joint-angle changes below 5°. The multichannel configuration yields high classification accuracy, improved class-wise recognition balance, more effective learning from multi-subject data and enhanced calibration-assisted adaptation to shifted device positions and new users, providing a reliable strategy for low-burden, fine-grained multi-level gesture command control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef1101&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.92</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42775496/" target="_blank" rel="noopener">A Scoping Review of Neurobiological and Brain Structural Alterations Following Child Exposure to Intimate Partner Violence.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Trauma, violence &amp; abuse · 2026-09-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gregorini C, Sacchi C, De Carli P</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1177/15248380261480159">10.1177/15248380261480159</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42775496/">https://pubmed.ncbi.nlm.nih.gov/42775496/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Intimate partner violence (IPV) is one global issue that can lead to neurobiological consequences and affect brain development across the lifetime. However, evidence is scattered across domains and age groups, making it difficult to map the breadth of empirical findings regarding exposure to IPV. This scoping review aimed to map existing evidence in relation to the neuorbiological mechanisms and brain structural outcomes in child exposed to IPV, extending the focus to the potential stability of such consequences in adulthood. Searches were conducted in Scopus, PubMed, PsycINFO, and Web of Science for studies published between 2000 and 2025. Eligible studies included peer-reviewed quantitative research reporting measures of neurobiological mechanisms (stress physiology, inflammatory or cellular markers, autonomic or neurochemical profiles, genetic or epigenetic indicators), and brain development (structural or functional neuroimaging outcomes) related to child exposed to IPV and retrospectively in adults. After screening 2,514 records, 62 studies met the inclusion criteria and were organized by sample characteristics and outcome domains. Findings have shown that the largest body of evidence concerns stress-related biological mechanisms, with reports of significant alterations in hypothalamic-pituitary-adrenal axis functioning, inflammatory processes, and related physiological systems. Neuroimaging studies also demonstrated substantial convergence, with most reporting trauma-related alterations in frontolimbic circuitry, white matter integrity, developmental brain, and functional connectivity. In conclusion, this scoping review reveals the overall neurobiological and brain structural consequences associated with child exposure to IPV and points out the need for further preventive interventions and treatment strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/15248380261480159&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.91</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776399/" target="_blank" rel="noopener">CXCR4 Coordinates Long-Term Olfactory Epithelial Regeneration and Cellular Stress Response After Injury.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Molecular neurobiology · 2026-09-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Senf K, Dietz A, Karius J, Neuhaus EM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s12035-026-06215-x">10.1007/s12035-026-06215-x</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776399/">https://pubmed.ncbi.nlm.nih.gov/42776399/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>During development, the chemokine receptor CXCR4 directs axon guidance, but it is not known if CXCR4 regulates axon targeting in the adult organism as well. We utilized the remarkable feature of the olfactory epithelium to replace damaged neurons throughout life to understand the role of CXCR4 in adult neurogenesis. Through targeting Cxcr4 in horizontal basal stem cells of the olfactory epithelium, we investigated the role of CXCR4 during injury-induced neurogenesis in adult mice by a combination of RNA-seq analysis, bioinformatic methods, behavioral experiments, and microscopical approaches. Conditional knockout mice lacking Cxcr4 initially displayed enhanced regeneration after injury of the olfactory system, resulting in increased numbers of sensory neurons and enhanced sense of smell. Moreover, we found that absence of CXCR4 alters expression of axon guidance proteins. Despite accelerated early neurogenesis, loss of CXCR4 ultimately impaired the reconstruction of the dorsomedial olfactory epithelium, leading to disrupted glomerular organization and reduced avoidance responses to aversive odors. Transcriptomic analysis revealed altered stress response pathways, suggesting impaired cellular adaptation in Cxcr4-cKO mice during regenerative repair. An increased level of ER stress in horizontal basal cells led to instability of the basal lamina, respiratory metaplasia in the dorsomedial part of the olfactory epithelium, and Bowman gland regeneration failure.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06215-x&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.47</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42775638/" target="_blank" rel="noopener">Machine learning of honey bee olfactory behavior identifies repellent odorants in free-flying bees in the field.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">eLife · 2026-09-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kowalewski J, Baer-Imhoof BF, Guda T, Luy M, DePalma P, Baer B, Ray A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.104831">10.7554/eLife.104831</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42775638/">https://pubmed.ncbi.nlm.nih.gov/42775638/</a></div><div class="d-block keywords">命中关键词：Drosophila, machine learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Preventing beneficial insects like honey bees (Apis mellifera) from contacting pesticides on crops using odorants could counter current pollinator declines. However, the discovery of behaviorally aversive odorants is impeded by the complexity of the honey bee olfactory system where &gt;170 olfactory receptors detect volatiles and generate valence. To solve this systems-level challenge, we generated a machine-learning model to predict aversive valence from chemical structure using published olfactory behavior data in honey bees. We refine the predictive model by generating species-level behavioral data for honey bees and Drosophila on an initial set of novel predicted repellents. The improved second computational model was then used to screen a chemical space of &gt;50 million compounds and identify &gt;130 repellent candidates. Behavioral validation using honey bees in the laboratory shows a high predictive success. Additional testing of the top seven candidates using freely foraging honey bees in a field assay confirmed strong repellency, thus predicting a high probability to repel foraging bees from pesticide-treated crops. Machine learning, with iterative testing and modeling, therefore provides a powerful approach for rational discovery of aversive volatiles for control of insects for which limited data is available.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.104831&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.34</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776982/" target="_blank" rel="noopener">An integrated explainable AI framework with counterfactual optimization for decision support.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jahan N, Maua J, Rozario U, Shoaib HA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358643">10.1371/journal.pone.0358643</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776982/">https://pubmed.ncbi.nlm.nih.gov/42776982/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, deep learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Artificial intelligence is increasingly used to support managerial decision-making in domains such as human resource management and customer relationship management; however, the lack of transparency in complex predictive models limits their practical adoption. This paper proposes a counterfactual-guided explainable artificial intelligence framework that integrates deep learning, feature attribution, and counterfactual reasoning to deliver accurate, interpretable, and actionable managerial insights. The proposed model is evaluated on an employee attrition dataset and a customer churn dataset, as well as in a combined multi-domain setting. Experimental results show that the framework achieves classification accuracies of up to 91.4% for employee attrition prediction and 87.3% for customer churn prediction, with corresponding ROC-AUC scores reaching 0.869 and 0.891, respectively. The model also demonstrates improved probability calibration, reducing the Brier score to 0.128 on the attrition dataset and 0.109 on the churn dataset. Furthermore, explainability analysis yields higher SHAP fidelity scores exceeding 0.90, while the counterfactual module generates valid and plausible recommendations with lower action costs compared to baseline approaches. These results indicate that the proposed framework effectively bridges predictive performance, interpretability, and actionability, making it suitable for real-world managerial decision-support systems. The framework is formulated as a constraint-aware optimization problem that integrates predictive modeling, explanation fidelity, and cost-sensitive counterfactual generation into a unified objective, enabling actionable and feasible decision support.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358643&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.32</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42776086/" target="_blank" rel="noopener">120-Channel High-Fidelity Optical Multiplexing Using a Minimal Meta-Atom Set.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Advanced materials (Deerfield Beach, Fla.) · 2026-09-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tan Z, Zang X, Gao Z, Miao J, Shkurinov AP, Ding F, Zhu Y, Zhuang S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/adma.75132">10.1002/adma.75132</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42776086/">https://pubmed.ncbi.nlm.nih.gov/42776086/</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>High-capacity optical multiplexing is crucial for next-generation intelligent information systems, spanning high-speed communications, optical computing, and immersive displays. A fundamental challenge is to maximize the number of independent channels while maintaining high fidelity, compact footprint, and low structural complexity, constraints that severely limit existing diffractive optical elements. Here, we overcome these long-standing trade-offs by introducing a multi-dimensional reconfigurable diffractive neural network (MRDNN) that enables high-capacity, high-fidelity optical multiplexing within an exceptionally compact and simple architecture through the co-design of predictive neural optimization and multi-physical-dimension multiplexing. Experimentally, a dual-layer MRDNN realizes 24 independent channels for distinct functionalities, including focusing, beam steering, and holographic image reconstruction. Owing to its excellent scalability, only four metasurface layers comprising a minimal library of 2002 meta-atoms achieve 120 distinct optical channels with low crosstalk and high fidelity (measured mean structural similarity index measure of over 0.8), representing a record experimental multiplexing capacity with one of the smallest normalized footprints and simplest structural configurations in a metasurface-enabled system. This work establishes a scalable and efficient paradigm for extreme optical multiplexing in multifunctional and reconfigurable photonics systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.75132&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.25</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777070/" target="_blank" rel="noopener">A spatiotemporal deep learning framework for detecting unusual human activity in surveillance videos.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kumar M, Biswas M, Patel AK, Kumar A, Abhishek K, Shafeeq B M A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0355690">10.1371/journal.pone.0355690</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777070/">https://pubmed.ncbi.nlm.nih.gov/42777070/</a></div><div class="d-block keywords">命中关键词：deep learning, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>With smart gadgets and computers everywhere, real-time video monitoring is now necessary to keep people secure and lower the chance of unexpected human actions. However, current surveillance systems have a lot of trouble effectively spotting unusual actions in real life. Most of the advanced anomaly detection algorithms are trained and tested on synthetic or simulated video datasets. These datasets frequently do not show how complicated and different real-life settings can be. Because of this, their usefulness and capacity to be used in real life are still restricted. We propose a transfer learning-based hybrid deep framework for finding unusual activity in real-world surveillance. We test the model using raw video streams from a subset of the UCF-Crime dataset that shows actual situations of people doing things. First, a pre-trained DenseNet-201, a convolutional neural network, extracts spatial data from video frames that have already been processed. A Bidirectional Long Short-Term Memory (Bi-LSTM) network is used to describe temporal relationships between video sequences in a useful way. The spatial data and the Bi-LSTM&#x27;s temporal representations are then integrated to make anomaly identification more precise and dependable. This integrated spatiotemporal architecture identifies abnormal actions of human beings in challenging monitoring situations. The model that was recommended performs better than the state of art methods. It gets 95.04% accuracy on the UCF50 dataset and 62.04% on the untrimmed UCF-Crime dataset. These results suggest that the model performs effective in real-life scenarios.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355690&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.22</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.14.751638" target="_blank" rel="noopener">Spatial transcriptomics reveals selective vulnerability of cardiac neural crest-derived glial cells in human myocardial infarction</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xia, X.; Ding, Y.; Zhao, X.; He, Q.; Zhang, H.; Gu, Y.; Bai, H.; Pan, D.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.14.751638">10.64898/2026.09.14.751638</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.14.751638">https://www.biorxiv.org/content/10.64898/2026.09.14.751638</a></div><div class="d-block keywords">命中关键词：neural, Spatial transcriptomics</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Cardiac neural crest-derived glial cells (CNGs) are recently identified glial cells that support cardiac autonomic innervation and maintain sympathetic-parasympathetic balance. Their fate in myocardial infarction (MI) is unknown. Here, we analyzed 16 human cardiac spatial transcriptomes spanning normal myocardium (n=4), infarct zone (n=5), border zone (inner, n=1; outer, n=3), and remote zone (n=3). CNGs (S100B+/GFAP+, CD68- spots) were selectively lost along a spatial gradient from healthy tissue to the infarct core (Spearman rho = -0.92, p = 4.5 x 10-7). Tissue-area-corrected analysis confirmed that CNG loss (26% retained in infarct zone vs. normal; p = 0.016) vastly exceeded overall tissue loss, indicating selective vulnerability rather than bulk tissue destruction. Mechanistically, oxidative phosphorylation (OXPHOS) activity in CNG-positive spots correlated positively with CNG survival (partial rho = 0.65, p = 0.009 after controlling for spot composition), consistent with a high metabolic demand underlying their ischemic sensitivity. Pyroptosis - but not ferroptosis or apoptosis - signatures correlated with CNG loss (partial rho = -0.67, p = 0.006). These findings identify CNGs as selectively vulnerable cellular components of the cardiac autonomic system in MI and nominate metabolic failure and pyroptosis as candidate mechanisms, providing a spatially resolved foundation for future mechanistic and interventional studies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.14.751638&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.21</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42766565/" target="_blank" rel="noopener">Prevalence and associated factors of skilled birth attendants in Bangladesh: A combined statistical and machine learning analysis.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PloS one · 2026</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mim JS, Mostafa MS, Barna B, Sadia AN, Islam R, Islam AA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0358556">10.1371/journal.pone.0358556</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42766565/">https://pubmed.ncbi.nlm.nih.gov/42766565/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Bangladesh has achieved notable progress in maternal and child health; however, maternal and neonatal mortality remain high, partly due to inadequate access to skilled birth attendants (SBA) during delivery. This study aims to identify key socioeconomic and demographic factors influencing SBA utilization in Bangladesh. Data were obtained from the 2022 Bangladesh Demographic and Health Survey (BDHS), a nationally representative cross-sectional survey which was conducted from June 27 to December 12, 2022. The outcome variable was skilled birth attendants during delivery, defined as attendants provided by a doctor, nurse, or midwife. Descriptive statistics and chi-square tests were used for initial analysis, followed by binary logistic regression to identify significant determinants. Additionally, the inclusion of machine learning models provides an additional classification framework that improves classification performance and helps identify important predictors, complementing traditional regression analysis. From the study, 67.94% of women utilized skilled birth attendants during childbirth. Higher maternal education, household wealth, antenatal care utilization, and urban residence were significantly associated with greater SBA utilization. Women with higher education had substantially higher odds of using SBA than those with no education (AOR = 4.10, 95% CI: 1.94-8.66, p &lt; 0.001), while rural women had lower odds than urban women (AOR = 0.64, 95% CI: 0.47-0.88, p = 0.006). Women who attended four or more ANC visits were also more likely to use SBA than those with no ANC visits (AOR = 2.92, 95% CI: 1.72-4.96, p &lt; 0.001). Women from the richest households had higher odds of SBA utilization compared with those from the poorest households (AOR = 1.77, 95% CI: 1.11-2.81, p = 0.016). Among the machine-learning models, Random Forest achieved the highest numerical accuracy (0.82). Education, economic status, ANC utilization, and place of residence were identified as key factors associated with skilled birth attendants during delivery in Bangladesh using the binary logistic regression model. Moreover, the machine learning models were used separately to classify SBA. Targeted interventions focusing on disadvantaged and rural populations can help improve equitable access to maternal healthcare. However, differences related to religion and region should be interpreted cautiously, as they may reflect broader socioeconomic and cultural factors rather than direct effects.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0358556&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。</div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
