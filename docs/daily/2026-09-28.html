@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-28</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-28</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 11 · Relate 4）· 命中关键词 16 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">6.75</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42786235/" target="_blank" rel="noopener">Reconciling global collaboration and data sovereignty in neuroscience.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Nature neuroscience · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ray KL, Botes M, Collier M, Yi A, Hershman S, Monteiro T, Genuino M, Poline JB, Eke D, Chavarriaga R, Ihunwo AO, Moll FT, Nichols TE, Pestilli F</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41593-026-02468-w">10.1038/s41593-026-02468-w</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42786235/">https://pubmed.ncbi.nlm.nih.gov/42786235/</a></div><div class="d-block keywords">命中关键词：brain, neural, artificial intelligence</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>As artificial intelligence (AI) elevates the economic and strategic value of data, governments are intensifying efforts to regulate the collection, use and cross-border transfer of personal information. Data are increasingly treated as national assets, subject to legal, economic and geopolitical controls. These shifts are reshaping scientific research, particularly in neuroscience and brain health, where progress depends on access to large, diverse and internationally distributed datasets. In parallel, advances in neuroimaging, neurotechnology and computational modeling are enabling population-scale neuroscience and the generation of AI-ready brain datasets. These developments further increase the strategic importance of neural data, amplifying both their scientific value and their governance complexity. The convergence of these trends exposes a fundamental tension between the need for an open science culture and data sovereignty. Without coordinated responses, these dynamics risk limiting representation, slowing innovation and reinforcing global inequities in brain health research. Here we argue that neuroscience requires an international data governance coordinating body capable of aligning research and regulatory priorities. In addition to outlining the distinct challenges posed by neural data, we propose strategies to support secure, equitable and sustainable global collaboration, as well as practical governance instruments to enable coordinated implementation across jurisdictions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02468-w&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">6.66</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.23.753750" target="_blank" rel="noopener">Convergent evolutionary loss of chemosensory and blood-feeding pathways in non-blood-feeding mosquitoes</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Houri-Zeevi, L.; Brand, P.; Arnoldi, I.; DeFoe, A. E.; Balacco, J. R.; Shai, N.; Makunin, A.; Palatini, U.; Toma, T.; Okazawa, T.; Stone, C. M.; Schiller, A.; Fedrigo, O.; Jarvis, E. D.; Lawniczak, M. K.; Miyagi, I.; Gabrieli, P.; Vosshall, L. B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.23.753750">10.64898/2026.09.23.753750</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.23.753750">https://www.biorxiv.org/content/10.64898/2026.09.23.753750</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural, glia, ancestral</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Complex traits that span multiple tissues and systems often integrate large numbers of genes across development, physiology, and behavior, making it challenging to identify their essential components. Blood feeding in mosquitoes is one such trait. It is ancestral to the mosquito family, maintained in most species for ~200 million years, and was independently lost in three lineages. These convergent losses offer a natural experiment to discover the genetic, physiological, and neural features required for blood feeding. We assembled high-quality, chromosome-level genomes for seven mosquito species, along with whole-brain tomographic reconstructions. Our study spanned the three known non-blood-feeding lineages (Toxorhynchites rutilus, Topomyia yanbarensis, and Malaya genurostris), blood-feeding relatives, and the variable blood feeder Wyeomyia smithii. Comparing orthologous gene clades, we detected convergent gene loss specific to the three lineages that had lost blood feeding. The losses include the salivary platelet-aggregation inhibitor Aegyptin, blood-activated serine proteases such as Chymotrypsin-1 and 2, and a carboxylesterase expressed in the female fat body and brain glia. The loss of blood feeding also extended to chemosensation. Non-blood feeders lack two odorant-binding protein clades, two ionotropic receptor clades associated with blood-component taste detection, and odorant receptor clades expressed in a discrete, strongly female-biased population of antennal neurons. Female-biased head gene expression was reduced in non-blood feeders. Finally, examination of whole-brain tomographic reconstructions across the species revealed smaller antennal lobes in non-blood-feeding females, consistent with reduced olfactory input. Together, these findings identify a compact set of genes, expression patterns, and brain regions associated with blood feeding, offering an evolutionary entry point for functional dissection of how this complex and dangerous trait is built and dismantled.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.23.753750&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">6.06</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.09.20.677552" target="_blank" rel="noopener">Regulatory network model reveals noise-gated toggle switch that integrates signals additively in neuron-glia proportion control</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jiang, J.; Chen, S.; Park, J. H.; Tsou, T.; Yang, V.; Rivaud, P.; Thomson, M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.09.20.677552">10.1101/2025.09.20.677552</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.09.20.677552">https://www.biorxiv.org/content/10.1101/2025.09.20.677552</a></div><div class="d-block keywords">命中关键词：neuron, neural, glia, cell state</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>During development, combinatorial signals modulate progenitor differentiation to build populations of diverse cell types. Classical deterministic fate-control circuits focus on stable commitment but do not explain how a diverse cell population is generated and tuned by signals. Here, using single-cell RNA-seq profiling of neural progenitor cells (NPCs) upon combinatorial signal inputs, we identify a candidate circuit-level mechanism for controlling cell type compositions through a noise-gated toggle switch. With 40 signaling conditions, we show that combinatorial signal inputs modulate the neuronal-glial population proportions following a simple log-linear model. Regulatory network models built by D-SPIN quantitatively capture cell state distribution shifts induced by signal combinations, and indicate a circuit model for the probabilistic fate specification by a toggle switch with controlled transcriptional heterogeneity. Noise levels drive the system from highly plastic to committed states, allowing the relative level of signal inputs to shift population structures. The model further predicts an early bipotent state expressing lineage-specifying factors of both fates, which we verify in our single-cell profiling experiment and a mouse embryonic visual cortex development dataset. Our work identifies a design principle of noise-driven additive regulation in the logarithmic cell-fate probability space, providing a new strategy for population-level stem cell control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.09.20.677552&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.91</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42789692/" target="_blank" rel="noopener">Discovering how ice crystals grow using neural ODEs and symbolic regression.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lamb KD, Harrington JY, Moyle AM, Pokrifka GF, Clouser BW, Ebert V, Möhler O, Saathoff H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee6174">10.1126/sciadv.aee6174</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42789692/">https://pubmed.ncbi.nlm.nih.gov/42789692/</a></div><div class="d-block keywords">命中关键词：neural, machine learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Depositional ice growth strongly influences the evolution and lifetime of ice-containing clouds on Earth and Mars, yet its physics remain uncertain because the earliest stages of ice-crystal growth cannot be directly observed and are sparsely sampled in laboratory settings. Here, we use physics-informed machine learning to learn the functional dependence of unknown physics in the depositional ice growth model from limited observations. By optimizing against mass growth time series from 290 ice crystals grown in a levitation diffusion chamber, we identify a modified capacitance growth model that more accurately captures observed early-stage growth. The resulting functional form, retrieved using symbolic regression, outperforms existing parameterizations and generalizes well to independent measurements from the AIDA Aerosol and Cloud Chamber. Our data-efficient learning framework provides an improved representation of depositional ice growth and offers a pathway to infer unresolved physical processes in other systems that are sparsely observed.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee6174&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.85</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42800029/" target="_blank" rel="noopener">α-Herpesviruses exploit host ssDNA gap prevention pathways for GC-rich genome replication and reactivation.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Cell reports · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang J, Lan M, Fu H, Teng X, Zhang E, Peng X, Li C, Pan B, Yu H, Cai Y, Yan Y, Jin Y, Bo Z, Zhang P, Liu Y, Pan D, Wu W, Zhou J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.celrep.2026.118044">10.1016/j.celrep.2026.118044</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42800029/">https://pubmed.ncbi.nlm.nih.gov/42800029/</a></div><div class="d-block keywords">命中关键词：neuron, genome duplication</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Many α-herpesviruses, such as herpes simplex virus type 1 (HSV-1) and pseudorabies virus, possess GC-rich genomes prone to forming G-quadruplex (G4) structures. However, the impact of these G4 structures on viral genome maintenance is unknown. Here, we demonstrate that G4s impede lagging strand DNA synthesis in the viral genome, generating single-stranded DNA (ssDNA) gaps that activate an ATR-mediated replication checkpoint. To complete genome duplication, these viruses co-opt host ssDNA gap prevention pathways, including PARP-mediated backup Okazaki fragment maturation and post-replicative gap-filling mechanisms, to resolve G4-induced ssDNA gaps. Pharmacological G4 stabilization, combined with inhibition of these pathways, synergistically inhibits viral replication. In terminally differentiated neurons, only gap-filling pathways are essential for virus replication, and disrupting them or stabilizing G4s robustly impairs HSV-1 reactivation in trigeminal ganglion explants. Collectively, our findings identify G4-induced ssDNA gaps as key barriers to α-herpesvirus replication and reactivation and highlight host ssDNA gap prevention pathways as promising therapeutic targets.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.118044&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.59</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42790420/" target="_blank" rel="noopener">Single-cell visual proteomics of a minimal bacterium reveals structural coordination of gene expression machineries.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Cell · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Dobbs JM, Jensen RK, Mahamid J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.cell.2026.08.054">10.1016/j.cell.2026.08.054</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42790420/">https://pubmed.ncbi.nlm.nih.gov/42790420/</a></div><div class="d-block keywords">命中关键词：cell state</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Translation is a central process in gene expression. Its regulation is complex, depends on factors that include cell state and the subcellular environment, and is subject to modulation via crosstalk to processes such as transcription or translocation. Here, we used cryo-electron tomography of native and antibiotic-perturbed Mycoplasma pneumoniae cells to resolve 140 maps that recapitulate bacterial translation during the initiation, elongation, and recycling phases. We visualized multiple transcription-translation complexes, allowing us to propose a threading-based translation reinitiation mechanism and to provide structural evidence for a long-hypothesized supercomplex that coordinates transcription, translation, and membrane attachment. We resolved abundant membrane-associated large ribosomal subunits and suggest that dissociation from membranes depends on the conditional initiation of new translation, consistent with a potentially conserved mechanism in mammalian cells. This work visualizes the multilayered control of bacterial translation and demonstrates the power of in-cell structural biology to investigate regulatory circuits in gene expression.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cell.2026.08.054&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.53</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42786290/" target="_blank" rel="noopener">ResolVI: addressing noise and bias in spatial transcriptomics.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Nature methods · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ergen C, Yosef N</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41592-026-03212-9">10.1038/s41592-026-03212-9</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42786290/">https://pubmed.ncbi.nlm.nih.gov/42786290/</a></div><div class="d-block keywords">命中关键词：cell state, Spatial transcriptomics</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Technologies for estimating RNA expression at high throughput, in intact tissue slices and with high spatial resolution (spatial transcriptomics) shed new light on how cells communicate and tissues function. A fundamental step in analyzing data generated by subcellular resolution spatial transcriptomics technologies is quantification, namely, segmenting the plane into regions, each approximating a cell, and then collating the molecules inside each region to estimate the cellular expression profile. Despite many advances in this area, a persistent problem is that of the incorrect assignment of molecules to cells, which limits many current applications to the level of a priori-defined cell subsets and complicates the discovery of novel cell states. Here we develop resolVI, a model that operates downstream of any segmentation algorithm to generate a probabilistic representation, correcting for the misassignment of molecules, as well as for batch effects and other nuisance factors. We demonstrate that resolVI improves our ability to distinguish between cell states, identify subtle expression changes in space and perform integrated analysis across datasets. ResolVI is available as open source software within scvi-tools.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03212-9&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.43</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42784687/" target="_blank" rel="noopener">Escape of the BC200 gene to a human poxvirus reveals its persistent transposition in primates.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science (New York, N.Y.) · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gao P, Pritham EJ, Feschotte C, Sun C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.aeh3441">10.1126/science.aeh3441</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42784687/">https://pubmed.ncbi.nlm.nih.gov/42784687/</a></div><div class="d-block keywords">命中关键词：transposable element</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Transposable elements mobilize within and occasionally between genomes, including from host to virus. We identified two insertions of the human BC200 noncoding RNA gene in the poxvirus molluscum contagiosum virus (MCV), which were likely acquired through long interspersed nuclear element 1 (LINE-1 or L1)-mediated retrotransposition during modern human history. Although BC200 was co-opted approximately 40 million years ago to regulate neuronal translation, we show that it never lost its mobilization capacity. Rather, BC200 functioned as a &quot;master&quot; source of L1-mediated germline retrotransposition events throughout anthropoid evolution, spawning hundreds of lineage-specific insertions. Additionally, BC200 has produced insertion polymorphisms segregating in the human population, including individual-specific insertions indicative of ongoing transposition activity. Thus, BC200 blurs the line between gene and transposon, combining stable function with persistent mobilization, including a recent escape into a human poxvirus.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeh3441&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.32</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42784680/" target="_blank" rel="noopener">Ancient introgression drives wild boar expansion and phenotypic diversification of domestic pigs.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science (New York, N.Y.) · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chen JH, Du X, Zheng Z, Gorkhali NA, Xiao C, Zhu S, Zhong J, Fu L, Li J, Yan Z, Ricemeyer ES, Jiang F, Tran TNT, Ni P, VanKuren N, He G, Yang Y, Mekchay S, San Hmwe S, Sablin M, Šprem N, Thuy LT, Omar A, Faruque MO, Bhuiyan AA, Silva GLLP, Samaraweera AM, Phukon D, Thakur M, Sapkota S, Vahidi SMF, Hussan FU, Ashari H, Soewandi BDP, Jakovlić I, Daly KG, Wang MS, Liu X, Chittavong M, Falush D, Spence J, Bishop R, Stanton DWG, Xu X, Li X, Hahn MW, Fang L, Frantz LAF, Larson G, Han J, Zhao S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.adq7553">10.1126/science.adq7553</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42784680/">https://pubmed.ncbi.nlm.nih.gov/42784680/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Despite the ubiquity of wild boar populations across Eurasia, their origins, routes of dispersal, and phenotypic evolution remain uncertain. Here, using 745 genomes representing populations across Eurasia, we demonstrate that wild boar expanded from South Asia during the Middle Pleistocene. This expansion was preceded by a Pliocene introgression (~3 to 5 million years ago) in South Asia from an archaic Suinae lineage that introduced a ~43 megabase X-chromosomal haplotype into the ancestral wild boar population. This haplotype includes loci associated with increased body size and adaptation to cold climates. During domestication, this region was selected at least three times independently to develop modern large-bodied breeds. Our findings reveal a long-lasting evolutionary legacy of this ancient introgression, which provided genetic material that was later shaped by natural and artificial selection.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.adq7553&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.31</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42789713/" target="_blank" rel="noopener">Airway epithelia clear rhinovirus infection via two waves of cell extrusion.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Fore F, Bagley DC, Martinez-Nunez RT, Aniscenko J, Johnston S, Rosenblatt J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aef2562">10.1126/sciadv.aef2562</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42789713/">https://pubmed.ncbi.nlm.nih.gov/42789713/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Epithelial barriers represent the first line of defense against pathogens, yet their role in innate immunity is typically relegated to pathogen detection and immune cell recruitment. This perspective ignores a fundamental biological principle: Epithelia defended against pathogens long before complex immune systems evolved. Here, we demonstrate that human bronchial epithelium retains this ancestral capacity, autonomously clearing rhinovirus (RV) within 24 hours by selectively extruding infected cells, a process that we term virus-induced cell extrusion (VICE). VICE occurs in two waves: a rapid response occurring independently of complete virus entry, followed by a replication-dependent wave. Barrier-defective epithelia that cannot extrude do not eliminate RV. While VICE maintains barrier integrity and reduces local infection, it also expels virus-laden cells, which can infect fresh epithelia. Thus, VICE enables leukocyte-independent epithelial defense while inadvertently promoting viral spread, redefining epithelia as central to viral pathogenesis and host protection.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2562&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42791313/" target="_blank" rel="noopener">Rapid genome-wide purging following tsunami-induced hybridization in a stickleback population.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Nature ecology &amp; evolution · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hosoki TK, Mori S, Kagawa K, Nishida S, Kume M, Nagano AJ, Kanbe H, Kakioka R, Nakamoto K, Iino Y, Kodama M, Oba S, Seong T, Kabeya N, Ishikawa A, Yoshida K, Yamasaki YY, Kitano J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41559-026-03184-1">10.1038/s41559-026-03184-1</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42791313/">https://pubmed.ncbi.nlm.nih.gov/42791313/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Speciation is the process by which barriers to gene flow evolve between populations. As speciation approaches completion, genome-wide divergence can be maintained in the face of hybridization. Because real-time observations of genomic changes following hybridization in natural populations remain rare, little is known about the processes and mechanisms by which introgressed genomes are purged in nature. Here we report a 9-year genomic monitoring of a tsunami-induced hybrid stickleback population, revealing rapid genome-wide purging within only a few generations. On 11 March 2011, a devastating tsunami struck the Tohoku Region, Japan, creating new stickleback habitats and inducing hybridization between freshwater Gasterosteus aculeatus and marine Gasterosteus nipponicus. Within the first few generations, G. nipponicus alleles were purged at major loci responsible for reproductive isolation, including ancestral-X and neo-X chromosomes. These loci are involved in freshwater survival, migratory divergence associated with habitat choice, sexual isolation and hybrid sterility. Subsequently, G. nipponicus alleles were purged across the genome except at several loci. We provide direct evidence from a natural population that rapid genome-wide purging allows species identity to persist even after extensive introgression. Elucidating the genetic mechanisms underlying genome-wide purging is crucial for understanding the factors that drive progress towards speciation completion.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41559-026-03184-1&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.9</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.04.27.721126" target="_blank" rel="noopener">Adaptive loss of function accelerated the evolution of ancient and modern human cognition</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Starr, A. L.; Cale, G. M.; Magtanong, L.; Palmer, M. E.; Fraser, H. B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.04.27.721126">10.64898/2026.04.27.721126</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.04.27.721126">https://www.biorxiv.org/content/10.64898/2026.04.27.721126</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Methods to detect accelerated evolution have identified many genomic regions with unexpectedly rapid evolution in the human lineage-significantly more than in chimpanzees, our closest living relatives. However, these methods focus on accelerated sequence evolution of short non-coding regions, leaving open the questions of how to identify accelerated evolution of molecular function, as opposed to sequence, and whether accelerated evolution has shaped the human genome more broadly. Here, we introduce a new approach to detect accelerated evolution: Function Aware Statistical Test for Evolutionary Rates (FASTER). In contrast to previous methods, FASTER can detect not only accelerated evolution of sequence, but also of predicted function, and can be applied to any set of genomic regions. Applying this method to humans and chimpanzees, we identified protein-coding, untranslated (UTR), and non-coding regions with accelerated evolution of function. Across all these genomic levels, we consistently found more rapid evolution in conserved sites in the human lineage compared to chimpanzee, many of which are predicted to reduce protein stability or chromatin accessibility. Multiple lines of evidence suggest this human-acceleration was driven in part by positive selection on brain development and cognition which has continued to shape human evolution even in the past several thousand years. Collectively, these results demonstrate the power of genome-wide scans for the evolution of predicted function and specifically suggest that a higher rate of reduction in function-including widespread decreases in cis-regulatory activity-may have been an important driver of both ancient and recent human evolution.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.04.27.721126&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.71</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.20.753029" target="_blank" rel="noopener">MERFISHEYES: Web-based Visualization and Sharing Platform for Single-cell and Single-molecule Spatial Transcriptomics</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jenie, I.; Mishkin, E.; Smith, E.; Kenney, M.; Cao-Berg, I.; Maimon, R.; Ropelewski, A. J.; Cleveland, D. W.; Bintu, B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.20.753029">10.64898/2026.09.20.753029</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.20.753029">https://www.biorxiv.org/content/10.64898/2026.09.20.753029</a></div><div class="d-block keywords">命中关键词：brain, cross-species comparison, Spatial transcriptomics</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Interactive exploration and sharing of hybridization-based spatial transcriptomics datasets remain limited by large file sizes, specialized software, and computationally intensive preprocessing, restricting rapid access to publicly available resources such as the Brain Image Library. Here we present MERFISHEYES (https://merfisheyes.com), a browser-based platform for interactive visualization of single-cell and single-molecule spatial transcriptomics data across commercial and emerging high-throughput platforms. MERFISHEYES enables marker gene exploration, cross-dataset and cross-species comparison, visualization of subcellular RNA localization, and collaborative sharing through browser-accessible links generated directly from drag-and-drop datasets. We use MERFISHEYES to enable browser-based visualization of all 158 spatial transcriptomics datasets in the Brain Image Library and demonstrate its capabilities in handling high-throughput 3D data with genome-scale imputation of gene expression and DNA accessibility. MERFISHEYES provides a scalable framework for rapid exploration, sharing, and collaborative analysis of spatial transcriptomics data.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.20.753029&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.33</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2024.10.30.621128" target="_blank" rel="noopener">Deaf1 regulates the coordinated repression of synaptic genes to limit synaptogenesis</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kentro, J. A.; Singh, G.; Pham, T. M.; Currie, J.; Khullar, S.; Medeiros, A. T.; Tsiarli, M. A.; Larschan, E.; O&#x27;Connor-Giles, K. M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2024.10.30.621128">10.1101/2024.10.30.621128</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2024.10.30.621128">https://www.biorxiv.org/content/10.1101/2024.10.30.621128</a></div><div class="d-block keywords">命中关键词：neurodevelopment, Drosophila</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Synapses are the primary sites of communication in the nervous system. Synapse formation requires the simultaneous expression of hundreds of proteins across cells. Through genomic and functional studies in Drosophila, we investigated the regulatory mechanisms underlying the spatiotemporal coordination of synaptic gene expression during neurodevelopment. We find that chromatin opening is coordinated across hundreds of synaptic genes immediately preceding transcription, whereas repression of these genes outside developmental periods of synaptogenesis is regulated by distinct mechanisms. We identify the conserved DEAF1 transcription factor (TF) as a direct repressor of synaptic genes. Disruption of DEAF1 or pioneer TF CLAMP, which promotes DEAF1 binding, increases synaptic gene expression across neuronal subtypes, leading to excess synapse formation. DEAF1, which is linked to syndromic intellectual disability, is also sufficient to block synaptogenesis. These findings reveal the importance of coordinated synaptic gene repression in sculpting neuronal connectivity and broaden our understanding of gene regulation in neurodevelopment.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2024.10.30.621128&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.92</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.11.724289" target="_blank" rel="noopener">PolyA/polyQ-mediated conformational rewiring regulates DNA engagement and drives aggregation in the neuronal transcription factor Ascl1</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mitra, S.; Ruidiaz, S. F.; Laufeyjardottir, A.; Voutsinos, V.; Nitsenko, K.; Guala, A.; Zaret, K. S.; Hartmann-Petersen, R.; Heidarsson, P. O.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.11.724289">10.64898/2026.05.11.724289</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.11.724289">https://www.biorxiv.org/content/10.64898/2026.05.11.724289</a></div><div class="d-block keywords">命中关键词：neuronal transcription factor</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Ascl1 is a pioneer transcription factor that drives neuronal fate decisions, yet the structural basis of its activity remains elusive. Besides the basic helix-loop-helix (bHLH) domain which dimerizes with other transcription factors and binds DNA, Ascl1 contains long low-complexity intrinsically disordered regions (IDRs), including a polyA/polyQ tract of unknown function. Here we use single-molecule FRET to map the conformational ensemble of full-length Ascl1 across monomeric, heterodimeric, and DNA-bound states. Monomeric Ascl1 is largely disordered but displays multivalent coupling between the N-terminal IDR and the bHLH domain, with the polyA/polyQ tract opposing bHLH compaction. E12 binding folds the bHLH domain and remodels the N-IDR, increasing dynamics across the N-IDR while suppressing them locally within the polyA/polyQ tract. Deleting the tract weakens nonspecific DNA binding by the Ascl1/E12 heterodimer without disrupting heterodimerization or high-affinity E-box binding, abolishes aggregation in vitro, and increases Ascl1 abundance in HEK293T cells. Thus, the polyA/polyQ tract acts as a regulatory module that promotes nonspecific DNA engagement while imposing a cost in solubility and cellular abundance.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.11.724289&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。</div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
