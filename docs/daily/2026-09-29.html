@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-09-29</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-09-29</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 14 · Relate 1）· 命中关键词 17 个</div>
+
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">6.09</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.25.754357" target="_blank" rel="noopener">SALL1 and neural microenvironmental contextspecify identity of stem cell derived humanmicroglia-like cells</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Nikolova, M. T.; Freitag, K.; Okamoto, R.; Catellani, A.; Hinke, J.; Luginbuehl, N. A.; Lin, H.-C.; Kaindl, J.; He, Z.; Wahle, P.; Rohland, J.; Geirsdottir, L.; Camp, J. G.; Winner, B.; Amit, I.; Treutlein, B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.25.754357">10.64898/2026.09.25.754357</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.25.754357">https://www.biorxiv.org/content/10.64898/2026.09.25.754357</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain, neural, cell state</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Microglia, the immune cells of the brain parenchyma, play a pivotal role in neurodevelopment and neuroprotection. Human stem cell-derived microglia-like cells (MGL) offer a valuable, human-relevant system to study microglia in vitro. However, their cell states and intercellular interactions within complex 3-dimensional (3D) tissue contexts in vitro remain underexplored. Here, we analyze the gene expression profiles of MGL generated by two differentiation protocols in conventional 2D cultures. We show that co-culture with neural organoids promotes a more mature, in vivo-like MGL phenotype but this signature is lost during long-term co-culture. By varying media compositions, we modulate 2D MGL states toward more active or more homeostatic identities, which may enhance the similarity to primary microglia identities upon subsequent co-culture. Moreover, forced expression of the microglial lineage regulator SALL1 shifts MGL away from a general myeloid state toward a more defined pre-microglial fate. SALL1 overexpression within a 3D neural organoid environment further amplifies the shift toward a homeostatic developmental microglia population. Collectively, our transcriptomic analysis delineates human MGL states in 2D and 3D contexts, refines existing differentiation protocols toward more authentic MGL, and establishes a framework to investigate the intricate microglia-neural tissue interplay.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.25.754357&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">6.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42804499/" target="_blank" rel="noopener">A developmental single-cell atlas of the Drosophila visual system glia reveals cell type diversification and subcellular mRNA compartmentalization.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">PLoS biology · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ferreira AAG, Córdoba S, Rajesh R, Choi BJ, Desplan C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pbio.3004015">10.1371/journal.pbio.3004015</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42804499/">https://pubmed.ncbi.nlm.nih.gov/42804499/</a></div><div class="d-block keywords">命中关键词：glia, single-cell atlas, scRNA-seq, Drosophila, Cell atlas</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Glial cells are essential for proper nervous system development and function. To understand glial development and function, we comprehensively annotated the glial cells from two large single-cell mRNA-sequencing (scRNA-seq) atlases of the developing Drosophila visual system. This allowed us to identify all glial cell types from larval to adult stages and follow their developmental trajectories to understand how the diversity of glial types is generated during development. We show that whereas most glial types, such as chiasm glia, gradually change their transcriptome as they mature during development, neuropil glia that transcriptionally appear as a single-cell class in larvae, splits into ensheathing (EG) and astrocyte-like (ALG) glia types during pupal stages. We have experimentally validated these developmental trajectories and identified the genetic markers expressed through the differentiation between EG and ALG classes. Unexpectedly, our analysis of scRNA-seq datasets allowed us to discover that the transcriptome of glial cell bodies can be distinguished from that of their processes. We have identified that processes are enriched for distinct mRNAs that were validated in vivo. This work provides the most detailed transcriptomic analysis of optic lobe glia during development and helps explain the expansion of glial diversity observed in the adult visual system. We also present an innovative computational approach to identify mRNA species that are differentially localized to cell bodies or cellular processes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004015&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.86</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753505" target="_blank" rel="noopener">Single Cell Cytometry of Mouse Brain Tissue</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Roe, C. E.; Miller, C.; Calero, N.; Irish, J. M.; Dingman, A. L.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.22.753505">10.64898/2026.09.22.753505</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753505">https://www.biorxiv.org/content/10.64898/2026.09.22.753505</a></div><div class="d-block keywords">命中关键词：brain, neuron, glia, Cellular diversity</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Suspension mass cytometry can measure 50 or more markers per cell and is not impacted by cellular autofluorescence, making it an appealing platform for comprehensive phenotyping of single cells in tissue with high innate fluorescence, such as brain. However, this organ is challenging to reduce to a single cell suspension: it is a deeply interconnected tissue rich in extracellular material and contains a wide variety of cell types including neurons, their supporting glia, and hematopoietic cells from peripheral circulation, any or all of which may have competing requirements for survival through the dissociation process. This study compares approaches for producing single-cell preparations from white and gray matter enriched regions of adult mouse brain, testing simple mechanical dissociation, Accutase, and three gentle enzymes plus DNase: papain, collagenase II, and collagenase plus dispase, all with or without Percoll gradient centrifugation to separate intact cells from debris. Live cells were counted by hemocytometer and Trypan blue exclusion to assess yield and compare across enzyme conditions. Mass cytometry was used to assess cellular composition after representative dissociation, debris removal, and viable cryopreservation. Key proteins measured included beta III-tubulin for neurons, glial fibrillary acidic protein (GFAP) for astrocytes, oligodendrocyte transcription factor (OLIG2) for oligodendrocytes, CD31 for endothelial cells, CD24 for ependymal cells, purinergic receptor P2Y12 (P2RY12) for microglia, and CD45 for leukocytes. Mechanical disaggregation paired with enzymatic dissociation by papain, Collagenase/Disapse, or Collagenase II plus DNase produced approximately 400,000 live cells per 100 grams of tissue. Cell yield was not significantly different between conditions and yields were similar between white and grey matter. Addition of Percoll gradient centrifugation substantially reduced the number of viable cells recovered (average decrease of 88%) and resulted in viable cell numbers that were insufficient for robust analysis of less common cell subsets. In addition to neurons, mass cytometry identified six major populations of non-neuronal cells: oligodendrocytes, astrocytes, endothelial cells, ependymal cells, microglia, and leukocytes. The relative abundance of these six populations was generally unchanged by cryopreservation in both grey matter (r = 0.95), and white matter (r = 0.90), though loss of oligodendrocytes did occur in both tissues. Proliferation, as measured by Ki67 positivity, was non-existent; consistent with this, levels of phosphorylated STAT1 (p-STAT1) and p-STAT3 proteins were low in all cell populations and unchanged by cryopreservation. A modest increase in p-S6(S235/236) after cryopreservation was consistently observed only in microglia. Together, these results establish standardized procedures for generating viable single cell suspensions for cytometry that preserve the cellular diversity of the adult murine brain with minimal perturbation of intracellular signaling cascades.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753505&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.76</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42802936/" target="_blank" rel="noopener">Next-generation brain organoids: neural complexity from cellular diversity to functional networks.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Brain : a journal of neurology · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Duan CH, Wang YK, Tang TS, Jiao JW, Tang Y, Teng ZQ, Hu BY, Liu CM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/brain/awag332">10.1093/brain/awag332</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42802936/">https://pubmed.ncbi.nlm.nih.gov/42802936/</a></div><div class="d-block keywords">命中关键词：brain development, brain, neural, Cellular diversity</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Brain organoids, as pioneering three-dimensional (3D) in vitro platforms, have profoundly advanced our understanding of human brain development and disease mechanisms. This review summarizes recent progress in enhancing cellular diversity, structural organization, and functional complexity within brain organoids. A key application of these models lies in disease modelling, encompassing neurodevelopmental and neurodegenerative disorders as well as brain tumours, which enables personalized drug screening and mechanistic studies. Despite persistent challenges related to neuronal maturation, vascularization, reproducibility, and functional integration, we highlight emerging bioengineering strategies, multi-organ integration approaches, and ethical considerations that provide a roadmap for next-generation organoid platforms. Collectively, brain organoids hold transformative potential for both fundamental neuroscience and translational research, bridging critical gaps between conventional experimental models and human-specific pathophysiology.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag332&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.72</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42803303/" target="_blank" rel="noopener">Unlocking the complex interplay between epigenetics and epitranscriptomics in neuropsychiatric disorders.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Brain : a journal of neurology · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Dwivedi Y, Roy B</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/brain/awag335">10.1093/brain/awag335</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42803303/">https://pubmed.ncbi.nlm.nih.gov/42803303/</a></div><div class="d-block keywords">命中关键词：brain development, brain, neural</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Epigenetic and epitranscriptomic mechanisms work together to control gene expression, which is essential for brain development, synaptic plasticity, and the risk of neuropsychiatric disorders. Traditional epigenetic processes, such as DNA methylation and histone modifications, alter chromatin structure to regulate gene accessibility. On the other hand, epitranscriptomic marks such as N6-methyladenosine (m6A) affect RNA metabolism after transcription. Studies in both neural and non-neural systems show that these layers of regulation interact in both directions and together shape gene expression. This review looks at how m6A-modified non-coding RNAs, including chromosome-associated regulatory RNAs (carRNAs), enhancer RNAs (eRNAs), microRNAs, and circular RNAs, work with chromatin to influence genome function, including chromatin accessibility, histone modifications, and the overall structure of the genome. It also covers recent discoveries about how eRNAs form R-loops, how m6A affects RNA stability, and how these processes are involved in neuronal signaling and plasticity. Many of these findings come from studies outside the nervous system and need more research in neuropsychiatric disease models. By bringing together established knowledge and new ideas, this review suggests that the interaction between epigenetic and epitranscriptomic mechanisms is a key factor in determining risk and resilience for neuropsychiatric disorders, and offers new directions for future research and therapy development.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/brain/awag335&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.71</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753668" target="_blank" rel="noopener">Adaptive brain rewiring after brain injury via adult neurogenesis</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chakraborty, O.; Maturi, S.; Zabolocki, M.; Muhia, M.; Villar-Pazos, S.; Decroocq, M.; Horenkamp, S.; Gonzalez Alvarado, M. N.; Piszczek, L.; Schlachter, M.; Oppelt Duranova, T.; Skibbe, H.; Knoblich, J. A.; Grade, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.22.753668">10.64898/2026.09.22.753668</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753668">https://www.biorxiv.org/content/10.64898/2026.09.22.753668</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neuron</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The adult mammalian brain has limited regenerative capacity yet retains substantial potential for functional reorganization after experience, injury or disease1-3. While local plasticity at injury sites has been described4,5, the brain-wide consequences of a focal injury and the biological processes that drive them remain unknown. To address this, we performed an unbiased, whole brain screen of neuronal activity at single cell resolution following a focal injury to the primary visual cortex (V1) in mice. Olfactory processing areas emerged as loci of remote activation. We further show that V1 injury promotes the recruitment of adult born neurons into the olfactory bulb (OB) and potentiates cortical feedback onto bulbar circuits. Combining high-density multielectrode array recordings with two-photon calcium imaging revealed OB circuit refinement characterized by increased synchrony and sharpened tuning of principal output neurons. These circuit-level functional enhancements coincide with improved behavioral performance in odor-guided tasks. Motor cortex lesions do not elicit similar cellular and behavioral responses, suggesting that such distal adaptation only develops when injury is coupled with increased olfactory demand. Together, these data demonstrate that the adult brain can recruit alternative sensory circuits distant from a focal lesion to undergo adaptive, functionally relevant reorganization, and implicate adult neurogenesis as a contributing mechanism. Our findings expose a previously underappreciated degree of remote plasticity and reveal a novel role of adult neurogenesis in sensory compensation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753668&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.68</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753567" target="_blank" rel="noopener">Presenilin-dependent ErbB4 Nuclear Signaling Regulates Astrogenesis via PARP1</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ibrahim, M. M. H.; Sardoiwala, M. N.; Nelson, M. M.; Stout, J.; Sardi, S. P.; Corfas, G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.22.753567">10.64898/2026.09.22.753567</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753567">https://www.biorxiv.org/content/10.64898/2026.09.22.753567</a></div><div class="d-block keywords">命中关键词：brain development, brain, neural</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Precise timing of astrogenesis during brain development is essential for proper neural circuit assembly, yet the molecular mechanisms governing this process remain incompletely understood. Here, we identify a novel nuclear signaling pathway initiated by the presenilin-dependent proteolytic release of the ErbB4 receptor intracellular domain (E4ICD) that regulates astrocyte differentiation via direct interaction with Poly(ADP-ribose) Polymerase 1 (PARP1). Upon ligand stimulation, E4ICD forms a complex with PARP1, inducing PARP1 tyrosine phosphorylation and enzymatic activation. This complex translocates to the nucleus, where it binds to the GFAP promoter, repressing its transcription. Loss of ErbB4 or PARP1 abolishes these effects, leading to increased differentiation of neural precursor cells into astrocytes in vitro, and elevated astrocytic gene expression in the neonatal brain in vivo. Notably, the E4ICD binding sites in the GFAP promoter overlap with those of Notch signaling, suggesting that these signaling pathways have antagonistic transcriptional roles in the control of glial fate. These findings establish a previously unappreciated RTK-PARP1 nuclear signaling axis that integrates extracellular cues to regulate neurodevelopmental lineage decisions, expanding the known functional repertoire of PARP1 beyond DNA damage and stress responses.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753567&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.44</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.12.724368" target="_blank" rel="noopener">Deep Representation Learning on Whole-Brain Population Dynamics Uncovers Geometrically Separable Neural Codes</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Abdelbaki, A.; Bandow, P.; Cheng, K. Y.; Grunwald Kadow, I. C.; Nawrot, M. P.; Rostami, V.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.12.724368">10.64898/2026.05.12.724368</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.12.724368">https://www.biorxiv.org/content/10.64898/2026.05.12.724368</a></div><div class="d-block keywords">命中关键词：brain, neural, Drosophila, transformer</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Extracting interpretable representations from high-dimensional whole-brain neural dynamics remains a major computational challenge in systems neuroscience. Here, we develop a wiring-agnostic deep-learning framework that combines convolutional encoding with temporal transformers to learn compact representations directly from volumetric calcium imaging of the entire \textit{Drosophila melanogaster} brain, without neuronal identification or anatomical annotation. Applied to brain-wide activity recorded across 16 factorially combined sensory and internal-state conditions, the learned representations revealed a factorized organization of whole-brain dynamics: metabolic state, sensory modality, and stimulus valence emerged along three near-orthogonal axes from a classification objective based only on flat class labels and without explicit disentanglement constraints. Spatial attribution and brain region-level ablation analyses linked modality representations to anatomically distinct circuits, whereas state- and valence-related information showed a broadly distributed organization. Our approach provides a scalable framework for discovering interpretable representations of whole-brain neural dynamics.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.12.724368&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42789720/" target="_blank" rel="noopener">Dynamic flexible optical sensing based on liquid integrated circuits.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xu B, Zhu J, Zhang Q, Zhou X, An Y, Zheng X, Wang Y, He Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.adv8384">10.1126/sciadv.adv8384</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42789720/">https://pubmed.ncbi.nlm.nih.gov/42789720/</a></div><div class="d-block keywords">命中关键词：machine learning</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Vision supplies more than 80% of the information, and innovations in artificial vision can catalyze a foundational shift for technologies such as embodied intelligence. Dynamic flexible optical sensing (DFOS), where the sensor itself modulates curvature on demand, offers curvature-matched optical acquisition, focus switching without moving optics, and multiplane light-field acquisition, yet repetitive and reversible deformation is still challenging for recent electronic arrays. Here, we propose a DFOS system based on liquid integrated circuits (LICs), integrating photosensitive ionic liquid (PIL) and stretchable liquid metal electrodes to achieve active curvature modulation for geometry-adaptive optical sensing. The PIL exhibits selective color perception, reversible photo-thermo-electric responses, and robust stability. This all-liquid architecture allows for large-amplitude hydraulically controlled curvature modulation (&gt;31.9°) with a strain rate of ∼1.62% per second and exceptional durability (600 reversible cycles) without mechanical fatigue. With the assistance of machine learning, the system demonstrates multimodal signal acquisition (concave, planar, and convex configurations) for color, pattern, and distance recognition with high accuracy through hydraulically controlled curvature modulation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adv8384&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.21</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42789708/" target="_blank" rel="noopener">Implementation of offset corrected AGAD algorithm on 130-nm CMOS technology-based RRAM array for analog neural network training.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lee J, Solomon P, Gong N, Fagbohungbe O, Wilson R, Ando T, Kim S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee7134">10.1126/sciadv.aee7134</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42789708/">https://pubmed.ncbi.nlm.nih.gov/42789708/</a></div><div class="d-block keywords">命中关键词：neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>We present the first implementation of the analog gradient accumulation with dynamic reference (AGAD), reported as the most advanced and highest-performing version of the TT (Tiki-Taka) algorithm, on an HfO2-based resistive random-access memory (RRAM) array for analog neural network training. Through comparative simulations with recent versions of the TT algorithm, we verify that only AGAD enables rapid and accurate gradient accumulation, even in the presence of reference errors. This robustness is enabled by the chopper technique and moving-average-based dynamic digital reference. For demonstration, we propose and fabricate a novel 4T1R unit-cell crossbar array that offers excellent retention while eliminating half-select disturbances. Notably, we experimentally implement the bidirectional weight update behavior of AGAD on hardware and extend it to an array-level weight transfer task, achieving successful weight convergence with a low loss of 0.005, essential for neural network training. This study emphasizes that AGAD can provide a viable pathway toward practical in-memory computing under realistic device limitations.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7134&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.21</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42789701/" target="_blank" rel="noopener">All-optical control of nonlinear emission from resonant metasurfaces.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yang Z, Xu L, Sanderson G, Bhadwal A, Wang L, Tanaka K, Yang M, Liu M, Lung S, Staude I, Pertsch T, Brown C, Rahmani M, Neshev D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeh0904">10.1126/sciadv.aeh0904</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42789701/">https://pubmed.ncbi.nlm.nih.gov/42789701/</a></div><div class="d-block keywords">命中关键词：neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Nonlinear optics underpins a broad range of photonic technologies, from classical and quantum light sources to emerging nonlinear photonic neural networks. Yet, conventional nonlinear-optical devices exhibit static functionality: Their transfer characteristics and emission profiles are dictated by the intrinsic nonlinear process and locked by fabrication, limiting adaptability. Here, we introduce an ultrathin metasurface platform that enables dynamic reconfiguration of nonlinear functionality in a contactless fashion. By leveraging all-optical control of the optical torque exerted on liquid crystal molecules infiltrating a resonant metasurface, we achieve tunable polynomial nonlinear transfer functions based on the third-harmonic generation process. This mechanism further allows reconfigurable modulation of nonlinear weighting across different diffraction orders, revealing a previously unexplored interplay between mode structure and nonlinear emission. Our approach opens up a pathway toward field-programmable nonlinear photonic systems, offering unprecedented flexibility for reconfigurable nonlinear signal processing and adaptive photonic computing.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh0904&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42788718/" target="_blank" rel="noopener">Retinal curl as a functional signal for heading estimation beyond the focus of expansion.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">eLife · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zorpala KI, López-Moliner J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.110770">10.7554/eLife.110770</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42788718/">https://pubmed.ncbi.nlm.nih.gov/42788718/</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Prevailing models aiming at explaining heading assume that humans need to recover the Focus of Expansion (FoE) while accounting for eye-movement-induced rotation. We propose an alternative: the visual system utilizes mean retinal curl from fixations as a surrogate signal for heading, rendering the explicit recovery of the FoE unnecessary. Stationary participants viewed simulated walking paths on a large screen while fixating on points on the projected ground texture at varying eccentricities - a natural behavior inducing sustained retinal curl. Participants continuously reported perceived heading in 3D scene coordinates. To isolate the role of retinal curl, we employed a real-time manipulation that kept translational flow constant while the foveal curl component was either unaltered, canceled, or over-canceled. Under natural conditions (unaltered), participants exhibited systematic heading biases opposite the direction of gaze. Crucially, these biases vanished when we canceled the expected curl and flipped when we over-canceled it, identifying retinal curl as the specific driver of perceptual bias. We modeled these results using a simple feedback controller and a ring-attractor neural network featuring gaze-contingent inhibition and a &#x27;straight-ahead&#x27; prior. These findings suggest that the brain exploits the geometry of gaze stabilization to simplify navigation, treating retinal curl as a functional signal rather than noise to be filtered.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110770&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-important">Important</span><span class="score">5.13</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42801024/" target="_blank" rel="noopener">A hierarchical organization of synaptic integration complexity across cerebellar neuron types.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Cognitive neurodynamics · 2026-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ma J, Zhang J, Luo S, Yu J, Li S, Zhou D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s11571-026-10556-7">10.1007/s11571-026-10556-7</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42801024/">https://pubmed.ncbi.nlm.nih.gov/42801024/</a></div><div class="d-block keywords">命中关键词：neuron, neural, Cellular diversity</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Characterizing how diverse neuronal cell types transform synaptic inputs into somatic output is central to understanding how cellular diversity supports neural computation. The cerebellum provides a powerful system for addressing this question, because its major neuron types occupy distinct circuit positions and exhibit pronounced differences in dendritic morphology and active membrane properties. Yet whether these cellular differences correspond to distinct rules of synaptic integration remains unclear. Although detailed biophysical models reveal mechanistic determinants of dendritic processing and simplified functional models approximate neuronal input-output transformations, a compact and interpretable description that enables systematic comparison across cell types remains lacking. Here, we develop a reconstruction-based framework that quantifies synaptic integration in terms of the effective order of nonlinear interactions required to reproduce somatic responses. Applying this approach to a biophysically detailed Purkinje neuron model, we show that paired excitatory inputs give rise to higher-order nonlinear interactions that cannot be captured by linear or quadratic integration alone. Extending this analysis across multiple biophysical models representing major cerebellar neuron types, we uncover a hierarchical organization of synaptic integration complexity, in which distinct cell types are characterized by different effective integration orders. This hierarchy is robust to variability in synaptic location and is strongly associated with intrinsic cellular properties, including dendritic morphology and the diversity of active ion channels. In contrast, under the conditions examined here, input motifs involving inhibition are consistently well described by second-order interactions across cerebellar neuron types. Together, our results establish synaptic integration complexity as a key quantitative dimension that captures the hierarchical organization of effective integration rules across cerebellar neuron types. The online version contains supplementary material available at https://doi.org/10.1007/s11571-026-10556-7.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10556-7&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-important">Important</span><span class="score">5.12</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752626" target="_blank" rel="noopener">Predictive coding networks capture human neural representations missing in supervised DNNs</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">bioRxiv · 2026-09-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gütlin, D.; Kittelmann, D.; Auksztulewicz, R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.18.752626">10.64898/2026.09.18.752626</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.18.752626">https://www.biorxiv.org/content/10.64898/2026.09.18.752626</a></div><div class="d-block keywords">命中关键词：brain, neural, neural network</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neuroscientific learning theories propose that the brain acquires knowledge by constructing internal world models. Supervised learning, the dominant approach in deep neural networks (DNN), relies on external category labels, making it difficult to reconcile with biological learning. There is an increasing trend towards more biologically valid approaches, such as predictive (minimize future surprise) or contrastive (minimize response to expected, maximize to unexpected inputs) objectives, but these approaches typically rely on pretrained DNN models that vary widely in architecture, size, and hyperparameters, making direct comparisons difficult. Here, we isolate the effect of learning by comparing small, identical networks trained with predictive, contrastive, and supervised learning objectives, as well as local (layer-restricted) vs. global (full backpropagation) learning. We show that brain representations after statistical learning are better modeled by a predictive local target than a supervised or contrastive target, and that during learning, the brain attenuates category-specific representations while retaining predictive ones. We additionally show that predictive objectives explain brain variance that standard supervised DNNs do not, and that this variance is tied to predictive rather than stimulus or mismatch processing. These findings demonstrate a controlled approach for testing the algorithmic basis of learning and identify prediction as a core learning mechanism.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.18.752626&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.54</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42803313/" target="_blank" rel="noopener">Chromatin Accessibility Profiling of the Canine Brain Reveals Regulatory Programs Associated With Dog-Wolf Divergence and Human Psychiatric Risk.</a></div>
+  
+  <div class="one-line">（暂无中文总结）</div>
+  <div class="meta">Integrative zoology · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Deng B, Wu J, Liu Y, Li X, Xu Y, Duan R, Tong Y, Xu J, Ni M, Zhang ZS, Xue D, Zhou B, Liu Y, Cheng R, Zhang Y, Zhang YP</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1111/1749-4877.70189">10.1111/1749-4877.70189</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42803313/">https://pubmed.ncbi.nlm.nih.gov/42803313/</a></div><div class="d-block keywords">命中关键词：brain, ATAC-seq</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The domestic dog has emerged as a valuable model for investigating the biology of social behavior and neuropsychiatric disease, yet a comprehensive map of gene regulatory elements across the canine brain is still lacking. Here, we generated an ATAC-seq atlas spanning seven major brain regions and the pituitary gland from four adult beagle dogs. We identified 251,492 putative cis-regulatory elements (CREs) and found that chromatin accessibility profiles resolve anatomically distinct regions into discrete regulatory modules, including striatal, cortical-associated, hypothalamic/habenular, and pituitary groups. Region-specific accessible elements were enriched predominantly in distal non-coding regions and were associated with distinct transcription factor (TF) programs and biological functions. Integration with dog-wolf genetic differentiation signals identified tissue-specific CREs overlapping highly differentiated genomic regions, including loci linked to neuronal and neuroendocrine pathways. Cross-species integration of human Genome-Wide Association Study data further indicated that canine cortical-associated chromatin features and striatal-enriched chromatin signatures, along with genes linked to such CREs, exhibit enrichment for schizophrenia (SCZ) and bipolar disorder (BD) risk signals. Together, these findings delineate the regional cis-regulatory landscape of the canine brain and support the dog as a translational model for studying the regulatory basis of neuropsychiatric disease.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1111/1749-4877.70189&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。</div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
