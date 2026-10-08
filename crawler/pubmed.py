@@ -78,20 +78,28 @@ def efetch(pmids) -> str:
 
 
 def _pub_date(article) -> str:
-    """解析 Journal PubDate 为 YYYY-MM-DD（尽量；缺月/日则截断）。"""
+    """解析出版日期为 YYYY-MM-DD：优先 Journal PubDate；PubDate 缺月/日
+    （ahead-of-print 常见，如仅 "2026 Oct"）时回退 ArticleDate（电子版上线
+    日期，通常完整）；仍缺则返回截断的部分日期（YYYY 或 YYYY-MM）。"""
+    year = month = day = ""
     pd = article.find("./Journal/JournalIssue/PubDate")
-    if pd is None:
-        return ""
-    year = pd.findtext("Year") or ""
-    if not year:
-        year = (pd.findtext("MedlineDate") or "")[:4]
-    month = pd.findtext("Month") or ""
-    if month:
-        m = MONTHS.get(month[:3].lower(), month)
-        month = f"{int(m):02d}" if str(m).isdigit() else str(m)
-    day = pd.findtext("Day") or ""
-    if day and day.isdigit():
-        day = f"{int(day):02d}"
+    if pd is not None:
+        year = pd.findtext("Year") or ""
+        if not year:
+            year = (pd.findtext("MedlineDate") or "")[:4]
+        month = pd.findtext("Month") or ""
+        if month:
+            m = MONTHS.get(month[:3].lower(), month)
+            month = f"{int(m):02d}" if str(m).isdigit() else str(m)
+        day = pd.findtext("Day") or ""
+        day = f"{int(day):02d}" if day.isdigit() else ""
+    if not (year and month and day):
+        ad = article.find("./ArticleDate")
+        if ad is not None:
+            ay, am, aday = (ad.findtext("Year") or "", ad.findtext("Month") or "",
+                            ad.findtext("Day") or "")
+            if ay and am.isdigit() and aday.isdigit():
+                return f"{ay}-{int(am):02d}-{int(aday):02d}"
     return "-".join(p for p in (year, month, day) if p)
 
 
