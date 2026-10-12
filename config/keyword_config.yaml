@@ -96,9 +96,6 @@ keywords:
       added_date: '2026-07-31'
       weight: 2
       locked: true
-  # 广义脑/神经词：单独命中只算普通关键词通道，
-  # 必须与组学锚点（single-cell/transcriptom/genom/spatial 等，见 scoring.py
-  # OMICS_ANCHORS）共现才享受 A0 必推送——防止纯临床/行为/材料论文被强推
   core_broad:
     weight: 15
     items:
@@ -264,8 +261,6 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
-    # 演化锚点词（2026-08-04 用户确认）：短而真实的演化/比较术语，
-    # 词条 weight=1 → 实际贡献 10×1=10，与 species 命中（5×2）等效
     - keyword: cell type evolution
       source: seed
       added_date: '2026-08-04'
@@ -310,6 +305,16 @@ keywords:
       source: seed
       added_date: '2026-08-04'
       weight: 1
+      locked: true
+    - keyword: 神经系统数据库
+      source: user_page
+      added_date: '2026-10-12'
+      weight: 2
+      locked: true
+    - keyword: 中央神经系统数据库
+      source: user_page
+      added_date: '2026-10-12'
+      weight: 2
       locked: true
   methods:
     weight: 8
@@ -364,8 +369,6 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
-  # 整组 recall: false（2026-08-05 用户指定）：物种名不参与检索召回
-  # （ant/Drosophila 等单词召回噪声太大），仅在评分时加分
   species:
     weight: 5
     recall: false
@@ -435,7 +438,6 @@ keywords:
       added_date: '2026-08-04'
       weight: 2
       locked: true
-    # 项目核心物种（2026-08-04 用户确认，对应面上项目书物种清单）+ 恢复 Panarthropoda
     - keyword: Panarthropoda
       source: seed
       added_date: '2026-08-04'
@@ -696,8 +698,6 @@ negative:
 - plant breeding
 - agriculture production
 - food science
-# 纯神经/临床噪声（2026-08-04 用户确认）：seizure/epilepsy 等纯机制与
-# 疾病论文直接剔除；不含 aging/stem cell（演化图谱类论文可能涉及）
 - seizure
 - epilepsy
 - electrophysiology
