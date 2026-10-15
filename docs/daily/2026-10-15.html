@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-10-15</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-10-15</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 0 · Relate 15）· 命中关键词 20 个</div>
+
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-relate">Relate</span><span class="score">4.99</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42873841/" target="_blank" rel="noopener">MonoRace: Robust monocular AI for champion-level drone racing.</a></div>
+  <div class="title-cn">MonoRace：用于冠军级无人机竞速的稳健单目AI</div>
+  <div class="one-line">为实现无外部定位系统的自主无人机竞速，作者提出仅依赖单目卷帘快门相机和IMU的MonoRace系统，结合神经网络门分割与离线几何优化，在2025阿布扎比无人机竞速赛中击败人类世界冠军，时速达100公里。</div>
+  <div class="meta">Science robotics · 2026-10-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bahnam SA, Ferede R, Blaha TM, Lang AE, Lucassen E, Missinne Q, Verraest AEC, De Wagter C, de Croon GCHE</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/scirobotics.aee9250">10.1126/scirobotics.aee9250</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42873841/">https://pubmed.ncbi.nlm.nih.gov/42873841/</a></div><div class="d-block keywords">命中关键词：artificial intelligence, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯工程/机器人学领域研究，涉及无人机竞速AI系统，完全无关演化生物学、神经科学或单细胞组学。</div><div class="d-block"><span class="lbl">中文摘要：</span>自主无人机竞速是机器人学的前沿领域，需在严苛资源与时间约束下实现高性能飞行。现有最优方案依赖立体相机与IMU，且需外部运动追踪。本文提出MonoRace系统，仅使用单目卷帘快门相机和IMU，通过神经网络门分割结合无人机模型实现稳健状态估计，并利用门已知几何结构的离线优化精调外参；其神经网络控制器直接在飞行控制器上以500Hz输出电机指令。该方案在2025阿布扎比自主无人机竞速赛中夺冠，击败人类世界冠军，最高时速100公里。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Autonomous drone racing represents a major frontier in robotics research. It requires an artificial intelligence (AI) that can run onboard lightweight flying robots under tight resource and time constraints while pushing the physical system to its limits. The state of the art in this area consists of a system with a stereo camera and an inertial measurement unit (IMU) that beat human drone-racing champions in a controlled indoor environment. Here, we present MonoRace, an onboard drone-racing approach that generalizes to a competition environment without any external motion tracking system, using only a monocular rolling-shutter camera and an IMU. The approach features robust state estimation that combines neural network-based gate segmentation with a drone model. Moreover, it includes an offline optimization procedure that leverages the known geometry of gates to refine any state estimation parameter. This offline optimization is based purely on onboard flight data and is important for fine-tuning the extrinsic camera calibration parameters. Furthermore, the guidance and control are performed by a neural network that forgoes inner-loop controllers by directly sending motor commands. This small network runs on the flight controller at 500 hertz. The proposed approach won the Abu Dhabi Autonomous Drone Racing Competition 2025, outperforming all competing autonomous drone race teams and three world champion human pilots in a direct knockout tournament. It reached speeds up to 100 kilometers per hour on the competition track and successfully coped with problems such as camera interference and IMU saturation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/scirobotics.aee9250&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.63</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42873831/" target="_blank" rel="noopener">Cellular diversity in neural organoids is critical for neurodegenerative disease modeling.</a></div>
+  <div class="title-cn">神经类器官中的细胞多样性对神经退行性疾病建模至关重要</div>
+  <div class="one-line">为解决神经退行性疾病模型缺乏免疫和血管组分的问题，作者强调神经类器官需整合免疫细胞与血管内皮细胞以提高疾病模拟准确性，但未涉及演化分析。</div>
+  <div class="meta">PLoS biology · 2026-10-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu S, Ng SY</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pbio.3004074">10.1371/journal.pbio.3004074</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42873831/">https://pubmed.ncbi.nlm.nih.gov/42873831/</a></div><div class="d-block keywords">命中关键词：neural, Cellular diversity</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦神经类器官的疾病建模应用，缺乏演化或跨物种比较视角，属于纯临床疾病研究方向。</div><div class="d-block"><span class="lbl">中文摘要：</span>神经炎症和血管功能障碍是多数神经退行性疾病的标志。作者指出，用于模拟神经退行变的类器官应将免疫细胞和血管细胞视为基础组分而非可选添加，通过增强细胞多样性提升疾病模型的生理相关性。该研究聚焦临床转化，未涉及演化生物学或跨物种比较。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neuroinflammation and vascular dysfunction are hallmarks of most neurodegenerative diseases. For organoids intended to model neurodegeneration, immune, and vascular cells should therefore be considered fundamental components, rather than optional additions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004074&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.6</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.31.747588" target="_blank" rel="noopener">Gene duplication shaped the origin and evolution of the vertebrate olfactory combinatorial code</a></div>
+  <div class="title-cn">基因复制如何塑造脊椎动物嗅觉组合编码的起源与演化</div>
+  <div class="one-line">为解决脊椎动物嗅觉组合编码如何起源并演化的问题，作者结合系统发育、蛋白-化学语言模型预测、祖先序列重建与化学空间分析，发现该编码在有颌类祖先OR家族首次复制时形成并持续保留。</div>
+  <div class="meta">bioRxiv · 2026-09-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zirdeli, I.; Georgoulis, E.; Pyrris, Y.; Pantazis, Y.; Pittis, A. A.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.31.747588">10.64898/2026.08.31.747588</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.31.747588">https://www.biorxiv.org/content/10.64898/2026.08.31.747588</a></div><div class="d-block keywords">命中关键词：brain, ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦脊椎动物嗅觉受体编码的起源与演化，强调基因复制、系统发育和祖先序列重建，对研究神经系统演化与分子功能创新有一定参考价值，但与其核心的跨物种单细胞细胞类型同源比较并不直接契合。</div><div class="d-block"><span class="lbl">中文摘要：</span>为探究脊椎动物嗅觉组合编码如何最初建立并演化，作者整合系统发育分析、配对蛋白与化学语言模型预测受体-配体互作、祖先序列重建及化学空间分析。结果显示，气味分子可按受体激活谱分为6个簇；祖先重建表明编码起源于有颌类祖先OR家族在I类/II类分化时的首次复制。两条复制支系随后不对称分化：一支保留约三分之一祖先配体，另一支几乎完全重调并偏向羧酸，说明组合编码在早期复制时即出现且未丢失。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Animals read their chemical environment through olfactory receptors, which form part of the class A GPCRs and are the largest gene family devoted to a single function in animals. Each odorant molecule activates a different combination of receptors, projects distinctly in the brain, and so yields a distinct odour percept. The principles of this coding are well described, and the evolution and regulation of these genes are actively researched. However, how the code was initially assembled and evolved has not been examined. Here we combine phylogenetics, receptor-ligand interactions predicted by paired protein and chemical language models, ancestral sequence reconstruction, and chemical-space analysis. Predicted activation profiles group odorants into six clusters -each enriched for its own set of odour descriptors- so that molecules read by similar receptor combinations tend to smell alike. Reconstructed ancestors place the origin of the code at the first duplication of the family, in the gnathostome ancestor, at the class I/class II split. The first duplicates then diverged asymmetrically into distinct chemical subspaces. One kept a third of the ancestral ligands; the other re-tuned almost completely and took up carboxylic acids -the polar chemistry long associated with class I. Aromatics were retained and enriched on the class II side. Combinatorial coding was not really invented: it arose once, at the first duplication, and was never lost.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.31.747588&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.54</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.05.742955" target="_blank" rel="noopener">Gene loss propensity for metallocarboxypeptidase E in insects is shaped by structural versatility and broader expression of metallocarboxypeptidase D but not functional importance</a></div>
+  <div class="title-cn">昆虫中金属羧肽酶E的基因易丢失倾向由金属羧肽酶D的结构多样性与更广泛表达所塑造，而非由功能重要性决定</div>
+  <div class="one-line">为解决昆虫中cpe反复丢失而cpd持续保留的原因，作者结合基因系统发育、Tribolium功能遗传学和果蝇跨物种互救，发现cpe丢失主要受CPD结构多样性与广泛表达介导的功能补偿驱动。</div>
+  <div class="meta">bioRxiv · 2026-08-11</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wegener, C.; Heitkamp, J. C.; Hunnekuhl, V. S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.05.742955">10.64898/2026.08.05.742955</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.05.742955">https://www.biorxiv.org/content/10.64898/2026.08.05.742955</a></div><div class="d-block keywords">命中关键词：ancestral, Drosophila, Genome evolution</div><div class="d-block"><span class="lbl">推荐理由：</span>论文以系统发育、跨物种功能互救和基因保留/丢失分析揭示昆虫神经肽加工基因的演化机制，契合演化比较视角但不聚焦脑细胞类型或单细胞图谱。</div><div class="d-block"><span class="lbl">中文摘要：</span>为解释功能相关基因为何在演化中呈现不同保留命运，作者以神经肽成熟相关的CPE和CPD为模型，结合基因系统发育分析、Tribolium castaneum功能遗传学及Drosophila melanogaster跨物种互救实验研究。结果显示二者酶功能部分可互换，但在甲虫中cpe比cpd/svr对生存和发育稳健性更关键；双基因RNAi致幼虫完全致死。系统发育结果还提示双侧动物CPE源于祖先CPD第二催化结构域复制。研究提出，昆虫cpe的反复丢失主要由CPD多结构域、剪接异构体和更广表达带来的补偿能力塑造。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Gene loss is a widespread phenomenon that shapes genome evolution, yet the factors determining why certain genes are repeatedly lost while other functionally related genes are retained remain poorly understood. We addressed this question using the peptide-processing metallocarboxypeptidases carboxypeptidase E (CPE) and carboxypeptidase D (CPD), conserved paralogues that are essential for neuropeptide maturation but strikingly differ in their evolutionary fate: the cpe gene has been independently lost in two major insect lineages, whereas cpd/svr has been universally retained. Combining gene phylogenetic analyses and functional genetics in the beetle Tribolium castaneum, and cross-species rescue experiments in the fly Drosophila melanogaster, we show that CPE and CPD retained partially interchangeable enzymatic functions despite considerable differences in structure, organismal importance and expression. Contrary to expectations, cpe proved more critical than cpd/svr for survival and developmental robustness in Tribolium, while simultaneous RNAi-mediated downregulation of both genes caused complete larval lethality, demonstrating only partial functional redundancy. Moreover, beetle CPE partially rescued the lethal loss of Drosophila CPD, establishing conserved molecular interchangeability across ~300 million years of insect evolution. Gene phylogenetic analyses further indicate that bilaterian CPE originated through duplication of the second catalytic domain of an ancestral CPD. Together, our results demonstrate that repeated loss of insect cpe cannot be explained by reduced functional importance. Instead, we propose that the structural versatility, broader tissue distribution and multifunctionality of CPD, including its multidomain architecture and splice isoforms, enabled compensation for CPE after gene loss, thereby shaping long-term patterns of gene retention and loss during insect evolution.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.05.742955&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.49</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42853853/" target="_blank" rel="noopener">Intercellular GAS6-AXL signaling triggers podocyte cuproptosis in acute kidney injury upstream regulated by CEBPD.</a></div>
+  <div class="title-cn">细胞间GAS6-AXL信号通过CEBPD上游调控触发急性肾损伤中足细胞铜死亡</div>
+  <div class="one-line">为解决急性肾损伤向慢性肾病转化机制不清问题，作者整合单细胞测序、空间转录组及体外实验，发现内皮细胞来源的GAS6通过AXL/TYRO3受体激活足细胞铜死亡，揭示CEBPD介导的转录程序。</div>
+  <div class="meta">PloS one · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liang J, Hu Y, Liao B</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0359878">10.1371/journal.pone.0359878</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42853853/">https://pubmed.ncbi.nlm.nih.gov/42853853/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床肾脏疾病机制研究，无任何演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文摘要：</span>本研究探究铜死亡（一种新型程序性细胞死亡）在急性肾损伤（AKI）向慢性肾病（CKD）转化中的作用。整合单细胞RNA测序、空间转录组学和体外细胞实验，解析AKI中铜死亡的时空调控。足细胞铜死亡活性最高；鉴定出内皮细胞来源GAS6通过足细胞AXL/TYRO3受体信号的关键细胞间通讯轴。转录因子CEBPD在AKI早期上调，正调控GAS6相关通路，其靶基因富集于TGF-β和JAK-STAT信号，最终导致受体激活和铜死亡。空间上，CEBPD激活先于AXL升高，随后GAS6在晚期上调。体外验证AXL蛋白表达变化。研究揭示CEBPD介导的转录程序通过反式激活AXL受体驱动足细胞铜死亡，为AKI-CKD转化提供新机制见解。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>This study aims to investigate the role of cuproptosis, a novel form of regulated cell death, in the transition from acute kidney injury (AKI) to chronic kidney disease (CKD). Multi-omics approaches, including single-cell RNA sequencing (scRNA-seq), spatial transcriptomics, and in vitro experiments based on cells, were integrated to dissect the spatiotemporal regulation of cuproptosis in AKI. Podocytes exhibited the highest cuproptosis activity. A critical intercellular communication axis was identified, wherein endothelial cell-derived GAS6 signals through the podocyte receptors AXL/TYRO3. The transcription factor CEBPD was upregulated early in AKI and was found to positively regulate the GAS6-related pathway, with its target genes enriched in TGF-β and JAK-STAT signaling, ultimately leading to receptor activation and cuproptosis. Spatially, CEBPD activation preceded the increase in AXL, followed by late-phase upregulation of GAS6. The alteration in AXL protein expression was confirmed in vitro.Our study reveals a CEBPD-mediated transcriptional program that drives podocyte cuproptosis by transactivating the AXL receptor, providing novel mechanistic insights into the AKI-to-CKD transition.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0359878&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.29.741460" target="_blank" rel="noopener">An evolvable and functionally partitioned network underlies developmental remodelling in teleosts</a></div>
+  <div class="title-cn">一个可演化且功能分区的网络支撑硬骨鱼发育重塑</div>
+  <div class="one-line">为解决硬骨鱼后胚胎发育转变是否由保守遗传程序组织的问题，作者整合5种硬骨鱼比较共表达网络、进化基因组学、系统发育建模及斑马鱼单细胞/功能数据，发现受甲状腺激素调控的古老且功能分区的变态发育网络在硬骨鱼中保守但发生基因家族周转。</div>
+  <div class="meta">bioRxiv · 2026-07-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Barua, A.; Campli, G.; Sarrias, M. H.; Miura, S.; Yamasaki, Y.; Maeda, K.; Gibert, Y.; Laudet, V.; Robinson-Rechavi, M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.29.741460">10.64898/2026.07.29.741460</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.29.741460">https://www.biorxiv.org/content/10.64898/2026.07.29.741460</a></div><div class="d-block keywords">命中关键词：evolutionary genomics, whole-genome duplication, genome duplication, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦硬骨鱼变态发育网络的演化与基因家族周转，虽非脑演化主线，但其跨物种比较网络、进化基因组学与斑马鱼单细胞整合思路可为器官/细胞类型演化研究提供借鉴。</div><div class="d-block"><span class="lbl">中文摘要：</span>围绕后胚胎发育转变如变态是否存在保守遗传程序这一问题，作者比较了跨2亿年演化的5种硬骨鱼，整合比较共表达网络、进化基因组学、系统发育建模及斑马鱼功能数据，鉴定出一个受甲状腺激素调控的保守后胚胎发育网络。该网络包含核心细胞过程及发育/生理相关模块，编码序列虽保守，但在硬骨鱼特异全基因组复制后出现显著基因家族拷贝数周转，并与游泳能力、营养级等生态和形态性状相关，提示共享发育架构可推动表型多样化演化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Comparative embryology has revealed that early animal development is based on highly conserved genetic programs. Beyond embryogenesis however, animals undergo remarkably diverse post-embryonic developmental transitions such as metamorphosis. Whether these transitions are also organised into conserved genetic programs remains largely unexplored. To identify conserved genetic programs underlying post-embryonic development, we examine metamorphic remodelling in five teleost fishes, spanning 200 million years of evolution. By integrating comparative co-expression networks, evolutionary genomics, phylogenetic modelling, and functional data in zebrafish, we uncovered a conserved post-embryonic developmental network. This conserved network comprises components involved in core cellular processes, and involved in development and physiology, both of which are under the control of thyroid hormone during metamorphosis. Despite evolutionary conservation at the coding sequence level, this network exhibits significant turnover in gene family copy number following the teleost-specific whole-genome duplication as well as lineage-specific expansions and contractions. The variation in gene copy numbers is associated with macroevolutionary variation in a number of ecological and morphological traits, including swimming performance and trophic level. Cross-species tissue expression, zebrafish single-cell transcriptomics, and zebrafish perturbation phenotypes placed the implicated genes in biological contexts relevant to these traits. Together, our results provide evidence of an ancient, functionally partitioned post-embryonic developmental network that has diversified throughout teleost evolution. The heterochronic variation in network function, changes in endocrine activity, and gene-family turnover provide potential routes through which a shared developmental architecture contributed to the evolution of phenotypic diversity in teleosts.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.29.741460&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42573854/" target="_blank" rel="noopener">Integrated inference of cellular compositions and gene expression programs by deconvolution.</a></div>
+  <div class="title-cn">通过去卷积整合推断细胞组成与基因表达程序</div>
+  <div class="one-line">为解决组织混合样本中单样本细胞类型特异转录组难以准确重建问题，作者开发BayesPrism-DWLS整合推断细胞比例与表达，揭示小鼠结肠和空间转录组中bulk/spot层面不可见的细胞类型特异基因与通路。</div>
+  <div class="meta">Cell regeneration (London, England) · 2026-08-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang Z, Wang X, Hong F, Yu P, Suo S, Chen YG</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1186/s13619-026-00299-5">10.1186/s13619-026-00299-5</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42573854/">https://pubmed.ncbi.nlm.nih.gov/42573854/</a></div><div class="d-block keywords">命中关键词：Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦bulk/空间转录组去卷积算法开发，虽与细胞类型表达解析相关，但摘要缺乏演化或跨物种比较视角，对该研究者主要是通用方法层面的弱借鉴。</div><div class="d-block"><span class="lbl">中文摘要：</span>针对组织混合样本中细胞类型比例估计常见、但单样本基因层面细胞类型特异转录组重建困难的问题，作者在多种生物学场景下系统比较多种去卷积方法，使用伪bulk混合物和多个组织的真实bulk RNA-seq数据评估局限，并开发BayesPrism-DWLS，实现单样本分辨率下对细胞组成和细胞类型特异表达的整合推断。应用于小鼠结肠bulk RNA-seq和空间转录组后，方法识别出bulk或spot层面无法检测的细胞类型特异基因和通路，为低成本测序数据解析细胞异质性提供工具。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>While computational deconvolution is routinely used to estimate cell-type proportions from tissue mixtures, reconstructing cell-type-specific transcriptomes at single-sample resolution remains a fundamentally underdetermined algorithmic challenge. Consequently, accurate single-sample, gene-level inference is rarely achieved by existing tools. Here, we systematically benchmarked multiple deconvolution approaches across diverse biological contexts using both pseudo-bulk mixtures and real bulk RNA-seq datasets derived from multiple tissues. Evaluating the critical computational limitations in these models, we developed BayesPrism-DWLS, a framework that enables integrated inference of cell-type proportions and cell-type-specific expression at single-sample resolution. Applied to mouse colon bulk RNA-seq and spatial transcriptomics, BayesPrism-DWLS revealed cell-type-specific genes and pathways that were undetectable at the bulk or spot level. Therefore, this framework provides a robust, high-resolution tool for dissecting cell heterogeneity and supports mechanistic studies informed by cell-type-specific transcriptional programs using cost-effective sequencing data.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13619-026-00299-5&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42521824/" target="_blank" rel="noopener">AI proteomics: from protein identification to virtual cells.</a></div>
+  <div class="title-cn">人工智能蛋白质组学：从蛋白鉴定到虚拟细胞</div>
+  <div class="one-line">为解决MS蛋白质组学分析与整合效率问题，作者综述AI在蛋白鉴定、定量、互作解析及多组学整合中的应用，并提出通向AI虚拟细胞的路线。</div>
+  <div class="meta">Nature methods · 2026-07-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sun Y, A J, Liu Z, Sun R, Qian L, Payne SH, Bittremieux W, Ralser M, Li C, Chen Y, Dong Z, Perez-Riverol Y, Khan A, Sander C, Aebersold R, Vizcaíno JA, Krieger JR, Yao J, Han W, Zhang L, Zhu Y, Xuan Y, Sun BB, Qiao L, Hermjakob H, Tang H, Gao H, Deng Y, Zhong Q, Chang C, Bandeira N, Li M, E W, Sun S, Yang Y, Omenn GS, Zhang Y, Xu P, Fu Y, Liu X, Overall CM, Wang Y, Deutsch EW, Chen L, Cox J, Demichev V, He F, Huang J, Jin H, Liu C, Li N, Luan Z, Song J, Yu K, Wan W, Wang T, Zhang K, Zhang L, Bell PA, Mann M, Zhang B, Guo T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41592-026-03085-y">10.1038/s41592-026-03085-y</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42521824/">https://pubmed.ncbi.nlm.nih.gov/42521824/</a></div><div class="d-block keywords">命中关键词：artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦AI驱动的MS蛋白质组学与虚拟细胞，虽不直接服务脑演化或单细胞跨物种同源比较，但对多组学整合与未来虚拟细胞建模有趋势参考价值。</div><div class="d-block"><span class="lbl">中文摘要：</span>本文是一篇前瞻性综述，聚焦人工智能如何推动基于质谱的蛋白质组学发展。作者概述了AI在肽段和蛋白鉴定与定量、蛋白互作与复合体表征、空间蛋白质组学、扰动蛋白质组学以及多组学整合中的创新作用，并进一步讨论其在构建AI虚拟细胞中的潜力。文章最后呼吁数据生产者、使用者及相关方共同建立更适配AI的生态体系，为蛋白质组学的变革性发展奠定基础。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Artificial intelligence (AI) is transforming scientific research, including proteomics. In this Perspective, we highlight key mass spectrometry (MS)-based proteomics areas where AI is driving innovation, ranging from protein identification to building AI virtual cells. These include improving peptide and protein identification and quantification; characterizing protein-protein interactions and protein complexes; advancing spatial and perturbation proteomics; integrating multi-omics data; and, ultimately, enabling AI virtual cells. Finally, we call for global collaboration among data producers, data consumers and other stakeholders to establish an AI-friendly ecosystem for MS-based proteomics, laying the foundation for transformative advancements in proteomics driven by AI.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41592-026-03085-y&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42788712/" target="_blank" rel="noopener">Two Glu/Asp residues cooperatively mediate an early step of ATP hydrolysis in GHKL ATPases MutL and GyrB.</a></div>
+  <div class="title-cn">两个Glu/Asp残基协同介导GHKL ATP酶MutL和GyrB中ATP水解的早期步骤</div>
+  <div class="one-line">为解决GHKL ATP酶ATP水解催化机制不清问题，作者利用Aquifex aeolicus MutL和GyrB进行系统突变、酶活测定及X射线晶体学分析，发现两个酸性残基协同发挥广义碱功能，并揭示人类同源蛋白PMS2和MLH1临床变异的生化影响。</div>
+  <div class="meta">eLife · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Fukui K, Shibuya A, Murakawa T, Yano T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.111443">10.7554/eLife.111443</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42788712/">https://pubmed.ncbi.nlm.nih.gov/42788712/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为酶催化机制生化研究，虽末尾提及系统发育与祖先状态分析，但核心视角非演化比较，且与脑/神经系统演化完全无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>GHKL ATP酶具有独特的Bergerat ATP结合折叠，通过ATP依赖的构象变化调控多种生物学过程。本研究以嗜热水生菌MutL和GyrB为模型，结合系统突变、ATP酶活与结合测定及X射线晶体学，揭示保守谷氨酸主要负责亲核水分子定位，而两个酸性残基协同实现其催化活化。研究还表明人类MutL同源蛋白PMS2和MLH1的临床意义未明变异显著降低ATP酶活性。系统发育与祖先状态分析提示第二酸性残基存在于主要GHKL ATP酶谱系的共同祖先，后在包括Hsp90的分支中发生改变。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>GHKL ATPases share a unique Bergerat ATP-binding fold and regulate diverse biological processes through ATP-dependent conformational changes. An early step of ATP hydrolysis in this family has been attributed to a single highly conserved glutamate residue proposed to function as the general base. However, mutations of this residue impair both the ATPase activity and ATP binding, complicating interpretation of its catalytic role. Re-examination of the high-resolution crystal structures revealed a second conserved acidic residue positioned within a hydrogen-bonding distance from the nucleophilic water molecule. Using Aquifex aeolicus MutL and GyrB as model enzymes, we combined systematic mutagenesis, ATPase and ATP-binding assays, and X-ray crystallography to dissect the roles of these residues. We show that alignment of the nucleophilic water can be maintained as long as the conserved glutamate retains hydrogen-bonding capability, whereas efficient ATP hydrolysis requires proton-accepting capacity at least in one of the two acidic residues. These results indicate that the conserved glutamate primarily governs positioning of the nucleophilic water, while activation of this water for catalysis is achieved through cooperative general base function of the two acidic residues. Extending this framework to human MutL homologs, PMS2 and MLH1, we showed that clinically reported variants of uncertain significance in these DNA mismatch repair proteins substantially reduced the ATPase activity, indicating functional impairment. Together, our findings refine the catalytic mechanism of GHKL ATPases and provide a structural and functional framework for interpreting disease-associated variants in GHKL ATPases. Phylogenetic and ancestral state analysis further indicated that the second acidic residue was likely to be present in the common ancestor of major GHKL ATPase lineages but was later modified in a branch, including Hsp90, suggesting evolutionary remodeling of the catalytic mechanism in the branch.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.111443&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42847900/" target="_blank" rel="noopener">A Deep Learning system for Automated Quality Control of Medical Questionnaire data in Large-Scale Cohort Studies.</a></div>
+  <div class="title-cn">大规模队列研究中用于医疗问卷数据自动化质量控制的一种深度学习系统</div>
+  <div class="one-line">为解决大规模队列医疗问卷数据质量控制效率低问题，作者用微调Whisper和DeepSeek框架，构建端到端质控系统，识别遗漏问题、记录不一致等质量问题的AUC达0.893-0.973。</div>
+  <div class="meta">Journal of molecular cell biology · 2026-10-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Cao M, Duan Y, Lang D, Fang P, Guan Z, Xu X, Zheng Q, Cheng D, Jiang F, Zhao H, Dong K, Wang S, Sheng B, Li H, Jia W</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/jmcb/mjag038">10.1093/jmcb/mjag038</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42847900/">https://pubmed.ncbi.nlm.nih.gov/42847900/</a></div><div class="d-block keywords">命中关键词：brain, artificial intelligence, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为临床医疗问卷质量控制的人工智能应用研究，完全无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>本研究开发了面向大规模队列访谈数据的端到端质控系统。微调Whisper模型实现医学术语和方言的音频转录，准确率超91%；结合DeepSeek框架联合分析转录文本、访谈员记录和问卷内容。在522例医疗访谈中，遗漏问题、记录不一致和随访不足的AUC分别为0.893、0.953和0.973。与资深专家参考标准高度一致（F1=0.843, Kappa=0.835），在独立脑健康问卷验证集（n=96）上表现稳健（F1=0.831, Kappa=0.821）。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent advances in natural language processing combined with deep learning have transformed disease prediction, diagnosis, and treatment, yet their application in automated quality control of medical questionnaire data remains largely unexplored. Here, we present an end-to-end system tailored for large-scale cohort interview data. A fine-tuned Whisper model was developed for automatic audio-to-text transcription and optimized for recognizing domain-specific medical terminology and regional dialects, achieving an accuracy of over 91%. Using the DeepSeek framework, we jointly analyzed transcribed texts, interviewer records, and questionnaire content from 522 medical interviews to identify quality issues, achieving the area under the receiver operating characteristic curve (AUC) values of 0.893, 0.953, and 0.973 for omitted question stems, response-record inconsistencies, and insufficient follow-up, respectively. The system achieved high agreement with the senior specialist reference (F1 = 0.843, Kappa = 0.835) and significantly outperformed the junior specialist group (P &lt; 0.01). Evaluation on an independent validation dataset (n = 96), which was collected using a structurally distinct brain health questionnaire, further demonstrated robust performance and generalizability (F1 = 0.831, Kappa = 0.821). Collectively, this framework enhances the efficiency and reliability of medical questionnaire data processing and offers a practical artificial intelligence-driven solution for quality control in global health data, especially in low-resource dialect settings.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/jmcb/mjag038&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.33</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42804476/" target="_blank" rel="noopener">Whole-organ single-cell mapping defines growth dynamics and clonal organization in developing and adult zebrafish livers.</a></div>
+  <div class="title-cn">全器官单细胞图谱定义斑马鱼肝脏发育及成体中的生长动态与克隆组织</div>
+  <div class="one-line">为解决成体器官单细胞分辨率动态监测难题，作者建立WAO-ExM扩增显微技术，量化斑马鱼肝脏1,265,206个肝细胞的非线性扩增规律，揭示少数肝细胞驱动克隆扩张的组织模式。</div>
+  <div class="meta">PLoS biology · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Roan HY, Tian X, Chu WC, Lee CM, Chen H, Santoso F, Wang CH, Liu YH, Kumar U, Hsiao HY, Yuh CH, Chen BC, Chen CH</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pbio.3004007">10.1371/journal.pbio.3004007</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42804476/">https://pubmed.ncbi.nlm.nih.gov/42804476/</a></div><div class="d-block keywords">命中关键词：zebrafish, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦肝脏发育与细胞克隆动态，无演化或跨物种比较视角，与研究者的脑演化核心方向完全无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>脊椎器官在胚后期经历大规模生长，但完整器官的细胞动态不明。本研究建立全成体器官扩增显微术（WAO-ExM），实现斑马鱼完整肝脏的单细胞分辨率可视化。通过转基因标记肝核，发现成体肝约126万个肝细胞，细胞数增长538倍，呈现非线性爆发式增长；谱系示踪显示少数肝细胞驱动全器官克隆扩张。破坏层粘连蛋白可解耦组织形态与细胞增殖。该技术平台亦可用于心脏、胰腺等器官及病变肝脏研究。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Vertebrate organs undergo massive growth during the post-embryonic period. Yet, our understanding of how this organ-wide process is organized at single-cell resolution has been limited by an inability to monitor individual cells of different types throughout intact adult organs. Here we establish an integrated workflow of whole adult-organ expansion microscopy (WAO-ExM) that enables in toto single-cell-resolved visualization of every hepatocyte within a complete adult vertebrate liver. Using transgenic reporters to label hepatocyte nuclei, we quantified cell expansion dynamics across the entire post-embryonic growth period, finding that an intact adult liver spanning ~5 mm thickness had an average of 1,265,206 hepatocytes. The data further revealed a non-linear growth regimen in which cell number increased by 538-fold, with a temporally concentrated burst that was not reflective of overall body growth. Integration of lineage tracing with WAO-ExM revealed that cell number increases were driven by a few hepatocytes undergoing drastic clonal expansion at the whole-organ scale. Disruption of extracellular matrix laminins decoupled liver shaping from total cell number increases, suggesting independent regulatory control of tissue architecture and cell proliferation. We also utilized WAO-ExM to monitor diseased livers and other adult organs, including heart and pancreas. Altogether, these findings bridge micrometer-scale cell behaviors with centimeter-scale organ growth, and establish a generalizable platform for adult vertebrate organs to be fully resolved at bona fide single-cell resolution.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pbio.3004007&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.32</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42721035/" target="_blank" rel="noopener">From colonization to infection: Genomic evolution of Clostridioides difficile pathogenesis.</a></div>
+  <div class="title-cn">从定殖到感染：艰难梭菌致病性的基因组演化</div>
+  <div class="one-line">为解决艰难梭菌致病性与流行成功的演化基础问题，作者整合比较基因组与演化视角，发现移动遗传元件和抗生素/宿主选择压力塑造毒素位点、代谢适应与孢子韧性。</div>
+  <div class="meta">Cell reports · 2026-09-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Khanna S, Yang Z, Dubberke ER, Dantas G</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.celrep.2026.117982">10.1016/j.celrep.2026.117982</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42721035/">https://pubmed.ncbi.nlm.nih.gov/42721035/</a></div><div class="d-block keywords">命中关键词：Comparative genomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文虽有演化与比较基因组视角，但聚焦细菌病原体致病性演化，与研究者关注的动物脑/神经系统演化和单细胞跨物种细胞类型比较关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>艰难梭菌是重要的医疗相关感染病原，其流行成功源于致病调控、生态适应、环境选择和宿主易感性的共同作用。本文综述比较基因组学证据，指出该菌谱系深度分化受移动遗传元件及抗生素、宿主环境选择压力驱动，进而改变致病毒素位点的组织与调控、营养利用相关代谢适应以及孢子韧性增强。研究从演化与基因组层面概括了其致病性形成与流行扩张机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Clostridioides difficile is a spore-forming, toxin-producing anaerobe that is a leading cause of healthcare-associated infections. Its success as a pathogen reflects a complex interplay between bacterial evolution, virulence regulation, ecological adaptation, environmental selection, and host susceptibility. Comparative genomics has revealed deep C. difficile lineage diversification, driven by mobile genetic elements and selective pressures from antibiotics and host environments. These events affect strain-specific virulence by shaping the organization and regulation of the pathogenicity toxin loci, metabolic adaptations for nutrient utilization, and enhanced spore resilience. This review integrates evolutionary and genomic perspectives to illustrate how adaptive diversification has sculpted C. difficile pathogenesis and epidemic success.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.celrep.2026.117982&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.27.740999" target="_blank" rel="noopener">RKMR: A Rapid Kernel Machine Regression Framework for Optimal Marker Detection in Spatial Omics Data</a></div>
+  <div class="title-cn">RKMR：一种用于空间组学数据最优标记检测的快速核机器回归框架</div>
+  <div class="one-line">为解决空间组学中简洁且可解释标记面板难识别问题，作者用整合ARD核、spike-and-slab变量选择与空间依赖建模的RKMR方法，发现其在模拟和空间转录组/scRNA-seq中以更高AUPRC识别稳健精简标记集。</div>
+  <div class="meta">bioRxiv · 2026-08-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Seal, S.; Chakraborty, A.; Mattila, C.; Rubinstein, M.; Angel, P.; Ghosh, D.; Chung, D.; Neelon, B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.27.740999">10.64898/2026.07.27.740999</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.27.740999">https://www.biorxiv.org/content/10.64898/2026.07.27.740999</a></div><div class="d-block keywords">命中关键词：scRNA-seq, spatial omics, Spatial transcriptomics, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦空间组学/单细胞标记基因筛选新方法，对构建比较单细胞图谱和细胞类型注释有工具参考价值，但与脑演化、细胞同源性和跨物种比较的核心科学问题关联较弱。</div><div class="d-block"><span class="lbl">中文摘要：</span>高通量空间组学虽可在组织结构中分子分型，但细胞类型、组织区域和疾病相关类别的简洁预测性标记面板仍难获得。作者提出RKMR，结合非线性核机器回归、ARD核、spike-and-slab稀疏变量选择及空间依赖建模，并以低秩核近似和随机变分优化提升大数据可扩展性。模拟中，RKMR在不同分子信号和空间效应条件下AUPRC优于多种方法；在空间转录组和scRNA-seq数据中，可识别简约且可复现的细胞类型特征和组织层标记。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>High-throughput spatial omics technologies enable molecular profiling within intact tissue architecture, yet identifying concise, predictive, and biologically interpretable marker panels for cell types, tissue domains, and disease-associated tissue classes remains challenging. This limitation hinders the development of actionable panels for targeted validation and downstream translation. Existing pipelines rely largely on univariate differential-expression analyses, which ignore joint molecular structure and provide limited predictive insight. Multivariate machine-learning methods, including random forest, XGBoost, elastic net, and specialized single-cell panel-selection approaches, can capture predictive patterns but typically lack explicit spatial modeling and probabilistic feature selection, relying instead on model-specific importance scores or user-specified panel sizes. We develop rapid kernel machine regression (RKMR), a scalable framework for spatial-omics marker discovery that integrates nonlinear kernel modeling, spike-and-slab variable selection, and spatial dependence. RKMR uses automatic relevance determination (ARD) kernels and sparsity-inducing priors to capture nonlinear marker-outcome relationships and implicit feature interactions while producing approximate posterior inclusion probabilities (PIPs) that quantify model-based uncertainty in feature inclusion. To scale inference to large spatial datasets, RKMR combines low-rank kernel approximations with stochastic variational optimization. In simulations, RKMR consistently achieves higher AUPRC than competing methods across a range of molecular-signal and spatial-effect settings. Across spatial transcriptomics and scRNA-seq datasets, RKMR identifies parsimonious marker sets that recover reported cell-type signatures and reproducible tissue-layer markers. These results establish RKMR as a scalable and uncertainty-aware framework for translating high-dimensional spatial omics data into robust, experimentally actionable marker panels.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.27.740999&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42801436/" target="_blank" rel="noopener">Performance changes in automated lesion detection under federated learning with sequential institution addition.</a></div>
+  <div class="title-cn">联邦学习中机构顺序递增对自动化病灶检测性能变化的影响</div>
+  <div class="one-line">为解决联邦学习框架下多机构协作训练性能变化不清问题，作者用顺序递增机构参与的微调策略，发现部分层微调可在减少参数量同时达到全参数微调性能。</div>
+  <div class="meta">International journal of computer assisted radiology and surgery · 2026-09-27</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Nomura Y, Hanaoka S, Yamada A, Takenaga T, Nakao T, Nakaguchi T, Yoshikawa T, Abe O</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s11548-026-03795-w">10.1007/s11548-026-03795-w</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42801436/">https://pubmed.ncbi.nlm.nih.gov/42801436/</a></div><div class="d-block keywords">命中关键词：brain, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床医学影像与机器学习工程研究，完全缺乏演化、跨物种比较或神经发育视角，与研究者核心方向无关。</div><div class="d-block"><span class="lbl">中文摘要：</span>联邦学习(FL)支持多机构协作训练机器学习模型而无需共享数据数据，在医学影像处理中备受关注。本研究探讨FL框架下随参与机构顺序增加，计算机辅助检测(CAD)软件性能的变化。研究采用两种CAD软件：用于MR血管成像脑动脉瘤检测，以及对比增强T1加权MR脑转移瘤检测。不同机构或设备厂商数据集作为独立FL客户顺序加入。训练策略包括从头训练、选择层微调(FT)和全参数微调(FFT)。结果表明，顺序递增机构结合FT通常比从头训练获得更高中位性能提升；FT以显著更少可训练参数达到与FFT相当性能；顺序增加比同时加入获得更一致的改进。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Federated learning (FL) enables multiple institutions to collaboratively train machine learning models while keeping data local and has attracted attention in medical image processing, including computer-aided detection (CAD). In FL, performance is expected to improve through retraining as additional institutions participate. The purpose of this study was to investigate how CAD software performance changes as the number of participating institutions is sequentially increased within an FL framework. We used two types of CAD software for cerebral aneurysm detection in magnetic resonance (MR) angiography images and brain metastasis detection in contrast-enhanced T1-weighted MR images. Datasets from different institutions or scanner vendors were treated as independent FL clients and incorporated sequentially. Training strategies included from-scratch training, fine-tuning (FT) of selected layers, and full fine-tuning (FFT) of all parameters. Performance was assessed using the competition performance metric on test sets from the initial institutions as well as from all participating institutions. For both CAD software types, sequential institution addition combined with FT generally showed higher median performance changes than from-scratch training. FT showed performance comparable to that of FFT while requiring substantially fewer trainable parameters. Performance improvements generally accumulated with sequential institution addition, whereas simultaneous addition resulted in less consistent improvements. Sequential institution addition under FL may improve CAD software performance when combined with appropriate FT strategies. FT that updates only a subset of layers may achieve performance changes comparable to those of FFT while requiring substantially fewer trainable parameters across different lesion detection tasks.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11548-026-03795-w&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42854099/" target="_blank" rel="noopener">Comparing Maximally Collapsing Metric Learning and Optimized Tunable Q-Wavelet Transform for Schizophrenia Identification Using EEG Signals.</a></div>
+  <div class="title-cn">基于最大坍缩度量学习与优化可调Q小波变换的精神分裂症EEG识别比较研究</div>
+  <div class="one-line">为解决精神分裂症自动识别问题，作者用最大坍缩度量学习（MCML）和优化可调Q小波变换（TQWT）提取EEG非线性特征，结合k-NN/ODT/DNN分类器，在单电极通道上达到99.91%-100%准确率。</div>
+  <div class="meta">Computer methods in biomechanics and biomedical engineering · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Djemili R</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1080/10255842.2026.2743643">10.1080/10255842.2026.2743643</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42854099/">https://pubmed.ncbi.nlm.nih.gov/42854099/</a></div><div class="d-block keywords">命中关键词：brain, transformer, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床电生理与机器学习论文，完全无演化、跨物种比较或单细胞组学内容。</div><div class="d-block"><span class="lbl">中文摘要：</span>本研究提出基于EEG信号的精神分裂症（SZ）识别框架。采用最大坍缩度量学习（MCML）和优化可调Q小波变换（TQWT）两种方法提取特征矩阵，从中提取8种非线性特征，分别用k近邻（k-NN）、优化决策树（ODT）和深度神经网络（DNN）分类器评估。结果显示三种分类器在单电极通道上分别取得100%、99.94%和99.91%的识别准确率，为精神疾病客观评估提供潜在电生理标志物。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Electroencephalography (EEG) is a noninvasive technique for recording brain electrical activity and supporting the assessment of psychiatric disorders. This study proposes a framework for distinguishing individuals with Schizophrenia (SZ) from healthy subjects using EEG data. The approach employs a transformer based on Maximally Collapsing Metric Learning (MCML) applied to feature-vector matrices and compares it with optimized Tunable Q-Wavelet Transform (TQWT) decomposition. Eight nonlinear features are extracted from both approaches and evaluated using *k*-Nearest Neighbor (*k*-NN), Optimized Decision Tree (ODT), and Deep Neural Network (DNN) classifiers. Results achieve accuracies of 100%, 99.94%, and 99.91%, respectively, using one electrode channel.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2743643&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐的5篇论文跨越神经科学、演化生物学、昆虫基因组学及肾脏病机制等领域，其中MonoRace系统在无外部定位条件下以单目视觉实现时速100公里的自主无人机竞速并击败人类世界冠军，标志着嵌入式AI在极端动态环境中的重大突破。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>类器官模型构建：神经类器官研究强调整合免疫与血管组分以提升神经退行性疾病模拟的真实性，为体外疾病建模提供新思路</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>基因演化与功能补偿：嗅觉受体基因家族复制与昆虫金属羧肽酶基因丢失的两项研究，揭示基因复制/丢失如何塑造分子功能与适应性</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>细胞死亡新机制与AI赋能机器人：从铜死亡信号通路揭示到端到端神经网络实现高速自主导航，体现基础机制研究与技术创新的双向推进</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同体现&#x27;多模态整合&#x27;的方法学走向：神经类器官整合多细胞类型、肾脏研究融合单细胞与空间转录组、演化研究结合系统发育与蛋白质语言模型、无人机竞速融合视觉感知与几何优化。传统单一技术难以解决复杂科学问题，跨尺度、跨模态的数据整合与计算-实验闭环正成为主流范式。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">研究者可借鉴的方向包括：在模型系统中引入缺失的细胞组分以提升生理相关性；利用AI预测工具加速蛋白质功能与演化研究；关注基因丢失事件中的功能补偿机制而非仅聚焦基因获得；以及将空间组学技术应用于急性损伤的时空动态解析。工程领域可跟进轻量化神经网络在资源受限嵌入式系统中的部署策略。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
