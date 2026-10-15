@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from ai.ai_client import call_model  # noqa: E402
+from processing.keyword_filter import item_keyword  # noqa: E402
 
 # 按 A > B > C 优先级保留
 LEVELS = [
@@ -35,7 +36,7 @@ def load_existing_keywords(path: Path) -> set:
     existing = set()
     for group in (data.get("keywords") or {}).values():
         for item in (group or {}).get("items") or []:
-            existing.add(normalize(item["keyword"]))
+            existing.add(normalize(item_keyword(item)))
     return existing
 
 

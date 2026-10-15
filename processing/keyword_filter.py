@@ -4,10 +4,13 @@
 ASCII 关键词用词边界匹配并允许复数后缀（防止 "ant" 误中 "important/plant"，
 同时 "ants" 仍可命中 "ant"）；非 ASCII（中文等）关键词退化为普通子串匹配：
 - negative 命中 → passed_filter=0；
-- 否则 rule_score = Σ(命中的不同词条：组 weight × 词条 weight，词条 weight 缺省按 1)，
+- 否则 rule_score = Σ(命中的不同词条：组 weight × 词条 weight，词条 weight 缺省按 2)，
   passed_filter = 1 if 召回词命中得分 > 0 else 0（组级/词条级 recall: false 的
   泛词只计入 rule_score 加分，不能单靠它们通过初筛）。
 结果写入 paper_scores（UPSERT）。match_keywords 为纯函数，供 ranking 复用。
+
+词条写法：纯字符串 = 默认（weight 2、locked、参与召回）；例外用 dict，
+只标非默认字段（weight / locked: false / recall: false）。
 """
 import argparse
 import re
@@ -52,6 +55,11 @@ def _kw_pattern(kw: str) -> "re.Pattern":
     return re.compile(pat, re.IGNORECASE)
 
 
+def item_keyword(item) -> str:
+    """词条统一取词：纯字符串词条（默认格式）或 dict 词条的 keyword 字段。"""
+    return item if isinstance(item, str) else str(item.get("keyword", ""))
+
+
 def match_keywords(title: str, abstract: str, config: dict) -> dict:
     """返回命中明细：{"negative": [...], "hits": [{group, keyword, group_weight, item_weight, score}]}。"""
     text = f"{title or ''} {abstract or ''}"
@@ -62,12 +70,13 @@ def match_keywords(title: str, abstract: str, config: dict) -> dict:
         gw = (gdata or {}).get("weight", 1)
         g_recall = (gdata or {}).get("recall") is not False
         for item in (gdata or {}).get("items") or []:
-            kw = str(item["keyword"])
+            kw = item_keyword(item)
             if _kw_pattern(kw).search(text):
-                iw = item.get("weight", 1)
+                iw = 2 if isinstance(item, str) else int(item.get("weight", 2))
+                i_recall = True if isinstance(item, str) else item.get("recall") is not False
                 hits.append({"group": group, "keyword": kw,
                              "group_weight": gw, "item_weight": iw, "score": gw * iw,
-                             "recall": g_recall and item.get("recall") is not False})
+                             "recall": g_recall and i_recall})
     return {"negative": negative, "hits": hits}
 
 

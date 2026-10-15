@@ -42,7 +42,7 @@ def test_collect_stats(tmp_path):
 def test_run_writes_summary_with_fake_ai(tmp_path):
     conn = _seed_db(tmp_path)
     out = tmp_path / "trend_summary.txt"
-    stats = trends.run(conn, days=30,
+    stats = trends.run(conn, days=30, end_date="2026-07-23",
                        summarize_fn=lambda s: f"假总结：共 {s['total']} 篇",
                        out_file=out)
     conn.close()

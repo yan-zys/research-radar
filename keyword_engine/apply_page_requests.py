@@ -3,13 +3,13 @@
 由 daily_run.sh 在文献抓取之前运行，使当天检索立即使用新词：
 
 - type=keywords（用户手写方向词）：按逗号/分号/换行拆分、去重、按科研画像归类分组
-  （归不到 species/methods 的进 concept；组不存在时回退 concept），以
-  source=user_page, weight=2, locked=true 直接入库——用户直接输入等同种子词，
+  （归不到 species/methods 的进 concept；组不存在时回退 concept），以默认格式
+  （纯字符串 = weight 2、locked）直接入库——用户直接输入等同种子词，
   权重最高且不随负反馈降权；
 - type=papers（DOI/PMID，每文件合计 ≤10 篇）：逐条解析 title+abstract
   （PMID→efetch；DOI→PubMed esearch[doi] 转 PMID→efetch，失败回退 Crossref），
-  汇总后一次 AI 调用提炼 ≤10 个检索词，以 source=paper_page, weight=1,
-  locked=false 入库——文献扩展词权重低，可随负反馈降权；
+  汇总后一次 AI 调用提炼 ≤10 个检索词，以 {keyword, weight: 1, locked: false}
+  入库——文献扩展词权重低，可随负反馈降权；
 - 与现有配置词条、archive_rejected.yaml 去重（normalize 同 keyword_engine）；
 - 已处理文件名记录到 keyword_engine/processed_page_requests.log；无文件时正常退出。
 """
@@ -17,7 +17,6 @@ import argparse
 import json
 import re
 import sys
-from datetime import date
 from pathlib import Path
 
 import requests
@@ -31,6 +30,7 @@ from crawler.pubmed import EUTILS, efetch, parse_efetch_xml  # noqa: E402
 from feedback.learning import dump_config_with_header  # noqa: E402
 from keyword_engine.expand_keywords import normalize  # noqa: E402
 from keyword_engine.merge_to_config import classify  # noqa: E402
+from processing.keyword_filter import item_keyword  # noqa: E402
 
 SPLIT_RE = re.compile(r"[,，、;；\n]+")
 MAX_PAPERS = 10
@@ -110,16 +110,22 @@ def load_rejected_norms(archive_path: Path) -> set:
 
 
 def existing_norms(config: dict) -> set:
-    return {normalize(i["keyword"])
+    return {normalize(item_keyword(i))
             for g in (config.get("keywords") or {}).values()
             for i in (g or {}).get("items") or []}
 
 
-def add_item(config: dict, group: str, keyword: str, source: str,
-             weight: int, locked: bool, today: str) -> None:
-    config["keywords"][group]["items"].append(
-        {"keyword": keyword, "source": source, "added_date": today,
-         "weight": weight, "locked": locked})
+def add_item(config: dict, group: str, keyword: str, weight: int, locked: bool) -> None:
+    """紧凑格式入库：默认（weight=2 且 locked）→ 纯字符串；否则流式 dict 只标非默认字段。"""
+    if weight == 2 and locked:
+        config["keywords"][group]["items"].append(keyword)
+    else:
+        item = {"keyword": keyword}
+        if weight != 2:
+            item["weight"] = weight
+        if not locked:
+            item["locked"] = False
+        config["keywords"][group]["items"].append(item)
 
 
 def doi_to_pmid(doi: str) -> str:
@@ -200,7 +206,6 @@ def run(args) -> int:
     print(f"读取请求：关键词文本 {len(kw_texts)} 条，文献 id {len(paper_ids)} 个"
           f"（文件：{', '.join(f.name for f in files)}）")
 
-    today = date.today().isoformat()
     config_path = Path(args.config)
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     profile = yaml.safe_load(Path(args.profile).read_text(encoding="utf-8"))
@@ -216,7 +221,7 @@ def run(args) -> int:
                 continue
             seen.add(norm)
             group = pick_group(kw, profile, config)
-            add_item(config, group, kw, "user_page", 2, True, today)
+            add_item(config, group, kw, 2, True)
             changed = True
             print(f"[手写关键词入库] [{group}] + {kw} (weight=2, locked)")
 
@@ -238,7 +243,7 @@ def run(args) -> int:
                 continue
             seen.add(norm)
             group = pick_group(kw, profile, config)
-            add_item(config, group, kw, "paper_page", 1, False, today)
+            add_item(config, group, kw, 1, False)
             changed = True
             print(f"[文献提炼入库] [{group}] + {kw} (weight=1)")
     elif paper_ids:

@@ -41,7 +41,8 @@ sys.path.insert(0, str(ROOT))
 from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 from processing.keyword_filter import load_config, match_keywords  # noqa: E402
-from processing.paper_analyzer import build_prompt, dump_failure, load_profile_summary  # noqa: E402
+from processing.paper_analyzer import (build_prompt, dump_failure,  # noqa: E402
+                                       load_profile_summary, parse_detail_fields)
 
 GRADES = ("Must Read", "Important", "Relate")
 GRADE_CSS = {"Must Read": "badge-must", "Important": "badge-important",
@@ -51,6 +52,11 @@ CARD_CSS = {"Must Read": "card-must", "Important": "card-important",
 RATINGS = (("good", "相关"), ("bad", "不相关"), ("read", "已读"), ("star", "收藏"))
 FEEDBACK_BASE = "http://127.0.0.1:8710/feedback"
 PAGE_BASE = "https://yan-zys.github.io/research-radar/daily"
+ARCHIVE_URL = PAGE_BASE.rsplit("/", 1)[0] + "/"  # 日报归档首页（周报/月报反馈入口指向这里）
+# 论文分区（AI 评分输出的 section 字段）：图谱类权重最高，固定排最前
+SECTION_ORDER = ("atlas", "research", "computational", "other")
+SECTION_TITLES = {"atlas": "新的动物单细胞图谱发布", "research": "单细胞与空间生物学",
+                  "computational": "计算生物学", "other": "其他"}
 FALLBACK_SUMMARY = "今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。"
 CN_NUMERALS = ("一是", "二是", "三是", "四是", "五是", "六是")
 
@@ -63,6 +69,31 @@ FIELD_JOURNALS = (
     "molecular biology and evolution", "genome biology and evolution", "gigascience",
     "mbio", "pnas",
 )
+
+
+def col(row, key, default=""):
+    """sqlite3.Row / dict 通用取列：列不存在（旧查询未选新列）或 NULL 时返回 default。"""
+    try:
+        v = row[key]
+    except (IndexError, KeyError):
+        return default
+    return v if v is not None else default
+
+
+def paper_section(row) -> str:
+    """论文分区：section 为空/NULL/非法值时按 other 处理（兼容旧数据）。"""
+    s = str(col(row, "section") or "").strip()
+    return s if s in SECTION_TITLES else "other"
+
+
+def group_by_section(rows) -> list:
+    """按固定顺序分区：atlas → research → computational → other；区内按总分降序；
+    空区不返回（某区无论文则不显示该标题）。返回 [(section, [row, ...]), ...]。"""
+    groups = {s: [] for s in SECTION_ORDER}
+    for r in rows:
+        groups[paper_section(r)].append(r)
+    return [(s, sorted(groups[s], key=lambda r: r["total_score"] or 0, reverse=True))
+            for s in SECTION_ORDER if groups[s]]
 
 
 def one_line(row) -> str:
@@ -169,21 +200,30 @@ def paper_links(row) -> str:
 
 
 def render_news_list(rows) -> str:
-    """Part 1 今日论文新闻摘要：序号 + 等级徽标 + 总分 + 标题 + 一句话 + 期刊·日期。"""
+    """Part 1 今日论文新闻摘要：按 section 分区（图谱→研究→计算→其他，空区不显示），
+    区内总分降序；序号跨区连续，atlas 区每篇简介行下方附图谱质量小字（atlas_info）。"""
     if not rows:
         return "<p>今日暂无推荐文献。</p>"
     esc = lambda s: html.escape(str(s or ""))  # noqa: E731
     items = []
-    for i, r in enumerate(rows, 1):
-        badge = GRADE_CSS.get(r["grade"], "badge-relate")
-        items.append(
-            f'<div class="quick-item"><span class="quick-rank">{i}</span>'
-            f'<span class="badge {badge}">{esc(r["grade"])}</span>'
-            f'<span class="score">{r["total_score"]}</span>'
-            f'<div class="quick-body"><div class="quick-title">{esc(r["title"])}</div>'
-            f'<div class="quick-cn">{esc(one_line(r))}</div>'
-            f'<div class="meta">{esc(r["journal"])} · {esc(r["date"])}</div></div></div>'
-        )
+    i = 0
+    for sec, group in group_by_section(rows):
+        items.append(f'<div class="section-title">{SECTION_TITLES[sec]}</div>')
+        for r in group:
+            i += 1
+            badge = GRADE_CSS.get(r["grade"], "badge-relate")
+            atlas_html = ""
+            if sec == "atlas" and col(r, "atlas_info"):
+                atlas_html = f'<div class="atlas-info">{esc(col(r, "atlas_info"))}</div>'
+            items.append(
+                f'<div class="quick-item"><span class="quick-rank">{i}</span>'
+                f'<span class="badge {badge}">{esc(r["grade"])}</span>'
+                f'<span class="score">{r["total_score"]}</span>'
+                f'<div class="quick-body"><div class="quick-title">{esc(r["title"])}</div>'
+                f'<div class="quick-cn">{esc(one_line(r))}</div>'
+                f'{atlas_html}'
+                f'<div class="meta">{esc(r["journal"])} · {esc(r["date"])}</div></div></div>'
+            )
     return "\n".join(items)
 
 
@@ -214,7 +254,8 @@ def fetch_rows(date_str: str, conn) -> list:
     return conn.execute(
         "SELECT r.grade, r.total_score, p.paper_id, p.title, p.authors, p.journal, "
         "p.date, p.doi, p.url, p.abstract, s.reason, s.title_cn, "
-        "s.one_line_summary_cn, s.abstract_cn "
+        "s.one_line_summary_cn, s.abstract_cn, "
+        "s.background, s.methods, s.results, s.significance, s.section, s.atlas_info "
         "FROM recommendations r "
         "JOIN papers p ON r.paper_id = p.paper_id "
         "LEFT JOIN paper_scores s ON r.paper_id = s.paper_id "
@@ -245,19 +286,25 @@ def ensure_one_liners(conn, rows) -> None:
             dump_failure(r["paper_id"], e)
             print(f"[跳过] {r['paper_id']} 中文内容生成失败：{e}")
             continue
+        detail = parse_detail_fields(result)
         conn.execute(
             "UPDATE paper_scores SET ai_score=COALESCE(ai_score, ?), "
             "category=COALESCE(category, ?), reason=COALESCE(reason, ?), "
             "title_cn=COALESCE(title_cn, ?), "
             "one_line_summary_cn=COALESCE(one_line_summary_cn, ?), "
             "abstract_cn=COALESCE(abstract_cn, ?), "
-            "reproducibility=COALESCE(reproducibility, ?) "
+            "reproducibility=COALESCE(reproducibility, ?), "
+            "background=COALESCE(background, ?), methods=COALESCE(methods, ?), "
+            "results=COALESCE(results, ?), significance=COALESCE(significance, ?), "
+            "section=COALESCE(section, ?), atlas_info=COALESCE(atlas_info, ?) "
             "WHERE paper_id=?",
             (float(result.get("relevance_score", 0)), result.get("category", ""),
              result.get("reason", ""), result.get("title_cn", ""),
              result.get("one_line_summary_cn", ""),
              result.get("abstract_cn", ""),
              json.dumps(result.get("reproducibility") or {}, ensure_ascii=False),
+             detail["background"], detail["methods"], detail["results"],
+             detail["significance"], detail["section"], detail["atlas_info"],
              r["paper_id"]),
         )
         conn.commit()

@@ -1,10 +1,12 @@
 """Phase 12：用户反馈学习闭环。
 
-读取 input/user_feedback/YYYY-MM-DD.jsonl 中的用户反馈（paper_id + rating，可选 reason）：
-- 负反馈（bad）：对该论文命中的词条降权——weight>1 且非 locked 的词条按原因分档降权：
+读取 input/user_feedback/YYYY-MM-DD.jsonl 中的用户反馈（paper_id + rating，可选 reason）。
+默认处理目录下全部未处理文件（--date 可限定单日）；同一文件内同一 paper_id
+多条记录时只生效最后一条（网页多次改判以最后一次为准）：
+- 负反馈（bad）：对该论文命中的词条降权——weight>1 且 locked: false 的词条按原因分档降权：
   reason 含「方向不符」/「物种不符」→ weight -= 2，其余 bad（含无 reason）→ weight -= 1
-  （下限 1）；locked=true 的种子词无论负反馈如何不得降权，跳过并打印说明；
-  回写 config/keyword_config.yaml 时保留文件头部注释；
+  （下限 1）；锁定词（默认 locked，含全部种子词与手写词）无论负反馈如何不得降权，
+  跳过并打印说明；回写 config/keyword_config.yaml 用规范格式（固定头注释+紧凑词条）；
 - 医学噪声聚合：reason 含「医学」的 bad 论文当批累计 ≥ MEDICAL_EXCLUDE_THRESHOLD 篇时，
   调用 AI 从这些论文 title+abstract 提炼 ≤5 个英文排除词，与 config 现有 negative、
   现有候选及 archive_rejected 去重后，以 level: exclude / status: pending 追加到
@@ -20,6 +22,7 @@
 """
 import argparse
 import json
+import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -32,7 +35,7 @@ sys.path.insert(0, str(ROOT))
 from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 from keyword_engine.expand_keywords import LEVELS, load_existing_keywords, normalize  # noqa: E402
-from processing.keyword_filter import match_keywords  # noqa: E402
+from processing.keyword_filter import item_keyword, match_keywords  # noqa: E402
 
 MAX_CHARS_PER_PAPER = 1500
 MIN_ITEM_WEIGHT = 1
@@ -74,7 +77,10 @@ def mark_processed(log_path: Path, names) -> None:
 
 
 def read_feedback(path: Path) -> list:
-    """读取一个 jsonl 反馈文件，跳过空行与坏行。"""
+    """读取一个 jsonl 反馈文件，跳过空行与坏行。
+
+    同一 paper_id 在文件内出现多条记录时只保留最后一条（用户在网页上多次
+    改判同一篇论文，以最后一次选择为准），位置保持首次出现处的顺序。"""
     entries = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
@@ -84,11 +90,28 @@ def read_feedback(path: Path) -> list:
             entries.append(json.loads(line))
         except json.JSONDecodeError:
             print(f"[跳过] {path.name} 中的坏行: {line[:80]}")
-    return entries
+    deduped, pos = [], {}
+    for e in entries:
+        pid = e.get("paper_id")
+        if not pid:
+            deduped.append(e)
+            continue
+        if pid in pos:
+            deduped[pos[pid]] = e
+        else:
+            pos[pid] = len(deduped)
+            deduped.append(e)
+    if len(deduped) != len(entries):
+        print(f"[去重] {path.name}：{len(entries)} 条记录按 paper_id 去重后 "
+              f"剩 {len(deduped)} 条（同一论文多次反馈以最后一次为准）")
+    return deduped
 
 
 def select_files(feedback_dir: Path, day: str, all_files: bool, processed: set) -> list:
-    """选出本次要处理的反馈文件（不存在或已处理的跳过）。"""
+    """选出本次要处理的反馈文件（不存在或已处理的跳过）。
+
+    all_files=True 时处理目录下全部未处理文件（默认行为，避免反馈文件在
+    当日运行之后才同步进来而成为永远不会被处理的孤儿）；否则只处理 day 当天。"""
     if all_files:
         files = sorted(feedback_dir.glob("*.jsonl"))
     else:
@@ -96,32 +119,74 @@ def select_files(feedback_dir: Path, day: str, all_files: bool, processed: set) 
     return [f for f in files if f.exists() and f.name not in processed]
 
 
+CONFIG_HEADER = """# 关键词库（crawler 检索 / filter 初筛 / scoring 评分唯一读取的配置）
+#
+# 计分：命中加分 = 组权重 × 词条权重
+#   core 15 → 30 分/词（A0：任一命中直接进 AI 评分）
+#   core_broad 15 → 30 分/词（须组学锚点 + 演化锚点共现才 A0）
+#   concept 10 → 20 分/词 | methods 8 → 16 分/词 | species 5 → 10 分/词 | topics 2 → 4 分/词
+# 词条写法：纯字符串 = 默认（weight 2、locked、参与召回）；
+#   例外写流式 dict，只标非默认字段：- {keyword: x, weight: 1, locked: false, recall: false}
+#   weight: 词条权重（默认 2）；locked: false 才可被负反馈降权（默认锁定，仅人工删改）；
+#   recall: false 只加分，不参与检索召回与初筛门（species 整组如此）"""
+
+_YAML_SPECIAL = re.compile(r"[:#\[\]{}&,*!|>'\"%@`]|^\s|\s$")
+
+
+def _yaml_scalar(s: str) -> str:
+    """标量输出：含 YAML 特殊字符时用双引号包裹，否则原样输出。"""
+    return json.dumps(s, ensure_ascii=False) if _YAML_SPECIAL.search(s) else s
+
+
+def _format_item(item) -> str:
+    """词条紧凑写法：默认（weight 2 / locked / 召回）→ 纯字符串；例外 → 流式 dict。"""
+    if isinstance(item, str):
+        return f"- {_yaml_scalar(item)}"
+    parts = [f"keyword: {_yaml_scalar(str(item['keyword']))}"]
+    if int(item.get("weight", 2)) != 2:
+        parts.append(f"weight: {int(item['weight'])}")
+    if not item.get("locked", True):
+        parts.append("locked: false")
+    if item.get("recall") is False:
+        parts.append("recall: false")
+    return "- {" + ", ".join(parts) + "}"
+
+
 def dump_config_with_header(config: dict, path: Path) -> None:
-    """回写 keyword_config.yaml，保留原文件头部的 # 注释块。"""
-    header = []
-    if path.exists():
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.lstrip().startswith("#") or not line.strip():
-                header.append(line)
-            else:
-                break
-    body = yaml.dump(config, allow_unicode=True, sort_keys=False)
-    text = ("\n".join(header) + "\n" if header else "") + body
-    path.write_text(text, encoding="utf-8")
+    """按规范格式回写 keyword_config.yaml（固定头注释 + 紧凑词条）。"""
+    lines = [CONFIG_HEADER, "keywords:"]
+    for group, gdata in (config.get("keywords") or {}).items():
+        gdata = gdata or {}
+        lines.append(f"  {group}:")
+        lines.append(f"    weight: {int(gdata.get('weight', 1))}")
+        if gdata.get("recall") is False:
+            lines.append("    recall: false")
+        items = gdata.get("items") or []
+        if items:
+            lines.append("    items:")
+            for item in items:
+                lines.append(f"      {_format_item(item)}")
+        else:
+            lines.append("    items: []")
+    lines.append("negative:")
+    for w in config.get("negative") or []:
+        lines.append(f"- {_yaml_scalar(str(w))}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def apply_negative_feedback(config: dict, match: dict, paper_id: str, step: int = 1) -> bool:
-    """对 bad 论文命中的词条降权：weight>1 且未 locked → weight -= step（下限 MIN_ITEM_WEIGHT）。
+    """对 bad 论文命中的词条降权：weight>1 且 locked: false → weight -= step（下限 MIN_ITEM_WEIGHT）。
 
-    step 按 reason 分档：「方向不符」/「物种不符」为 2，其余 bad 为 1。返回是否有改动。"""
+    step 按 reason 分档：「方向不符」/「物种不符」为 2，其余 bad 为 1。
+    纯字符串词条与未显式标 locked: false 的 dict 均视为锁定，跳过。返回是否有改动。"""
     changed = False
     for hit in match["hits"]:
         items = config["keywords"][hit["group"]]["items"]
-        item = next(i for i in items if str(i["keyword"]) == hit["keyword"])
-        if item.get("locked"):
-            print(f"[锁定跳过] {hit['keyword']} 是 locked 种子词，不随负反馈降权")
+        item = next(i for i in items if item_keyword(i) == hit["keyword"])
+        if isinstance(item, str) or item.get("locked", True):
+            print(f"[锁定跳过] {hit['keyword']} 是锁定词（默认 locked），不随负反馈降权")
             continue
-        w = int(item.get("weight", 1))
+        w = int(item.get("weight", 2))
         if w <= MIN_ITEM_WEIGHT:
             print(f"[下限跳过] {hit['keyword']} 已是 weight={MIN_ITEM_WEIGHT}，不再降权")
             continue
@@ -234,9 +299,11 @@ def run(args) -> int:
     feedback_dir = Path(args.feedback_dir)
     day = args.date or (date.today() - timedelta(days=1)).isoformat()
     processed = load_processed(Path(args.processed_log))
-    files = select_files(feedback_dir, day, args.all, processed)
+    # 默认（未指定 --date）处理全部未处理文件，保证反馈次日必被学习；
+    # --date 仅用于补算/重算指定日期
+    files = select_files(feedback_dir, day, args.all or not args.date, processed)
     if not files:
-        print(f"没有需要处理的反馈文件（日期 {day}，目录 {feedback_dir}）。")
+        print(f"没有需要处理的反馈文件（目录 {feedback_dir}）。")
         return 0
 
     entries = []
@@ -313,8 +380,10 @@ def run(args) -> int:
 
 def main():
     ap = argparse.ArgumentParser(description="Phase 12：用户反馈学习闭环")
-    ap.add_argument("--date", default=None, help="反馈日期 YYYY-MM-DD（默认昨天）")
-    ap.add_argument("--all", action="store_true", help="处理全部未处理的反馈文件")
+    ap.add_argument("--date", default=None,
+                    help="只处理该日期的反馈文件 YYYY-MM-DD（默认处理全部未处理文件）")
+    ap.add_argument("--all", action="store_true",
+                    help="处理全部未处理的反馈文件（现为默认行为，保留仅为兼容旧脚本）")
     ap.add_argument("--feedback-dir", default=str(ROOT / "input" / "user_feedback"))
     ap.add_argument("--config", default=str(ROOT / "config" / "keyword_config.yaml"))
     ap.add_argument("--candidates", default=str(ROOT / "keyword_engine" / "output_candidates.yaml"))

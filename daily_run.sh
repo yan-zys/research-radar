@@ -2,9 +2,10 @@
 # Research Radar 每日流水线（节假日感知，决策见 scheduler/holiday.py）：
 #   法定节假日整天跳过；节后首个非节假日爬虫 --since 取节前最后非节假日，
 #   自动合并节假日期间文献为一封日报。
-#   抓取(pubmed/biorxiv/arxiv/top_journals) → 关键词过滤 → AI 评分 → 排序
-#   → 生成并发送邮件日报 →（周五，逢节假日提前）追加发送周报（--days 7）
-#   →（每月最后一天，逢节假日提前）追加发送月报（--days 30）→ 反馈学习
+#   反馈学习（先调整关键词权重，当日生效）→ 抓取(pubmed/biorxiv/arxiv/
+#   top_journals) → 关键词过滤 → AI 评分 → 排序 → 生成并发送邮件日报
+#   →（周五，逢节假日提前）追加发送周报（--days 7）
+#   →（每月最后一天，逢节假日提前）追加发送月报（--days 30）
 # 单步失败不中断后续步骤，全部记录到 logs/daily_YYYY-MM-DD.log
 set -uo pipefail
 
@@ -52,6 +53,8 @@ if [ "$SINCE" != "yesterday" ]; then
 fi
 # 消费网页提交的新关键词/文献，先入库再抓取，当日检索即生效
 run_step "keyword: apply_page_requests" python keyword_engine/apply_page_requests.py
+# 反馈学习放在抓取/过滤/评分之前：前一天网页提交的反馈当日即调整关键词权重
+run_step "feedback: learning"     python feedback/learning.py
 run_step "crawler: pubmed"        python crawler/pubmed.py --since "$SINCE"
 run_step "crawler: biorxiv"       python crawler/biorxiv.py --since "$SINCE"
 run_step "crawler: arxiv"         python crawler/arxiv.py --since "$SINCE"
@@ -66,6 +69,5 @@ fi
 if [ "${MONTHLY:-0}" = "1" ]; then
   run_step "email: monthly digest" python email/generate_digest.py --days 30 --send
 fi
-run_step "feedback: learning"     python feedback/learning.py
 
 echo "[$(date '+%T')] 全部步骤结束，日志：$LOG"

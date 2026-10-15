@@ -23,6 +23,30 @@ from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 
 
+SECTION_VALUES = ("research", "computational", "atlas", "other")
+
+
+def parse_detail_fields(result: dict) -> dict:
+    """容错解析 AI 返回的新增详情字段（缺字段的旧格式返回默认空串/section=other）。
+
+    methods 是 Python 关键字，只作 dict key/列名，不作变量名。
+    """
+    section = str(result.get("section") or "").strip()
+    if section not in SECTION_VALUES:
+        section = "other"
+    atlas_info = str(result.get("atlas_info") or "").strip()
+    if section != "atlas":
+        atlas_info = ""  # 契约：仅 atlas 分区非空
+    return {
+        "background": str(result.get("background") or "").strip(),
+        "methods": str(result.get("methods") or "").strip(),
+        "results": str(result.get("results") or "").strip(),
+        "significance": str(result.get("significance") or "").strip(),
+        "section": section,
+        "atlas_info": atlas_info,
+    }
+
+
 def load_profile_summary(path=None) -> str:
     """从 input/seed_keywords.txt 概括科研画像（方向/关键词/方法/物种/工具/排除）。"""
     p = Path(path) if path else ROOT / "input" / "seed_keywords.txt"
@@ -161,14 +185,19 @@ def run(conn, max_n: int, max_tj: int = 30, month: str = None,
         return r["paper_id"], call_model(prompt, response_format="json")
 
     def write_back(paper_id, result):
+        detail = parse_detail_fields(result)
         conn.execute(
             "UPDATE paper_scores SET ai_score=?, category=?, reason=?, "
-            "title_cn=?, one_line_summary_cn=?, abstract_cn=?, reproducibility=? WHERE paper_id=?",
+            "title_cn=?, one_line_summary_cn=?, abstract_cn=?, reproducibility=?, "
+            "background=?, methods=?, results=?, significance=?, section=?, atlas_info=? "
+            "WHERE paper_id=?",
             (float(result.get("relevance_score", 0)), result.get("category", ""),
              result.get("reason", ""), result.get("title_cn", ""),
              result.get("one_line_summary_cn", ""),
              result.get("abstract_cn", ""),
              json.dumps(result.get("reproducibility") or {}, ensure_ascii=False),
+             detail["background"], detail["methods"], detail["results"],
+             detail["significance"], detail["section"], detail["atlas_info"],
              paper_id),
         )
         conn.commit()

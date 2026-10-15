@@ -49,7 +49,8 @@ POOL_SQL = (
 )
 RENDER_SQL = (
     "SELECT p.paper_id, p.title, p.authors, p.journal, p.date, p.doi, p.url, "
-    "p.abstract, s.reason, s.title_cn, s.one_line_summary_cn, s.abstract_cn "
+    "p.abstract, s.reason, s.title_cn, s.one_line_summary_cn, s.abstract_cn, "
+    "s.section, s.atlas_info "
     "FROM papers p LEFT JOIN paper_scores s ON p.paper_id = s.paper_id "
     "WHERE p.paper_id = ?"
 )

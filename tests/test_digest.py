@@ -148,11 +148,13 @@ def test_build_html_three_parts_no_details(tmp_path):
     assert "Single-cell atlas of octopus brain" in html_body
     assert "一句话一" in html_body
     assert "badge-must" in html_body and "badge-relate" in html_body
-    # Part 3 增强：推荐理由 + 中文摘要 + 链接 + 一键反馈
+    # Part 3 增强：推荐理由 + 中文摘要 + 链接；反馈入口改为指向归档页
     assert "推荐理由：" in html_body and "r1" in html_body
     assert "中文摘要：" in html_body and "摘要一" in html_body
     assert "PubMed 链接" in html_body and "https://doi.org/10.1" in html_body
-    assert "feedback?paper_id=" in html_body and "rating=" in html_body
+    assert "feedback?paper_id=" not in html_body
+    assert "https://yan-zys.github.io/research-radar/" in html_body
+    assert "进入网页版完成反馈" in html_body
 
 
 def test_negative_papers_excluded(tmp_path):

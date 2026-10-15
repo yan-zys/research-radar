@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from database.db import get_conn, init_db  # noqa: E402
-from ranking.scoring import compute_scores, grade_of, journal_score, run  # noqa: E402
+from ranking.scoring import compute_scores, grade_of, is_atlas_candidate, journal_score, run  # noqa: E402
 
 WEIGHTS = {"research_relevance": 0.5, "ai_semantic_relevance": 0.2,
            "journal_influence": 0.2, "trend_value": 0.1}
@@ -97,7 +97,8 @@ def test_top15_all_selected_no_score_cutoff(tmp_path):
 
 
 def _seed_run_db(tmp_path):
-    """三篇通过过滤的论文；x:recent 近 30 天内已推荐过，x:old 是 40 天前推荐的。"""
+    """三篇通过过滤的论文；x:recent 13 天前推荐过（90 天窗口内），
+    x:old 是 100 天前推荐的（超出 90 天 D 层窗口）。"""
     conn = get_conn(tmp_path / "t.db")
     init_db(conn)
     conn.executemany(
@@ -113,8 +114,8 @@ def _seed_run_db(tmp_path):
     )
     conn.executemany(
         "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",
-        [("2026-07-10", "x:recent", 9.5, "Must Read"),   # run_date 前 13 天，应被去重
-         ("2026-06-13", "x:old", 9.5, "Must Read")],      # run_date 前 40 天，超出窗口
+        [("2026-07-10", "x:recent", 9.5, "Must Read"),   # run_date 前 13 天，双排除
+         ("2026-04-14", "x:old", 9.5, "Must Read")],      # run_date 前 100 天，仅 D 层回补
     )
     conn.commit()
     return conn
@@ -153,22 +154,23 @@ def test_run_pub_date_filters_candidates(tmp_path):
     top = run(conn, WEIGHTS, KW, run_date="2026-07-22", pub_date="2026-07-22",
               offline=True)
     assert [e["paper_id"] for e in top] == ["x:0722"]
-    # 默认不带 pub_date：两天发表的论文都是候选（x:0722 已被推荐过，落 D 层）
+    # 默认不带 pub_date：x:0722 已在 2026-07-22 进过 recommendations，全历史去重
+    # 排除出 A-C 层，且 2 天前 < 90 天 D 层窗口 → 两个通道都排除，只剩 x:0723
     top_all = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
-    assert {e["paper_id"] for e in top_all} == {"x:0722", "x:0723"}
+    assert {e["paper_id"] for e in top_all} == {"x:0723"}
     conn.close()
 
 
-def test_run_dedupes_last_30_days(tmp_path):
-    """A 层仍做 30 天去重；去重被排除的论文只在 D 兜底层按序回补（排在 A 层之后）。"""
+def test_run_dedupes_history_with_90d_fallback(tmp_path):
+    """A-C 层全历史去重：x:recent（13 天前推过）与 x:old（100 天前推过）都进不了
+    A-C；x:recent 还在 90 天窗口内连 D 层也进不了，x:old 只能由 D 兜底层回补。"""
     conn = _seed_run_db(tmp_path)
     top = run(conn, WEIGHTS, KW, run_date="2026-07-23", offline=True)
     by_id = {e["paper_id"]: e for e in top}
+    assert [e["paper_id"] for e in top] == ["x:new", "x:old"]
     assert by_id["x:new"]["tier"] == "A"
-    assert by_id["x:old"]["tier"] == "A"          # 超过 30 天窗口，回 A 层
-    assert by_id["x:recent"]["tier"] == "D"       # 近 30 天已推荐，仅 D 层兜底
-    assert [e["paper_id"] for e in top][:2] == ["x:new", "x:old"]  # A 层排前
-    assert top[-1]["paper_id"] == "x:recent"
+    assert by_id["x:old"]["tier"] == "D"          # 超出 90 天窗口，仅 D 层回补
+    assert "x:recent" not in by_id                # 13 天前推过：全历史 + 90 天双排除
     conn.close()
 
 
@@ -300,10 +302,10 @@ def test_core_broad_requires_omics_and_evolution_anchors(tmp_path):
     init_db(conn)
     conn.executemany(
         "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
-        [("broad:evo", "Cerebellum development atlas",
+        [("broad:evo", "Cerebellum development in primates",
           "single-cell transcriptomics reveals the evolution of the primate cerebellum",
           "Nature communications"),
-         ("broad:noevo", "Cerebellum development atlas",
+         ("broad:noevo", "Cerebellum development in primates",
           "single-cell transcriptomics of the primate cerebellum",
           "Nature communications"),
          ("broad:clin", "Cerebellum cohort study",
@@ -328,3 +330,118 @@ def test_core_broad_requires_omics_and_evolution_anchors(tmp_path):
     assert top[0]["paper_id"] == "broad:evo"  # A0 层在最前
     assert [e["paper_id"] for e in top].index("broad:noevo") > \
         [e["paper_id"] for e in top].index("a:1")  # C 层排在 A 层之后
+
+
+def test_atlas_forced_must_read_and_a0(tmp_path):
+    """AI 分区 section=="atlas"（新动物单细胞图谱）的论文：进 A0 层排最前、
+    绕过 AI 否决、grade 强制 Must Read（2026-10-13 用户要求：图谱权重最高）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("atlas:1", "A single-cell atlas of the octopus brain", "", "bioRxiv"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("atlas:1", 5, 1, 1, "atlas"),   # 低规则分 + AI 否决，仍必推送且必读
+         ("a:1", 100, 1, 9, "research")],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
+    conn.close()
+    by_id = {e["paper_id"]: e for e in top}
+    assert by_id["atlas:1"]["grade"] == "Must Read"
+    assert by_id["atlas:1"]["tier"] == "A0"
+    assert top[0]["paper_id"] == "atlas:1"
+    assert by_id["a:1"]["grade"] == "Must Read"  # 高分对照不受影响
+
+
+def test_is_atlas_candidate():
+    """图谱标题启发式：atlas + 单细胞锚点 + 领域信号（神经/演化/非模式动物），
+    且标题无排除信号（植物/微生物/计算方法/人类疾病）。"""
+    # 神经图谱（线虫 L1：标题无物种，靠 "nervous" 领域信号）
+    assert is_atlas_candidate(
+        "A gene expression atlas of a juvenile nervous system",
+        "a gene expression atlas of a juvenile nervous system single-cell rna sequencing")
+    # 跨物种演化框架（Science 心脏宏观演化图谱：非神经也强制）
+    assert is_atlas_candidate(
+        "Spatially resolved single-cell atlas reveals the macroevolutionary "
+        "trajectory of animal hearts",
+        "spatially resolved single-cell atlas macroevolutionary trajectory single-cell")
+    # 非模式动物图谱
+    assert is_atlas_candidate(
+        "A single-cell atlas of the octopus brain",
+        "a single-cell atlas of the octopus brain")
+    # 无单细胞锚点（磷酸化图谱）不判
+    assert not is_atlas_candidate(
+        "A phosphorylation atlas of kinase signaling",
+        "a phosphorylation atlas of kinase signaling mass spectrometry biochemistry")
+    # 标题无 atlas 不判（即使有锚点）
+    assert not is_atlas_candidate(
+        "Single-cell analysis of the mouse brain",
+        "single-cell analysis of the mouse brain single-cell transcriptomics")
+    # 无领域信号（模式动物普通组织图谱）不强制，走正常评分；
+    # 摘要里的 evolution/comparative 不算数——领域信号只认标题
+    assert not is_atlas_candidate(
+        "Single-cell atlas of the mouse ovary reveals molecular drivers",
+        "single-cell atlas of the mouse ovary reveals the evolution of follicles")
+    assert not is_atlas_candidate(
+        "Single-Cell Atlas of Human Temporomandibular Joint Condyle",
+        "single-cell atlas human temporomandibular joint comparative analysis")
+    # 植物图谱标题排除（即使有锚点与领域词）
+    assert not is_atlas_candidate(
+        "A comprehensive Arabidopsis transcription factor binding atlas",
+        "arabidopsis single-cell evolution comparative")
+    # 计算方法论文标题排除
+    assert not is_atlas_candidate(
+        "AtlasOT - The Fused Unbalanced Gromov-Wasserstein for Multimodal Data",
+        "optimal transport single-cell evolution")
+    # 人类疾病图谱标题排除（即使摘要含神经词）
+    assert not is_atlas_candidate(
+        "Single-cell atlas of aqueous humor outflow in glaucomatous eyes",
+        "glaucomatous single-cell brain neural")
+
+
+def test_atlas_title_heuristic_forces_must_read(tmp_path):
+    """图谱论文未过 AI 分区（section 为 NULL）时，标题启发式仍强制 Must Read 并进
+    A0——2026-10-14 线虫 L1 神经图谱仅凭关键词分 4.59 被埋成 Relate 的回归测试。
+    对照：无组学锚点的 atlas 论文（磷酸化图谱）不受影响，仍按总分定级。"""
+    rows = [
+        {"paper_id": "atlas:worm",
+         "title": "A gene expression atlas of a juvenile nervous system",
+         "abstract": "single-cell RNA sequencing of C. elegans L1 larvae",
+         "journal": "bioRxiv", "rule_score": 0, "ai_score": None},
+        {"paper_id": "atlas:phos", "title": "A phosphorylation atlas of kinase signaling",
+         "abstract": "mass spectrometry biochemistry",
+         "journal": "bioRxiv", "rule_score": 0, "ai_score": None},
+    ]
+    scored = {e["paper_id"]: e for e in compute_scores(rows, WEIGHTS, KW)}
+    # 两篇总分相同：rule 0 + ai 默认 5×0.2 + bioRxiv 5×0.2 = 2.0 → 本应 Relate
+    assert scored["atlas:phos"]["total_score"] == 2.0
+    assert scored["atlas:phos"]["grade"] == "Relate"
+    assert scored["atlas:worm"]["grade"] == "Must Read"  # 启发式强制，非总分够线
+
+    # run() 层面：section=NULL + AI 否决的图谱论文仍进 A0 排最前
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("atlas:worm", "A gene expression atlas of a juvenile nervous system",
+          "single-cell RNA sequencing of C. elegans L1 larvae", "bioRxiv"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score) "
+        "VALUES (?, ?, ?, ?)",
+        [("atlas:worm", 5, 1, 1),   # AI 否决 + 无 section，仍须 A0 + Must Read
+         ("a:1", 100, 1, 9)],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
+    conn.close()
+    by_id = {e["paper_id"]: e for e in top}
+    assert by_id["atlas:worm"]["tier"] == "A0"
+    assert by_id["atlas:worm"]["grade"] == "Must Read"
+    assert top[0]["paper_id"] == "atlas:worm"

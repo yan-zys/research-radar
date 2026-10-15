@@ -35,7 +35,12 @@ REASON_PRESETS = ["方向不符", "物种不符", "医学·临床噪声", "方�
 
 
 def render_page_card(rank: int, row, config, kws: list) -> str:
-    """单篇论文网页卡片：可见区 + <details> 折叠详情 + JS 反馈按钮（不跳转）。"""
+    """单篇论文网页卡片：可见区 + <details> 折叠详情（固定七段式）+ JS 反馈按钮（不跳转）。
+
+    详情七段固定顺序：推荐理由 → 背景 → 研究方法 → 研究结果 → 研究意义 →
+    中文全摘要 → 英文摘要（原文）；新字段为空的旧文献跳过空段，
+    至少保证推荐理由 + 中英文摘要仍显示。
+    """
     esc = lambda s: html.escape(str(s or ""))  # noqa: E731
     badge = BADGE_CLASS.get(row["grade"], "b-relate")
     card = CARD_CLASS.get(row["grade"], "c-relate")
@@ -53,8 +58,12 @@ def render_page_card(rank: int, row, config, kws: list) -> str:
         details.append(f'<div class="d-block keywords">命中关键词：{esc(", ".join(kws))}</div>')
     if row["reason"]:
         details.append(f'<div class="d-block"><span class="lbl">推荐理由：</span>{esc(row["reason"])}</div>')
+    for field, label in (("background", "背景"), ("methods", "研究方法"),
+                         ("results", "研究结果"), ("significance", "研究意义")):
+        if ge.col(row, field):
+            details.append(f'<div class="d-block"><span class="lbl">{label}：</span>{esc(ge.col(row, field))}</div>')
     if row["abstract_cn"]:
-        details.append(f'<div class="d-block"><span class="lbl">中文摘要：</span>{esc(row["abstract_cn"])}</div>')
+        details.append(f'<div class="d-block"><span class="lbl">中文全摘要：</span>{esc(row["abstract_cn"])}</div>')
     if row["abstract"]:
         details.append(f'<div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>{esc(row["abstract"])}</div>')
     buttons = []
@@ -73,15 +82,19 @@ def render_page_card(rank: int, row, config, kws: list) -> str:
         f'<button class="reason-btn reason-custom" data-base="{reason_base}">提交</button>'
         '<span class="reason-status fb-status"></span></div>'
     )
+    atlas_html = ""
+    if ge.paper_section(row) == "atlas" and ge.col(row, "atlas_info"):
+        atlas_html = f'<div class="atlas-info">{esc(ge.col(row, "atlas_info"))}</div>'
     return f"""
 <div class="card {card}">
   <div class="card-head"><span class="rank">Rank {rank}</span><span class="badge {badge}">{esc(row["grade"])}</span><span class="score">{row["total_score"]}</span></div>
   <div class="title-en">{title_en}</div>
   {f'<div class="title-cn">{esc(row["title_cn"])}</div>' if row["title_cn"] else ""}
   <div class="one-line">{esc(ge.one_line(row))}</div>
+  {atlas_html}
   <div class="meta">{esc(row["journal"])} · {esc(row["date"])}</div>
   <details class="card-details">
-    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 中英文摘要）</summary>
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
     {''.join(details)}
   </details>
   <div class="fb-row">{''.join(buttons)}<span class="fb-status"></span></div>
@@ -101,10 +114,10 @@ def build_page_html(date_str: str, conn, trend: dict = None) -> str:
     config = ge.load_config()
     counts = {g: sum(1 for r in rows if r["grade"] == g) for g in ge.GRADES}
     all_kws, seen = [], set()
-    card_rows = []
+    kws_of = {}
     for r in rows:
         kws = ge.paper_keywords(r, config)
-        card_rows.append((r, kws))
+        kws_of[r["paper_id"]] = kws
         for kw in kws:
             if kw not in seen:
                 seen.add(kw)
@@ -115,9 +128,15 @@ def build_page_html(date_str: str, conn, trend: dict = None) -> str:
                          f" · Relate {counts['Relate']}）· 命中关键词 {len(all_kws)} 个")
     else:
         overview_line = "今日暂无推荐文献。"
-    cards = ("\n".join(render_page_card(i, r, config, kws)
-                       for i, (r, kws) in enumerate(card_rows, 1))
-             if rows else "<p>今日暂无推荐文献。</p>")
+    # 按 section 分区渲染（图谱→研究→计算→其他，空区不显示），Rank 跨区连续编号
+    parts = []
+    rank = 0
+    for sec, group in ge.group_by_section(rows):
+        parts.append(f'<h2 class="section-title">{ge.SECTION_TITLES[sec]}</h2>')
+        for r in group:
+            rank += 1
+            parts.append(render_page_card(rank, r, config, kws_of[r["paper_id"]]))
+    cards = "\n".join(parts) if rows else "<p>今日暂无推荐文献。</p>"
     template = (ROOT / "email" / "page_template.html").read_text(encoding="utf-8")
     return (template.replace("{{date}}", date_str)
                     .replace("{{overview_line}}", html.escape(overview_line))

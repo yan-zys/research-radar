@@ -17,9 +17,9 @@ HEADER = """# 关键词库（唯一被 filter/scoring 读取的配置）
 CONFIG = {
     "keywords": {
         "species": {"weight": 5, "items": [
-            {"keyword": "tardigrade", "source": "seed", "weight": 2, "locked": True},
-            {"keyword": "rotifer", "source": "ai", "weight": 2},
-            {"keyword": "annelid", "source": "paper:x", "weight": 1},
+            {"keyword": "tardigrade", "weight": 2, "locked": True},
+            {"keyword": "rotifer", "weight": 2, "locked": False},
+            {"keyword": "annelid", "weight": 1, "locked": False},
         ]},
         "concept": {"weight": 10, "items": [
             {"keyword": "brain evolution", "source": "seed", "weight": 2, "locked": True},
@@ -71,7 +71,8 @@ def write_feedback(args, lines):
 
 def load_weights(args) -> dict:
     data = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
-    return {i["keyword"]: i.get("weight", 1)
+    # 兼容规范格式的纯字符串词条（默认 weight 2）
+    return {(i if isinstance(i, str) else i["keyword"]): (2 if isinstance(i, str) else i.get("weight", 2))
             for g in data["keywords"].values() for i in g["items"]}
 
 
@@ -134,8 +135,9 @@ def test_run_is_idempotent(tmp_path, monkeypatch):
 
     monkeypatch.setattr(learning, "call_model", fake_call_model)
     args = make_env(tmp_path)
+    _add_paper(args, "pubmed:2", "rotifer study")
     write_feedback(args, [
-        '{"paper_id": "pubmed:1", "rating": "bad", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:2", "rating": "bad", "date": "2026-07-22"}',
         '{"paper_id": "pubmed:1", "rating": "good", "date": "2026-07-22"}',
     ])
     assert learning.run(args) == 0
@@ -161,16 +163,37 @@ def test_star_treated_as_positive_and_read_skipped(tmp_path, monkeypatch):
     args = make_env(tmp_path)
     Path(args.archive).write_text(
         yaml.dump([{"keyword": "archive word"}], allow_unicode=True), encoding="utf-8")
+    _add_paper(args, "pubmed:2", "rotifer read study")
+    _add_paper(args, "pubmed:3", "rotifer unknown study")
     write_feedback(args, [
         '{"paper_id": "pubmed:1", "rating": "star", "date": "2026-07-22"}',
-        '{"paper_id": "pubmed:1", "rating": "read", "date": "2026-07-22"}',
-        '{"paper_id": "pubmed:1", "rating": "whatever", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:2", "rating": "read", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:3", "rating": "whatever", "date": "2026-07-22"}',
     ])
     assert learning.run(args) == 0
     assert captured.get("called")  # star 触发候选词挖掘
     cands = yaml.safe_load(Path(args.candidates).read_text(encoding="utf-8"))
     assert [c["keyword"] for c in cands] == ["onychophoran brain"]
     assert load_weights(args)["rotifer"] == 2  # read/未知 rating 不触发降权
+
+
+def test_same_paper_last_feedback_wins(tmp_path, monkeypatch):
+    """同一论文在同文件多次反馈：以最后一次为准（先 bad 后 good → 不降权且参与挖掘）。"""
+    captured = {}
+
+    def fake_call_model(prompt, response_format="json"):
+        captured["called"] = True
+        return FAKE_AI_RESULT
+
+    monkeypatch.setattr(learning, "call_model", fake_call_model)
+    args = make_env(tmp_path)
+    write_feedback(args, [
+        '{"paper_id": "pubmed:1", "rating": "bad", "date": "2026-07-22"}',
+        '{"paper_id": "pubmed:1", "rating": "good", "date": "2026-07-22"}',
+    ])
+    assert learning.run(args) == 0
+    assert load_weights(args)["rotifer"] == 2  # 最后一次是 good：不降权
+    assert captured.get("called")              # good 生效：触发候选词挖掘
 
 
 def test_read_only_feedback_does_not_call_ai(tmp_path, monkeypatch):
@@ -204,7 +227,7 @@ def test_bad_with_strong_reason_downgrades_by_two(tmp_path, monkeypatch):
     monkeypatch.setattr(learning, "call_model", forbid_ai)
     args = make_env(tmp_path)
     _rewrite_config(args, lambda d: d["keywords"]["species"]["items"].append(
-        {"keyword": "extra hit", "source": "ai", "weight": 3}))
+        {"keyword": "extra hit", "weight": 3, "locked": False}))
     _add_paper(args, "pubmed:2", "extra hit off-topic study")
     write_feedback(args, [
         '{"paper_id": "pubmed:2", "rating": "bad", "reason": "方向不符"}',

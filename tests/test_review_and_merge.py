@@ -29,7 +29,7 @@ def test_apply_decision():
 
 def test_classify():
     assert classify("octopus vulgaris", PROFILE) == "species"
-    assert classify("SAMap v2", PROFILE) == "tools"
+    assert classify("SAMap v2", PROFILE) == "methods"  # tools 画像词归 methods
     assert classify("single-cell RNA sequencing analysis", PROFILE) == "methods"
     assert classify("pangenome", PROFILE) == "concept"
 
@@ -37,7 +37,7 @@ def test_classify():
 def test_seed_items():
     items = dict((kw, g) for kw, g in seed_items(PROFILE))
     assert items["octopus"] == "species"
-    assert items["SAMap"] == "tools"
+    assert items["SAMap"] == "methods"  # tools 画像词归 methods
     assert items["brain evolution"] == "concept"
 
 
@@ -66,5 +66,6 @@ def test_merge_approved_exclude_goes_to_negative(tmp_path, monkeypatch):
     merge_to_config.main()
     merged = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     assert merged["negative"] == ["cancer", "clinical trial"]
-    kws = [i["keyword"] for g in merged["keywords"].values() for i in g["items"]]
+    kws = [(i if isinstance(i, str) else i["keyword"])
+           for g in merged["keywords"].values() for i in g["items"]]
     assert kws == ["octopus brain"]

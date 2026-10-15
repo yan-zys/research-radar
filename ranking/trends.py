@@ -77,9 +77,10 @@ def generate_summary(stats: dict) -> str:
     return call_model(build_summary_prompt(stats), response_format="text").strip()
 
 
-def run(conn, days: int = 30, summarize_fn=None, out_file: Path = None) -> dict:
+def run(conn, days: int = 30, summarize_fn=None, out_file: Path = None,
+        end_date: str = None) -> dict:
     """聚合 + AI 总结 + 写文件，返回 stats。summarize_fn 可注入（测试用假函数）。"""
-    stats = collect_stats(conn, days=days)
+    stats = collect_stats(conn, days=days, end_date=end_date)
     if stats["total"] == 0:
         print(f"近 {days} 天无推荐记录，跳过趋势总结。")
         return stats

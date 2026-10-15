@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from database.db import get_conn, init_db  # noqa: E402
+from processing.keyword_filter import item_keyword  # noqa: E402
 
 PAPER_COLS = ("paper_id", "title", "abstract", "authors", "journal", "date", "doi", "url", "source")
 
@@ -28,9 +29,9 @@ def load_keywords(path=None) -> list:
         if (group or {}).get("recall") is False:
             continue
         for item in (group or {}).get("items") or []:
-            if item.get("recall") is False:
+            if not isinstance(item, str) and item.get("recall") is False:
                 continue
-            kws.append(str(item["keyword"]))
+            kws.append(item_keyword(item))
     return kws
 
 

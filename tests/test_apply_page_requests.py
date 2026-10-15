@@ -55,15 +55,15 @@ def test_keywords_request_seeded_with_top_weight(tmp_path):
     assert apr.run(args) == 0
     methods = _items(config, "methods")
     concept = _items(config, "concept")
-    assert [i["keyword"] for i in methods] == ["single-cell RNA sequencing"]
-    assert methods[0]["weight"] == 2 and methods[0]["locked"] is True
-    assert methods[0]["source"] == "user_page"
+    kw = lambda i: i if isinstance(i, str) else i["keyword"]  # noqa: E731
+    # weight=2 + locked 是默认值 → 紧凑格式写为纯字符串
+    assert methods == ["single-cell RNA sequencing"]
     # brain evolution 已在库，跳过；sea cucumber 归不进画像组 → concept
-    assert [i["keyword"] for i in concept] == ["brain evolution", "sea cucumber"]
+    assert [kw(i) for i in concept] == ["brain evolution", "sea cucumber"]
     # 处理后文件被记录，重跑不再处理
     assert "2026-08-21.jsonl" in Path(args.processed_log).read_text(encoding="utf-8")
     assert apr.run(args) == 0
-    assert [i["keyword"] for i in _items(config, "methods")] == ["single-cell RNA sequencing"]
+    assert [kw(i) for i in _items(config, "methods")] == ["single-cell RNA sequencing"]
 
 
 def test_papers_request_mined_keywords_low_weight(tmp_path, monkeypatch):
@@ -89,12 +89,14 @@ def test_papers_request_mined_keywords_low_weight(tmp_path, monkeypatch):
     assert calls["resolve"] == ["40123456", "10.1038/abc"]
     assert calls["ai"] == 1  # 两篇汇总只调一次 AI
     concept = _items(config, "concept")
-    kws = [i["keyword"] for i in concept]
+    kw = lambda i: i if isinstance(i, str) else i["keyword"]  # noqa: E731
+    kws = [kw(i) for i in concept]
     assert "cell type evolution" in kws and "neuropeptide signaling" in kws
     assert kws.count("brain evolution") == 1  # 库中已有，提炼结果去重不重复入库
-    added = next(i for i in concept if i["keyword"] == "cell type evolution")
-    assert added["source"] == "paper_page" and added["weight"] == 1
-    assert added["locked"] is False
+    added = next(i for i in concept if not isinstance(i, str)
+                 and i["keyword"] == "cell type evolution")
+    # 文献提炼词：weight=1 且显式 locked: false（可随负反馈降权），无 source 字段
+    assert added["weight"] == 1 and added["locked"] is False
 
 
 def test_no_inbox_exits_cleanly(tmp_path):

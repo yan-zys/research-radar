@@ -14,6 +14,7 @@ docstring），全部写入 recommendations，
 打印各层选取数与 Top15 简表。
 """
 import argparse
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -41,6 +42,96 @@ OMICS_ANCHORS = (
     "cis-regulatory", "regulatory element", "gene regulatory", "cell atlas",
     "multi-omics", "multiomics", "proteom", "pangenom", "metagenom",
 )
+
+
+def section_of(r) -> str:
+    """从行（sqlite3.Row 或 dict）取 AI 分区字段 section，缺列/缺键时返回 None。"""
+    try:
+        return r["section"]
+    except (KeyError, IndexError):
+        return None
+
+
+def row_text(r) -> str:
+    """安全拼接（标题+摘要）小写文本；缺 abstract 列/键时只用标题。"""
+    try:
+        ab = r["abstract"]
+    except (KeyError, IndexError):
+        ab = ""
+    return ((r["title"] or "") + " " + (ab or "")).lower()
+
+
+# 图谱标题启发式的锚点与排除信号（is_atlas_candidate 用）
+ATLAS_SC_ANCHORS = (
+    "single-cell", "single cell", "single-nucleus", "single nucleus",
+    "scrna", "snrna", "spatial transcriptom", "spatial omics", "spatial genomics",
+    "cell atlas", "multiome", "multi-ome",
+)
+ATLAS_DOMAIN = (
+    # 神经系统（脑图谱最优先）
+    "nervous", "brain", "neural", "neuron", "glia", "cortex", "cerebell",
+    "spinal cord", "retina", "gangli",
+    # 演化/跨物种框架
+    "evolution", "origin", "ancestral", "macroevolution", "cross-species",
+    "multi-species", "comparative",
+    # 非模式/广义动物（独立成词的空格边界防 important→"ant " 类误命中）
+    "octopus", "squid", "cephalopod", "cuttlefish", "nautilus",
+    "zebrafish", "medaka", "stickleback", "salmon", "teleost", "lamprey",
+    "hagfish", "ciona", "amphioxus", "tunicate", "echinoderm", "sea urchin",
+    "starfish", "hemichordate", "annelid", "platynereis", "capitella",
+    "polychaete", "leech", "arthropod", "insect", "drosophila", " ant ",
+    " bee ", "wasp", "beetle", "butterfly", "moth", "crustacean", "shrimp",
+    "crab", "spider", "scorpion", "centipede", "millipede", "onychophora",
+    "velvet worm", "mollusc", "mollusk", "snail", "oyster", "clam", "bivalve",
+    "gastropod", "planarian", "flatworm", "nematode", "c. elegans", "worm",
+    "hydra", "cnidaria", "jellyfish", "coral", "sponge", "ctenophor",
+    "placozo", "rotifer", "tardigrade", "xenopus", "frog", "salamander",
+    "axolotl", "lizard", "gecko", "turtle", "bird", "chicken", "finch",
+    " bat ", "platypus", "marsupial", "opossum", "primate", "macaque",
+    "marmoset", "tree shrew",
+    # 全生物体图谱
+    "whole-organism", "whole organism", "whole-animal", "whole animal",
+    "organism-wide", "whole-body", "whole body",
+)
+ATLAS_TITLE_BLOCK = (
+    # 非动物（植物/微生物）
+    "arabidopsis", "maize", "rice", "wheat", "soybean", "tomato", "plant",
+    "alga", "fung", "yeast", "bacteri", "microbiom", "microbiota", "viru",
+    "phage", "archaea", "plasmodium",
+    # 计算方法/工具（非图谱发布）
+    "foundation model", "benchmark", "algorithm", "framework", "toolkit",
+    "web server", "database", "in-memory", "cloud", "gpu", "software",
+    "package", "wasserstein", "optimal transport", "graph neural",
+    "deep learning", "machine learning", "imputation", "deconvolution",
+    # 人类疾病/临床
+    "glaucom", "cancer", "tumor", "tumour", "carcinoma", "leukemia",
+    "lymphoma", "diabetes", "alzheimer", "parkinson", "disease", "patient",
+    "clinical", "covid", "fibrosis", "arthritis", "therap", "injury",
+)
+
+
+def is_atlas_candidate(title: str, text_lower: str) -> bool:
+    """新动物单细胞图谱的标题启发式兜底（AI 分区 section=="atlas" 之外的保险）：
+    标题含 atlas + 文本命中单细胞组学锚点 + 文本命中领域信号（神经系统/演化/
+    非模式动物/全生物体）且标题无排除信号（植物/微生物/计算方法/人类疾病）。
+
+    图谱论文若未过 paper_analyzer（section 为 NULL），不能仅凭关键词分被埋成
+    Relate——2026-10-14 线虫 L1 神经图谱以 4.59 Relate 入选的教训。领域信号
+    只匹配标题（摘要里 evolution/origin/comparative 太常见，会误捞人类关节
+    图谱、植物种子图谱等——同日二版启发式的教训）；未命中领域信号的模式
+    动物组织图谱（如 mouse ovary）走正常评分。
+    """
+    t = (title or "").lower()
+    return ("atlas" in t
+            and any(a in text_lower for a in ATLAS_SC_ANCHORS)
+            and any(a in t for a in ATLAS_DOMAIN)
+            and not any(a in t for a in ATLAS_TITLE_BLOCK))
+
+
+def norm_title(t: str) -> str:
+    """规范化标题：小写、非字母数字折叠为单空格——用于跨源去重
+    （bioRxiv 预印本与正式发表版 paper_id 不同但标题相同，视为同一篇）。"""
+    return re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).strip()
 
 # 演化锚点：core_broad 组泛词（brain、neuron 等）进 A0 除组学锚点外，还须与
 # 下列演化/比较视角词共现——用户方向是"脑/神经的演化"，纯神经机制论文
@@ -116,6 +207,8 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
             "paper_id": r["paper_id"], "title": r["title"], "journal": r["journal"],
             "rule_score": r["rule_score"] or 0,
             "ai_score": r["ai_score"] if r["ai_score"] is not None else 5,
+            "section": section_of(r),
+            "atlas_candidate": is_atlas_candidate(r["title"], row_text(r)),
         }
         if trend_ctx is not None:
             terms = salient_terms(match_keywords(r["title"], r["abstract"], kw_config),
@@ -139,6 +232,10 @@ def compute_scores(rows, weights: dict, kw_config: dict, ai_veto: float = 3.0,
         }
         e["total_score"] = round(sum(dims[k] * weights.get(k, 0) for k in dims), 2)
         e["grade"] = grade_of(e["total_score"])
+        # 新动物单细胞图谱（AI 分区 section=="atlas"，或标题启发式命中）强制必读——
+        # 2026-10-13 用户要求：现代动物单细胞图谱发布（尤其脑图谱）权重最高
+        if e["section"] == "atlas" or e["atlas_candidate"]:
+            e["grade"] = "Must Read"
     return enriched
 
 
@@ -149,15 +246,19 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
     梯队（逐层补足 top_n 为止，每层内部按 total_score 降序，分层规则见 layered()）：
     - A0 层：命中 core 组关键词（脑/神经核心方向，命中必推送，绕过 AI 否决），
       或 core_broad 组泛词（brain/neuron/neurodevelopment 等）与组学锚点
-      + 演化锚点（EVOLUTION_ANCHORS）双共现；
-    - A 层：关键词通道、未被 AI 否决、不在 30 天去重窗口内；
-    - B 层：顶刊通道、已评 AI、未被否决、不在去重窗口内；
-    - C 层：被 AI 否决的关键词/顶刊论文、不在去重窗口内；
-    - D 层：放宽 30 天去重（按 A0→C 同序，排除已入选）。
+      + 演化锚点（EVOLUTION_ANCHORS）双共现，或新动物单细胞图谱
+      （AI 分区 section=="atlas"，未过 AI 的由标题启发式 is_atlas_candidate
+      兜底识别）——图谱强制 Must Read；
+    - A 层：关键词通道、未被 AI 否决、不曾进过 recommendations（全历史去重）；
+    - B 层：顶刊通道、已评 AI、未被否决、全历史去重；
+    - C 层：被 AI 否决的关键词/顶刊论文、全历史去重；
+    - D 层：90 天去重窗口（按 A0→C 同序，排除已入选与近 90 天已推荐）。
     总分仍由 compute_scores 统一计算（同一归一化池，含被否决论文）；每条结果带
     "tier" 字段（"A0"|"A"|"B"|"C"|"D"）标记来源层。仅当库内论文总数不足 top_n 时
-    才返回少于 top_n 篇。30 天去重：近 30 天内已进过 recommendations 的论文
-    不参与 A0/A/B/C 层候选。
+    才返回少于 top_n 篇。全历史去重（2026-10-13 用户要求，心脏图谱曾因 30 天窗口
+    过期被重复推送 3 次）：凡进过 recommendations 的论文不再参与 A0/A/B/C 层
+    候选；另按规范化标题跨源去重（bioRxiv 预印本与正式发表版标题相同但
+    paper_id 不同，视为同一篇）。D 兜底层放宽为 90 天窗口，允许更早的旧论文回补。
     pub_date（YYYY-MM-DD）：限定候选论文的发表日期（papers.date），用于补算
     某一天发表文献的历史日报；默认 None 不过滤（日常流程靠爬虫 --since 限制）。
     offline=True 时趋势维度只用本地语料库频次（不访问 PubMed，测试/无网用）。
@@ -174,7 +275,7 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
 
     def fetch(where=None, params=()):
         sql = ("SELECT p.paper_id, p.title, p.abstract, p.journal, "
-               "s.rule_score, s.ai_score, s.passed_filter "
+               "s.rule_score, s.ai_score, s.passed_filter, s.section "
                "FROM papers p JOIN paper_scores s ON p.paper_id = s.paper_id")
         if pub_date is not None:
             sql += " WHERE p.date = ?"
@@ -185,13 +286,16 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
             sql += " WHERE " + where
         return conn.execute(sql, params).fetchall()
 
-    def layered(rows) -> list:
+    def layered(rows, hist_titles=None) -> list:
         """统一算分后按 A0→A→B→C 分层排序（层内 total_score 降序），每条带 tier 标记。
 
         分层规则（顶刊通道上线后收紧，非顶刊且未过关键词过滤的论文一律不推荐，
         杜绝医学噪声兜底混入）：
         - A0 层：命中 core 组（脑/神经核心方向）关键词的论文——用户要求"命中必
           推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除）；
+          AI 分区为新动物单细胞图谱（section=="atlas"）的论文同进 A0 且强制
+          Must Read（2026-10-13 用户要求：图谱发布权重最高）；未过 AI 的论文
+          由标题启发式（标题含 atlas + 组学锚点）兜底识别，同样进 A0；
           core_broad 组泛词（brain、neuron、neurodevelopment 等）须与 OMICS_ANCHORS
           组学锚点（single-cell/transcriptom/genom 等）和 EVOLUTION_ANCHORS
           演化锚点（evolution/origin/ancestral/homolog/conserved/comparative 等）
@@ -209,6 +313,10 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         texts = {}
         kept = []
         for r in rows:
+            # 规范化标题跨源去重：标题与历史推荐相同的另一 paper_id（如
+            # bioRxiv 预印本→正式发表版）直接跳过
+            if hist_titles and norm_title(r["title"]) in hist_titles:
+                continue
             m = match_keywords(r["title"], r["abstract"], kw_config)
             if m["negative"]:
                 continue
@@ -232,7 +340,9 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         for r in rows:
             is_tj = (r["journal"] or "").strip().lower() in tj_names
             veto = r["ai_score"] is not None and float(r["ai_score"]) < ai_veto
-            if core_hit(r["paper_id"]):
+            if (core_hit(r["paper_id"]) or section_of(r) == "atlas"
+                    or is_atlas_candidate(r["title"], texts[r["paper_id"]])):
+                # atlas（新动物单细胞图谱）与 core 命中同级：必推送、排最前
                 tier = "A0"
             elif veto:
                 tier = "C" if (r["passed_filter"] == 1 or is_tj) else None
@@ -257,12 +367,22 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
             out.extend(by_tier[t])
         return out
 
-    dedup = ("p.paper_id NOT IN (SELECT paper_id FROM recommendations "
-             "WHERE date >= date(?, '-30 days') AND date < ?)")
-    top = layered(fetch(dedup, (d, d)))[:top_n]
-    if len(top) < top_n:  # D 层：放宽 30 天去重，按 A→C 同序补足
+    def hist_titles(where, params) -> set:
+        """历史推荐论文的规范化标题集合（跨源去重用），窗口与对应 SQL 去重一致。"""
+        rows = conn.execute(
+            "SELECT p.title FROM recommendations r "
+            "JOIN papers p ON r.paper_id = p.paper_id WHERE " + where, params).fetchall()
+        return {norm_title(r["title"]) for r in rows}
+
+    # A0/A/B/C 层：全历史去重（进过 recommendations 的论文不再入选）
+    dedup = "p.paper_id NOT IN (SELECT paper_id FROM recommendations WHERE date < ?)"
+    top = layered(fetch(dedup, (d,)), hist_titles("r.date < ?", (d,)))[:top_n]
+    if len(top) < top_n:  # D 层：90 天去重窗口，按 A0→C 同序补足
         chosen = {e["paper_id"] for e in top}
-        for e in layered(fetch()):
+        d_dedup = ("p.paper_id NOT IN (SELECT paper_id FROM recommendations "
+                   "WHERE date >= date(?, '-90 days') AND date < ?)")
+        d_hist = hist_titles("r.date >= date(?, '-90 days') AND r.date < ?", (d, d))
+        for e in layered(fetch(d_dedup, (d, d)), d_hist):
             if len(top) >= top_n:
                 break
             if e["paper_id"] in chosen:

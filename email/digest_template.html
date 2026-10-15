@@ -49,11 +49,21 @@
   .stats-bar b { color: #0b5cad; }
   .stat-row { margin: 2px 0; }
   .stat-label { display: inline-block; min-width: 84px; color: #66788c; font-weight: bold; }
+  /* 网页版入口按钮（反馈入口指向 GitHub Pages，与日报邮件一致） */
+  .page-link-block { text-align: center; margin: 30px 0 6px; }
+  .page-link-btn { display: inline-block; background: #0b5cad; color: #fff;
+                   font-size: 15px; font-weight: bold; padding: 12px 30px;
+                   border-radius: 24px; text-decoration: none; }
+  .page-link-note { text-align: center; color: #8a97a5; font-size: 12px;
+                    margin: 8px 0 0; line-height: 1.6; }
 </style>
 </head>
 <body>
 <h1>{{period_label}}科研趋势 · {{date_range}}</h1>
-<p class="greeting">{{user_name}}，你好。{{period_label}}为你精选出 {{count}} 篇重点论文（近周期推荐去重后按总分取 Top 15）。{{period_label}}报分三部分：文献趋势总结 → 推荐分布统计 → 重点论文清单。</p>
+<p class="greeting">{{user_name}}，你好。{{period_label}}为你精选出 {{count}} 篇重点论文（近周期推荐去重后按总分取 Top 15）。{{period_label}}报分三部分：文献趋势总结 → 推荐分布统计 → 重点论文清单。论文详情卡片与一键反馈在网页版，网页中点击反馈即记录、不会跳转页面。</p>
+
+<div class="page-link-block"><a class="page-link-btn" href="{{page_url}}">进入网页版查看详情卡片与一键反馈 →</a></div>
+<p class="page-link-note">网页版地址：{{page_url}}</p>
 
 <div class="part">
 <h2 class="part-title">Part 1 · {{period_label}}文献趋势总结</h2>
@@ -69,9 +79,11 @@
 
 <div class="part">
 <h2 class="part-title">Part 3 · 重点论文清单</h2>
-<p class="layer">快速浏览层 · 等级徽标 + 总分 + 标题 + 精炼一句话 + 推荐理由 + 中文摘要 + 链接 + 一键反馈（相关/不相关/已读/收藏）</p>
+<p class="layer">快速浏览层 · 等级徽标 + 总分 + 标题 + 精炼一句话 + 推荐理由 + 中文摘要 + 链接（反馈请到网页版点击，点击即记录、不跳转）</p>
 {{part3_list}}
 </div>
+
+<div class="page-link-block"><a class="page-link-btn" href="{{page_url}}">进入网页版完成反馈（相关/不相关/已读/收藏） →</a></div>
 
 </body>
 </html>

@@ -60,4 +60,9 @@ def init_db(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE paper_scores ADD COLUMN abstract_cn TEXT")
     if "title_cn" not in cols:
         conn.execute("ALTER TABLE paper_scores ADD COLUMN title_cn TEXT")
+    # 详情七段式与分区字段（2026-10-13 扩展评分 prompt 配套）
+    for col in ("background", "methods", "results", "significance",
+                "section", "atlas_info"):
+        if col not in cols:
+            conn.execute(f"ALTER TABLE paper_scores ADD COLUMN {col} TEXT")
     conn.commit()

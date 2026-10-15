@@ -11,8 +11,10 @@ scoring 池高分论文（compute_scores 对 papers 表全体算分），保证�
   定级分布（Must Read/Important/Relate）、期刊分层（顶刊/领域权威/其他，
   沿用 generate_email 的内置名单）、主要来源期刊 Top 5、高频关键词 Top 10；
 - Part 3 · 重点论文清单：Top 15 清单（序号 + 等级徽标 + 总分 + 标题 +
-  精炼一句话 + 推荐理由 + 中文摘要 + 期刊·日期·原文链接 + 一键反馈按钮），
-  由 render_digest_list 渲染（复用日报的 one_line/paper_links/feedback_links）。
+  精炼一句话 + 推荐理由 + 中文摘要 + 期刊·日期·原文链接），
+  由 render_digest_list 渲染（复用日报的 one_line/paper_links）。
+  反馈入口与日报邮件口径一致：不在邮件内放逐篇跳转链接，
+  改为指向 GitHub Pages 日报归档页（网页版点击反馈即记录、不跳转）。
 聚合/选文逻辑（select_digest_papers / compute_digest_stats）与 AI 调用分离，便于测试。
 主题行："每周科研趋势 · 日期范围" / "每月科研趋势 · 日期范围"。
 不带 --send：写 email/output/digest-YYYY-MM-DD-Nd.html。
@@ -230,7 +232,11 @@ def render_digest_stats(stats: dict) -> str:
 
 def render_digest_list(rows) -> str:
     """Part 3 重点论文清单：序号 + 等级徽标 + 总分 + 标题 + 一句话 +
-    推荐理由 + 中文摘要 + 期刊·日期·链接 + 反馈按钮（相关/不相关/已读/收藏）。"""
+    推荐理由 + 中文摘要 + 期刊·日期·链接。
+
+    反馈入口不在邮件内逐篇放跳转链接，改为指向 GitHub Pages 日报归档页
+    （与日报邮件口径一致：网页版点击反馈即记录、不跳转）。
+    """
     if not rows:
         return "<p>本周期暂无推荐文献。</p>"
     esc = lambda s: html.escape(str(s or ""))  # noqa: E731
@@ -249,7 +255,6 @@ def render_digest_list(rows) -> str:
         if links_html:
             meta += " · " + links_html
         body.append(f'<div class="meta">{meta}</div>')
-        body.append(f'<div class="feedback">{ge.feedback_links(r["paper_id"])}</div>')
         items.append(
             f'<div class="quick-item"><span class="quick-rank">{i}</span>'
             f'<span class="badge {badge}">{esc(r["grade"])}</span>'
@@ -278,6 +283,7 @@ def build_html(conn, days: int, end_date: str = None, trend: dict = None,
                     .replace("{{date_range}}", date_range)
                     .replace("{{user_name}}", html.escape(user_name))
                     .replace("{{count}}", str(len(rows)))
+                    .replace("{{page_url}}", ge.ARCHIVE_URL)
                     .replace("{{part1_trend}}", render_digest_trend(trend, meta["leads_title"]))
                     .replace("{{part2_stats}}", render_digest_stats(stats))
                     .replace("{{part3_list}}", render_digest_list(rows)))

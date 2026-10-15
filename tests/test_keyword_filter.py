@@ -11,7 +11,7 @@ CONFIG = {
     "keywords": {
         "species": {"weight": 5, "items": [{"keyword": "octopus", "weight": 2}]},
         "methods": {"weight": 8, "items": [{"keyword": "single-cell RNA sequencing", "weight": 2},
-                                           {"keyword": "deep learning"}]},  # 词条 weight 缺省按 1
+                                           "deep learning"]},  # 纯字符串词条 weight 缺省按 2
         "concept": {"weight": 10, "items": [{"keyword": "brain evolution", "weight": 2}]},
     },
     "negative": ["cancer"],
@@ -24,9 +24,9 @@ def test_match_case_insensitive_and_weights():
     scores = {h["keyword"]: h["score"] for h in m["hits"]}
     assert scores["octopus"] == 5 * 2
     assert scores["single-cell RNA sequencing"] == 8 * 2
-    assert scores["deep learning"] == 8 * 1  # 缺省 weight 按 1
+    assert scores["deep learning"] == 8 * 2  # 缺省 weight 按 2
     assert scores["brain evolution"] == 10 * 2
-    assert rule_score(m) == 10 + 16 + 8 + 20
+    assert rule_score(m) == 10 + 16 + 16 + 20
 
 
 def test_negative_rejects():

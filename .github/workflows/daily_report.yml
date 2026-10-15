@@ -45,7 +45,7 @@ jobs:
       - name: 生成日报网页版（docs/daily/… 与 docs/index.html，供 GitHub Pages）
         run: venv/bin/python email/generate_page.py
 
-      - name: 回写运行状态（papers.db、反馈 jsonl、关键词候选、日报网页）
+      - name: 回写运行状态（papers.db、反馈 jsonl、反馈处理标记、关键词候选、日报网页）
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -54,6 +54,10 @@ jobs:
           # processed_page_requests.log 仅在当天处理过页面请求时才会生成，不存在时跳过
           if [ -f keyword_engine/processed_page_requests.log ]; then
             git add keyword_engine/processed_page_requests.log
+          fi
+          # learning.py 的处理标记：必须持久化，否则下次运行会重复处理旧反馈、重复降权
+          if [ -f feedback/processed.log ]; then
+            git add feedback/processed.log
           fi
           if git diff --cached --quiet; then
             echo "无状态变化，跳过提交"

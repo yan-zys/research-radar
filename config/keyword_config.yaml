@@ -1,677 +1,158 @@
-# 关键词库（唯一被 filter/scoring 读取的配置）
-# 2026-08-04 重构：按用户五段式模板（research_interest / keywords / methods /
-# species / exclude）重排全库——
-#   - concept 组新增 transposable element（TE调控；先入 core 后发现植物 TE
-#     论文被无条件强推，移至 concept——脑 TE 论文经 brain+组学锚点仍必推送）；
-#   - core_broad 组删除 cerebellum、cerebral cortex（用户要求），新增 brain /
-#     neuron / neural / glia 四个单词词条（须与组学锚点共现才 A0 必推送）；
-#   - tools 组并入 methods（SAMap / TranscriptFormer / MetaNeighbor，用户模板
-#     无 tools 段，权重随 methods=8）；single-cell transcriptomic atlas
-#     construction 保留在 methods；
-#   - cross-species cell type homology comparison / orthologous gene
-#     identification / transcription factor regulatory network comparison
-#     自 methods 移至 concept（用户指定放回 keywords 段）；
-#   - species 组按用户模板扩充（有爪/节肢/扁形/环节/软体/脊索等门及代表物种）；
-#   - topics 组新增 8 个泛 AI 词（artificial intelligence 等，weight 2 兜底）；
-#   - negative 新增 carcinoma / disease biomarker / crop yield / plant breeding /
-#     agriculture production / food science。
-# 2026-08-04 二次调整（用户指定删除）：methods 组移除 genome-wide association
-#   studies / trajectory analysis / pseudotime analysis / cell-cell communication /
-#   spatial analysis / DNA language model。
-# 2026-08-04 三次调整（用户确认，基于 5 篇方向范例 + 面上项目书诊断）：
-#   - concept 组新增演化锚点词（cell type evolution / cell type homology /
-#     whole-genome duplication / genome duplication / ohnolog / ancestral /
-#     evolutionary innovation / evo-devo / vertebrate evolution），词条 weight=1
-#     （组权重 10×1=10，与 species 命中 5×2=10 等效——用户指定 concept=5 等效）；
-#     topics 组原有 Cell type evolution 移除（避免与 concept 重复计分）；
-#   - species 组新增项目核心物种：amphioxus / lamprey / tardigrade / zebrafish /
-#     earthworm / Platynereis / axolotl / bearded dragon，并恢复 Panarthropoda；
-#   - negative 新增纯神经/临床噪声词：seizure / epilepsy / electrophysiology /
-#     electrophysiological / optogenetic / MRI / fMRI / autism / Alzheimer /
-#     Parkinson / depression / stroke / pain（不含 aging/stem cell）；
-#   - scoring.py 的 core_broad A0 判定同步收紧：须组学锚点 + 演化锚点双共现。
-# 二级权重规则（用户确认）：
-#   - 组权重：core 15 / core_broad 15 / concept 10 / methods 8 / species 5 / topics 2
-#   - 词条权重：种子输入词 weight=2 且 locked=true（演化锚点词例外，weight=1），
-#     无论负反馈如何不得降权（仅人工可删除词条）
-# 召回标记（2026-08-05 用户指定）：recall: false 的词不参与检索召回与初筛门
-#   （crawler 检索式 / passed_filter），只用于评分加分——
-#   适用于 brain / neuron / neural / glia / Cell atlas 及 species 整组。
+# 关键词库（crawler 检索 / filter 初筛 / scoring 评分唯一读取的配置）
+#
+# 计分：命中加分 = 组权重 × 词条权重
+#   core 15 → 30 分/词（A0：任一命中直接进 AI 评分）
+#   core_broad 15 → 30 分/词（须组学锚点 + 演化锚点共现才 A0）
+#   concept 10 → 20 分/词 | methods 8 → 16 分/词 | species 5 → 10 分/词 | topics 2 → 4 分/词
+# 词条写法：纯字符串 = 默认（weight 2、locked、参与召回）；
+#   例外写流式 dict，只标非默认字段：- {keyword: x, weight: 1, locked: false, recall: false}
+#   weight: 词条权重（默认 2）；locked: false 才可被负反馈降权（默认锁定，仅人工删改）；
+#   recall: false 只加分，不参与检索召回与初筛门（species 整组如此）
 keywords:
   core:
     weight: 15
     items:
-    - keyword: brain evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: bilaterian brain origin and evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: nervous system evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: neural system evolution in non-model organisms
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: neuron type homology
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: neural evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: brain gene regulatory network
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neural gene regulatory network
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: brain transcription factor
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neural transcription factor
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neuronal transcription factor
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
+      - brain evolution
+      - bilaterian brain origin and evolution
+      - nervous system evolution
+      - neural system evolution in non-model organisms
+      - neuron type homology
+      - neural evolution
+      - brain gene regulatory network
+      - neural gene regulatory network
+      - brain transcription factor
+      - neural transcription factor
+      - neuronal transcription factor
+      - comparative single-cell atlas
+      - cross-species cell type homology comparison
+      - cell type evolution
+      - cell type homology
   core_broad:
     weight: 15
     items:
-    - keyword: brain development
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neural development
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neurodevelopment
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: neurogenesis
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: brain
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-      recall: false
-    - keyword: neuron
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-      recall: false
-    - keyword: neural
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-      recall: false
-    - keyword: glia
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-      recall: false
+      - brain development
+      - neural development
+      - neurodevelopment
+      - neurogenesis
+      - {keyword: brain, recall: false}
+      - {keyword: neuron, recall: false}
+      - {keyword: neural, recall: false}
+      - {keyword: glia, recall: false}
   concept:
     weight: 10
     items:
-    - keyword: organ evolution
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: organ evolution in non-model organisms
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: evolutionary genomics
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: comparative single-cell atlas
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: single-cell atlas
-      source: seed
-      added_date: '2026-07-29'
-      weight: 2
-      locked: true
-    - keyword: single-nucleus atlas
-      source: seed
-      added_date: '2026-07-29'
-      weight: 2
-      locked: true
-    - keyword: neuropeptide annotation
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: transposable element
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: cross-species cell type homology comparison
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: orthologous gene identification
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: transcription factor regulatory network comparison
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: cross-species comparison
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: scRNA-seq
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: snRNA-seq
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: transcriptomic atlas
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: cell type annotation
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: cell state
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: spatial omics
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: MERFISH
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Visium
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Slide-seq
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Stereo-seq
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: AI genomics
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: cell type evolution
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: cell type homology
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: whole-genome duplication
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: genome duplication
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: ohnolog
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: ancestral
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: evolutionary innovation
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: evo-devo
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: vertebrate evolution
-      source: seed
-      added_date: '2026-08-04'
-      weight: 1
-      locked: true
-    - keyword: 神经系统数据库
-      source: user_page
-      added_date: '2026-10-12'
-      weight: 2
-      locked: true
-    - keyword: 中央神经系统数据库
-      source: user_page
-      added_date: '2026-10-12'
-      weight: 2
-      locked: true
+      - organ evolution
+      - organ evolution in non-model organisms
+      - evolutionary genomics
+      - single-cell atlas
+      - single-nucleus atlas
+      - neuropeptide annotation
+      - transposable element
+      - orthologous gene identification
+      - transcription factor regulatory network comparison
+      - cross-species comparison
+      - scRNA-seq
+      - snRNA-seq
+      - transcriptomic atlas
+      - cell type annotation
+      - cell state
+      - spatial omics
+      - MERFISH
+      - Visium
+      - Slide-seq
+      - Stereo-seq
+      - AI genomics
+      - whole-genome duplication
+      - genome duplication
+      - ohnolog
+      - ancestral
+      - evolutionary innovation
+      - evo-devo
+      - vertebrate evolution
+      - 神经系统数据库
+      - 中央神经系统数据库
+      - macroevolution
+      - macroevolutionary
+      - cross-species
   methods:
     weight: 8
     items:
-    - keyword: single-cell transcriptomic atlas construction
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: SAMap
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: TranscriptFormer
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: MetaNeighbor
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: ATAC-seq
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: RNA interference
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Seurat
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Scanpy
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Harmony
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Cell Ranger
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
+      - single-cell transcriptomic atlas construction
+      - SAMap
+      - TranscriptFormer
+      - MetaNeighbor
+      - ATAC-seq
+      - RNA interference
+      - Seurat
+      - Scanpy
+      - Harmony
+      - Cell Ranger
   species:
     weight: 5
     recall: false
     items:
-    - keyword: Bilateria
-      source: seed
-      added_date: '2026-07-24'
-      weight: 2
-      locked: true
-    - keyword: Onychophora
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: velvet worm
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Arthropoda
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: ant
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Drosophila
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Platyhelminthes
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: planarian
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Annelida
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: polychaete
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Mollusca
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: octopus
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Chordata
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Panarthropoda
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: amphioxus
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: lamprey
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: tardigrade
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: zebrafish
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: earthworm
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: Platynereis
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: axolotl
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: bearded dragon
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
+      - Bilateria
+      - Onychophora
+      - velvet worm
+      - Arthropoda
+      - ant
+      - Drosophila
+      - Platyhelminthes
+      - planarian
+      - Annelida
+      - polychaete
+      - Mollusca
+      - octopus
+      - Chordata
+      - Panarthropoda
+      - amphioxus
+      - lamprey
+      - tardigrade
+      - zebrafish
+      - earthworm
+      - Platynereis
+      - axolotl
+      - bearded dragon
   topics:
     weight: 2
     items:
-    - keyword: Animal evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Comparative genomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Phylogenomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Molecular evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Evolution of complexity
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: AI biology
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Comparative genome
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Genome evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Gene family evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Regulatory evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Cis-regulatory evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Chromatin evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Non-coding genome
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Pangenomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Single-cell genomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Cell atlas
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-      recall: false
-    - keyword: Cellular diversity
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Cell lineage evolution
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Comparative single-cell transcriptomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Spatial transcriptomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Spatial genomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Tissue architecture
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Cellular niches
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Molecular anatomy
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Artificial intelligence for biology
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Biological foundation models
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Machine learning in genomics
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: AI-driven discovery
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: Generative biology
-      source: seed
-      added_date: '2026-07-31'
-      weight: 2
-      locked: true
-    - keyword: artificial intelligence
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: machine learning
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: deep learning
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: foundation model
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: large language model
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: transformer
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: graph neural network
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
-    - keyword: neural network
-      source: seed
-      added_date: '2026-08-04'
-      weight: 2
-      locked: true
+      - Animal evolution
+      - Comparative genomics
+      - Phylogenomics
+      - Molecular evolution
+      - Evolution of complexity
+      - AI biology
+      - Comparative genome
+      - Genome evolution
+      - Gene family evolution
+      - Regulatory evolution
+      - Cis-regulatory evolution
+      - Chromatin evolution
+      - Non-coding genome
+      - Pangenomics
+      - Single-cell genomics
+      - {keyword: Cell atlas, recall: false}
+      - Cellular diversity
+      - Cell lineage evolution
+      - Comparative single-cell transcriptomics
+      - Spatial transcriptomics
+      - Spatial genomics
+      - Tissue architecture
+      - Cellular niches
+      - Molecular anatomy
+      - Artificial intelligence for biology
+      - Biological foundation models
+      - Machine learning in genomics
+      - AI-driven discovery
+      - Generative biology
+      - artificial intelligence
+      - machine learning
+      - deep learning
+      - foundation model
+      - large language model
+      - transformer
+      - graph neural network
+      - neural network
 negative:
 - clinical trial
 - clinical
