@@ -53,10 +53,13 @@ RATINGS = (("good", "相关"), ("bad", "不相关"), ("read", "已读"), ("star"
 FEEDBACK_BASE = "http://127.0.0.1:8710/feedback"
 PAGE_BASE = "https://yan-zys.github.io/research-radar/daily"
 ARCHIVE_URL = PAGE_BASE.rsplit("/", 1)[0] + "/"  # 日报归档首页（周报/月报反馈入口指向这里）
-# 论文分区（AI 评分输出的 section 字段）：图谱类权重最高，固定排最前
-SECTION_ORDER = ("atlas", "research", "computational", "other")
-SECTION_TITLES = {"atlas": "新的动物单细胞图谱发布", "research": "单细胞与空间生物学",
-                  "computational": "计算生物学", "other": "其他"}
+# 论文分区（AI 评分输出的 section 字段）：图谱类权重最高，固定排最前；
+# off_scope（与三类均不符）/ other（旧值）不进日报，不出现在任何分区
+SECTION_ORDER = ("atlas", "research", "computational")
+SECTION_TITLES = {"atlas": "新物种单细胞图谱", "research": "单细胞与空间生物学",
+                  "computational": "计算生物学"}
+HIDDEN_SECTIONS = ("off_scope", "other")
+ATLAS_EMPTY_TEXT = "今日暂无新物种单细胞图谱发布。"
 FALLBACK_SUMMARY = "今日暂无足够的评分数据生成趋势总结，以下为按综合评分排序的推荐文献。"
 CN_NUMERALS = ("一是", "二是", "三是", "四是", "五是", "六是")
 
@@ -80,20 +83,32 @@ def col(row, key, default=""):
     return v if v is not None else default
 
 
-def paper_section(row) -> str:
-    """论文分区：section 为空/NULL/非法值时按 other 处理（兼容旧数据）。"""
+def paper_section(row):
+    """论文分区 key；section 为 off_scope（与三类均不符）或旧值 other 时返回 None
+    （该论文不展示），section 缺失（未过 AI）时按 research 处理，避免漏掉正文。"""
     s = str(col(row, "section") or "").strip()
-    return s if s in SECTION_TITLES else "other"
+    if s in HIDDEN_SECTIONS:
+        return None
+    return s if s in SECTION_TITLES else "research"
 
 
 def group_by_section(rows) -> list:
-    """按固定顺序分区：atlas → research → computational → other；区内按总分降序；
-    空区不返回（某区无论文则不显示该标题）。返回 [(section, [row, ...]), ...]。"""
+    """按固定顺序分区：atlas → research → computational；区内按总分降序。
+    off_scope / other 论文不展示；atlas 区恒返回（即使为空，由渲染层提示
+    "今日暂无新物种单细胞图谱发布"），其余空区不显示标题。
+    返回 [(section, [row, ...]), ...]。"""
     groups = {s: [] for s in SECTION_ORDER}
     for r in rows:
-        groups[paper_section(r)].append(r)
+        sec = paper_section(r)
+        if sec:
+            groups[sec].append(r)
     return [(s, sorted(groups[s], key=lambda r: r["total_score"] or 0, reverse=True))
-            for s in SECTION_ORDER if groups[s]]
+            for s in SECTION_ORDER if groups[s] or s == "atlas"]
+
+
+def visible_rows(rows) -> list:
+    """日报实际展示的论文（剔除 off_scope / other），用于头部篇数统计。"""
+    return [r for _, group in group_by_section(rows) for r in group]
 
 
 def one_line(row) -> str:
@@ -199,16 +214,21 @@ def paper_links(row) -> str:
     return " · ".join(links)
 
 
-def render_news_list(rows) -> str:
-    """Part 1 今日论文新闻摘要：按 section 分区（图谱→研究→计算→其他，空区不显示），
-    区内总分降序；序号跨区连续，atlas 区每篇简介行下方附图谱质量小字（atlas_info）。"""
-    if not rows:
+def render_news_list(rows, atlas_empty_text=ATLAS_EMPTY_TEXT) -> str:
+    """Part 1 今日论文新闻摘要：按 section 分区（图谱→研究→计算；off_scope/other
+    不展示），区内总分降序；序号跨区连续，atlas 区每篇简介行下方附图谱质量小字
+    （atlas_info）；atlas 区无论文时显示空区提示（周/月/年合集可传
+    atlas_empty_text 覆盖默认的"今日暂无"文案）。"""
+    if not visible_rows(rows):
         return "<p>今日暂无推荐文献。</p>"
     esc = lambda s: html.escape(str(s or ""))  # noqa: E731
     items = []
     i = 0
     for sec, group in group_by_section(rows):
         items.append(f'<div class="section-title">{SECTION_TITLES[sec]}</div>')
+        if not group:
+            items.append(f'<div class="section-empty">{esc(atlas_empty_text)}</div>')
+            continue
         for r in group:
             i += 1
             badge = GRADE_CSS.get(r["grade"], "badge-relate")
@@ -325,7 +345,7 @@ def build_html(date_str: str, conn, user_name: str = "研究者") -> str:
     template = (ROOT / "email" / "template.html").read_text(encoding="utf-8")
     return (template.replace("{{date}}", date_str)
                     .replace("{{user_name}}", html.escape(user_name))
-                    .replace("{{count}}", str(len(rows)))
+                    .replace("{{count}}", str(len(visible_rows(rows))))
                     .replace("{{page_url}}", page_url_for(date_str))
                     .replace("{{part1_list}}", render_news_list(rows)))
 

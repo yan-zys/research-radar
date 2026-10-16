@@ -112,7 +112,8 @@ def build_page_html(date_str: str, conn, trend: dict = None) -> str:
     if trend is None:
         trend = ge.summarize_trend(rows)
     config = ge.load_config()
-    counts = {g: sum(1 for r in rows if r["grade"] == g) for g in ge.GRADES}
+    shown = ge.visible_rows(rows)
+    counts = {g: sum(1 for r in shown if r["grade"] == g) for g in ge.GRADES}
     all_kws, seen = [], set()
     kws_of = {}
     for r in rows:
@@ -122,21 +123,25 @@ def build_page_html(date_str: str, conn, trend: dict = None) -> str:
             if kw not in seen:
                 seen.add(kw)
                 all_kws.append(kw)
-    if rows:
-        overview_line = (f"今日推送 {len(rows)} 篇"
+    if shown:
+        overview_line = (f"今日推送 {len(shown)} 篇"
                          f"（Must Read {counts['Must Read']} · Important {counts['Important']}"
                          f" · Relate {counts['Relate']}）· 命中关键词 {len(all_kws)} 个")
     else:
         overview_line = "今日暂无推荐文献。"
-    # 按 section 分区渲染（图谱→研究→计算→其他，空区不显示），Rank 跨区连续编号
+    # 按 section 分区渲染（图谱→研究→计算；off_scope/other 不展示；图谱区空时
+    # 显示"今日暂无"提示），Rank 跨区连续编号
     parts = []
     rank = 0
     for sec, group in ge.group_by_section(rows):
         parts.append(f'<h2 class="section-title">{ge.SECTION_TITLES[sec]}</h2>')
+        if not group:
+            parts.append(f'<p class="section-empty">{ge.ATLAS_EMPTY_TEXT}</p>')
+            continue
         for r in group:
             rank += 1
             parts.append(render_page_card(rank, r, config, kws_of[r["paper_id"]]))
-    cards = "\n".join(parts) if rows else "<p>今日暂无推荐文献。</p>"
+    cards = "\n".join(parts) if shown else "<p>今日暂无推荐文献。</p>"
     template = (ROOT / "email" / "page_template.html").read_text(encoding="utf-8")
     return (template.replace("{{date}}", date_str)
                     .replace("{{overview_line}}", html.escape(overview_line))

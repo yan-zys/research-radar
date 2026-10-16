@@ -249,7 +249,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
       + 演化锚点（EVOLUTION_ANCHORS）双共现，或新动物单细胞图谱
       （AI 分区 section=="atlas"，未过 AI 的由标题启发式 is_atlas_candidate
       兜底识别）——图谱强制 Must Read；
-    - A 层：关键词通道、未被 AI 否决、不曾进过 recommendations（全历史去重）；
+    - A 层：关键词通道、已评 AI、未被 AI 否决、不曾进过 recommendations
+      （全历史去重）；
     - B 层：顶刊通道、已评 AI、未被否决、全历史去重；
     - C 层：被 AI 否决的关键词/顶刊论文、全历史去重；
     - D 层：90 天去重窗口（按 A0→C 同序，排除已入选与近 90 天已推荐）。
@@ -292,7 +293,8 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         分层规则（顶刊通道上线后收紧，非顶刊且未过关键词过滤的论文一律不推荐，
         杜绝医学噪声兜底混入）：
         - A0 层：命中 core 组（脑/神经核心方向）关键词的论文——用户要求"命中必
-          推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除）；
+          推送"，故置于最前且绕过 AI 否决（negative 排除词仍优先剔除；但 AI
+          已判 off_scope 的除外——词面命中不等于方向相关）；
           AI 分区为新动物单细胞图谱（section=="atlas"）的论文同进 A0 且强制
           Must Read（2026-10-13 用户要求：图谱发布权重最高）；未过 AI 的论文
           由标题启发式（标题含 atlas + 组学锚点）兜底识别，同样进 A0；
@@ -301,9 +303,12 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
           演化锚点（evolution/origin/ancestral/homolog/conserved/comparative 等）
           双共现才进 A0，否则按普通关键词通道走 A/C 层——避免纯临床/行为/
           材料论文和纯神经机制论文（无演化/比较视角）被强推；
-        - A 层：passed_filter=1、未被 AI 否决（关键词通道核心候选）；
+        - A 层：passed_filter=1、已评 AI（ai_score 非空）、未被 AI 否决
+          （关键词通道核心候选）；
         - B 层：顶刊清单内期刊、已评 AI（ai_score 非空）、未被否决；
         - C 层：被 AI 否决（ai_score<3）但属于关键词通过或顶刊清单的论文；
+        - AI 判定 off_scope / other（旧值；纯临床/农学/材料等与用户方向无关）
+          的论文：不推荐（2026-10-15 用户要求日报只有图谱/研究/计算三个分区）；
         - 其余（非顶刊 + 规则未命中）：不推荐。
         negative 排除词命中的论文（医学/临床噪声）在所有层都剔除——既是用户
         的降噪要求，也避免日报正文含大量 cancer/tumor/clinical 词汇被邮箱
@@ -340,13 +345,25 @@ def run(conn, weights: dict, kw_config: dict, run_date=None, top_n: int = 15,
         for r in rows:
             is_tj = (r["journal"] or "").strip().lower() in tj_names
             veto = r["ai_score"] is not None and float(r["ai_score"]) < ai_veto
-            if (core_hit(r["paper_id"]) or section_of(r) == "atlas"
+            if (section_of(r) == "atlas"
                     or is_atlas_candidate(r["title"], texts[r["paper_id"]])):
-                # atlas（新动物单细胞图谱）与 core 命中同级：必推送、排最前
+                # atlas（新动物单细胞图谱）：必推送、排最前
+                tier = "A0"
+            elif section_of(r) in ("off_scope", "other"):
+                # AI 判定与用户方向无关（纯临床/农学/材料等）：不推荐、不占 Top N，
+                # 即使命中 core 关键词也剔除——AI 已结合摘要判定全文无关，规则匹配
+                # 只是词面命中（2026-10-15 用户要求：日报只保留图谱/研究/计算三个
+                # 分区，无"其他"；"other" 为旧 prompt 的历史标记，同等剔除）。
+                tier = None
+            elif core_hit(r["paper_id"]):
+                # core 命中与 atlas 同级：必推送、排最前
                 tier = "A0"
             elif veto:
                 tier = "C" if (r["passed_filter"] == 1 or is_tj) else None
-            elif r["passed_filter"] == 1:
+            elif r["passed_filter"] == 1 and r["ai_score"] is not None:
+                # A 层须已评 AI：ai_score 为 NULL 说明 analyzer 未覆盖（历史规则
+                # 改动回捞的旧论文等），未经 AI 把关直接入选会漏入大量噪声
+                # （2026-10-16 日报重跑：1320 篇未评 AI 的历史论文经 A 层混入）
                 tier = "A"
             elif is_tj and r["ai_score"] is not None:
                 tier = "B"

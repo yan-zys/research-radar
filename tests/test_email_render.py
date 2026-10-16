@@ -96,3 +96,55 @@ def test_render_trend_blocks_fallback_overview_only():
     assert "降级文案" in html_out
     assert "聚焦方向" not in html_out
     assert "共同趋势" not in html_out
+
+
+def test_group_by_section_hides_off_scope_and_other():
+    """off_scope / other 不展示；section 缺失回退 research；分区顺序恒为
+    atlas → research → computational。"""
+    rows = [
+        {"section": "off_scope", "total_score": 9.0},
+        {"section": "other", "total_score": 8.0},
+        {"section": None, "total_score": 7.0},
+        {"section": "computational", "total_score": 6.0},
+        {"section": "atlas", "total_score": 5.0},
+    ]
+    grouped = ge.group_by_section(rows)
+    assert [s for s, _ in grouped] == ["atlas", "research", "computational"]
+    groups = dict(grouped)
+    assert [r["total_score"] for r in groups["atlas"]] == [5.0]
+    assert [r["total_score"] for r in groups["research"]] == [7.0]
+    assert [r["total_score"] for r in groups["computational"]] == [6.0]
+    assert len(ge.visible_rows(rows)) == 3  # off_scope / other 不计入展示
+
+
+def test_group_by_section_empty_atlas_always_present():
+    """无图谱论文时 atlas 区仍返回空组（渲染层显示"今日暂无"），其余空区不出现。"""
+    rows = [{"section": "research", "total_score": 5.0}]
+    grouped = ge.group_by_section(rows)
+    assert [s for s, _ in grouped] == ["atlas", "research"]
+    assert grouped[0][1] == []
+
+
+def test_slim_email_hides_off_scope_and_shows_empty_atlas(tmp_path):
+    """邮件：off_scope 论文不展示且不计入篇数；无图谱时显示空区提示；无"其他"区。"""
+    conn = _seed_db(tmp_path)
+    conn.execute(
+        "INSERT INTO papers (paper_id, title, abstract, authors, journal, date, doi, url) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        ("pubmed:10.9", "Eye-tracking study of atlas cover design", "We tracked ...",
+         "Xu D", "PloS one", "2026-07-22", "10.9", "https://pubmed.ncbi.nlm.nih.gov/9/"))
+    conn.execute(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, reason, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("pubmed:10.9", 60, 1, "眼动实验设计", "off_scope"))
+    conn.execute(
+        "INSERT INTO recommendations (date, paper_id, total_score, grade) VALUES (?, ?, ?, ?)",
+        ("2026-07-23", "pubmed:10.9", 6.6, "Important"))
+    conn.commit()
+    html_body = ge.build_html("2026-07-23", conn, user_name="yan-zys")
+    conn.close()
+    assert "Eye-tracking study" not in html_body
+    assert "今日为你筛选出 3 篇论文" in html_body  # off_scope 不计入篇数
+    assert "新物种单细胞图谱" in html_body
+    assert ge.ATLAS_EMPTY_TEXT in html_body
+    assert "其他" not in html_body

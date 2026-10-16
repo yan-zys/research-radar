@@ -125,7 +125,8 @@ def build_collection_html(conns, conn_of, rows, label: str, pool_size: int,
     body = (template.replace("{{date}}", label)
                     .replace("{{user_name}}", html.escape(user_name))
                     .replace("{{count}}", str(len(rows)))
-                    .replace("{{part1_list}}", render_news_list(rows))
+                    .replace("{{part1_list}}", render_news_list(
+                        rows, atlas_empty_text="本合集未收录新物种单细胞图谱。"))
                     .replace("{{part2_cards}}", cards)
                     .replace("{{part3_trend}}", render_trend_blocks(trend)))
     period = "月度" if len(label) > 4 else "年度"

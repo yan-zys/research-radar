@@ -111,6 +111,7 @@ class PubMedCounter:
         self.interval = interval
         self.cache_path = Path(cache_path)
         self.dirty = False
+        self._pending = 0  # 距上次落盘的新增条目数，累计到阈值即增量 flush
         try:
             self.cache = json.loads(self.cache_path.read_text(encoding="utf-8"))
         except Exception:
@@ -128,6 +129,9 @@ class PubMedCounter:
             return None
         self.cache[key] = {"date": self.end.isoformat(), "count": n}
         self.dirty = True
+        self._pending += 1
+        if self._pending >= 25:
+            self.flush()  # 增量落盘：长任务被中断时已查询结果不丢失
         return n
 
     def flush(self):
@@ -136,6 +140,7 @@ class PubMedCounter:
             self.cache_path.write_text(
                 json.dumps(self.cache, ensure_ascii=False, indent=1), encoding="utf-8")
             self.dirty = False
+            self._pending = 0
 
 
 def corpus_count_fn(conn, end: date, days: int = WINDOW_DAYS):

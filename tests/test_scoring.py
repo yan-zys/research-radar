@@ -445,3 +445,96 @@ def test_atlas_title_heuristic_forces_must_read(tmp_path):
     assert by_id["atlas:worm"]["tier"] == "A0"
     assert by_id["atlas:worm"]["grade"] == "Must Read"
     assert top[0]["paper_id"] == "atlas:worm"
+
+
+def test_off_scope_excluded_from_recommendations(tmp_path):
+    """AI 分区 section=="off_scope" 的论文不推荐、不占 Top N（2026-10-15 用户要求：
+    日报只保留图谱/研究/计算三个分区，无"其他"）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("off:1", "Eye-tracking study of atlas cover design", "", "PloS one"),
+         ("off:2", "Federated learning for lesion detection", "", "PloS one"),
+         ("a:1", "SAMap evolution scRNA-seq", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("off:1", 100, 1, 9, "off_scope"),  # 规则/AI 双高分也被剔除
+         ("off:2", 100, 1, 9, "other"),      # 旧 prompt 的历史标记同等剔除
+         ("a:1", 100, 1, 9, "research")],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
+    conn.close()
+    ids = [e["paper_id"] for e in top]
+    assert "off:1" not in ids
+    assert "off:2" not in ids
+    assert "a:1" in ids
+
+
+def test_a_layer_requires_ai_score(tmp_path):
+    """A 层必须已评 AI：ai_score 为 NULL 的关键词命中论文不推荐（2026-10-16：
+    历史规则改动回捞的 1320 篇未评 AI 旧论文经 A 层漏入日报）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("unscored:1", "SAMap evolution scRNA-seq", "", "Nature"),
+         ("scored:1", "SAMap evolution scRNA-seq 2", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("unscored:1", 100, 1, None, None),
+         ("scored:1", 100, 1, 6, "research")],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
+    conn.close()
+    ids = [e["paper_id"] for e in top]
+    assert "unscored:1" not in ids
+    assert "scored:1" in ids
+
+
+def test_off_scope_blocks_core_hit(tmp_path):
+    """off_scope 优先于 core 关键词命中：AI 结合摘要判定无关后，词面命中不再强推
+    （2026-10-16：鲸 Müller 胶质论文命中 glia 等 core_broad 词但 AI 判 off_scope）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("off:core", "brain evolution in clinical cohorts", "", "Nature")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("off:core", 100, 1, 9, "off_scope")],
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW_CORE, run_date="2026-07-24", offline=True)
+    conn.close()
+    assert "off:core" not in [e["paper_id"] for e in top]
+
+
+def test_off_scope_does_not_block_a0(tmp_path):
+    """atlas 启发式优先级高于 off_scope：图谱论文即使 section 异常也仍推送
+    （图谱为最高优先级，AI 误标时由标题启发式兜底）。"""
+    conn = get_conn(tmp_path / "t.db")
+    init_db(conn)
+    conn.executemany(
+        "INSERT INTO papers (paper_id, title, abstract, journal) VALUES (?, ?, ?, ?)",
+        [("atlas:1", "A single-cell atlas of the octopus brain", "", "bioRxiv")],
+    )
+    conn.executemany(
+        "INSERT INTO paper_scores (paper_id, rule_score, passed_filter, ai_score, section) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [("atlas:1", 5, 1, 1, "off_scope")],  # 数据异常：atlas 标题被误标 off_scope
+    )
+    conn.commit()
+    top = run(conn, WEIGHTS, KW, run_date="2026-07-24", offline=True)
+    conn.close()
+    by_id = {e["paper_id"]: e for e in top}
+    assert by_id["atlas:1"]["tier"] == "A0"  # 启发式 atlas 命中仍进 A0
+    assert by_id["atlas:1"]["grade"] == "Must Read"

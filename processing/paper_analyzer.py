@@ -23,17 +23,20 @@ from ai.ai_client import call_model  # noqa: E402
 from database.db import get_conn, init_db  # noqa: E402
 
 
-SECTION_VALUES = ("research", "computational", "atlas", "other")
+SECTION_VALUES = ("research", "computational", "atlas", "off_scope")
 
 
 def parse_detail_fields(result: dict) -> dict:
-    """容错解析 AI 返回的新增详情字段（缺字段的旧格式返回默认空串/section=other）。
+    """容错解析 AI 返回的新增详情字段（缺字段的旧格式返回默认空串）。
 
+    section 合法值：research/computational/atlas/off_scope（2026-10-15 起，
+    off_scope 替代 other，日报只保留三个分区、off_scope 不展示）；模型返回
+    非法值时回退 research（可见），避免误把论文藏进不展示分区。
     methods 是 Python 关键字，只作 dict key/列名，不作变量名。
     """
     section = str(result.get("section") or "").strip()
     if section not in SECTION_VALUES:
-        section = "other"
+        section = "research"
     atlas_info = str(result.get("atlas_info") or "").strip()
     if section != "atlas":
         atlas_info = ""  # 契约：仅 atlas 分区非空
