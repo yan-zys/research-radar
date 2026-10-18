@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-10-18</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-10-18</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 12 · Relate 3）· 命中关键词 17 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.54</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42600011/" target="_blank" rel="noopener">An octopamine-glutamate cotransmitting neuron gates aggressive escalation through layered inhibition in Drosophila.</a></div>
+  <div class="title-cn">果蝇中一种章鱼胺-谷氨酸共传递神经元通过分层抑制门控攻击升级</div>
+  <div class="one-line">为解决果蝇高强度攻击升级如何被抑制的问题，作者用神经递质特异性操控解析VPM4-MBON-11分层抑制环路，发现章鱼胺/谷氨酸共传递与GABA反馈共同限制攻击升级。</div>
+  
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Prunier A, Sherer LM, Da Silva M, Chong S, Bihl L, Stowers RS, Certel SJ, Trannoy S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aec4153">10.1126/sciadv.aec4153</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42600011/">https://pubmed.ncbi.nlm.nih.gov/42600011/</a></div><div class="d-block keywords">命中关键词：neuron, neural, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦果蝇攻击行为的神经环路机制，虽涉及神经系统与果蝇，但缺乏演化或跨物种比较视角，与研究者核心兴趣仅边缘相关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>攻击行为虽保守存在，但高强度升级代价高、风险大，其神经控制机制尚不清楚。作者在果蝇中解析到由VPM4神经元与下游GABA能MBON-11组成的分层抑制环路。神经递质特异性操控表明，VPM4释放的章鱼胺和谷氨酸分别受突触前OAα2R与mGluR独立调控；突触后谷氨酸经GluClα抑制MBON-11，限制向高强度攻击转变，MBON-11中的Rdl受体则提供快速GABA反馈抑制。结果说明共传递与反馈抑制共同约束攻击升级。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Aggression is an evolutionarily conserved behavior essential for survival and reproduction, yet escalation to high-intensity forms entails substantial metabolic costs and injury risks, necessitating precise neural control. Using Drosophila melanogaster, we uncovered a multilayered inhibitory circuit that constrains aggressive escalation. This circuit involves a cotransmitting octopamine-glutamate ventral paired medial 4 (VPM4) neuron and its downstream GABAergic target, MBON-11. Neurotransmitter-specific manipulations reveal that octopamine and glutamate release from VPM4 is independently regulated by presynaptic OAα2R and mGluR receptors, providing transmitter-specific feedback. Postsynaptically, glutamate inhibits the approach-promoting MBON-11 neuron via GluClα receptors, restraining transitions to high-intensity aggression and supporting a role in approach/avoidance behaviors. Furthermore, the Rdl GABAergic receptor within MBON-11 neurons provides rapid inhibitory feedback, creating an additional layer of regulation. Together, these findings reveal a circuit architecture in which cotransmission and inhibitory feedback loops form a layered inhibition mechanism that continuously constrains escalation, indicating that aggression intensity is actively regulated to align behavior with context and cost-benefit trade-offs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec4153&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.49</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42566537/" target="_blank" rel="noopener">Distributed burst firing mediates optimized cortical encoding of natural self-motion.</a></div>
+  <div class="title-cn">分布式爆发放电介导对自然自运动的优化皮层编码</div>
+  <div class="one-line">为解决自然自运动如何被皮层表征问题，作者用模拟日常头部动力学的自然刺激并比较皮层与丘脑活动，发现前庭皮层通过分布式爆发放电以低冗余方式编码运动特征。</div>
+  
+  <div class="meta">Science advances · 2026-08-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Carriot J, Mackrous I, Cullen KE, Chacron MJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee8327">10.1126/sciadv.aee8327</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42566537/">https://pubmed.ncbi.nlm.nih.gov/42566537/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦前庭皮层对自然自运动的皮层编码机制，缺乏演化或跨物种比较视角，对该研究者仅具一般神经编码背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>准确感知自运动要求前庭输入被转换为适于多感觉整合和动作引导的神经表征。作者采用再现日常行为中头部动力学波形的自然自运动刺激，发现前庭皮层神经元不再像人工正弦刺激下那样以分级放电率跟踪速度，而是通过爆发放电稳定编码不同运动特征；群体层面这些爆发形成分布式编码并降低冗余、提升信息传递。该表征转换仅见于自然刺激下的前庭皮层，在前庭丘脑中不存在。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate perception of self-motion requires that vestibular input be transformed into neural representations suitable for integrating multisensory cues to guide action. Here, we demonstrate that vestibular cortical neurons represent the self-motion stimuli encountered during everyday activities in a fundamentally different manner than the artificial self-motion stimuli typically used. Using stimuli whose waveforms reproduce the head dynamics encountered in natural behavior, we found that neural activity no longer tracked stimulus velocity through graded firing-rate changes, as observed during artificial sinusoidal stimulation, but instead reliably encoded distinct motion features through burst firing. At the population level, these bursts formed a distributed code that enhanced information transmission by reducing redundancy. This transformation emerged only during natural stimulation and was absent in the vestibular thalamus. Together, our results demonstrate that the vestibular cortex constructs a distributed, feature-based representation of natural self-motion, fundamentally reshaping our understanding of how cortical circuits encode vestibular signals to mediate perception.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee8327&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.43</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42616897/" target="_blank" rel="noopener">Undoing of firing rate adaptation enables invariant population codes.</a></div>
+  <div class="title-cn">逆转放电频率适应实现稳定的群体编码</div>
+  <div class="one-line">为解决背景气味下群体编码稳定性问题，作者结合果蝇ORN/PN生理记录与计算分析，发现突触前反馈和Unc13相关可塑性能抵消外周放电适应。</div>
+  
+  <div class="meta">Science advances · 2026-08-21</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Brandão SC, Ramirez L, Züfle P, Walter AM, Silies M, Martelli C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeg3535">10.1126/sciadv.aeg3535</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42616897/">https://pubmed.ncbi.nlm.nih.gov/42616897/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦果蝇嗅觉回路中的适应与群体编码机制，不含演化或跨物种比较视角，对该研究者仅有有限神经系统功能背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经适应有助于提升编码效率，但在神经元群体表征中，单个神经元的适应可能破坏与行为相关的信号。作者研究果蝇嗅觉系统中嗅觉受体神经元（ORN）对背景气味的适应及其对下游组合编码的影响，发现ORN放电频率适应在轴突终末被抑制性突触前反馈所补偿，使钙响应对气味浓度升高保持背景不变性；投射神经元（PN）则通过涉及Unc13蛋白的突触前可塑性维持这种稳定性，从而保留跨背景的气味身份表征。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neural adaptation supports coding efficiency by tuning responses to prevailing stimulus statistics. However, when information is represented by populations of neurons, adaptation of individual units could degrade behaviorally relevant signals. Here, we investigate how the fly olfactory system implements adaptation to background odors in olfactory receptor neurons (ORNs) and the consequences for combinatorial coding in downstream circuits. We show that adaptation of ORN firing rate is compensated at the axon terminal, where inhibitory presynaptic feedback supports background-invariant calcium responses to increases (but not decreases) in odor concentration. Computational analyses demonstrate that such invariance requires an adaptation strategy in ORNs that shifts response amplitude rather than sensitivity, diverging from efficient coding principles in single neurons. Downstream, postsynaptic projection neurons also exhibit background-invariant responses through presynaptic plasticity involving Unc13 proteins. Thus, the olfactory circuit restores stable population codes by undoing peripheral firing rate adaptation, enabling an asymmetric contrast representation that preserves stimulus identity across backgrounds.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg3535&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.42</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42566525/" target="_blank" rel="noopener">Neural competition between prefrontal and auditory cortex constrains novel sound strategy learning.</a></div>
+  <div class="title-cn">前额叶皮层与听觉皮层之间的神经竞争限制新声音策略的学习</div>
+  <div class="one-line">为解决动物如何从先天倾向策略转向声音引导新策略问题，作者用小鼠生态化搜索任务结合神经记录与化学遗传扰动，发现mPFC默认策略会抑制ACx介导的声音追踪学习。</div>
+  
+  <div class="meta">Science advances · 2026-08-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lu K, Wong KT, Yang CJ, Zhou LN, Shi YT, Costello ML, Liu RC</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeb3005">10.1126/sciadv.aeb3005</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42566525/">https://pubmed.ncbi.nlm.nih.gov/42566525/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是小鼠皮层竞争调控声音策略学习的行为与电生理研究，缺乏演化、跨物种比较或细胞类型同源性视角，对该研究者仅具一般神经系统趋势参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为理解动物如何用新策略替代原有倾向行为，作者在小鼠中建立生态化搜索任务，考察内侧前额叶皮层(mPFC)与听觉皮层(ACx)在声音引导学习中的作用。结果显示，mPFC表征先天的win-stay策略，并随学习减弱；ACx活动可预测逐次试验中的正确声音搜索，其编码随学习增强，且与受抑制的放电有关。化学遗传扰动表明ACx促进成绩提升，而全局沉默mPFC反而加速声音策略使用，支持去中心化多专家竞争模型。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In nature, animals learn to replace predisposed behaviors with new strategies, yet the neural constraints on these transitions are unclear. Using an ethological search task in mice, we reveal medial prefrontal cortical (mPFC) neural correlates of a predisposed win-stay strategy that decays as animals learn to follow a more reliable auditory cue. Auditory cortex (ACx) activity predicts correct trial-by-trial sound-guided search, even on day one of training. This prognostic coding strengthens with learning and emerges from suppressed spiking, most pronounced in neurons tuned laterally to the cue&#x27;s spectrum. Chemogenetic disruption reveals ACx contributions to improving performance. Unexpectedly, the global silencing of mPFC accelerates successful usage of sound-tracking, contrary to its canonical role in flexible or stimulus-dependent behavior. Instead, a decentralized multiexpert competition model best predicts behavior and causal perturbations. These findings suggest that mPFC implements a default strategy based on prior knowledge, which actively hinders the expression of more efficient strategies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb3005&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.37</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42616867/" target="_blank" rel="noopener">Programmable photonic neural engine with all-optical nonlinear activation and 40,000 connections.</a></div>
+  <div class="title-cn">具有全光非线性激活和4万个连接的可编程光子神经引擎</div>
+  <div class="one-line">为解决光学神经网络在可扩展性与延迟上的权衡问题，作者用集成全光非线性的时间复用环路光子架构，实现在单层感知机中最高4万个光连接与数字级推理精度。</div>
+  
+  <div class="meta">Science advances · 2026-08-21</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sun H, Zhu X, Azaña J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee9649">10.1126/sciadv.aee9649</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42616867/">https://pubmed.ncbi.nlm.nih.gov/42616867/</a></div><div class="d-block keywords">命中关键词：neuron, neural, artificial intelligence, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于光子人工神经网络硬件工程研究，不涉及演化、生物脑跨物种比较或单细胞转录组学，对该研究者仅具极弱概念性参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为应对人工神经网络对更高速度、能效和可扩展计算平台的需求，作者提出一种端到端光子神经形态引擎，将全光非线性集成到基于环路的时间复用光子架构中。该设计使光学神经元共享硬件，实现更强连接性、完全可重构和更低延迟。作者实现了4种网络拓扑，其中单层感知机最高支持4万个光连接，达到数字级推理精度，计算延迟较先进电子处理器缩短两个数量级以上。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The rapid advancement of artificial neural networks (ANNs) demands computational platforms with higher speed, energy efficiency, and scalability. Optical computing offers an appealing solution owing to the high-speed processing, inherent parallelism, and low energy consumption. However, existing optical neural network architectures face fundamental trade-offs between scalability, reconfigurability, and processing latency, constrained by the need to rely on electronic nonlinearities or fixed optical interconnections. Here, we report an end-to-end photonic neuromorphic engine that integrates all-optical nonlinearity into a loop-based, time-multiplexed photonic architecture. This approach enables all optical neurons to share common hardware, supporting enhanced connectivity and full reconfigurability with reduced latency. Implementations of four distinct network topologies, with a maximum of 40,000 optical connections for the single-layer perceptron, achieve digital-level inference accuracy and computational latency over two orders of magnitude shorter than state-of-the-art electronic processors, potentially paving the way for scalable, reconfigurable, and ultrafast optical artificial intelligence systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9649&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.34</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.01.755898" target="_blank" rel="noopener">Glia-enriched human brain organoids for studying developmental alterations in leukodystrophies</a></div>
+  <div class="title-cn">用于研究脑白质营养不良发育异常胶质细胞富集的人脑类器官</div>
+  <div class="one-line">为解决脑白质营养不良发育起源和病理机制不清问题，作者利用人类诱导多能干细胞来源的少突胶质细胞球体平台，建立GLD、4H和CD三种疾病的3D模型，发现疾病特异性谱系转录组改变。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mangiameli, E.; Kok, L. M. L.; Rosato, C.; Cenini, G.; Cupaioli, F. A.; Alfieri, R.; Vitchanthangal Prathivathibayankaram, S.; Oberst, P.; Peitz, M.; Dooves, S.; Merelli, I.; Gritti, A.; Brüstle, O.; Heine, V. M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.01.755898">10.64898/2026.10.01.755898</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.01.755898">https://www.biorxiv.org/content/10.64898/2026.10.01.755898</a></div><div class="d-block keywords">命中关键词：neural development, neurodevelopment, brain, neural, glia</div><div class="d-block"><span class="lbl">推荐理由：</span>纯人类疾病机制研究，无演化或跨物种比较视角，与研究者核心方向完全不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>脑白质营养不良（LKD）多为遗传性白质疾病，其发育起源和病理机制不明。作者利用人诱导多能干细胞来源的少突胶质细胞（hOLS）球体平台，建立球样细胞脑白质营养不良（GLD）、4H脑白质营养不良（4H）和Canavan病（CD）的3D模型。经150天分化，hOLS形成多种神经胶质细胞类型，主要为腹侧前脑和中脑身份。LKD与对照比较揭示共有及疾病特异性改变，溶酶体、代谢和应激反应通路显著变化；谱系解析发现GLD胶质谱系的线粒体和翻译应激、4H的RNA代谢和细胞周期通路破坏、CD的星形胶质细胞中心代谢失调。该研究为解析LKD遗传变异对早期神经发育的影响及谱系特异性疾病易感性提供了人源3D体外平台。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Leukodystrophies (LKD) comprise mostly inherited white matter disorders whose developmental origins and underlying pathomechanisms remain poorly understood. Progress has been limited by restricted access to human primary tissue and by the inability of animal models to fully recapitulate human neurodevelopment. Human induced pluripotent stem cell-derived neural organoids provide an alternative approach, but most culture systems do not capture later, glia-rich developmental stages relevant to these diseases. Recent studies have shown that appropriate patterning cues and long in vitro differentiation can generate neuroglial spheroids comprising multiple neuronal and macroglial populations, including mature oligodendrocytes. Here, we adapt the human oligodendrocyte (hOLS) spheroid platform to establish 3D models of globoid cell leukodystrophy (GLD), 4H leukodystrophy (4H), and Canavan disease (CD). Here we adapt this organoid platform to establish 3D models of globoid cell leukodystrophy (GLD), 4H leukodystrophy (4H), and Canavan disease (CD). Across 150 days of differentiation, hOLS from different genetic backgrounds displayed largely comparable growth kinetics and developmental trajectories, comprising multiple neuroglial cell types with predominantly ventral forebrain and midbrain identities. Comparison of LKD and control hOLS revealed both shared and disease-specific alterations, with prominent transcriptional changes in lysosomal, metabolic, and stress-response pathways. Lineage-resolved pathway analysis further identified signatures across individual LKDs, including mitochondrial and translational stress in GLD glial lineages, disruption of RNA metabolic and cell-cycle pathways in 4H, and prominent astrocyte-centered metabolic dysregulation in CD. Our results establish hOLS as a human 3D in vitro platform for studying the impact of LKD-associated genetic variants on early neural development and for dissecting lineage-specific disease vulnerability.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.01.755898&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42507759/" target="_blank" rel="noopener">Stable excitatory-inhibitory synapse balance despite dynamic turnover.</a></div>
+  <div class="title-cn">尽管突触动态更替，兴奋-抑制突触平衡仍保持稳定</div>
+  <div class="one-line">为解决神经环路建立中兴奋性与抑制性突触组装难以同步监测的问题，作者开发活体成像与分析方法同时追踪两类突触，发现突触成熟过程中尽管持续更替，两者密度仍维持稳态平衡。</div>
+  
+  <div class="meta">eLife · 2026-07-27</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Garbett KA, Allen JP, Lopez JM, Smith CM, Sando RC</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.107635">10.7554/eLife.107635</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42507759/">https://pubmed.ncbi.nlm.nih.gov/42507759/</a></div><div class="d-block keywords">命中关键词：brain development, brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦神经发育中兴奋/抑制突触平衡的活体成像，既不涉及演化比较、细胞类型同源，也不使用单细胞转录组，与研究者核心方向几乎无交集。</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经环路在脑发育中自组织形成，兴奋性与抑制性突触功能的平衡对信息处理至关重要，但缺乏同时监测两类突触组装的手段，其相互关系一直不清。作者开发了可同步可视化并追踪兴奋性与抑制性突触的成像与分析方法，应用于突触成熟过程研究。结果发现，尽管突触持续动态更替，兴奋性与抑制性突触密度始终维持在稳态水平，表明两类突触的组装是协调平衡的。该研究为理解神经环路建立中兴奋-抑制平衡的调控机制提供了新工具与证据。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Diverse synaptic connections self-organize into neural circuits during brain development. A balance between excitatory and inhibitory synaptic function is required for information processing by these neural circuits. Despite the importance of this balance, the interplay between excitatory and inhibitory synaptic assembly during circuit establishment remains unclear due to a lack of means to monitor both processes simultaneously. Here, we develop imaging and analysis methods to visualize and track excitatory and inhibitory synapses. By applying these approaches, we find that despite continual dynamics, excitatory and inhibitory synaptic density remain at steady-state levels during synapse maturation. These results indicate balanced excitatory and inhibitory synapse assembly, despite continual synaptic turnover.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107635&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.23</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42555736/" target="_blank" rel="noopener">Hybrid spatial organization and evidence for magnitude-independent neural coding of linguistic information during sentence production.</a></div>
+  <div class="title-cn">句子产生过程中语言信息的混合空间组织及幅度无关神经编码证据</div>
+  <div class="one-line">为解决句子产生中语言信息神经机制不清问题，作者用高分辨率神经外科皮层脑电记录结合受控造句实验，发现词级与高阶信息由 largely nonoverlapping 皮层网络编码且高阶信息独立于局部活动幅度。</div>
+  
+  <div class="meta">Science advances · 2026-08-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Morgan AM, Devinsky O, Doyle WK, Dugan P, Friedman D, Flinker A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aec0518">10.1126/sciadv.aec0518</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42555736/">https://pubmed.ncbi.nlm.nih.gov/42555736/</a></div><div class="d-block keywords">命中关键词：brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人类语言产生的皮层电生理编码，既无演化/跨物种比较视角，也不涉及单细胞或细胞类型同源性研究。</div><div class="d-block"><span class="lbl">中文全摘要：</span>人类可通过组合词语表达无限复杂含义，但句子产生中的组合加工神经机制因非侵入测量分辨率有限且研究多偏重理解范式而不清。作者采用高分辨率神经外科皮层脑电记录与受控句子产生实验，发现编码词级信息和高阶语言信息的不同皮层网络。其空间组织呈混合特征：广泛分布于传统语言区，同时在经典语言区对语义与结构对比表现出局灶敏感性；与既往理解研究不同，两类网络大体不重叠，且高阶信息编码与局部活动幅度解离，提示可能存在不同于活动强度的神经编码方案。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Humans are the only species with the ability to systematically combine words to convey an unbounded number of complex meanings. This process is guided by combinatorial processes whose underlying neural mechanisms remain obscured by inherent limitations of noninvasive brain measures and a near-total focus on comprehension paradigms. Here, we address these limitations with high-resolution neurosurgical recordings (electrocorticography) and a controlled sentence production experiment. We uncover distinct cortical networks encoding word-level and higher-order information. These networks exhibited a hybrid spatial organization: broadly distributed across traditional language areas but with focal concentrations of sensitivity to semantic and structural contrasts in canonical language regions. In contrast to previous comprehension-based findings, we find that these networks are largely nonoverlapping. Most notably, higher-order linguistic information showed an unexpected dissociation from local activity magnitude. This result establishes an operational dissociation between activity magnitude and information content, pointing toward a potentially distinct neural coding scheme for higher-order language, with important implications for the neurobiology of language.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec0518&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.18</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42715320/" target="_blank" rel="noopener">Astrocytes mediate the dopaminergic modulation of tonic GABAergic signaling in substantia nigra.</a></div>
+  <div class="title-cn">星形胶质细胞介导黑质中多巴胺能对持续性GABA能信号的调制</div>
+  <div class="one-line">为解决黑质网状部多巴胺如何调控持续性GABA抑制问题，作者用离体小鼠脑切片并结合D2R相关药理学，发现该效应依赖D2R表达星形胶质细胞与GAT-3介导的GABA摄取。</div>
+  
+  <div class="meta">Science advances · 2026-09-11</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Simmons DV, Moreno-Ramos OA, Raj DDA, Kaganovsky K, Pamukcu A, Vrieler N, Tkatch T, Xie Z, de Sousa AIS, Zampese E, Ding J, Awatramani R, Wilson CJ, Surmeier DJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.adq8840">10.1126/sciadv.adq8840</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42715320/">https://pubmed.ncbi.nlm.nih.gov/42715320/</a></div><div class="d-block keywords">命中关键词：brain, neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是小鼠黑质局部多巴胺-星形胶质细胞-GABA信号的疾病相关机制研究，缺乏演化或跨物种比较视角，对脑演化与细胞类型同源性研究价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为理解黑质网状部多巴胺信号与帕金森样运动缺陷的关系，作者在离体小鼠脑切片中研究多巴胺对SNr神经元活动的调控。结果显示，除抑制相位性GABA释放外，D2受体信号还可抑制GABAA受体介导的持续性抑制；该持续性调控主要与ALDH1A1表达的多巴胺能神经元经GAT-1相关GABA释放有关，而D2R激动剂解除抑制则依赖表达D2R的星形胶质细胞及GAT-3对细胞外GABA的摄取，提示星形胶质细胞在SNr环路调控中关键。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent studies have implicated dopaminergic signaling within the substantia nigra pars reticulata (SNr) in the emergence of Parkinsonian motor deficits. To better understand the mechanisms underlying this dependence, the ability of dopamine to modulate SNr neuron activity was studied in ex vivo mouse brain slices. In addition to presynaptically inhibiting phasic GABA release, D2 dopamine receptor (D2R) signaling unexpectedly suppressed a tonic, GABAA receptor-mediated inhibition of SNr neuron spiking. Our studies demonstrated that this tonic modulation was largely mediated by GAT-1-dependent GABA release from ALDH1A1-expressing dopaminergic neurons. In contrast, the ability of D2R agonists to disinhibit SNr neurons depended on D2R-expressing astrocytes and stimulation of GAT-3 uptake of GABA from the extracellular space. In addition to underscoring the importance of dendritically released dopamine in modulating synaptic transmission, our studies demonstrate that dopaminergic modulation of astrocytes plays a key role in modulating SNr circuits and motor behavior.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.adq8840&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.18</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42842644/" target="_blank" rel="noopener">Specific expertise from diffuse feedback: A feedforward-gated mechanism.</a></div>
+  <div class="title-cn">特定专长源自弥散反馈：前馈门控机制</div>
+  <div class="one-line">为解决知觉学习特异性的神经机制问题，作者利用猕猴V4区群体电生理记录，发现学习通过前馈门控的弥散反馈增强早期皮层活动，而非微调特征选择性神经元。</div>
+  
+  <div class="meta">Science advances · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Guo R, Yan A, Chen M, Li W, Yan Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeh5972">10.1126/sciadv.aeh5972</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42842644/">https://pubmed.ncbi.nlm.nih.gov/42842644/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>纯猕猴电生理与行为学研究，无任何演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>知觉学习通过练习提高感觉敏感性，但通常局限于训练刺激。本研究在猕猴视觉V4区记录神经元群体活动，训练其完成伪装共线轮廓检测任务。结果显示行为改善严格限于特定朝向，但学习相关的神经增强广泛分布于各类神经元，且局限于受反馈影响的晚期反应成分，早期前馈活动保持稳定。研究支持前馈门控反馈机制：学习增强高阶表征以提供弥散反馈，广泛招募早期皮层神经元，而行为特异性源于训练刺激相关特征选择性前馈输入对该调控的门控作用。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Perceptual learning improves sensory sensitivity through practice but is typically specific to trained stimuli. Two contrasting accounts have been proposed: fine-tuning of feature-selective neurons in early sensory cortex, which raises a stability-plasticity dilemma, and reweighting of stable sensory inputs by higher-level readout. To reconcile these views, we recorded neuronal populations in macaque visual area V4 during training on a camouflaged collinear contour detection task. Behavioral improvements were strictly orientation specific, yet learning-related neural enhancements were unexpectedly widespread, regardless of neuronal tuning. Critically, these enhancements were confined to late, feedback-influenced response components, whereas early feedforward activity remained stable. These results support a feedforward-gated feedback mechanism: Learning potentiates higher-order representations that deliver diffuse feedback, broadly recruiting early cortical neurons, while behavioral specificity arises because this modulation is gated by feature-selective feedforward inputs associated with the trained stimulus. Rather than being sequestered in a single locus or process, perceptual expertise emerges from hierarchical, bidirectional interactions that enable learning while preserving core sensory stability.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeh5972&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.16</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42748268/" target="_blank" rel="noopener">Viscoelastic nanomechanical devices for neuromorphic information processing.</a></div>
+  <div class="title-cn">用于神经形态信息处理的黏弹性纳米力学器件</div>
+  <div class="one-line">为解决低能耗仿生信息处理问题，作者用基于纳米薄聚二甲基硅氧烷膜的电机械可调隧穿结方法，发现聚合物黏弹记忆可实现人工神经元功能。</div>
+  
+  <div class="meta">Science advances · 2026-09-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Satterthwaite PF, Spector SO, Conte M, Hsieh T, Bobylev EO, Venkatesh S, Johnson JA, Niroui F</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeg9893">10.1126/sciadv.aeg9893</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42748268/">https://pubmed.ncbi.nlm.nih.gov/42748268/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于材料与神经形态工程研究，不涉及演化、跨物种比较或单细胞图谱，对该研究者仅具极弱的概念性启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为实现能效更高的仿生计算，作者提出一种利用纳米尺度软物质机械性质进行材料内计算的平台。其核心为纳米薄聚二甲基硅氧烷（PDMS）膜构成的电机械可调隧穿结，能够实现亚纳米级控制和工程化动力学。电压诱导的结构重构会转化为非线性、时间依赖的电响应，作者进一步利用这种源于聚合物黏弹记忆的时序动力学演示了人工神经元功能，为超小尺度、低能耗智能材料与神经形态器件提供了设计框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Information processing through intrinsic physical processes in materials enables energy-efficient, bioinspired computing paradigms. In particular, mechanical transformations at the nanoscale stand out as a versatile and efficient mechanism for sensitive and highly tunable control. Here, we introduce an in-material computing platform leveraging the mechanical properties of nanoscale soft matter. Overcoming the limitations of conventional mechanical systems, our platform enables subnanometer control and engineered dynamics, which we demonstrate in an electromechanically tunable tunneling junction composed of a nanometer-thin poly(dimethylsiloxane) film. In this device, voltage-induced reconfigurations translate into a nonlinear, time-dependent electrical response. We use these temporal dynamics, arising from the viscoelastic memory of the polymer, to demonstrate an artificial neuron. As neural functionalities are embedded within the intrinsic material properties, energy efficiencies beyond those of biological systems are projected with much smaller active areas. Overall, our work establishes a design framework for extremely scaled mechanical tunability, opening emerging applications in energy-efficient, bioinspired computing, and intelligent materials and systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeg9893&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42585331/" target="_blank" rel="noopener">Synaptic zinc plasticity shapes adaptive and maladaptive cortical plasticity following cochlear injury.</a></div>
+  <div class="title-cn">突触锌可塑性塑造耳蜗损伤后的适应性与适应不良性皮层可塑性</div>
+  <div class="one-line">为解决耳蜗损伤后A1适应性与病理性可塑性的机制问题，作者分析噪声致耳蜗损伤后的突触锌信号变化，发现其双向调控多类神经元并驱动恢复与神经元高活性。</div>
+  
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kumar M, Linnertz C, Bizup B, Huang W, Ai H, Tzounopoulos T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee9298">10.1126/sciadv.aee9298</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42585331/">https://pubmed.ncbi.nlm.nih.gov/42585331/</a></div><div class="d-block keywords">命中关键词：neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦耳蜗损伤后的皮层可塑性与锌信号致病机制，缺乏演化或跨物种比较视角，对该研究者核心问题帮助很有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>耳蜗损伤会诱发初级听觉皮层（A1）代偿性可塑性，既可恢复声音反应与知觉阈值，也可能导致耳鸣和听觉过敏，但其调控机制不明。作者研究噪声诱导耳蜗损伤后发现，突触锌信号发生双向可塑性：增强兴奋性主神经元和parvalbumin中间神经元活动，同时抑制somatostatin中间神经元活动。这种细胞类型特异性效应既有助于恢复A1声音响应和感知检测阈值，又是神经元高活性的必要条件，提示突触锌是潜在治疗靶点。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Cochlear damage triggers compensatory primary auditory cortex (A1) plasticity that amplifies responses to residual sensory inputs, thereby contributing to the restoration of both cortical responsiveness to sound and perceptual sound detection threshold. However, this adaptation can become maladaptive, producing neuronal hyperactivity that contributes to tinnitus and hyperacusis. The neuromodulatory mechanisms governing these adaptive and maladaptive changes remain unknown. Here, we demonstrate that noise-induced cochlear injury triggers bidirectional synaptic zinc signaling plasticity that potentiates activity in excitatory principal neurons and parvalbumin-expressing interneurons, while suppressing activity in somatostatin-expressing interneurons. These cell-type-specific effects of synaptic zinc plasticity contribute to restoring A1 responsiveness to sound and perceptual detection thresholds, while being necessary for neural hyperactivity. Together, our findings establish synaptic zinc as a pivotal neuromodulator that shapes both adaptive and maladaptive cortical plasticity and identify a promising therapeutic target for improving perceptual recovery after cochlear damage and mitigating tinnitus and hyperacusis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee9298&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">3.18</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.16.752000" target="_blank" rel="noopener">Cryptic whole-genome duplication in bryozoans</a></div>
+  <div class="title-cn">苔藓动物中隐秘的全基因组加倍事件</div>
+  <div class="one-line">为探究无脊椎动物中全基因组加倍（WGD）的真实发生频率及其检测方法局限性，作者联合旁系同源与直系同源的共线性分析方法，基于双侧对称动物祖先连锁群（ALGs）在苔藓动物中搜索WGD信号，发现淡水苔藓虫Cristatella mucedo及所有海洋苔藓虫类群均存在古老WGD证据，基因保留率仅5%-10%，保留的重复基因富集于纤毛基因并在触手冠中优先表达，提示该WGD促进了苔藓动物适应固着滤食生活方式。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lewin, T. D.; Casey, D.; Luo, Y.-J.; Redmond, A. K.; Holland, P. W. H.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.16.752000">10.64898/2026.09.16.752000</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.16.752000">https://www.biorxiv.org/content/10.64898/2026.09.16.752000</a></div><div class="d-block keywords">命中关键词：whole-genome duplication, genome duplication, ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦苔藓动物全基因组加倍事件的检测，属于比较基因组学范畴，但缺乏单细胞转录组学、神经系统发育或细胞类型演化等研究者核心关注的内容，且未涉及跨物种细胞类型同源性比较。</div><div class="d-block"><span class="lbl">背景：</span>全基因组加倍（WGD）被认为是推动生物复杂性和多样化的重要进化机制，在植物和脊椎动物中已有充分证据，但在无脊椎动物中似乎较为罕见。这种稀缺性可能反映真实情况，也可能是由于检测方法的局限性——特别是当古老WGD伴随大量基因丢失时，常规方法难以识别。苔藓动物门是一类主要海洋、固着生活的滤食性无脊椎动物，其进化基因组学研究相对滞后。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者开发了结合旁系同源和直系同源共线性的综合分析策略，利用双侧对称动物祖先连锁群（ALGs）作为参照框架，对苔藓动物多个物种的基因组进行WGD信号检测。具体包括对淡水苔藓虫Cristatella mucedo进行染色体水平的基因组组装，以及对8个海洋苔藓虫类群基因组进行2:1直系同源共线性比率分析，并结合基因树重建WGD历史。</div><div class="d-block"><span class="lbl">研究结果：</span>研究发现淡水苔藓虫Cristatella mucedo存在全染色体范围的旁系同源区域复制，仅约10%的重复基因被保留，其中包括Hox基因簇的加倍。海洋苔藓虫类群的8个基因组中检测到2:1的直系同源共线性比率，尽管重复基因保留率仅约5%。基因树分析支持所有现存苔藓动物共享一次古老的WGD事件，随后在两大分支中独立发生再二倍体化。保留的重复基因显著富集于纤毛相关基因，并在触手冠组织中优先表达。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究揭示了苔藓动物中此前未被识别的古老WGD事件，证明了结合祖先连锁群的共线性分析方法在检测高度退化古老WGD中的优越性。研究结果挑战了无脊椎动物WGD稀少的传统观点，为理解固着滤食生活方式的分子进化基础提供了新视角，并暗示WGD可能通过促进纤毛基因的功能分化来适应特定生态位。</div><div class="d-block"><span class="lbl">中文全摘要：</span>全基因组加倍被认为是生物复杂性和多样化的进化促进因素，但在无脊椎动物中较为罕见。为克服古老WGD因广泛基因丢失而难以检测的问题，作者结合基于双侧对称动物祖先连锁群的旁系同源和直系同源共线性分析方法，在苔藓动物门中发现强证据：淡水苔藓虫Cristatella mucedo存在古老WGD，仅~10%重复基因保留（包括Hox簇加倍）；海洋苔藓虫类群也呈现2:1的共线性比率，尽管仅~5%重复保留。基因树支持现存苔藓动物共享一次古老WGD，两大分支独立再二倍体化。保留的重复基因富集于纤毛基因，在触手冠中优先表达。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Whole-genome duplications (WGDs) have long been proposed as evolutionary facilitators of biological complexity and diversification. Ancient WGDs occurred deep in the evolutionary history of both plants and vertebrates, but appear to be rare in invertebrates. However, it is unclear whether this reflects genuine scarcity or inadequate detection methodologies, and current methods may be insufficient to detect very old WGDs where extensive gene loss has followed. Here, we used a combination of paralogous and orthologous synteny-based methods incorporating bilaterian ancestral linkage groups (ALGs) to search for genomic signatures of WGD in members of the invertebrate phylum Bryozoa. This revealed strong evidence for an ancient WGD in the freshwater bryozoan Cristatella mucedo, Class Phylactolaemata, with duplicated paralogous regions across every chromosome. Only ~10% of duplicated genes are retained, including a Hox cluster duplication. All eight genomes from the bryozoan class Gymnolaemata also show signatures of ancient WGD in the form of 2:1 ratios in orthologous synteny comparisons, which remain detectable despite only ~5% duplicate retention. Gene trees support a scenario in which all extant bryozoans share an ancient WGD and much of the genome rediploidised independently in the two clades. Duplicates retained after bryozoan WGD are enriched in cilia genes and are preferentially expressed in the lophophore, the tentacular feeding organ covered in highly specialised cilia. We argue that cryptic WGD in bryozoan evolution facilitated adaptation to a sessile, filter-feeding lifestyle, and propose that incorporation of ALGs adds to the power of synteny-based WGD-detection methods.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.16.752000&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.65</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42886592/" target="_blank" rel="noopener">Inferring gene regulatory networks from single-cell transcriptomics jointly through graph neural networks and Transformer.</a></div>
+  <div class="title-cn">基于图神经网络与Transformer联合从单细胞转录组学推断基因调控网络</div>
+  <div class="one-line">为克服现有单细胞基因调控网络推断方法仅关注基因间成对调控关系、未能利用全局调控结构的局限，作者提出GTGRNS框架，整合GraphSAGE图神经网络与Transformer编码器，从scRNA-seq数据中学习基因表征并提取基因对复杂依赖关系，在多个基准数据集上验证了其在GRN推断任务中的有效性与竞争力。</div>
+  
+  <div class="meta">IEEE transactions on computational biology and bioinformatics · 2026-10-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gan Y, Liu T, Xu G, Guo W, Zou G</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TCBBIO.2026.3740828">10.1109/TCBBIO.2026.3740828</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42886592/">https://pubmed.ncbi.nlm.nih.gov/42886592/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, transformer, graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>GTGRNS是一种新的基因调控网络推断计算工具，虽涉及GRN推断与单细胞转录组学，但完全缺乏演化、跨物种比较或神经系统生物学视角，与研究者核心演化问题导向关联较弱。</div><div class="d-block"><span class="lbl">背景：</span>基因调控网络的推断对于理解细胞内基因表达的复杂调控关系至关重要。近年来，多种计算方法被提出用于从单细胞RNA测序数据中重建基因调控网络。然而，现有方法主要局限于基因间的成对调控关系推断，难以捕捉转录因子与其靶基因之间全局性的复杂调控结构。如何将网络拓扑信息与基因表达特征有效整合，并建模基因对之间的高阶依赖关系，成为提升GRN推断精度的关键挑战。</div><div class="d-block"><span class="lbl">研究方法：</span>作者提出GTGRNS监督学习框架，将图神经网络与Transformer编码器相结合用于单细胞GRN推断。具体采用GraphSAGE模型整合调控网络拓扑信息与基因表达特征，以学习低维基因表征；进而利用Transformer模型提取基因对之间的复杂依赖关系，用于判定调控层级和方向性。</div><div class="d-block"><span class="lbl">研究结果：</span>在多个GRN推断基准数据集上，GTGRNS展现出与其他现有方法相比的有效性和竞争力，能够更好地整合网络拓扑与表达信息，提升调控关系预测的准确性。具体定量指标及对比方法名称未在摘要中详述。</div><div class="d-block"><span class="lbl">研究意义：</span>GTGRNS为从单细胞转录组数据推断基因调控网络提供了一种新的计算框架，其技术路线（图神经网络联合Transformer）可能对演化研究中GRN比较与重建具有潜在的方法学参考价值。然而，该方法目前未涉及任何生物学应用场景验证，尤其缺乏对演化、发育或神经系统的针对性设计，其直接应用价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>现有从scRNA-seq数据重建基因调控网络的方法多聚焦基因间成对调控关系，未能利用GRN全局调控结构以探索转录因子与靶基因间复杂调控互作。作者提出GTGRNS监督学习框架，整合图神经网络与Transformer编码器进行GRN推断：以GraphSAGE整合调控网络拓扑信息与基因表达特征学习基因表征，再利用Transformer提取基因对复杂依赖关系以判定调控层级，在多个基准数据集上验证了方法的有效性与竞争力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Inferring gene regulatory networks (GRNs) is crucial for understanding the complex regulatory relationships that govern gene expression in cells. Recently, several computational methods have been proposed for reconstructing GRNs from single-cell RNA sequencing (scRNA-seq) data. However, most of these methods primarily focus on pairwise regulatory relationships between genes, failing to leverage the global regulatory structure of GRNs, which is crucial for exploring the complex regulatory interactions between transcription factors (TFs) and their target genes. To address these limitations, we propose GTGRNS, a supervised learning framework that integrates a graph neural network with a Transformer encoder for GRN inference from scRNA-seq data. Specifically, we utilize the GraphSAGE model to integrate regulatory network topological information with gene expression features, facilitating the learning of gene representations. By leveraging the Transformer model, we further extract complex dependencies of gene pairs, which are crucial for determining regulatory levels. The comparative experiments on several benchmark datasets demonstrate the effectiveness and competitiveness of the proposed GTGRNS in the task of GRN inference.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCBBIO.2026.3740828&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.4</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753429" target="_blank" rel="noopener">Imaging-based spatial isoform transcriptomics resolves transcript diversity at cellular and subcellular resolution</a></div>
+  <div class="title-cn">基于成像的空间异构体转录组学：在细胞及亚细胞分辨率解析转录本多样性</div>
+  <div class="one-line">为解决空间转录组学仅停留在基因水平、无法系统刻画空间分辨的转录异构体多样性的问题，作者开发了成像式空间异构体转录组学（iSiT）框架及配套探针设计工具ProbeHarbour，在小鼠出生后大脑中实现了45个突触发生相关基因的基因表达与异构体特异性联合检测，发现该技术可在细胞及亚细胞分辨率解析选择性剪接事件，为研究发育和疾病中的空间异构体调控提供了可扩展的技术平台。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>McAndrew, E.; Fierville, M.; Gautier-Isola, M.; Pignol, M.; Arguel, M.-J.; Cadis, H.; Barres, R.; Mari, B.; BARBRY, P.; Lebrigand, K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.22.753429">10.64898/2026.09.22.753429</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.22.753429">https://www.biorxiv.org/content/10.64898/2026.09.22.753429</a></div><div class="d-block keywords">命中关键词：brain, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为方法学工具开发，聚焦转录本异构体检测技术，虽以小鼠脑为示例但无演化或跨物种比较视角，不符合该研究者的核心演化比较研究范式。</div><div class="d-block"><span class="lbl">背景：</span>空间转录组学技术近年来取得长足进展，但现有主流方法主要聚焦于基因水平的表达定量，难以捕获同一基因不同转录异构体的空间分布信息。转录异构体多样性（如通过选择性剪接产生）在神经系统发育和功能中发挥重要作用，但缺乏能够在组织原位空间分辨率水平上系统检测异构体的方法学工具。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了成像式空间异构体转录组学（iSiT）技术框架，基于10x Genomics Xenium原位成像平台进行优化，采用单个连接点特异性探针靶向检测选择性剪接事件；开发了开源工具包ProbeHarbour，用于异构体特异性探针的设计、表征和管理；以小鼠出生后大脑为模型系统，将Prime 5K基因水平检测面板与45个突触发生相关基因的异构体特异性检测相结合。</div><div class="d-block"><span class="lbl">研究结果：</span>iSiT成功在小鼠脑组织中实现了基因表达与异构体特异性联合检测，能够在细胞及亚细胞分辨率解析改变内部转录结构的选择性剪接事件；通过单个连接点特异性探针即可有效区分不同转录异构体；ProbeHarbour工具包提供了从探针设计到管理的完整解决方案，便于方法的广泛推广和应用。</div><div class="d-block"><span class="lbl">研究意义：</span>iSiT扩展了空间转录组学的应用边界，从基因水平测量拓展至转录异构体水平，为研究神经系统发育和疾病中的空间异构体调控提供了新技术工具。但该研究仅以小鼠为模型进行方法验证，未涉及跨物种比较或演化分析，对该研究者的核心演化研究问题参考价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间转录组学已革新对组织组织的理解，但当前高通量方法仍主要局限于基因中心范式，无法系统表征空间分辨的转录异构体多样性。作者开发了成像式空间异构体转录组学（iSiT），可在商用Xenium平台上同时进行大规模基因表达和靶向转录异构体分析，使用单个连接点特异性探针在细胞及亚细胞分辨率解析改变内部转录结构的选择性剪接事件，并配套开发开源工具包ProbeHarbour用于异构体特异性探针的设计、表征和管理。该技术在小鼠出生后大脑中得到验证。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spatial transcriptomics has transformed our understanding of tissue organization, yet current high-throughput approaches remain largely confined to a gene-centric paradigm, precluding systematic characterization of spatially resolved transcript isoform diversity. Here, we introduce imaging-based spatial isoform transcriptomics (iSiT), a framework enabling simultaneous large-scale gene expression and targeted transcript isoform profiling on the commercial Xenium platform. iSiT resolves alternative splicing events that alter internal transcript structure at cellular and subcellular resolution using a single junction-specific probe per target. To facilitate broader adoption, we developed ProbeHarbour, an open-source toolkit for the design, characterization and management of isoform-specific probes. We demonstrate iSiT in the postnatal mouse brain by combining the Prime 5K gene-level panel with isoform-specific detection of 45 synaptogenesis-associated genes. By extending spatial transcriptomics beyond gene-level measurements, iSiT provides a scalable and readily accessible framework for investigating spatial isoform regulation in development and disease.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.753429&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐的12篇文献横跨神经环路与行为、神经计算与编码、神经工程与仿生三大领域。最值得注意的工作包括：果蝇攻击行为的分层抑制环路解析、前庭皮层的分布式爆发放电编码机制，以及集成全光非线性的光子神经网络引擎——后者在硬件层面实现了40,000光连接的可编程计算，代表了神经形态工程的重要突破。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经环路可塑性与稳态机制：多篇工作从突触、胶质细胞和群体编码层面揭示神经系统的动态平衡策略。代表性工作包括果蝇ORN/PN回路通过突触前反馈抵消放电率适应，以及兴奋性与抑制性突触在动态更替中维持稳态平衡。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>感觉-运动整合与行为决策：聚焦动物如何在复杂环境中整合多模态信息并产生适应性行为。代表性工作涵盖果蝇攻击升级的分层抑制调控、小鼠前庭皮层的自然自运动编码，以及前额叶与听皮层竞争约束新策略学习。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>神经技术与交叉创新：涵盖光子计算、类脑器件及人源化疾病模型等前沿方向。代表性工作包括全光非线性光子神经引擎、黏弹纳米机械神经形态器件，以及胶质细胞富集的脑类器官白质营养不良模型。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同反映了当代神经科学从单一尺度描述向多层级机制解析的深化，以及实验与计算、生物与工程深度融合的方法学走向。具体表现为：在体成像与电生理技术精细化使突触动态实时监测成为可能；光遗传、化学遗传与药理学工具组合支撑环路因果推断；同时，神经工程领域正借力量子光学、纳米材料突破传统冯诺依曼架构瓶颈，而类器官模型则为人源疾病机制研究提供新范式。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">这批文献为研究者提供了多重借鉴：环路神经科学家可关注分层抑制、前馈门控等通用计算原则在跨物种中的保守性；计算与系统神经科学方向可跟进分布式编码、群体活动不变性等理论问题；工程与转化研究者则能借鉴全光集成、黏弹记忆等新型物理实现方案。此外，胶质细胞在神经调控中的主动角色、锌离子信号的双向可塑性等发现，也开辟了可深入挖掘的分子-细胞界面研究空间。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
