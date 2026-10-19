@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-10-19</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-10-19</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 14 · Relate 1）· 命中关键词 17 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.63</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.06.742872" target="_blank" rel="noopener">Exercise engages a mechanically activated astrocyte state linking muscle activity to hippocampal plasticity</a></div>
+  <div class="title-cn">运动激活一种机械敏感的星形胶质细胞状态，将肌肉活动与海马可塑性连接起来</div>
+  <div class="one-line">为解决外周运动信号如何转化为脑内反应问题，作者结合小鼠体内跑轮与带超灵敏力传感器的体外平台，发现肌肉收缩因子诱导星形胶质细胞YAP入核和收缩并促进神经可塑性。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>JOY, M. S. H.; Manavbasi, I. E.; Lee, K. Y.; Connolly, M. G.; Glueck, Q. V.; Ahmed, M.; Zayyad, M. A.; Heidari, Y.; Emon, B.; Song, J.; Deswal, Y.; Lee, D.; Ritchie, J. P.; Sripraram, N.; Rhodes, J. S.; Saif, M. T. A.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.06.742872">10.64898/2026.08.06.742872</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.06.742872">https://www.biorxiv.org/content/10.64898/2026.08.06.742872</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦小鼠运动后星形胶质细胞力学激活与海马可塑性机制，缺乏演化或跨物种比较视角，对该研究者仅具一般神经生物学背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>运动可通过肌源性因子促进脑健康，但外周信号如何转化为神经反应仍不清楚。作者在小鼠中发现，自愿跑步可迅速诱导海马门区星形胶质细胞中机械敏感转录调控因子YAP入核，并提高非肌球蛋白II磷酸化，提示急性收缩。借助带超灵敏力传感器的体外系统，作者进一步证明收缩骨骼肌释放的因子可激活星形胶质细胞收缩，而这一过程对其增殖和扩增既必要又充分；被激活的星形胶质细胞随后释放可溶性因子，调节神经网络张力并增加未成熟神经元数量。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Physical exercise promotes brain health in part through muscle-derived factors that enter the brain, but how peripheral signals are translated into neural responses remain unclear. Here, we identify astrocyte contraction as a previously unrecognized physiological response to exercise signals that may contribute to adult hippocampal neurogenesis. In vivo, voluntary running rapidly induced nuclear localization of the mechanically sensitive transcriptional regulator Yes-associated protein (YAP), and increased non-muscle myosin II phosphorylation in hilar astrocytes in mice, consistent with acute contraction. Using an in vitro platform with ultrasensitive force sensors, we found that factors released by contracting skeletal muscles activated astrocytes which in turn increased contraction that was necessary and sufficient for their proliferation and expansion. Activated astrocytes subsequently released soluble factors that modulated neuronal network tension and promoted immature neuron abundance. These findings identify astrocyte contractility as a physiological transducer of exercise-derived muscle signals and establish cellular force generation as a potential mechanism regulating neuroplasticity.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.06.742872&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.6</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750834" target="_blank" rel="noopener">Matrix Viscoelasticity Regulates the Stemness and Multilineage differentiation of Primary Neural Progenitor-Stem Cells in 3D</a></div>
+  <div class="title-cn">基质黏弹性在三维环境中调控原代神经祖细胞-干细胞的干性与多谱系分化</div>
+  <div class="one-line">为解决基质应力松弛如何调控原代NPSC干性和多谱系分化问题，作者用可独立调控刚度与应力松弛的藻酸盐3D水凝胶，发现快速松弛基质增强干性维持并促进神经元、星形胶质和少突胶质分化。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ding, S.; Kim, J. H.; Wang, M.; Gu, L.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.11.750834">10.64898/2026.09.11.750834</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750834">https://www.biorxiv.org/content/10.64898/2026.09.11.750834</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain, neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦3D基质黏弹性调控原代神经祖细胞分化的材料/力学生物学机制，缺乏演化或跨物种比较视角，与该研究者核心问题关联很弱。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为阐明脑微环境中基质黏弹性对原代神经祖细胞-干细胞命运的影响，作者采用可独立调控刚度与应力松弛的藻酸盐3D水凝胶，研究SVZ来源NPSC的干性维持及神经元、星形胶质和少突胶质分化。结果显示，快速应力松弛可增强干性和放射状胶质样标记表达，并在相应诱导条件下促进多谱系分化；在神经元/星形胶质混合条件下更偏向促进神经元分化。机制上涉及整合素黏附、肌动球蛋白收缩、肌动蛋白聚合和Piezo1活性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neural progenitor-stem cells (NPSCs) reside in mechanically dynamic brain microenvironments and give rise to neurons, astrocytes, and oligodendrocytes. Although recent studies have shown that matrix viscoelasticity can influence neural maturation and neurogenic differentiation, its role in primary NPSCs beyond neurogenesis remains less defined. How matrix viscoelasticity or stress relaxation regulates primary NPSC stemness, neuronal and glial differentiation, and the associated matrix-cell mechanotransduction pathways are not well understood. Here, we use alginate hydrogels with independently tunable stiffness and stress relaxation properties to investigate how matrix stress relaxation regulates the fate of primary subventricular zone (SVZ)-derived NPSCs in 3D. The results suggested that matrices with faster stress relaxation enhances stemness maintenance, radial glial-like marker expression, and differentiation of NPSCs toward neuronal, astrocytic, and oligodendrocytic lineages in the corresponding biochemical environments. In mixed neuronal/astrocytic differentiation conditions, fast-relaxing matrices preferentially promote neuronal differentiation. Mechanistically, NPSC responses to matrix stress relaxation involve integrin-mediated adhesion, actomyosin contractility, actin polymerization, and Piezo1 activity, with distinct contributions across differentiation lineages. Together, these findings reveal how matrix stress relaxation regulates primary NPSC stemness and multilineage differentiation through multiple mechanotransduction pathways in 3D.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750834&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42615139/" target="_blank" rel="noopener">Nanostructured Zirconia Thin Films as a Neurogliomorphic Interface for Neural Cells of Central and Peripheral Nervous Systems.</a></div>
+  <div class="title-cn">纳米结构氧化锆薄膜作为中枢与外周神经系统神经细胞的类神经胶质界面</div>
+  <div class="one-line">为解决ns-ZrOx与异质性神经胶质网络互作不清问题，作者比较纳米结构和平坦氧化锆基底上的原代星形胶质细胞与DRG神经元-胶质共培养，发现ns-ZrOx选择性增强胶质钙信号。</div>
+  
+  <div class="meta">ACS applied bio materials · 2026-09-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Conte G, Borghi F, Lazzarini C, Piazzoni C, Konstantoulaki A, Fabbri R, Caprini M, Milani P, Benfenati V</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acsabm.6c01280">10.1021/acsabm.6c01280</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42615139/">https://pubmed.ncbi.nlm.nih.gov/42615139/</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural, glia, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于神经材料与生物电子接口研究，既无演化或跨物种比较视角，也不涉及单细胞图谱、细胞同源性或神经系统演化问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为理解纳米结构氧化锆薄膜（ns-ZrOx）与神经胶质网络的相互作用，作者比较了纳米结构与平坦氧化锆基底对原代星形胶质细胞及背根神经节（DRG）神经元-胶质共培养的影响。两类基底均支持细胞黏附、生存和分化，但ns-ZrOx可选择性增强中枢和外周胶质细胞的钙信号，提高瞬变幅度并加快反应动力学。结果表明，ns-ZrOx是可调节神经元-胶质通信的活性类神经胶质界面，支持混合生物电子平台开发。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent advances in neuroscience have highlighted the central role of glial cells, particularly astrocytes, in regulating neural network activity through calcium-dependent neuron-glia communication. In parallel, nanostructured cluster-assembled materials have emerged as promising candidates for developing brain-machine interfaces because of their biomimetic morphology, mechanotransductive properties, and neuromorphic behavior. Among these, nanostructured zirconium oxide (ns-ZrOx) thin films have recently demonstrated memristive and signal-processing capabilities compatible with biohybrid neural systems, yet their interaction with heterogeneous neuroglial networks remains poorly understood. Here, we investigate the biocompatibility and functional effects of ns-ZrOx interfaces on primary astrocytes and dorsal root ganglion (DRG) neuron-glia co-cultures, comparing nanostructured and flat zirconia substrates. Both substrates supported cellular adhesion, survival, and differentiation. However, ns-ZrOx selectively enhanced glial calcium signaling, increasing transient amplitude and accelerating response kinetics in both central and peripheral glial populations. Our findings identify ns-ZrOx as an active neurogliomorphic interface capable of modulating neuron-glia communication through nanoscale material properties. By bridging glial physiology with neuromorphic nanomaterials, this work supports the development of hybrid bioelectronic platforms integrating living neural networks with adaptive functional materials for brain-inspired computing and advanced neural interfaces.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acsabm.6c01280&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42697958/" target="_blank" rel="noopener">Author Correction: Choroid plexus apocrine secretion shapes CSF proteome during mouse brain development.</a></div>
+  <div class="title-cn">作者更正：脉络丛顶浆分泌塑造小鼠脑发育期间的脑脊液蛋白质组</div>
+  <div class="one-line">为修正先前研究，作者补充说明脉络丛顶浆分泌在小鼠脑发育中对脑脊液蛋白质组的塑造作用。</div>
+  
+  <div class="meta">Nature neuroscience · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Courtney Y, Head JP, Dani N, Chechneva OV, Shipley FB, Zhang Y, Holtzman MJ, Sadegh C, Libermann TA, Lehtinen MK</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41593-026-02463-1">10.1038/s41593-026-02463-1</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42697958/">https://pubmed.ncbi.nlm.nih.gov/42697958/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为作者修正性文章，聚焦于小鼠脑发育期间脉络丛顶浆分泌对脑脊液蛋白质组的调控，完全缺乏演化、跨物种比较或细胞类型同源性分析视角，与研究者核心研究方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>本文为一篇作者更正，针对先前关于小鼠脑发育的研究进行修正。原研究探讨脉络丛上皮细胞通过顶浆分泌方式将蛋白质释放至脑脊液，从而塑造脑脊液蛋白质组组成。该修正可能涉及实验数据、方法学或结论的补充与调整，但核心仍聚焦于小鼠单一物种的发育生理过程，未涉及跨物种比较、细胞类型演化或基因调控网络演化等研究方向。</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02463-1&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.33</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42673450/" target="_blank" rel="noopener">Pregnancy diet based on ancestral patterns increases growth in subcortical fetal brain regions.</a></div>
+  <div class="title-cn">基于祖先饮食模式的孕期膳食可增加胎儿皮层下脑区生长</div>
+  <div class="one-line">为解决母体营养影响胎儿脑发育机制证据不足问题，作者在厄瓜多尔开展215名孕妇随机对照饮食干预，发现干预组胼胝体和丘脑节卵圆体生长增加。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Iannotti LL, Vintimilla Andrade G, Tipanquiza Piedra S, Zimmerman RB, Hahn E, Camana P, Baldeon D, Silva P, Balladares K, Gallegos-Riofrio CA, Chapnick M, Aboagye-Mensah G, Zielonko T, Raichle M, Goyal MS, Waters WF, Palacios León I, Nicholas J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2602218123">10.1073/pnas.2602218123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42673450/">https://pubmed.ncbi.nlm.nih.gov/42673450/</a></div><div class="d-block keywords">命中关键词：brain development, neurodevelopment, brain, ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>该研究是人群孕期营养干预与胎儿脑发育的随机对照试验，虽提及“ancestral patterns”，但缺乏演化机制、跨物种比较或单细胞/细胞类型同源性内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估母体营养对胎儿神经发育的影响，作者在厄瓜多尔对215名孕早期女性开展随机对照试验，比较对照组与Mikhuna饮食干预组。干预从孕12周持续至分娩，包括每周配送鸡蛋、鱼、水果和蔬菜，并辅以行为改变沟通。研究在孕12、21、35周及产后2周进行纵向随访，采集超声脑部和骨骼指标、膳食摄入等数据。结果显示干预提高膳食多样性，并增加胼胝体长度、丘脑节卵圆体高度等皮层下脑结构生长。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Evidence on the biological basis for maternal nutrition effects on fetal and newborn neurodevelopment remains limited. This randomized controlled trial in Ecuador tested a maternal dietary pattern-derived from empirical studies of nutrition in human evolution and adapted locally-on offspring growth and brain development. Pregnant women (n = 215) in their first trimester were randomized to: 1) control (n = 104); or 2) Mikhuna (&quot;nourish&quot; in Kichwa) intervention (n = 111). The intervention, from 12 wk gestation to birth, consisted of a weekly food delivery (8 eggs, 500 g fish, and a variety of sustainably sourced fruits and vegetables) and a behavior change communication strategy encouraging diet diversity and limiting highly processed foods. Longitudinal data collection occurred at 12 wk, 21 wk, 35 wk gestation, and 2 wk postpartum, and included ultrasound imaging of fetal bone and brain parameters, maternal dietary intakes, anthropometry, socioeconomic and demographic variables, and other biomarkers. At close of intervention, a significantly higher percentage of women met the minimum dietary diversity threshold in Mikhuna (74.5%) vs. control groups (55.8%) (P = 0.004). Generalized linear regression models showed significant differences in Mikhuna compared to control for: corpus callosum length 0.19 cm (95% CI [0.02, 0.35]), gangliothalamic ovoid height 0.15 cm (95% CI [0.03 to 0.26]), and femur length -0.10 cm (95% CI [-0.19, -0.02]) from 21 wk to 35 wk; and corpus callosum Z 0.56 (95% CI [0.03, 1.09]) and femur length Z -0.21 (95% CI [-0.42, 0.00]) at 35 wk. The Mikhuna intervention increased the growth of subcortical fetal brain structures, which have established roles in motor control, cognition, and signal transmission.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2602218123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.31</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42306957/" target="_blank" rel="noopener">The Ontogeny of Rhythms in Circadian Clock Gene Expression in Mouse Brain and Neuroimmune Tissues.</a></div>
+  <div class="title-cn">小鼠脑和神经免疫组织中节律性时钟基因表达的发育起源</div>
+  <div class="one-line">为揭示神经发育中昼夜节律调控的发育起源，作者在C57BL小鼠PND 1-24期间测定SCN、海马、mPFC及神经免疫组织的Per1/Per2/Rev-erbα表达和皮质酮浓度，发现节律性逐步成熟且组织基因特异性，但微胶质细胞无转录节律却有功能节律。</div>
+  
+  <div class="meta">Journal of biological rhythms · 2026-06-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bell KS, Chen R, Weitzner AS, Fonken LK</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1177/07487304261449282">10.1177/07487304261449282</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42306957/">https://pubmed.ncbi.nlm.nih.gov/42306957/</a></div><div class="d-block keywords">命中关键词：brain development, neurodevelopment, brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯发育生物学与昼夜节律研究，缺乏演化或跨物种比较视角，仅聚焦单物种小鼠模型，与研究者核心关注的脑演化、细胞类型同源性和跨物种比较无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>该研究聚焦小鼠出生后早期发育中核心时钟基因与神经免疫基因的时间节律。通过标准光周期饲养的C57BL雌雄鼠，检测PND 1-24期间SCN、海马、mPFC及脉络丛、脑膜、分离微胶质细胞的Per1、Per2、Rev-erbα表达和血清皮质酮。结果显示：皮质酮及各脑区节律振幅随发育增强，PND 24趋近成年模式；脉络丛和脑膜PND 10-24出现日差变化；分离微胶质细胞无转录节律但吞噬活性呈昼夜变化。该工作建立了昼夜节律-神经免疫发育框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The circadian system coordinates daily physiology across nearly all tissues to temporally organize metabolism and maintain homeostasis. In the brain, circadian timing regulates neural activity, cellular function, and neuroimmune signaling, which is especially important during development. Yet, the ontogeny of circadian regulation during neurodevelopment remains poorly defined. Here, we characterized time-of-day variation in core clock and neuroimmune genes across multiple brain structures during early postnatal development, alongside circulating corticosterone concentrations. Using male and female C57BL mice housed in a standard light-dark cycle [12:12 light (150 lux)/dark (0 lux)], we measured the expression of Per1, Per2, and Rev-erbα in the suprachiasmatic nucleus, hippocampus, and medial prefrontal cortex, as well as in neuroimmune tissues (choroid plexus, meninges, and isolated microglia) across postnatal days (PND) 1-24. Across development, rhythms were seen in corticosterone concentrations and all brain regions, with increased amplitudes and gene-specific phase maturation toward adult-like timing by PND 24. Notably, the choroid plexus and meninges exhibited time-of-day differences in clock gene expression by PND 10-24. In contrast, isolated microglia did not display detectable time-of-day differences in clock gene expression; however, microglial phagocytic activity varied by time of day. Together, these findings demonstrate that circadian regulation of the brain emerges during the neonatal period, and the parameters of time-of-day differences are tissue- and gene-specific during development. In addition, functional rhythms may precede or occur independent of detectable transcriptional differences. This work establishes a developmental framework for circadian-neuroimmune interactions, with important implications for neuroimmune development and vulnerability. Given the neuroimmune system&#x27;s role in shaping brain development, disruptions in these temporal processes may contribute to neurodevelopmental or mood disorders.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/07487304261449282&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.24</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42750452/" target="_blank" rel="noopener">Shallow recurrent decoders for neural and behavioural dynamics.</a></div>
+  <div class="title-cn">用于神经与行为动力学的浅层循环解码器</div>
+  <div class="one-line">为解决少量传感器难以重建全脑活动和行为状态问题，作者用SHRED浅层循环解码架构，发现可由少数神经时间序列估计秀丽隐杆线虫、小鼠、斑马鱼等的大尺度脑动态。</div>
+  
+  <div class="meta">Philosophical transactions of the Royal Society of London. Series B, Biological sciences · 2026-09-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rude A, Kutz JN</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1098/rstb.2024.0461">10.1098/rstb.2024.0461</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42750452/">https://pubmed.ncbi.nlm.nih.gov/42750452/</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural, zebrafish, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦神经活动与行为动力学解码的机器学习方法，虽涉及多物种，但缺乏演化或跨物种同源比较视角，对该研究者仅具有限方法启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为更好量化神经元群体编码与单个神经元及行为之间的关系，作者提出SHallow REcurrent Decoder（SHRED）架构，将时间序列模型与浅层解码器结合，用少量传感器数据重建高维神经和行为状态。该方法可从有限神经时间序列估计全脑活动、行为和个体神经元动态，并在秀丽隐杆线虫、小鼠、斑马鱼及人类运动数据上展示了解码能力，说明其在非侵入或微创估计大尺度脑动力学中的潜力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Machine learning algorithms are affording new opportunities for building bio-inspired and data-driven models characterizing neural activity. Critical to understanding decision-making and behaviour is quantifying the relationship between the activity of neuronal population codes and individual neurons. We leverage a SHallow REcurrent Decoder (SHRED) architecture for mapping the dynamics of population codes to individual neurons and other proxy measures of neural activity and behaviour. SHRED is constructed from a temporal sequence model, which encodes the temporal dynamics of limited sensor data in multiple scenarios, and a shallow decoder, which reconstructs the corresponding high-dimensional neuronal and/or behavioural states. It is a robust and flexible sensing strategy which allows for decoding the diversity of neural measurements with only a few sensor measurements. Thus, estimates of whole-brain activity, behaviour and individual neurons can be constructed with only a few neural time-series recordings. Several examples in this article further highlight the potential of leveraging non-invasive or minimally invasive measurements to estimate large-scale brain dynamics. We empirically demonstrate the capabilities of the method on a number of model organisms including Caenorhabditis elegans, mouse, zebrafish and human biolocomotion. This article is part of the discussion meeting issue &#x27;Digital healthcare for the management of functional neurological disorders&#x27;.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rstb.2024.0461&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42219074/" target="_blank" rel="noopener">circCrebrf modulates the miR-3562/ERLIN1 axis to suppress neuronal oxidative stress and apoptosis following traumatic brain injury.</a></div>
+  <div class="title-cn">circCrebrf通过调控miR-3562/ERLIN1轴抑制创伤性脑损伤后神经元氧化应激和凋亡</div>
+  <div class="one-line">为探究circRNA在创伤性脑损伤中的作用，作者以大鼠模型研究circCrebrf通过海绵吸附miR-3562上调ERLIN1表达，发现其可减轻线粒体功能障碍和神经元凋亡，发挥神经保护作用。</div>
+  
+  <div class="meta">Experimental neurology · 2026-05-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li W, Zhang S, Shan B, Gu J, Xu F, Lu Y, Cang C, Li J, Han X, Cheng X, Dai Y, Zhang X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.expneurol.2026.115859">10.1016/j.expneurol.2026.115859</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42219074/">https://pubmed.ncbi.nlm.nih.gov/42219074/</a></div><div class="d-block keywords">命中关键词：neural development, brain, neuron, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床疾病机制研究，聚焦大鼠创伤性脑损伤中的circRNA-miRNA调控轴，完全缺乏演化、跨物种比较或细胞类型进化视角，与研究者的核心研究方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>创伤性脑损伤(TBI)可诱发多种神经系统疾病。本研究发现circCrebrf在TBI大鼠皮层中显著下调且在神经元中高表达；过表达circCrebrf可吸附miR-3562并上调ERLIN1，改善线粒体功能障碍、抑制细胞凋亡，从而缓解TBI后继发性神经损伤，为TBI干预提供潜在治疗靶点。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Traumatic brain injury (TBI) is a life-threatening medical emergency that can induce a variety of neurological disorders. Circular RNAs (circRNAs) play critical roles in neural development, maintenance of homeostasis, and the pathogenesis of neurological disorders. Nevertheless, the precise role of circRNAs in TBI remains unclear. In this study, we found that the expression level of circular RNA Crebrf (circCrebrf) was significantly downregulated in the cerebral cortex of rats following traumatic brain injury (TBI), and it was abundantly expressed in neurons. Furthermore, overexpression of circCrebrf could significantly ameliorate TBI-induced neurological deficits, cognitive impairment and neuronal apoptosis. Mechanistic investigations revealed that circCrebrf acted as a molecular sponge by specifically adsorbing miR-3562, thereby upregulating endoplasmic reticulum lipid-anchoring protein 1 (ERLIN1) expression. In turn, the upregulation of ERLIN1 effectively ameliorated mitochondrial dysfunction and suppressed cell apoptosis. Taken together, circCrebrf exerts a neuroprotective effect by regulating the miR-3562/ERLIN1 axis, thus alleviating secondary neurological injury following TBI. Therefore, circCrebrf is a promising novel potential therapeutic target for TBI intervention.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.expneurol.2026.115859&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.11</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42585326/" target="_blank" rel="noopener">Label-free biochemical imaging and time point analysis of neural organoids via deep learning-enhanced Raman microspectroscopy.</a></div>
+  <div class="title-cn">基于深度学习增强拉曼显微光谱的神经类器官无标记生化成像及时点分析</div>
+  <div class="one-line">为解决神经类器官表征依赖侵入性标记问题，作者用深度学习增强拉曼显微光谱进行无监督高光谱解混，发现可在完整类器官中解析神经玫瑰并追踪早期发育期脂质、蛋白和核酸的时空变化。</div>
+  
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Georgiev D, Xie R, Reumann D, Zhao X, Fernández-Galiana Á, Barahona M, Stevens MM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aec5080">10.1126/sciadv.aec5080</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42585326/">https://pubmed.ncbi.nlm.nih.gov/42585326/</a></div><div class="d-block keywords">命中关键词：neural, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦神经类器官的无标记拉曼成像与深度学习解混，虽与神经发育表征有关，但缺乏演化、跨物种比较或单细胞细胞类型同源性分析视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对3D神经类器官分析依赖侵入性、需外源标记且复用度有限的问题，作者构建了结合拉曼显微光谱与深度学习高光谱解混的无创无标记成像平台，可对冷冻切片和完整类器官进行2D/3D空间分辨生化分析。该方法较传统高光谱分析具有更高准确性和稳健性，并实现神经玫瑰的体积成像，揭示早期发育阶段脂质、蛋白质和核酸组成的时空变化，为类器官高内涵生化表型研究提供新框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Three-dimensional (3D) organoids have emerged as powerful models for studying human development, disease, and drug response in vitro. Yet, their analysis remains constrained by standard imaging and characterization techniques, which are invasive, require exogenous labeling, and offer limited multiplexing. Here, we present a noninvasive, label-free imaging platform that integrates Raman microspectroscopy with deep learning-based hyperspectral unmixing for unsupervised, spatially resolved biochemical analysis of neural organoids. Our approach enables 2D and 3D mapping of cellular and subcellular structures in both cryosectioned and intact organoids, achieving improved imaging accuracy and robustness compared to conventional methods for hyperspectral analysis. Using our platform, we demonstrate volumetric imaging of a neural rosette within a neural organoid and interrogate changes in biochemical composition during early developmental stages in intact neural organoids, revealing spatiotemporal variations in lipids, proteins, and nucleic acids. This work establishes a versatile framework for high-content, label-free (bio)chemical phenotyping with broad applications in organoid research and beyond.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aec5080&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42555578/" target="_blank" rel="noopener">No developmental fronto-parietal shift in brain activation during mental arithmetic across the lifespan: A registered report.</a></div>
+  <div class="title-cn">整个生命周期中心算脑激活不存在发育性的额顶叶转移：一项注册报告</div>
+  <div class="one-line">为解决心算额顶叶激活是否随发育发生转移问题，作者用fNIRS比较儿童、青年与老年人的两位数加减法，发现额顶叶网络激活总体稳定且未见对应顶叶增强。</div>
+  
+  <div class="meta">PloS one · 2026-08-05</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Artemenko C, Avcil M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0353139">10.1371/journal.pone.0353139</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42555578/">https://pubmed.ncbi.nlm.nih.gov/42555578/</a></div><div class="d-block keywords">命中关键词：neural development, brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是人类生命周期内心算的fNIRS行为与脑激活研究，不含演化、跨物种比较或单细胞/比较基因组视角，对该研究者核心问题帮助极小。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对心算加工是否存在从额叶向顶叶的发育性激活转移这一假说，作者开展注册报告，利用fNIRS测量儿童、青年和老年人在两位数加减法中的脑激活，并以进位与退位操纵运算复杂度。结果显示，复杂度增加会在各年龄组均增强额顶叶网络激活；虽行为上的进位/退位效应随发育减弱，但分类与连续加工特征及皮层激活总体稳定。额叶激活可随年龄下降，但顶叶并未相应增强，提示该转移未必适用于两位数心算。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Arithmetic processing is represented in a fronto-parietal network of the brain. However, activation within this network is thought to undergo a developmental shift from domain-general cognitive processing in the frontal cortex towards domain-specific magnitude processing in the parietal cortex. This assumption is primarily based on findings in children and young adults. In this registered report, we set out to replicate the proposed gradual fronto-parietal activation shift in arithmetic processing and, for the first time, to explore how neural development of arithmetic continues during aging. This registered report focuses on the behavioral and neural correlates of arithmetic and arithmetic complexity across the lifespan, i.e., childhood, when arithmetic is first learned; young adulthood, when arithmetic skills are well established already, and old age, when individuals have lifelong arithmetic experience. Therefore, brain activation during mental arithmetic was measured in children, younger adults, and older adults using functional near-infrared spectroscopy (fNIRS). Arithmetic complexity was manipulated via carry and borrow operations in two-digit addition and subtraction. The results provide evidence that increasing arithmetic complexity is associated with increased activation in the fronto-parietal network across all age groups. Even though behavioral carry and borrow effects decrease during development, suggesting improvements in place-value processing, the underlying categorical and continuous processing characteristics and cortical activation remain relatively stable. While frontal activation may decrease from childhood to adulthood, parietal activation does not show a corresponding increase. Thus, the developmental fronto-parietal shift in arithmetic processing might only apply to single-digit arithmetic - but not to two-digit arithmetic across the lifespan. Overall, these results suggest that arithmetic skills acquired in childhood are maintained throughout the lifespan.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353139&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42600006/" target="_blank" rel="noopener">Predictive processing as a scalable computational principle for embodied multitask intelligence.</a></div>
+  <div class="title-cn">作为具身多任务智能可扩展计算原则的预测处理</div>
+  <div class="one-line">为解决具身多任务智能中的高维多模态整合问题，作者用基于自由能原理的分层多模态循环神经网络，发现其可端到端预测3万维以上视-本体感觉流并呈现鲁棒多任务特性。</div>
+  
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Idei H, Miyake T, Ogata T, Yamashita Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aed7511">10.1126/sciadv.aed7511</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42600006/">https://pubmed.ncbi.nlm.nih.gov/42600006/</a></div><div class="d-block keywords">命中关键词：brain, artificial intelligence, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦预测处理驱动的具身多任务机器人智能，不含演化或跨物种比较视角，且属工程/AI方向，对该研究者仅具非常间接的概念参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为应对具身系统在不确定环境中的多模态整合与多任务适应问题，作者提出一种基于预测处理和自由能原理的可扩展分层多模态循环神经网络，可直接处理超过3万维的视-本体感觉输入，无需降维或手工预处理。利用全尺寸人形机器人遥操作采集的照护任务数据，模型端到端学习感觉流预测，并在开放环自适应推断中表现出层级潜变量动力学、自组织任务切换、遮挡/不确定性推断、视觉退化下的多模态鲁棒性及非对称多任务干扰，连接脑理论、AI与机器人学。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Humans exhibit remarkable flexibility in adapting to diverse and uncertain environments-a hallmark arising from the brain&#x27;s ability to integrate multimodal sensory streams into coherent predictive models. Drawing on this principle, we introduce a scalable hierarchical multimodal recurrent neural network grounded in predictive processing under the free-energy principle, capable of directly integrating more than 30,000-dimensional visuo-proprioceptive inputs without dimensionality reduction or handcrafted preprocessing. Using sensory data from teleoperation of a full-scale physical humanoid robot performing two caregiving-related tasks-rigid-body repositioning and flexible-towel wiping-the model learns to predict high-dimensional visuo-proprioceptive streams end to end. In open-loop adaptive inference experiments, the framework exhibits three emergent properties: (i) self-organized hierarchical latent dynamics governing task transitions, uncertainty, and occlusion inference; (ii) robustness to degraded vision via multimodal integration; and (iii) asymmetric interference in multitask learning. Although evaluated in simulations, the framework is extensible to closed-loop robot control, with proprioceptive predictions driving action, thereby establishing a generalizable computational foundation bridging brain theory, artificial intelligence, and embodied robotics.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aed7511&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42853923/" target="_blank" rel="noopener">Insights into temporal and spatial dynamics of short association fiber formation in the human fetal brain.</a></div>
+  <div class="title-cn">人类胎儿脑内短联络纤维形成的时间和空间动态洞察</div>
+  <div class="one-line">为解决人类胎儿短联络纤维(SAFs)产前发育机制不明问题，作者利用胎儿弥散磁共振成像(243例)及组织学数据，追踪SAFs从出现到U型束重组的发育轨迹，揭示其感觉运动-联合梯度成熟规律。</div>
+  
+  <div class="meta">Science advances · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li B, Krsnik Ž, Pierotich L, Kostović I, Warfield SK, Grant PE, Karimi D</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aee7989">10.1126/sciadv.aee7989</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42853923/">https://pubmed.ncbi.nlm.nih.gov/42853923/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯人类胎儿发育研究，缺乏跨物种比较或演化视角，与研究者的演化生物学核心方向不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>短联络纤维(SAFs)构成皮层局部连接支架，但其产前发育知之甚少。本研究利用发展中的人类连接组计划胎儿弥散磁共振成像及Zagreb人脑组织学收藏，重建了SAFs宫内发育。在243例胎儿中追踪其体积与微结构轨迹，发现SAFs在脑沟折叠前即出现，初为沿皮层下白质界面的松散平坦通路，后重组为U型束；其成熟遵循感觉运动到联合皮层的梯度，与皮层发育平行。非线性、束特异的轨迹捕捉了多相成熟过程，皮层下动态早于轴突一致性增加和早期髓鞘化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Short association fibers (SAFs) form the local scaffold of cortical connectivity and support early functional specialization. However, their development before birth remains largely unknown. Using fetal diffusion magnetic resonance imaging from the Developing Human Connectome Project and histology from the Zagreb Collection of human brains, we present an in utero reconstruction of SAF pathways in the human brain. We tracked their volumetric and microstructural developmental trajectories in 243 fetuses spanning a critical period of connectome formation. We found that SAFs emerge before sulcal folding, initially as flat, loosely arranged pathways along the subplate-white matter interface, and later reorganize into coherent U-shaped bundles. Their maturation followed a sensorimotor-to-association gradient, paralleling cortical development. Nonlinear, bundle-specific trajectories captured multiphasic maturation, with subplate dynamics preceding increases in axonal coherence and early myelination. These findings reveal how the brain&#x27;s local wiring is established during prenatal development and provide insight into the origins of individual variability.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aee7989&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-important">Important</span><span class="score">5.06</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.07.01.662486" target="_blank" rel="noopener">Reading specific memories from human neurons before and after sleep</a></div>
+  <div class="title-cn">在睡眠前后从人类神经元中读取特定记忆</div>
+  <div class="one-line">为解决人类特定情景记忆难以从神经元活动中解码问题，作者用结合跨通道注意力的transformer分析颅内微电极spikes，发现睡前MTL而睡后FC更能解码特定概念回忆。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-05</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ding, Y.; Dunn, S. L. S.; Sakon, J. J.; Aghajan, Z. M.; Duan, C.; Zhang, Y.; Berger, J. I.; Rhone, A. E.; Nourski, K. V.; Kawasaki, H.; Howard, M. A.; Roychowdhury, V. P.; Fried, I.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.07.01.662486">10.1101/2025.07.01.662486</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.07.01.662486">https://www.biorxiv.org/content/10.1101/2025.07.01.662486</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural, transformer, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦人类情景记忆解码与睡眠前后脑区电生理变化，缺乏演化或跨物种比较视角，对演化神经生物学研究者仅具有限方法启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为破解仅经历一次的情景记忆能否从人脑神经元活动中被解码这一难题，作者基于人类颅内微电极记录的全脑spikes，构建结合跨通道注意力的transformer模型，在单次观看视听片段后预测受试者回忆时对人物或地点等特定概念的言语化。结果显示，睡前仅用内侧颞叶信号可显著解码，睡后则前额叶皮层信号更有效，且更强的前额叶解码与非REM睡眠增加相关，提示记忆信息在睡眠前后发生系统级重分布。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The ability to retrieve a single episode encountered just once is a hallmark of human intelligence and episodic memory[1]. Yet, decoding a specific memory from neuronal activity in the human brain remains a formidable challenge. Here, we develop a transformer neural network model[2, 3] trained on neuronal spikes from intracranial microelectrodes recorded during a single viewing of an audiovisual episode. Combining spikes throughout the brain via cross-channel attention[4], capable of discovering neural patterns spread across brain regions and timescales, individual participant models predict vocalization of specific concepts such as persons or places during out-of-distribution memory recall. Brain regions differentially contribute to memory decoding before and after sleep. Models trained using only medial temporal lobe (MTL) spikes significantly decode concepts before but not after sleep, while models trained using only frontal cortex (FC) spikes decode concepts after but not before sleep, with better FC decoding relating to increased non-REM sleep. These findings suggest a system-wide distribution of information across neural populations that transforms over wake/sleep cycles[5]. Such decoding of internally generated memories suggests a path towards brain-computer interfaces to treat episodic memory disorders through enhancement or muting of specific memories.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.07.01.662486&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-important">Important</span><span class="score">5.04</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42475563/" target="_blank" rel="noopener">Glucocorticoid receptors in oligodendrocyte precursor cells regulate hippocampal network plasticity and stress-induced behavior in mice.</a></div>
+  <div class="title-cn">少突胶质前体细胞中的糖皮质激素受体调控小鼠海马网络可塑性与应激诱导行为</div>
+  <div class="one-line">为解决小鼠出生后OPC中GR生理作用不清问题，作者用条件性敲除方法解析OPC增殖成熟及海马功能，发现GR缺失降低少突胶质细胞和髓鞘化轴突密度并损害记忆。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-07-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mattioni L, Poggi G, Gallagher C, Becker K, Le L, Papic M, Engbers J, Koskinen MK, Abdollahzadeh A, Herzog DP, Nardi L, Conrad A, Winterberg S, Merte-Grebe C, Melo-Thomas L, Lee H, Schwarzbach H, Klüpfel J, Kinscherf R, Engelmann J, Lutz B, Waisman A, Hovatta I, Mittmann T, Schmeisser MJ, Müller MB, Treccani G</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2614867123">10.1073/pnas.2614867123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42475563/">https://pubmed.ncbi.nlm.nih.gov/42475563/</a></div><div class="d-block keywords">命中关键词：brain development, brain, neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦小鼠海马中OPC的糖皮质激素受体功能与应激行为，属于神经发育/可塑性研究，但与研究者关注的脑演化、跨物种细胞类型同源和单细胞比较框架关联较弱。</div><div class="d-block"><span class="lbl">中文全摘要：</span>糖皮质激素受体（GR）介导应激激素对出生后脑发育和适应性可塑性的影响，但其在特定细胞类型中的早期作用尚不清楚。作者在小鼠出生后少突胶质前体细胞（OPCs）中条件性删除GR，评估其对OPC增殖、成熟、海马网络活动和行为的影响。结果显示，GR缺失导致海马中少突胶质细胞和髓鞘化轴突密度下降，并在急性挑战后引起性别特异性的海马活动和长时程增强改变，成年期记忆形成受损，提示OPC谱系中的GR活性对正常海马可塑性、学习和记忆至关重要。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Glucocorticoid receptors (GRs) are key mediators of how the stress hormone glucocorticoids (GCs) shape postnatal brain development and adaptive plasticity. Because GC signaling is critical during this period, postnatal GC concentrations are tightly regulated in the brain, whereas excessive levels of circulating GCs can disrupt developmental trajectories and increase the risk of psychiatric disorders later in life. GR function influences multiple neural cell types, but its cell-specific roles, particularly early in development, remain poorly understood. Oligodendrocyte precursor cells (OPCs), which generate myelinating oligodendrocytes and actively modulate neuronal networks, express GRs and can therefore respond to fluctuations in GC levels. Although excessive GC exposure during early life adversity has been linked to changes in OPC development, the physiological role of GR signaling specifically within OPCs remains unclear. To address this, we conditionally deleted GRs in postnatal OPCs in mice to investigate the role of physiological GC signaling in OPC proliferation and maturation, as well as in neuronal network activity and behavior. This deletion resulted in reduced oligodendrocyte and myelinated axon density in the hippocampus, sex-specific alterations in hippocampal activity and long-term potentiation following acute challenge, and impairments in memory formation in adulthood. Our findings reveal an OPC-specific role for GRs and suggest that physiological GR activity in the oligodendrocyte lineage contributes to normal hippocampal plasticity, learning, and memory.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2614867123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.4</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.28.755010" target="_blank" rel="noopener">FlyAnatoView: Visualization of Drosophila Single-cell RNA-seq Datasets on Anatomographs</a></div>
+  <div class="title-cn">FlyAnatoView：果蝇单细胞RNA-seq数据在解剖图谱上的可视化</div>
+  <div class="one-line">为解决scRNA-seq数据缺乏空间位置信息的问题，作者开发了FlyAnatoView工具，将果蝇单细胞转录组数据投影到解剖图谱上以恢复空间上下文，构建了可在线访问的可视化资源，为果蝇细胞类型的空间定位研究提供了便利工具，但缺乏演化或跨物种比较视角。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hu, Y.; Kalina, J.; Veal, A.; Ewen-Campen, B.; Porter, T.; Song, J.; Luo, Y.; Huang, K.; Goutte-Gattat, D.; Brown, N. H.; Papatheodorou, I.; Perrimon, N.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.28.755010">10.64898/2026.09.28.755010</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.28.755010">https://www.biorxiv.org/content/10.64898/2026.09.28.755010</a></div><div class="d-block keywords">命中关键词：scRNA-seq, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>纯工具开发论文，无演化或跨物种比较视角，且仅针对果蝇单一模式生物，对该研究者跨物种比较研究参考价值有限。</div><div class="d-block"><span class="lbl">背景：</span>单细胞RNA测序技术已成为解析细胞异质性的核心手段，但该技术在实验过程中会破坏组织空间结构，导致获取的基因表达数据丢失原始的空间位置信息。对于果蝇等模式生物而言，虽然已有丰富的解剖学知识积累，但如何将海量单细胞数据与经典解剖图谱有效关联仍是挑战。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了FlyAnatoView在线可视化工具，通过将scRNA-seq数据映射到果蝇解剖图谱，实现基因表达模式的空间可视化展示。该工具依托flyrnai.org平台构建，提供基于Web的交互式界面供用户查询和浏览。</div><div class="d-block"><span class="lbl">研究结果：</span>FlyAnatoView实现了果蝇scRNA-seq数据在解剖图谱上的直观展示，用户可通过该工具将单细胞转录组数据与空间解剖信息关联，恢复细胞的空间上下文信息。工具已通过网站形式公开发布。</div><div class="d-block"><span class="lbl">研究意义：</span>该工具为果蝇研究者提供了便捷的单细胞数据空间可视化手段，有助于研究者理解细胞类型在组织中的分布模式。但属于单一物种的工具开发，无跨物种应用或演化分析功能，对跨物种细胞类型比较与演化研究的直接推动作用有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞RNA测序是测量单细胞分辨率转录组图谱的强大方法，但scRNA-seq数据虽揭示每个细胞表达的基因，却无法指示细胞在组织或器官中的解剖位置。作者开发了FlyAnatoView，一种将scRNA-seq数据投影到解剖图谱上以恢复这一缺失空间上下文的可视化工具。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell RNA sequencing (scRNA-seq) is a powerful approach for measuring the transcriptomic landscape at single-cell resolution. However, while scRNA-seq data reveals what genes each cell expresses, they do not indicate where that cell was located within the tissue or organ, anatomically. We developed FlyAnatoView (https://www.flyrnai.org/tools/rna_seq_base/web/svg_files/), a resource that projects scRNA-seq data onto anatomical diagrams, restoring this missing spatial context.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.28.755010&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献聚焦于神经可塑性的多尺度调控机制，涵盖运动-神经环路、基质力学微环境、发育起源及损伤修复等维度。其中，Exercise engages a mechanically activated astrocyte state linking muscle activity to hippocampal plasticity与Glucocorticoid receptors in oligodendrocyte precursor cells regulate hippocampal network plasticity and stress-induced behavior in mice分别从外周-中枢交互和胶质细胞内在调控两个新颖角度揭示了神经可塑性的调控逻辑。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经胶质细胞异质性调控机制：星形胶质细胞的力学激活态、OPC中糖皮质激素受体功能以及ns-ZrOx表面胶质钙信号增强等研究，共同拓展了胶质细胞在神经可塑性与界面交互中的功能认知</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>神经发育与节律调控：从母体营养干预影响胎儿脑发育、短联络纤维产前形成规律，到昼夜节律基因表达的成熟轨迹，呈现了从系统到分子层面的发育神经生物学图景</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>神经计算与解码技术：浅层循环解码架构实现跨物种大尺度脑动态估计、深度学习增强拉曼光谱进行无标记神经类器官表征，以及基于自由能原理的多任务智能模型，展现了计算方法与神经科学深度融合的技术前沿</div>
+<div class="trend-dir"><span class="trend-dir-no">四是</span>脑损伤与神经保护策略：circCrebrf通过竞争性内源RNA机制调控神经元氧化应激，为创伤性脑损伤的干预靶点提供了新思路</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同反映了从静态结构描述向动态功能解析的范式转变，尤其体现在力学因素被纳入神经调控的核心变量、多模态数据融合方法的广泛应用，以及从体外简化模型向在体生理-病理情境的拓展。跨尺度整合成为显著特征，即从分子信号、细胞力学性质到网络活动与行为的贯通分析。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">研究者可关注力学敏感信号通路在神经疾病中的转化潜力，借鉴藻酸盐水凝胶与纳米结构界面的材料设计思路优化体外模型，跟进浅层循环网络在低通道神经信号解码中的性能边界。此外，昼夜节律发育窗口期与神经免疫交互、以及母体营养干预的长期神经发育效应，均为具有临床转化前景的跟进方向。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
