@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-10-25</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-10-25</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 1 · Relate 14）· 命中关键词 20 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.62</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.23.761381" target="_blank" rel="noopener">Development of Circadian Circuitry Underlying Feeding-Fasting Rhythms in Drosophila Larvae</a></div>
+  <div class="title-cn">果蝇幼虫摄食-禁食节律下昼夜节律回路的发育</div>
+  <div class="one-line">为揭示早期发育中摄食-禁食节律形成的神经机制，作者以果蝇三龄幼虫为模型，通过遗传学手段特异性失活s-LNv昼夜节律起搏神经元和SIFa神经元，发现两类神经元之间的突触连接在L3期形成是摄食节律涌现的关键，并证明Pdf和SIFa信号通路对该行为节律的正常发育至关重要，为理解发育中昼夜节律行为的神经回路机制提供了新见解。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Halder, N.; McEnaney, C.; Hood, S. E.; Poe, A. R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.23.761381">10.64898/2026.10.23.761381</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.23.761381">https://www.biorxiv.org/content/10.64898/2026.10.23.761381</a></div><div class="d-block keywords">命中关键词：neural development, neuron, neural, RNA interference, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为果蝇幼虫昼夜节律神经回路的发育机制研究，缺乏演化或跨物种比较视角，且非单细胞图谱类工作。</div><div class="d-block"><span class="lbl">背景：</span>昼夜节律行为的形成是动物适应环境周期性变化的重要机制，但许多生物在发育早期并不表现出成体样的昼夜行为节律。睡眠和摄食行为的昼夜整合如何随发育逐步建立，其背后的神经回路发育机制尚不清楚。早期生活中昼夜节律的紊乱与神经发育异常和代谢疾病相关，因此理解这一发育过程具有重要的生理和临床意义。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者以果蝇三龄幼虫为模型，利用遗传学手段（如UAS-GAL4系统）特异性失活或调控s-LNv昼夜节律起搏神经元和pars intercerebralis中的SIFa神经元，通过行为学监测分析摄食-禁食节律和睡眠节律，并采用RNA干扰技术降低Pdf和SIFa信号分子的表达，评估其对行为节律发育的影响。</div><div class="d-block"><span class="lbl">研究结果：</span>研究发现s-LNv神经元和SIFa神经元的共同失活会破坏幼虫摄食节律的发育，提示两者均为节律形成所必需。行为学和神经解剖学数据表明，s-LNvs与SIFa神经元之间的回路连接在L3阶段形成，是摄食节律涌现的结构基础。此外，通过RNA干扰降低Pdf或SIFa信号水平，可破坏昼夜摄食和睡眠差异，导致行为节律丧失。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究首次鉴定了发育中生物体摄食节律调控的生物钟及其输出回路，揭示了s-LNv-SIFa神经回路在节律行为发育中的关键作用，为理解昼夜节律回路的功能发育提供了重要框架。然而，该研究局限于单一物种（果蝇）的行为神经机制，未涉及跨物种比较、细胞类型演化或基因调控网络演化等演化生物学问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>许多生物在生命早期不表现出强烈的日常行为节律。睡眠和摄食的昼夜节律整合直到发育后期才出现。早期生命中昼夜节律行为的紊乱可导致神经发育和代谢稳态失调，但调控摄食节律发育的回路机制未知。本研究鉴定了果蝇三龄幼虫中驱动摄食-禁食节律发育的神经回路，发现s-LNv昼夜节律起搏神经元和SIFa神经元的失活均破坏摄食节律发育，两类神经元间在L3期形成的回路连接是节律涌现的原因，且Pdf和SIFa信号减少会干扰正常行为节律发育。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Many organisms do not exhibit strong daily behavioral rhythms early in life. The consolidation of sleep and feeding to specific times of the day does not emerge until later in development. Disruptions to circadian behaviors in early life can lead to dysregulation of both neural development and metabolic homeostasis. However, the circuit mechanisms regulating feeding rhythm development are unknown. Here, we characterize the neural circuitry responsible for driving the development of feeding-fasting rhythms in early 3rd instar (L3) Drosophila larvae. We find that inactivation of both larval s-LNv circadian pacemaker neurons and SIFamide (SIFa) neurons in the pars intercerebralis disrupts feeding rhythm development. Additionally, our data indicate feeding rhythms likely emerge due to circuit connections forming between s-LNvs and SIFa neurons at the L3 stage. Finally, we show that reductions in signaling between s-LNv and SIFa neurons interfere with normal behavioral rhythm development in L3. Specifically, RNA interference-induced reductions in pigment-dispersing factor (pdf) signaling and SIFa signaling disrupt diurnal differences in both feeding and sleep, resulting in a loss of behavioral rhythms. Altogether, our findings identify for the first time the clock and clock output circuitry responsible for feeding rhythm regulation in developing organisms.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.23.761381&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.77</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.21.760692" target="_blank" rel="noopener">Dosage-dependent disruption of corticofugal neuron development by Fezf2 loss</a></div>
+  <div class="title-cn">Fezf2缺失对小鼠皮层-脑干投射神经元发育的剂量依赖性破坏</div>
+  <div class="one-line">为解析Fezf2转录因子剂量如何影响皮层发育的细胞类型特异性及时序性，作者重新分析了Di Bella等人公开的小鼠皮层发育单细胞RNA-seq数据（E10-P4，WT/Het/KO），结合scATAC-seq数据，发现Fezf2缺失导致剂量依赖性的皮层-脑干投射神经元近乎消除，并鉴定出翻译相关基因及Six4、Rest等调控因子的变化，为皮层发育机制提供了候选下游程序，但未涉及跨物种比较或演化分析。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hossain, M. J.; Abhi, S. N. I.; Islam, M. M.; Shahjahan, M.; Tasnim, U. M.; Das, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.21.760692">10.64898/2026.10.21.760692</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.21.760692">https://www.biorxiv.org/content/10.64898/2026.10.21.760692</a></div><div class="d-block keywords">命中关键词：neuron, single-cell atlas, ATAC-seq, Harmony, Cell atlas</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文仅聚焦于小鼠皮层发育中Fezf2剂量效应的分子机制，属于典型的模式生物发育神经生物学研究，缺乏演化视角、跨物种比较及细胞类型同源性分析，与该研究者核心的脑演化、跨物种比较及单细胞图谱研究高度不符。</div><div class="d-block"><span class="lbl">背景：</span>皮层-脑干投射神经元是大脑运动指令输出的关键细胞类型，其发育依赖于转录因子Fezf2的精确调控。Fezf2剂量异常与多种神经发育障碍相关，但其细胞类型特异性和时序性的分子机制尚不明确。已有研究构建了小鼠皮层发育的单细胞图谱，为系统解析Fezf2的功能提供了数据基础。</div><div class="d-block"><span class="lbl">研究方法：</span>作者重新分析了Di Bella等人（2021）公开的20个单细胞RNA-seq样本和3个scATAC-seq样本，涵盖胚胎期E10至出生后P4。采用Harmony和scVI进行批次整合，通过consensus doublet removal去除双细胞，以bootstrap 95%置信区间评估基因型效应，并利用WT重复样本估计生物学噪声零分布。进一步进行regulon活性分析推断转录调控网络变化。</div><div class="d-block"><span class="lbl">研究结果：</span>研究共获得121,889个高质量细胞，鉴定17种转录 distinct 细胞类型。最显著的基因型效应为P1时皮层下投射神经元比例从WT的2.21%降至杂合子0.18%和敲除型0.15%。在成熟型、皮层-丘脑型和胼胝体投射神经元中分别鉴定出947、1,119和838个差异表达基因。敲除型细胞中翻译和核糖体生物合成相关基因显著下调，regulon分析提示Six4、Atf5、Myt1活性增加而Hdac7、Rest、Kdm5a活性降低。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究揭示了Fezf2剂量依赖性调控皮层发育的细胞类型特异性机制，为神经发育障碍的分子病理提供了候选靶点。然而，研究完全局限于小鼠单一物种，未涉及跨物种比较、细胞类型同源性推断或演化分析，对理解皮层神经元类型的演化起源缺乏直接贡献。其方法论（单细胞重分析、批次整合）虽具参考性，但不足以弥补研究视角的局限性。</div><div class="d-block"><span class="lbl">中文全摘要：</span>Fezf2是皮层-脑干投射神经元特化所需的剂量敏感性转录因子，其变异与神经发育障碍相关。本研究重新分析小鼠皮层发育的公开单细胞RNA-seq数据（E10-P4，20个样本），比较野生型、杂合子和敲除型，鉴定121,889个细胞和17种细胞类型，发现Fezf2缺失导致P1时皮层下投射神经元减少约13-15倍，并鉴定出翻译/成熟相关基因的汇聚性下调及Six4、Rest等调控因子变化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Background. Fezf2 (Forebrain Embryonic Zinc Finger 2) is a dosage-sensitive transcription factor required for the specification of corticofugal projection neurons, and rare predicted-deleterious Fezf2 variants are associated with human neurodevelopmental disorders. The cell-type-specific and temporal manner in which Fezf2 dosage shapes cortical development remains incompletely resolved at single-cell resolution. This study aims to quantify the temporal and cell-type-specific transcriptional response to progressive Fezf2 loss by re-analyzing a public single-cell atlas of mouse cortical development. Methods. We re-analyzed 20 single-cell RNA-seq samples spanning embryonic day (E) 10 to postnatal day (P) 4 across wild-type (WT), Fezf2-heterozygous (Het), and Fezf2-knockout (KO) genotypes, together with 3 wild-type single-cell ATAC-seq samples, from Di Bella et al. (2021) (GSE153164). After quality control, consensus doublet removal, and batch integration with two complementary methods (Harmony and scVI), we annotated cell types and quantified genotype effects. Because the source design includes a single library per genotype at most stages, we report effect sizes with bootstrap 95% confidence intervals and calibrate candidate dysregulation against a biological-noise null estimated from the two WT replicates at P1, rather than reporting formal inferential p-values. Results. We recovered 121,889 high-quality cells and 20,982 genes, resolving 17 transcriptionally distinct cell types. The most prominent genotype effect was a dosage-dependent depletion of subcerebral projection neurons (SCPNs) at P1 - the only timepoint at which all three genotypes were sampled: SCPNs comprised 2.21% of WT cells (mean of two replicates) but 0.18% of Het and 0.15% of KO cells, an approximately 13 -15-fold reduction. Using the WT-replicate null (99th percentile |log2 fold-change| = 0.34), we identified 947, 1,119, and 838 genes exceeding this threshold in Maturing, Corticothalamic, and Callosal projection neurons, respectively. Genes downregulated in KO projection neurons were convergently enriched for cytoplasmic translation and ribosome biogenesis (adjusted P {approx} 8.8*10^-30; in Corticothalamic Neurons). Regulon-activity analysis nominated Six4, Atf5, and Myt1 as increased and Hdac7, Rest, and Kdm5a as decreased in KO cells. Conclusions. Progressive Fezf2 loss is associated with a dosage-dependent, cell-type-specific disruption of cortical development, most notably near-elimination of the SCPN compartment by birth and a convergent downregulation of translational/maturation-associated genes across projection neurons. These associations nominate candidate downstream programs for experimental follow-up; they do not by themselves establish a mechanism.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.21.760692&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.6</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.19.760009" target="_blank" rel="noopener">Sex peptide-SPR-serotonin signaling regulates mating-induced Sex peptide replenishment in Drosophila, suggesting an ancestral role in males</a></div>
+  <div class="title-cn">果蝇交配诱导的性肽补充受性肽-SPR-5-羟色胺信号调控，提示其在雄性中的祖先功能</div>
+  <div class="one-line">为阐明交配后雄性精液成分补充的分子调控机制，作者以黑腹果蝇为模型，结合神经解剖学追踪、遗传操控和跨物种比较分析，发现雄性副性腺中性肽（SP）的补充依赖SP及其受体SPR，并由投射至副性腺的5-羟色胺能神经元通过交配时SP经过生殖道的正反馈环路调控；该通路还协调其他精液蛋白基因的上调。此外，基于12种果蝇属物种的比较分析支持SP-SPR信号在雄性中的功能先于其在雌性典型交配后反应中的功能演化，提出了该信号通路雄性祖先功能的新假说。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hoshino, R.; Kozono, Y.; Tanaka, R.; Lin, H.-K.; Ameku, T.; Tei, T.; Asano, T.; Kamikouchi, A.; Shimada-Niwa, Y.; Nakamura, A.; Awasaki, T.; Niwa, R.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.19.760009">10.64898/2026.10.19.760009</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.19.760009">https://www.biorxiv.org/content/10.64898/2026.10.19.760009</a></div><div class="d-block keywords">命中关键词：neuron, ancestral, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>虽有果蝇物种内比较与跨种比较分析，但核心为生殖生理学与神经内分泌调控机制，缺乏与脑演化、神经系统细胞类型演化或跨物种单细胞比较的直接关联。</div><div class="d-block"><span class="lbl">背景：</span>精液成分在繁殖中的多重功能及其对雄性交配成功的重要性已被认识，但 iteroparous 物种交配后如何补充耗竭的精液成分仍不清楚。性肽（SP）及其受体SPR是著名的雌性交配后反应调控因子，但其在雄性中的潜在功能未被探索。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者运用神经解剖学标记和追踪技术鉴定投射至雄性副性腺（MAG）的5-羟色胺能神经元；通过遗传学手段（包括SP和SPR突变体、神经元沉默/激活）操控SP-SPR信号通路；结合qRT-PCR和蛋白质定量分析SP补充动态；对12种果蝇属物种进行SP和SPR序列及表达模式的比较分析。</div><div class="d-block"><span class="lbl">研究结果：</span>研究发现交配后雄性副腺中性肽（SP）的补充依赖SP本身及其受体SPR；鉴定出投射至MAG的5-羟色胺能神经元是调控SP补充的关键细胞群，且该调控需要SPR；证明SP在交配过程中经过生殖道时可激活此正反馈环路；显示该信号还协调其他精液蛋白基因（如Acp36DE）的交配后上调；跨物种比较分析支持SP-SPR信号雄性功能先于雌性功能演化的假说。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究首次揭示了SP-SPR信号在雄性生殖生理中的调控功能，提出了该信号通路从雄性向雌性功能演化的进化新观点，为理解神经肽信号系统的功能演化提供了新视角。然而，该工作未涉及神经系统细胞类型演化、脑结构比较或单细胞组学方法，与该研究者核心关注点的直接关联有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>精液不仅辅助受精，还诱导雌性交配后行为和生理变化，而交配后精液成分的补充调控机制尚不清楚。作者发现黑腹果蝇雄性性肽（SP）的补充需要SP及其受体SPR，由投射至副性腺的5-羟色胺能神经元调控，且依赖交配时SP经过生殖道的SPR激活。该跨组织信号还协调其他精液蛋白基因的上调。跨12种果蝇属物种的比较分析支持SP-SPR信号在雄性中的功能先于其在雌性中的经典功能演化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Seminal fluid not only assists successful fertilization but also induces changes in female post-mating behavior and physiology. Consequently, males with depleted or inadequate seminal fluid produce fewer offspring. Males of iteroparous species therefore increase seminal fluid production to replenish exhausted supplies. However, it remains unclear how mating-induced replenishment of seminal fluid components is regulated at the molecular and cellular levels. Here, we show that replenishment of Sex peptide (SP) in male Drosophila melanogaster requires both SP and its receptor SPR. Mechanistically, mating-induced SP replenishment in the male accessory gland (MAG) is regulated by MAG-projecting serotonergic neurons, and this regulation depends on SPR, which is likely activated by SP as it passes through the reproductive tract during mating. This inter-tissue signaling pathway is not limited to SP but also coordinates the post-mating upregulation of an additional seminal fluid protein gene. While SP-SPR signaling is a well-known regulator of female post-mating responses, we demonstrate that it also modulates male physiology. Furthermore, comparative analyses across 12 drosophilid species are consistent with the hypothesis that SP-SPR signaling acquired a role in males before its role in canonical female post-mating responses evolved. We therefore propose that the role of SP-SPR signaling as a mating signal in males is ancestral to its more familiar but evolutionarily derived role in females.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.19.760009&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.49</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.28.741350" target="_blank" rel="noopener">Disruption of interareal control during propofol anesthesia</a></div>
+  <div class="title-cn">丙泊酚麻醉期间脑区间控制的破坏</div>
+  <div class="one-line">为解决麻醉诱导无意识中的区际控制变化问题，作者用结合delay-coordinate embedding、可逆编码器与JacobianODE的深度学习框架，发现丙泊酚普遍降低非人灵长类皮层区间相互控制能力。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Eisen, A. J.; Bastos, A. M.; Donoghue, J. A.; Brincat, S. L.; Brown, E. N.; Fiete, I. R.; Miller, E. K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.28.741350">10.64898/2026.07.28.741350</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.28.741350">https://www.biorxiv.org/content/10.64898/2026.07.28.741350</a></div><div class="d-block keywords">命中关键词：brain, neural, deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦非人灵长类在丙泊酚麻醉下的皮层区际控制动力学，缺乏演化或跨物种比较视角，对该研究者仅有一般方法学启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>麻醉导致无意识的机制之一，可能是脑区操控彼此活动的能力发生改变。作者基于JacobianODE，开发结合delay-coordinate embedding、体积保持可逆编码器和潜在动力学学习的深度学习框架，从部分观测的多脑区神经记录中恢复有向非线性控制。方法在Lorenz系统和工作记忆循环神经网络上验证后，应用于两只非人灵长类PPC、STG、FEF和vlPFC的局部场电位数据。结果显示，丙泊酚麻醉广泛降低区际驱动与稳定控制能力，主要由区际耦合减弱所致。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Anesthetic-induced unconsciousness may arise partly from a change in how brain areas can manipulate each other&#x27;s activity. To quantify this change, we use control-theoretic tools that can precisely characterize how easily subsystems in complex networks can control each other. These tools rely on the Jacobian of the dynamics, an object that fully specifies how inputs to a function affect the outputs. We built on JacobianODE, a method for data-driven Jacobian learning, to enable its application to neural recordings. We developed a deep learning framework that recovers directional, nonlinear control from partially observed multi-area recordings by combining delay-coordinate embedding, a volume-preserving invertible encoder, and latent dynamics via JacobianODE. We validated our framework on the Lorenz system and a partially observed working-memory recurrent neural network. We then applied it to local field potential recordings from posterior parietal (PPC), superior temporal gyrus (STG), frontal eye fields (FEF), and ventrolateral prefrontal cortex (vlPFC) in two non-human primates, comparing wakefulness with propofol anesthesia. Anesthesia pervasively reduced the ability of areas to control each other, both in terms of driving towards novel states and stabilizing along existing trajectories. This change in ease of control was driven by a decrease in the magnitude of interareal coupling. Directional ease of driving control from PPC to vlPFC and FEF to vlPFC was increased under anesthesia, providing a potential mechanism for paradoxical excitation observed during propofol infusion. Together, these results recast anesthetic unconsciousness as a directional breakdown of cortical control.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.28.741350&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.47</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42735310/" target="_blank" rel="noopener">Diffusion of neuromodulators for temporal credit assignment.</a></div>
+  <div class="title-cn">神经调质扩散用于时间信用分配</div>
+  <div class="one-line">为解决稀疏且不精确反馈下的时间信用分配问题，作者提出局部扩散的神经调质式信用信号方法，发现其在稀疏反馈的循环脉冲神经网络中提升了3项基准任务学习表现。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Barretto-Bittar J, Levina A, Giannakakis E, Zeraati R</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2608831123">10.1073/pnas.2608831123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42735310/">https://pubmed.ncbi.nlm.nih.gov/42735310/</a></div><div class="d-block keywords">命中关键词：neuron, neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦神经网络学习中的时间信用分配机制，属计算神经科学/工程建模，不含演化或跨物种比较视角，对该研究者仅有边缘性启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对生物学习在反馈稀疏且不精确条件下仍能实现时间信用分配的问题，作者提出一种类比神经调质体积传递的学习机制，使误差信息以局部扩散方式在网络中传播，神经元可依据局部信用信号浓度学习。该方法应用于具有稀疏反馈连接的循环脉冲神经网络，并以eligibility propagation为基线比较，在3项基准任务中均改善学习效果，提示扩散式调制可作为稀疏连接神经回路中可信的信用分配机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Biological learning achieves temporal credit assignment despite sparse and imprecise feedback, often relying on neuromodulatory signals acting over space and time. Here, we introduce a learning mechanism in which error information diffuses locally through the network, similar to volume transmission of neuromodulators. This distributed modulation allows neurons to learn even in the absence of direct feedback, using the local concentration of the diffusing credit signal. Applied to recurrent spiking neural networks with sparse feedback connectivity, diffusive credit signaling improves learning across three benchmark tasks. Using eligibility propagation as a baseline, we show how diffusion-based modulation can provide a plausible mechanism for credit assignment in sparsely connected neural circuits.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608831123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42551803/" target="_blank" rel="noopener">Amitraz exposure induces neurobehavioral toxicity in zebrafish associated with cerebrovascular and BBB-related alterations.</a></div>
+  <div class="title-cn">阿米特拉兹暴露通过引发脑血管与血脑屏障相关改变，导致斑马鱼神经行为毒性</div>
+  <div class="one-line">为解决阿米特拉兹神经发育毒性机制不清问题，作者用斑马鱼胚胎暴露结合行为学与转录组分析，发现其诱发脑血管/BBB异常、凋亡及神经递质失衡。</div>
+  
+  <div class="meta">Environmental pollution (Barking, Essex : 1987) · 2026-08-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gao L, Chen J, Hao H, Fan J, Hu T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.envpol.2026.128879">10.1016/j.envpol.2026.128879</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42551803/">https://pubmed.ncbi.nlm.nih.gov/42551803/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦斑马鱼农药神经毒性与BBB/脑血管损伤机制，缺乏演化或跨物种比较视角，对该研究者仅有边缘参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>阿米特拉兹作为广泛使用的甲脒类杀螨剂，其对非靶标生物的神经毒性机制尚不明确。作者以斑马鱼胚胎为模型，在4至120 hpf期间给予1、2.5、5 μM暴露，结合发育评估、运动行为分析和转录组检测，发现其剂量依赖性抑制胚胎发育并降低游泳距离与速度。机制上，AMT诱发脑血管破坏、出血、脑凋亡、氧化应激、炎症、能量代谢紊乱，以及GABA能、谷氨酸能和胆碱能系统异常，并影响BBB相关、神经发育和突触功能基因表达。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Amitraz (AMT) is a formamidine acaricide widely used in agriculture. The incidence of AMT poisoning shows an increasing trend, yet its neurotoxic effects on non-target organisms remain poorly understood. In this study, zebrafish embryos were used to investigate the developmental and neurobehavioral toxicity of AMT and the underlying mechanisms. Embryos were exposed to varying concentrations of AMT (1, 2.5, and 5 μM) from 4 to 120 hours post-fertilization. The results showed that AMT concentration-dependently inhibited embryonic development. Behavioral analyses revealed significant impairments in locomotor activity, including decreased swimming distance and velocity. Mechanistically, AMT exposure was associated with cerebrovascular abnormalities, including vascular disruption and hemorrhage, as well as brain apoptosis, accompanied by oxidative stress and inflammation. Additionally, AMT disrupted energy metabolism and altered multiple neurotransmitter systems, including GABAergic, glutamatergic, and cholinergic pathways. Transcriptomic analysis further confirmed that AMT altered expression of genes involved in oxidative stress, apoptosis, inflammation, cerebrovascular development, BBB-related processes, neurodevelopment and synaptic function. Taken together, AMT triggers developmental toxicity and neurobehavioral deficits in zebrafish, which are associated with cerebrovascular/BBB-related alterations, oxidative stress, impaired neuronal development, and neurotransmitter imbalance. These findings provides insights into the mechanisms underlying AMT-induced neurodevelopmental toxicity in aquatic organisms.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.envpol.2026.128879&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42685192/" target="_blank" rel="noopener">Hijacking pre-tRNA enables LTR-retrotransposon-initiated constitutive heterochromatin formation.</a></div>
+  <div class="title-cn">劫持前体tRNA使LTR逆转座子启动组成型异染色质形成</div>
+  <div class="one-line">为解决着丝粒周围异染色质如何起始问题，作者结合转座报告系统与全基因组RNAi筛选，发现Puf68/pre-tRNA/PBS复合体可招募Su(var)3-9并诱导H3K9me3。</div>
+  
+  <div class="meta">Science advances · 2026-09-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Deng Y, Liang Y, Luo YN, Ma L, Wu W, Wu W, Wang L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aef2333">10.1126/sciadv.aef2333</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42685192/">https://pubmed.ncbi.nlm.nih.gov/42685192/</a></div><div class="d-block keywords">命中关键词：RNA interference</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦LTR逆转座子介导的异染色质起始机制，虽属基础基因组调控，但缺乏演化或跨物种比较视角，对脑演化与单细胞比较研究仅有边缘参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>着丝粒周围异染色质普遍带有H3K9me3标记，但其起始机制长期不清。作者结合转座报告系统和全基因组RNAi筛选，鉴定出由Puf68、前体tRNA和primer binding site组成的有序复合体。Puf68识别前体tRNA 3&#x27;端poly-U尾并与新生LTR逆转座子PBS配对，随后直接招募Su(var)3-9，催化H3K9me3沉积。Puf68还足以在着丝粒周围及异位LTR位点启动de novo异染色质组装，揭示宿主利用新生LTR转录本的新机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Pericentric heterochromatin serves as a fundamental component of eukaryotic chromosomes, endowing specialized genomic architecture with broad functional consequences. Although it is universally marked by H3K9me3 modification, the underlying pericentric DNA sequences diverge substantially across species. Here, by leveraging a transposition reporter system combined with a genome-wide RNA interference (RNAi) screen, we identified a specialized mechanism for recruiting SUV39H methyltransferase to initiate pericentric heterochromatin formation. This pathway depends on a highly ordered complex comprising the Puf68, pre-transfer RNAs (tRNAs), and the primer binding site (PBS). Puf68 binds with high affinity to poly-U tracts in pre-tRNA 3&#x27; trailer, forming a Puf68/pre-tRNA complex that subsequently base-pairs with the PBS of nascent long terminal repeat (LTR)-retrotransposons. Through direct interaction, Puf68 recruits Su(var)3-9 to these regions, catalyzing H3K9 trimethylation. Notably, Puf68 is sufficient to initiate de novo heterochromatin assembly both at pericentric and ectopically integrated LTR-retrotransposon regions. Our findings not only uncover a previously unrecognized mechanism of heterochromatin initiation but also resolve a long-standing question of how hosts harness nascent LTR-retrotransposon transcripts.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aef2333&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42752122/" target="_blank" rel="noopener">Disorder-promoted stability.</a></div>
+  <div class="title-cn">无序促进稳定性</div>
+  <div class="one-line">为解决节点异质性是否削弱网络稳定性问题，作者用高维节点动力学与非厄米Jacobian框架，发现参数随机无序和网络异质性可增强复杂系统稳定性。</div>
+  
+  <div class="meta">Science (New York, N.Y.) · 2026-09-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Montanari AN, Zanin P, Motter AE</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.aeg3946">10.1126/science.aeg3946</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42752122/">https://pubmed.ncbi.nlm.nih.gov/42752122/</a></div><div class="d-block keywords">命中关键词：neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文讨论复杂网络中异质性与稳定性的普适理论，虽提及神经网络，但缺乏演化、跨物种比较或单细胞层面的内容，对该研究者仅具非常间接的理论启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>既有网络动力学研究认为节点异质性会抑制稳定性，但作者指出这一结论源于为数学可处理性而做的模型降维。通过分析具有高维节点动力学、从而产生非厄米Jacobian的系统，作者发现包括神经网络、电网和材料网络在内的复杂系统中，节点异质性即使表现为随机无序也可提升稳定性；在一维节点动力学中，非互易相互作用也能通过非厄米性带来类似稳定效应。该工作将无序重新定义为复杂系统稳定化资源。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Previous studies of network dynamics have suggested that heterogeneity among nodes inhibits stability, which is at odds with the ubiquity of inherently heterogeneous natural and engineered systems. Here, we show that this conclusion arises from model reductions introduced for mathematical tractability and breaks down when nodal dynamics are higher-dimensional, yielding non-Hermitian Jacobians. In such systems, including neural, power-grid, and material networks, nodal heterogeneity can instead enhance stability, even when parameters are randomly disordered. Non-Hermiticity also underlies the stabilizing effects of network heterogeneity, which can arise even in one-dimensional nodal dynamics through nonreciprocal interactions, as shown for ecological networks. Our framework reveals disorder not as a liability but as a general resource for stabilizing complex systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeg3946&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.45</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42842684/" target="_blank" rel="noopener">Rapid protamine evolution suppresses meiotic drive in Drosophila.</a></div>
+  <div class="title-cn">果蝇protamine的快速进化抑制减数分裂驱动</div>
+  <div class="one-line">为解决protamine快速进化动因不明问题，作者利用体内基因替换技术，发现Mst77F通过剂量和序列依赖性方式保护X染色体免受杀手-靶标减数分裂驱动，揭示果蝇protamine快速进化驱动力。</div>
+  
+  <div class="meta">Science advances · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chang CH, A de la Cruz AF, Lai HY, Mejia Natividad I, Noyola A, Angelo Magsino Abellanosa E, Lee ND, Malik HS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeb5514">10.1126/sciadv.aeb5514</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42842684/">https://pubmed.ncbi.nlm.nih.gov/42842684/</a></div><div class="d-block keywords">命中关键词：Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>虽涉及跨物种比较（D. melanogaster与D. yakuba），但核心为精子发生中的protamine功能与减数分裂驱动，无神经系统演化、细胞类型同源或基因调控网络演化等研究者的核心议题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>许多动物在精子发生中用protamine替换组蛋白。本研究以Drosophila melanogaster为模型，通过体内基因替换发现：Mst77F的快速进化源于其保护X染色体免受杀手-靶标减数分裂驱动的持续压力。将Mst77F替换为分歧同源物导致X精子DNA压缩缺陷和雄性后代偏倚；剂量操作可复现或挽救该表型。与D. yakuba的比较表明Mst77F在该物种中对生育非必需但仍抑制性别比例扭曲。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Many animal species replace histones with protamines during spermatogenesis. Although essential for sperm function, protamines evolve rapidly for reasons that remain unknown. Using in vivo gene replacement, we examined the causes and consequences of the rapid evolution of Mst77F, a protamine essential for male fertility in Drosophila melanogaster (D. melanogaster). Replacing Mst77F with divergent orthologs caused DNA compaction defects in X-bearing sperm, resulting in fewer mature X-bearing sperm and male-biased progeny. Reducing D. melanogaster Mst77F dosage caused the same bias, whereas increasing the dosage of Mst77F orthologs rescued it. Engineered sex chromosome fusions revealed that Mst77F protects the D. melanogaster X chromosome from a killer-target meiotic drive system in a dosage- and sequence-dependent manner. Unlike in D. melanogaster, Mst77F was dispensable for fertility in Drosophila yakuba (D. yakuba) but remained important for suppressing sex ratio distortion. Our findings show that relentless pressure to suppress sex chromosome meiotic drive underlies the rapid evolution of protamines.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb5514&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.44</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42550595/" target="_blank" rel="noopener">In-situ glial cell-surface proteomics identifies pro-longevity factors in Drosophila.</a></div>
+  <div class="title-cn">原位胶质细胞表面蛋白质组学鉴定果蝇中的促长寿因子</div>
+  <div class="one-line">为探究胶质细胞功能障碍如何促进年龄相关神经退行性疾病，作者开发了原位细胞表面蛋白质组学方法，对完整果蝇大脑中的胶质细胞进行蛋白质组分析，通过遗传筛选鉴定出表面蛋白DIP-β，发现其在老年果蝇中下调，成年胶质细胞中过表达可延长寿命并改善细胞间通讯，但该研究不涉及演化或跨物种比较。</div>
+  
+  <div class="meta">eLife · 2026-08-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Marques MP, Sun B, Park YJ, Jackson T, Lu TC, Qi Y, Harrison E, Wang MC, Moussa Pasha O, Varanasi A, Carey DK, Mani DR, Zirin J, Qadiri M, Hu Y, Venkatachalam K, Perrimon N, Carr SA, Udeshi ND, Luo L, Li J, Li H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.109422">10.7554/eLife.109422</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42550595/">https://pubmed.ncbi.nlm.nih.gov/42550595/</a></div><div class="d-block keywords">命中关键词：brain, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦于果蝇胶质细胞的衰老机制，无跨物种比较、无演化视角、无细胞类型演化分析，纯衰老/疾病机制研究，与该研究者核心的演化生物学和细胞类型同源研究方向不符。</div><div class="d-block"><span class="lbl">背景：</span>胶质细胞在维持大脑健康中发挥关键作用，其功能障碍与年龄相关神经退行性疾病密切相关。细胞间相互作用主要由细胞表面蛋白介导，调控发育和生理的多个关键方面，因此胶质细胞表面蛋白的失调被认为在年龄相关神经退行中起重要作用。然而，在完整大脑中分析胶质细胞表面蛋白的技术仍具挑战性。</div><div class="d-block"><span class="lbl">研究方法：</span>作者采用原位细胞表面蛋白质组学方法（TurboID邻近标记技术），对完整果蝇大脑中的胶质细胞进行表面蛋白标记和质谱分析；通过遗传筛选验证候选基因功能；利用全头单核RNA测序（snRNA-seq）分析DIP-β过表达的转录组效应。</div><div class="d-block"><span class="lbl">研究结果：</span>研究鉴定了在老年果蝇胶质细胞中变化的候选表面蛋白；遗传筛选发现DIP-β蛋白随年龄下调，成年胶质细胞特异性过表达DIP-β可显著延长果蝇寿命；单核RNA测序显示DIP-β过表达主要影响胶质细胞和脂肪细胞的转录状态，并增强细胞间通讯相关基因的表达。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究首次将原位细胞表面蛋白质组学应用于果蝇胶质细胞，鉴定出DIP-β作为潜在的胶质细胞衰老调控因子，为理解胶质细胞在脑衰老中的作用提供了新的分子靶点。然而，该研究局限于单一物种的衰老机制，无跨物种比较或演化分析。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为理解胶质细胞功能障碍如何导致年龄相关神经退行性疾病，作者开发了原位细胞表面蛋白质组学方法，在完整果蝇大脑中对年轻和年老个体的胶质细胞进行蛋白质组分析，鉴定出候选衰老相关基因；通过遗传筛选发现表面蛋白DIP-β在老年果蝇中下调，成年胶质细胞过表达DIP-β可延长寿命；全头单核RNA测序显示其主要影响胶质细胞和脂肪细胞，并改善细胞间通讯。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Much focus has shifted towards understanding how glial dysfunction contributes to age-related neurodegeneration due to the critical roles glial cells play in maintaining brain health. Cell-cell interactions, which are largely mediated by cell-surface proteins, control many critical aspects of development and physiology; as such, dysregulation of glial cell-surface proteins is hypothesized to play an important role in age-related neurodegeneration. However, it remains technically difficult to profile glial cell-surface proteins in intact brains. Here, we applied an in-situ cell-surface proteomic profiling method to glial cells from intact fly brains. Applying this platform to young and old flies, we identified candidate genes predicted to be involved in brain aging. Through a genetic screen, we identified one surface protein, DIP-β, which is down-regulated in old flies and can increase fly lifespan when overexpressed in adult glial cells. We performed whole-head single-nucleus RNA-seq and revealed that DIP-β overexpression mainly impacts glial and fat cells. We also found that glial DIP-β overexpression was associated with improved cell-cell communication. Our study is the first to apply in-situ cell-surface proteomics to glial cells in Drosophila, and to identify DIP-β as a potential glial regulator of brain aging.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109422&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.44</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/41636102/" target="_blank" rel="noopener">Exploring Interactive Effects of Arsenic and Selenium Exposure on Larval Zebrafish (Danio rerio).</a></div>
+  <div class="title-cn">砷和硒暴露对斑马鱼幼鱼交互效应的探究</div>
+  <div class="one-line">为解决砷对水生生物毒性机制不清问题，作者用砷单独及联合硒处理斑马鱼胚胎，发现硒可部分缓解砷诱导的氧化应激及神经基因表达抑制。</div>
+  
+  <div class="meta">Environmental toxicology · 2026-02-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Luo O, Ritu JR, Uddin MH, Putnala SK, Rachamalla M, Niyogi S, Chivers DP</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/tox.70048">10.1002/tox.70048</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/41636102/">https://pubmed.ncbi.nlm.nih.gov/41636102/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>纯毒理学研究，无演化或跨物种比较视角，仅涉及斑马鱼幼鱼行为学及分子毒性响应。</div><div class="d-block"><span class="lbl">中文全摘要：</span>砷污染是重要环境问题，硒可缓解其氧化应激但高浓度亦有毒性。本研究将斑马鱼胚胎暴露于砷单独或联合两种化学形态硒至4 dpf。结果显示联合暴露显著影响触壁行为和反射运动，低浓度硒可减轻砷损伤；砷暴露抑制抗氧化、神经发生及多巴胺能、5-羟色胺能和运动神经元相关基因表达，而硒共处理部分恢复nrf2a表达。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Arsenic contamination in aquatic ecosystems is a major environmental concern. Selenium (Se) helps mitigate oxidative stress and hence could reduce the toxic effects of arsenic. However, Se can also be toxic at high concentrations. Given that these metalloids commonly co-occur in the environment, there is a pressing need for further research into their combined effects on aquatic life. To investigate this interplay, zebrafish embryos were exposed to As alone (as arsenite) or in combination with two different chemical forms of Se including As 120 μg/L alone (as arsenite), As 120 μg/L + Se 25 μg/L (as selenite), As 120 μg/L + Se 120 μg/L (as selenite), and As 120 μg/L + Se 2.5 μg/L (as selenomethionine, SeMet) until 4 days postfertilization. There was no significant difference in the survival, hatching, and deformity rate when fish were exposed to both As and Se. Co-exposure to As and Se significantly affected thigmotaxis and reflexive movement (for all p &lt; 0.05), with 2.5 μg/L Se mitigating As-induced impairments. While reactive oxygen species (ROS) levels were elevated in larvae exposed to As alone and As + Se 25 μg/L, there were markedly reduced ROS levels in the As + Se 120 μg/L and As + Se 2.5 μg/L treatments, highlighting Se&#x27;s antioxidant efficacy. A marked suppression of genes related to antioxidant, neurogenesis, dopaminergic, serotonergic, and motor neurons was observed following arsenic exposure. At the same time, co-treatment with As + Se 25 μg/L partially restored nrf2a expression (p &lt; 0.05). These findings highlight the potential for naturally co-occurring Se to modulate As toxicity in aquatic environments, underscoring the importance of considering chemical interactions when assessing ecological risks.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/tox.70048&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42837583/" target="_blank" rel="noopener">Preterm Neonatal Nutrition: Evolution Over the Course of 50 Years and Contemporary Challenges.</a></div>
+  <div class="title-cn">早产儿营养：50年的演变与当代挑战</div>
+  <div class="one-line">为解决早产儿营养优化问题，作者综述50年来临床营养策略演变，发现个体化液体管理与母乳强化可改善预后但仍面临神经发育挑战。</div>
+  
+  <div class="meta">Pediatric annals · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Richards KE, Hartman TK</div><div class="d-block meta">DOI: <a href="https://doi.org/10.3928/19382359-20260730-06">10.3928/19382359-20260730-06</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42837583/">https://pubmed.ncbi.nlm.nih.gov/42837583/</a></div><div class="d-block keywords">命中关键词：brain development, neurodevelopment, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为临床医学综述，聚焦早产儿营养管理策略，完全不涉及演化、跨物种比较、细胞类型或转录组学研究。</div><div class="d-block"><span class="lbl">中文全摘要：</span>本综述回顾早产儿营养50年进展。临床痛点为优化生长与神经发育。方法上梳理了从自由补液到个体化体重指导的转变，强调人乳降低坏死性小肠结肠炎但需强化。关键结果：脂质供应关键脂肪酸促脑发育，碳水化合物需精细滴定防高甘油三酯血症和高血糖，钙磷摄入防代谢性骨病，碱性磷酸酶监测指导靶向强化。意义在于为当代新生儿营养管理提供循证依据。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Advances in neonatal nutrition have markedly improved preterm survival, but achieving optimal growth and neurodevelopment remain a challenge. Modern fluid guidelines favor individualized, weight-guided fluid management based on gestational age, shifting away from historic liberal strategies to avoid patent ductus arteriosus and necrotizing enterocolitis (NEC). Inadequate intake causes extrauterine growth restriction, negatively impacting neurodevelopment and long-term cardiometabolic risks. Human milk strongly reduces NEC risk but requires fortification to meet these high protein and mineral targets safely. Lipids supply critical fatty acids for brain development. Carbohydrates are the primary immediate energy substrate, and both macronutrients require careful titration to prevent complications, such as hypertriglyceridemia and hyperglycemia. High calcium and phosphorus intake are critical to prevent metabolic bone disease. Since unfortified milk is insufficient, targeted fortification guided by alkaline phosphatase monitoring is recommended.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3928/19382359-20260730-06&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.41</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42848887/" target="_blank" rel="noopener">Epigenetic aging and transposon dysregulation reflect size-related lifespan compression in dogs.</a></div>
+  <div class="title-cn">狗的表观遗传衰老与转座子失调反映体型相关的寿命压缩</div>
+  <div class="one-line">为探究体型决定犬类寿命差异的内在机制，作者利用1640例犬甲基化组构建表观遗传时钟，发现大型犬早期衰老加速及转座子元件的体型相关甲基化变化。</div>
+  
+  <div class="meta">Science (New York, N.Y.) · 2026-10-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mariner BL, McCoy BM, Greenier A, Brassington L, Slikas E, Adjangba C, Cheng C, Marye A, Harrison BR, Bamberger T, Algavi Y, Muller E, Harris A, Rout E, Reichel C, Sohrab V, Dog Aging Project Consortium‡, Karlsson E, Akey JM, Avery AC, Borenstein E, Promislow DEL, Snyder-Mackler N, Akey JM, Anderson RM, Borenstein E, Castelhano MG, Coleman AE, Creevy KE, Dunbar MD, Fajt VR, Hoffman JM, Jonlin EC, Kaeberlein M, Karlsson EK, Kerr KF, Ma J, MacLean EL, McGrath S, Olby NJ, Promislow DEL, Reed MJ, Ruple A, Schwartz SM, Shrager S, Snyder-Mackler N, Tolbert MK</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/science.aeb2986">10.1126/science.aeb2986</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42848887/">https://pubmed.ncbi.nlm.nih.gov/42848887/</a></div><div class="d-block keywords">命中关键词：transposable element</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦狗个体发育中的表观遗传衰老与寿命压缩，属于临床兽医与衰老机制研究，完全缺乏跨物种比较、演化视角及神经系统相关分析。</div><div class="d-block"><span class="lbl">中文全摘要：</span>本研究利用1640个来自894只狗的甲基化组数据，构建了可预测死亡率的表观遗传时钟，揭示表观遗传衰老在生命早期最快。研究发现大型犬和雄性犬分子衰老加速：性别相关甲基化变化集中于X染色体，而体型相关甲基化变化在转座子处尤为显著。该工作将转座子元件识别为体型相关寿命差异的潜在介导因子。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The extraordinary lifespan variation in domestic dogs provides a natural experiment for testing how intrinsic rates of biological aging shape lifespan. Using 1640 methylomes from 894 dogs, we developed an epigenetic clock that predicted mortality and demonstrated that epigenetic aging is fastest early in life. At orthologs of human age-associated genes, dogs exhibited concordant age effects on promoter methylation, highlighting conserved remodeling of immune pathways. We found that larger and male dogs, which are shorter lived, exhibit accelerated molecular aging. Distinct epigenetic architectures mediated these effects: Sex-dependent methylation changes were concentrated on the X chromosome, whereas size-associated methylation was especially pronounced at transposable elements (TEs). These findings show that epigenetics reflects lifespan differences in dogs and identifies TEs as potential mediators of size-associated lifespan.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/science.aeb2986&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.6</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2025.12.12.694021" target="_blank" rel="noopener">spaTransfer: transfer learning for single-cell and spatial transcriptomics data using non-negative matrix factorization</a></div>
+  <div class="title-cn">spaTransfer：基于非负矩阵分解的单细胞与空间转录组数据迁移学习</div>
+  <div class="one-line">为解决不同平台/分辨率的单细胞与空间转录组数据间标签转移问题，作者基于非负矩阵分解（NMF）开发迁移学习方法spaTransfer，通过从参考图谱提取因子并投影至目标数据实现跨平台标签预测，在人类脑组织中验证了其准确性与可解释性，但仅局限于技术方法层面，未涉及任何演化或比较生物学应用。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-24</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Fang, C.; Montgomery, K. D.; Maguire, S. E.; Ramnauth, A. D.; Guo, B.; Miller, R.; Kleinmann, J. E.; Hyde, T. M.; Martinowich, K.; Maynard, K. R.; Page, S. C.; Hicks, S. C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2025.12.12.694021">10.64898/2025.12.12.694021</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2025.12.12.694021">https://www.biorxiv.org/content/10.64898/2025.12.12.694021</a></div><div class="d-block keywords">命中关键词：brain, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算方法学工具开发，聚焦人类脑组织的空间转录组标签转移，无跨物种比较、无演化视角、无新物种图谱发布，与该研究者核心关注的演化比较与细胞类型同源性研究不符。</div><div class="d-block"><span class="lbl">背景：</span>空间分辨转录组学技术使在组织原位背景下分析基因表达成为可能，催生了大量带有计算衍生细胞类型或空间域标签的单细胞与空间组学图谱。然而，不同实验平台、不同分辨率的数据集之间，如何高效、准确地将参考图谱的注释标签转移至新的目标样本，成为日益重要的计算需求。</div><div class="d-block"><span class="lbl">研究方法：</span>作者采用非负矩阵分解（NMF）对参考数据进行分解，提取与已知标签相关的低维因子；将这些因子投影至目标数据集，构建以因子为协变量、标签为响应变量的多项式回归模型，从而预测目标数据的标签。方法以R包形式实现并开源。</div><div class="d-block"><span class="lbl">研究结果：</span>spaTransfer在人类脑组织数据中成功实现了跨平台标签转移，能够识别空间一致的域结构，且预测的标记基因表达与参考图谱高度一致；相比现有方法，在保持相当准确度的同时提升了结果的可解释性。</div><div class="d-block"><span class="lbl">研究意义：</span>该方法为空间转录组数据的跨平台整合与注释提供了新的计算工具，但其应用目前仅展示于人类脑组织，未扩展至跨物种比较或演化研究场景。对于专注细胞类型演化与神经演化的研究者而言，该工具的方法原理或可借鉴，但论文本身缺乏直接的生物学发现或演化视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间转录组学进展促成了大规模单细胞与空间图谱的构建，但跨平台、跨分辨率的标签转移仍具挑战。作者提出基于非负矩阵分解的迁移学习方法spaTransfer，将参考数据的标签相关因子投影至目标数据集，并以多项式模型预测新样本标签。该方法在人类脑组织中验证了空间域识别与标记基因一致性，优势在于可解释性且精度不损失，已开源为R包。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent advances in spatially-resolved transcriptomics have enabled profiling of gene expression in a spatial context, which has led to the generation of large-scale single-cell and spatial atlases with computationally-derived cell type or spatial domain labels. An increasingly important task with these data has become the transfer of cell type or spatial domain annotations from a given reference (or source) atlas into a new target tissue or sample. The reference and target datasets could be at different resolutions or measured on different experimental platforms. Here, we present a method to perform cross-platform transfer learning that takes as input single-cell or spatial domain labels from a reference atlas or dataset and transfers the labels to a target dataset at a similar or different resolution. Specifically, we use non-negative matrix factorization (NMF) on the reference data to identify factors associated with labels of interest and project these factors into the target dataset to label each new observation. We use a multinomial model with the factors as covariates and labels as the response to predict labels in the target dataset. In contrast to existing approaches, the advantage of our approach is interpretability, without compromising on accuracy. We demonstrate the performance of the method in two human brain tissues and show that our model identifies spatially coherent domains in the target datasets with concordance of marker gene expression. We implement spaTransfer in open-source software as an R package (github.com/cindyfang70/spaTransfer).</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.12.694021&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.23</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.24.753111" target="_blank" rel="noopener">Deciphering the gene-centric spatial dynamics across tissue and time with GeneSPOT</a></div>
+  <div class="title-cn">利用GeneSPOT解读基因中心的空间动态在组织与时间上的变化</div>
+  <div class="one-line">为弥补现有空间组学分析框架过度聚焦细胞状态而忽视分子特征空间关系组织的不足，作者开发了基因中心计算框架GeneSPOT，用于刻画基因间空间关系并量化其在不同生物条件下的重组；该工具在多种应用场景中解析了组织结构、整合了配对与非配对空间多组学数据、揭示了胚胎发育中基因程序的空间汇聚，并识别了衰老相关的基因空间重组，为空间关系分析提供了补充性方法框架。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-29</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zou, Q.; Wang, Z.; Li, S.; Lin, S.; Han, C.; Cui, Y.; Li, S.; Wang, L.; Zhang, D.; Zhang, W.; Qian, B.; Gao, R.; Yuan, Z.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.24.753111">10.64898/2026.09.24.753111</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.24.753111">https://www.biorxiv.org/content/10.64898/2026.09.24.753111</a></div><div class="d-block keywords">命中关键词：spatial omics</div><div class="d-block"><span class="lbl">推荐理由：</span>GeneSPOT为空间组学计算方法工具，但完全缺乏演化、跨物种比较或神经系统的视角，与研究者核心关切不符。</div><div class="d-block"><span class="lbl">背景：</span>空间组学技术的快速发展使得研究者能够在组织原位水平上以单细胞分辨率解析分子特征的空间分布。然而，现有的分析范式主要采用细胞中心视角，通过聚类和差异表达分析来定义细胞类型和状态，而对基因层面的空间关系网络及其在不同生物学条件下的动态变化缺乏系统性的研究工具。这一空白限制了对组织空间组织原理的深入理解。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者开发了名为GeneSPOT的基因中心计算框架，该框架通过量化基因在空间坐标中的相互关系来构建基因层面的空间网络，并进一步通过比较不同条件下的空间网络来识别重组事件。GeneSPOT设计为可泛化至其他分子特征，支持配对和非配对的空间多组学数据整合，并适用于多种生物学场景的时间序列分析。</div><div class="d-block"><span class="lbl">研究结果：</span>GeneSPOT在多种应用场景中展示了其分析能力：成功解析了组织的空间结构特征；实现了配对和非配对空间多组学数据的有效整合；揭示了胚胎发育过程中不同基因程序发生空间汇聚的现象；更为重要的是，识别出一类在表达量上无显著年龄相关变化，但空间组织模式却随衰老发生显著重组的基因集合。</div><div class="d-block"><span class="lbl">研究意义：</span>GeneSPOT作为细胞中心分析范式的补充工具，为从基因层面理解分子特征的空间关系及其动态重组提供了新的计算框架。该工具可能适用于发育生物学、衰老研究等领域中空间组织机制的探索，但其应用潜力尚未在跨物种比较、神经系统演化等方向得到验证。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间组学技术为探究分子程序在组织中的组织方式提供了前所未有的机会，但现有分析框架主要聚焦于识别细胞状态和表征差异表达分子特征，分子特征的空间关系组织及其动态变化尚未得到充分探索；作者提出基因中心计算框架GeneSPOT，用于表征基因间空间关系并量化其在生物条件下的重组；GeneSPOT在多种应用中解析组织结构、整合空间多组学数据、揭示胚胎发育中的空间汇聚，并识别衰老相关空间重组。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spatial omics technologies provide unprecedented opportunities to investigate how molecular programs are organized within tissues. However, existing analytical frameworks primarily focus on identifying cellular states and characterizing differentially expressed molecular features across these states. The relational spatial organization of molecular features and its dynamics across biological contexts therefore remain largely unexplored. Here, we present GeneSPOT, a gene-centric computational framework for characterizing the spatial relationships among genes and quantifying their reorganization across biological conditions. Although gene-centric in design, GeneSPOT generalizes to other molecular features. Across diverse applications, GeneSPOT resolved tissue structures, integrated paired and unpaired spatial multi-omics data, unveiled the spatial convergence of gene programs during embryonic development, and identified aging-associated spatial reorganization among genes whose expression did not change significantly with age. GeneSPOT thus complements conventional cell-centric analysis, providing a framework for deciphering how spatial relationships among molecular features are reorganized across biological conditions and over time.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.24.753111&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献聚焦于昼夜节律神经回路的发育机制研究。研究者以果蝇三龄幼虫为模型，揭示了s-LNv昼夜节律起搏神经元与SIFa神经元之间的突触连接在L3期形成是摄食-禁食节律涌现的关键，并阐明了Pdf和SIFa信号通路对该行为节律正常发育的必需性，为理解发育中节律行为的神经环路构建提供了重要突破。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>发育神经生物学与昼夜节律交叉：揭示早期发育阶段行为节律回路的时序性组装机制</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>神经环路连接与功能涌现：聚焦于特定突触连接形成如何赋予新生行为节律特性</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>神经肽信号通路功能：解析Pdf和SIFa等神经肽在节律行为建立中的调控作用</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">该研究体现了从传统成年动物节律研究向发育期神经回路构建的范式转变，采用遗传学特异性操控与发育时序分析相结合的策略，强调在体追踪神经元连接成熟过程与行为表型出现的同步性，反映出现代节律研究从描述性现象向机制性发育解释深化的方法论走向。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">该研究为研究者提供了可借鉴的发育性神经环路分析范式：利用遗传工具在特定发育窗口精准操控神经元活性，建立结构连接形成与功能涌现的因果关系。可跟进点包括：探索其他节律行为（如睡眠-觉醒）在发育中的回路组装机制；将类似策略应用于哺乳动物早期发育研究；以及探究环境因子如何与遗传程序互作调控节律回路的成熟。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
