@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-10-31</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-10-31</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 9 · Relate 6）· 命中关键词 13 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.12</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.04.722791" target="_blank" rel="noopener">A widespread internal brain state for fentanyl withdrawal</a></div>
+  <div class="title-cn">芬太l戒断的广泛性脑内状态</div>
+  <div class="one-line">为解决阿片类药物戒断的神经机制不清问题，作者利用多部位局部场电位记录与可解释机器学习，发现编码戒断严重程度的EN-Withdrawal神经网络，并证明其可预测药物自我给药的升级。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Abdelaal, K.; Walder-Christensen, K. K.; Blount, C.; Williford, K. M.; Adams-Grimaldi, M.; Mague, S.; Carlson, D.; Dzirasa, K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.04.722791">10.64898/2026.05.04.722791</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.04.722791">https://www.biorxiv.org/content/10.64898/2026.05.04.722791</a></div><div class="d-block keywords">命中关键词：brain, neural, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>纯电生理与成瘾行为学研究，完全缺乏演化、跨物种比较或细胞类型同源性的视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>阿片类药物成瘾以不断升级的药物使用为特征，部分由戒断的负强化驱动，但戒断与药物摄取增加之间的神经过程尚不清楚。本研究利用多部位局部场电位记录和可解释机器学习，识别出重复阿片暴露和戒断所激活的大规模脑网络。研究发现了编码戒断严重程度的新脑网络EN-Withdrawal，其活动可预测自发性和纳洛酮诱发的戒断，并在个体水平上预测芬太l自我给药的升级。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Opioid addiction is characterized by escalating drug use, driven in part by negative reinforcement from withdrawal, but the neural processes linking withdrawal to increased drug-taking remain poorly understood. Here, we use multisite local field potential recordings and interpretable machine learning to identify large-scale brain networks engaged by repeated opioid exposure and withdrawal. After discovering that repeated fentanyl exposure induces a network of widespread high beta and low gamma oscillations, we then identified a distinct brain network that selectively encodes the emergence and severity of opioid withdrawal. This latter network, termed EN-Withdrawal, is characterized by regional gamma oscillations and widely synchronized delta/theta oscillations. Its activity patterns predict the emergence of spontaneous and naloxone-precipitated withdrawal across multiple independent cohorts, generalizing across mice, sex, opioids, and dosing regimens, while persisting over multiple days of withdrawal. Using a novel, data-driven severity index, we find that network activity scales with individual behavioral severity without simply reflecting ongoing somatic behaviors or general aversion, suggesting that EN-Withdrawal underlies a withdrawal-induced internal state. Strikingly, network activity predicts the escalation of fentanyl self-administration on a mouse-by-mouse basis in experienced, but not drug-naive, animals. These findings reveal a neurophysiological substrate of the negative reinforcement cycle of addiction that shapes individual vulnerability.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.04.722791&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.12</span></div>
+  <div class="title-en"><a href="http://arxiv.org/abs/2610.00746v1" target="_blank" rel="noopener">MEG-Mamba: A Scalable State-Space Foundation Model for Magnetoencephalography</a></div>
+  <div class="title-cn">MEG-Mamba：面向脑磁图的可扩展状态空间基础模型</div>
+  <div class="one-line">为解决MEG基础模型训练效率与长时程建模不足问题，作者用Mamba架构替代Transformer，发现MEG-Mamba在更短训练时间内实现更优生成性能与更长上下文建模。</div>
+  
+  <div class="meta">arXiv · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chetan Gohil, SungJun Cho, Oiwi Parker Jones, Mark Woolrich</div><div class="d-block meta">原文链接: <a href="http://arxiv.org/abs/2610.00746v1">http://arxiv.org/abs/2610.00746v1</a></div><div class="d-block keywords">命中关键词：brain, neural, artificial intelligence, foundation model, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯工程/AI方法论文，聚焦人类MEG信号建模，无任何演化、跨物种比较或细胞类型分析视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>脑磁图（MEG）是非侵入性毫秒级脑活动成像技术。现有MEG基础模型基于Transformer架构，训练成本高。作者提出基于Mamba架构的生成式基础模型MEG-Mamba，通过离散化MEG信号预测下一token，以脑区和记录会话为条件。结果显示：相较MEG-GPT，MEG-Mamba生成保真度更高，预训练时间从400 GPU小时降至22 GPU小时，上下文从0.32秒扩展至4秒。进一步通过LoRA轻量级刺激条件化生成逼真任务诱发反应。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Magnetoencephalography (MEG) is an imaging technique that offers a non-invasive, millisecond-resolution view of human brain activity. The increasing availability of MEG data presents an opportunity to take advantage of a recent advance in artificial intelligence, namely self-supervised foundation models. Existing foundation models for MEG (and electroencephalography) have been built on a transformer architecture. Here, we introduce MEG-Mamba: a generative foundation model for neural activity (source reconstructed, parcellated MEG) built on a Mamba architecture. MEG-Mamba is trained to predict the next token of a discretised MEG signal, conditioned on a brain region and recording session. MEG-Mamba surpasses the generative fidelity of a transformer-based alternative (MEG-GPT) while pre-training in less time (22 vs 400 GPU-hours) and modelling a longer context (4 vs 0.32 s). We evaluate MEG-Mamba by examining the spatio-spectral characteristics of the data it generates and by interpreting its learned embeddings. Furthermore, we demonstrate that lightweight stimulus conditioning (LoRA) can be used to generate realistic task-evoked responses that are not included in pre-training. Our results suggest that Mamba is a promising backbone for scaling neural foundation models.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.00746v1&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.09</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42573251/" target="_blank" rel="noopener">Contrastive Learning Network based on Multi-Scale Transformer (CLMT-net): EEG decoding for fine-grained motor imagery of movements within the same limb.</a></div>
+  <div class="title-cn">基于多尺度Transformer的对比学习网络（CLMT-net）：用于同一肢体内精细运动想象的EEG解码</div>
+  <div class="one-line">为解决同一肢体内细粒度运动想象解码困难问题，作者用结合多尺度Transformer与监督式对比学习的CLMT-Net方法，发现其在MI-2数据集上达到76.13±6.77%的准确率。</div>
+  
+  <div class="meta">Computer methods in biomechanics and biomedical engineering · 2026-08-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhu L, Yue Q, Huang A, Zhang J, Yuan P</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1080/10255842.2026.2714841">10.1080/10255842.2026.2714841</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42573251/">https://pubmed.ncbi.nlm.nih.gov/42573251/</a></div><div class="d-block keywords">命中关键词：brain, neural, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于EEG脑机接口工程方法研究，既无演化也无跨物种比较视角，与研究者关注的脑演化和单细胞比较框架基本无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>运动想象脑机接口需将EEG信号解码为控制指令，但同一肢体内的细粒度运动想象因神经模式高度相似而难以区分。作者提出CLMT-Net，整合多尺度时间卷积、基于FFT的频率融合、空间卷积和双路径Transformer，以学习互补EEG表征，并引入监督式对比学习增强特征判别能力。在MI-2数据集上，该方法取得76.13±6.77%的准确率，95%置信区间为[73.33, 78.92]，显示出较有竞争力的同肢体运动想象解码性能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Motor imagery (MI)-based brain-computer interfaces (BCIs) decode EEG signals into control commands. However, fine-grained MI decoding within the same limb remains challenging due to highly similar neural patterns. This paper proposes a Contrastive Learning Network based on a Multi-Scale Transformer (CLMT-Net) for fine-grained MI decoding. CLMT-Net integrates multi-scale temporal convolution, FFT-based frequency fusion, spatial convolution, and dual-path Transformer to learn complementary EEG representations. Supervised contrastive learning further improves feature discrimination. On the MI-2 dataset, CLMT-Net achieves an accuracy of 76.13 ± 6.77% with a 95% confidence interval of [73.33, 78.92], demonstrating competitive performance for same-limb MI decoding.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/10255842.2026.2714841&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.09</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42929429/" target="_blank" rel="noopener">Loss of PAX6 alters the excitatory/inhibitory neuronal ratio in human cerebral organoids.</a></div>
+  <div class="title-cn">PAX6缺失改变人类大脑类器官中的兴奋性/抑制性神经元比例</div>
+  <div class="one-line">为探究PAX6在人类前脑发育中的作用，作者利用PAX6-/-人类大脑类器官模型，通过单细胞转录组分析发现PAX6缺失导致类器官体积增大、抑制性神经元比例升高、兴奋性神经元成熟受阻，并鉴定出PTN-PTPRZ1信号通路失调为关键分子机制，但该研究仅限于人类发育机制，缺乏演化比较视角。</div>
+  
+  <div class="meta">Development (Cambridge, England) · 2026-10-26</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chan WK, Abdulla S, Zhao L, Negro D, Munro VM, Thomson S, Marshall H, Kozić Z, Brown M, Barbato M, Beltran M, Henderson NC, Price DJ, Mason JO</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1242/dev.205457">10.1242/dev.205457</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42929429/">https://pubmed.ncbi.nlm.nih.gov/42929429/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文仅局限于人类大脑类器官中PAX6的功能研究，无跨物种比较或演化视角，属于典型的脊椎动物特有特征（neocortex发育）研究，对该研究者参考价值极低。</div><div class="d-block"><span class="lbl">背景：</span>PAX6作为保守的转录因子，在胚胎前脑发育中发挥多重调控作用。其在调控小鼠胚胎皮层兴奋性和抑制性神经元发育方面的功能已较为明确，但PAX6在人类前脑发育中的具体作用尚不清楚。人类大脑类器官技术为研究人类特异性神经发育机制提供了体外模型系统。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者利用CRISPR-Cas9技术构建PAX6-/-人类大脑类器官模型，通过单细胞转录组测序分析细胞类型组成和基因表达变化，结合免疫荧光和组织学方法检测神经元成熟度和空间分布，并通过药理学干预和分子生物学手段验证PTN-PTPRZ1信号通路的功能。</div><div class="d-block"><span class="lbl">研究结果：</span>PAX6-/-类器官体积显著大于对照组，抑制性神经元比例升高而兴奋性神经元成熟度降低。部分兴奋性神经元异常表达抑制性身份基因。PAX6-/-来源的抑制性细胞与体内皮层抑制性神经元转录组特征不同，呈现物理空间分离。PTN-PTPRZ1信号通路在PAX6-/-类器官中响应失调，该通路的异常激活促进抑制性神经元增殖，导致兴奋/抑制比例失衡。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究揭示了PAX6在人类前脑发育中的具体调控机制，为理解人类神经发育障碍提供了分子基础。然而，该工作完全局限于人类单一物种的类器官模型，未涉及任何跨物种比较或演化分析，对该研究者关注的两侧动物脑演化、细胞类型同源性及基因调控网络演化等核心问题无直接参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>转录因子PAX6是胚胎前脑发育的关键调控因子。为探究PAX6在人类前脑发育中的作用，作者利用人类大脑类器官模型构建PAX6-/-突变体，通过转录组分析发现：突变体类器官体积大于对照组，抑制性细胞类型增加；兴奋性神经元虽仍可产生但成熟度降低，部分细胞异常表达抑制性身份基因；PAX6-/-抑制性细胞呈现与体内皮层抑制性神经元不同的转录组特征，且PTN-PTPRZ1信号通路响应失调导致抑制性神经元增多及兴奋/抑制比例失衡。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The transcription factor PAX6 is a crucial regulator of multiple aspects of embryonic forebrain development. It has well-established roles in the regulation of excitatory and inhibitory neuron development in the embryonic cortex in mice but PAX6&#x27;s roles during human forebrain development are less well understood. Using human cerebral organoids, we investigated PAX6&#x27;s roles in human neurodevelopment. Homozygous PAX6 mutant (PAX6-/-) organoids were larger than controls and contained increased inhibitory cell types. Excitatory neurons were still generated in PAX6-/- organoids but they were less mature, and a subset showed dysregulated expression of inhibitory identity genes compared to PAX6+/+ controls. The inhibitory cells found in PAX6-/- organoids physically segregated from excitatory neurons and presented a distinct transcriptomic profile when compared to in vivo cortical inhibitory neurons. PAX6-/- organoids showed a dysregulated cellular response to PTN-PTPRZ1 signalling, which contributed to the observed increase in inhibitory neurons and the consequent altered excitatory to inhibitory neuronal ratio.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1242/dev.205457&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42834995/" target="_blank" rel="noopener">Immature olfactory sensory neurons provide complementary input in the intact olfactory system.</a></div>
+  <div class="title-cn">未成熟嗅觉感觉神经元在完整嗅觉系统中提供互补输入</div>
+  <div class="one-line">为探究未成熟嗅觉感觉神经元在完整嗅觉系统中的功能贡献，研究者采用化学遗传学沉默技术结合活体钙成像，在小鼠中急性抑制未成熟嗅觉感觉神经元，发现其缺失会损害埋藏食物寻找行为并降低嗅球神经元的气味诱发钙反应幅度，提示未成熟神经元提供补充性嗅觉输入，但该研究仅限于小鼠行为与电生理层面，缺乏跨物种或演化视角。</div>
+  
+  <div class="meta">iScience · 2026-10-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gregory JD, Herzog RS, Curtis KA, Marar MI, Cheetham CEJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.isci.2026.117605">10.1016/j.isci.2026.117605</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42834995/">https://pubmed.ncbi.nlm.nih.gov/42834995/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该研究为纯小鼠神经生理/行为学实验，无跨物种比较、无演化视角、无单细胞组学技术，与研究者核心关注点完全不符。</div><div class="d-block"><span class="lbl">背景：</span>嗅觉感觉神经元的成年神经发生是神经发育与可塑性的经典模型。新生神经元需整合入已建立的神经回路以执行功能，但其在完整系统中与成熟神经元的关系及各自的功能贡献尚不完全清楚。既往研究揭示了未成熟嗅觉感觉神经元在成熟神经元缺失时的代偿作用，但其在正常生理状态下的功能角色仍有待阐明。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者采用化学遗传学方法（hM4Di-DREADD系统），通过鼻内给予氯氮平-N-氧化物实现未成熟嗅觉感觉神经元的急性沉默。行为学评估采用埋藏食物寻找实验；神经活动记录采用清醒小鼠活体双光子钙成像技术，检测嗅球僧帽/丛状细胞的树突钙信号变化。</div><div class="d-block"><span class="lbl">研究结果：</span>急性沉默未成熟嗅觉感觉神经元显著损害小鼠在埋藏食物实验中的行为表现，提示其参与气味检测过程。同时，该操作降低了嗅球投射神经元的气味诱发树突钙反应幅度，表明未成熟神经元为嗅球回路提供功能性的气味输入，与成熟神经元形成互补而非冗余的信息传递。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究澄清了未成熟嗅觉感觉神经元在完整嗅觉系统中的功能必要性，拓展了对成年神经发生生理意义的理解。然而，该工作完全聚焦于小鼠单一物种的行为与神经生理层面，未涉及神经元类型的分子特征刻画、跨物种比较或演化发育生物学问题，对理解嗅觉系统的演化起源与细胞类型保守性无直接贡献。</div><div class="d-block"><span class="lbl">中文全摘要：</span>成年嗅觉感觉神经元神经发生为理解新神经元如何功能整合入现有回路并贡献行为提供了独特机会。既往研究表明未成熟嗅觉感觉神经元向小鼠嗅球神经元提供气味输入，且缺乏成熟嗅觉感觉神经元时，未成熟神经元的感觉输入可介导气味检测与辨别。本研究通过化学遗传学急性沉默未成熟嗅觉感觉神经元，发现其损害埋藏食物行为表现并降低嗅球神经元的气味诱发树突钙反应幅度，提示未成熟神经元在完整系统中提供补充性气味信息。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Adult neurogenesis of olfactory sensory neurons (OSNs) provides the unique opportunity to understand how new neurons functionally integrate into existing circuitry and contribute to behaviors. Previous studies have shown that immature OSNs provide odor input to neurons in the mouse OB, and that, in mice lacking mature OSNs, sensory input from immature OSNs can mediate odor detection and discrimination. What remains unknown is how immature OSNs contribute to odor-guided behavior in the intact olfactory system. Here we show that acute chemogenetic silencing of immature OSNs impairs performance in a buried food assay, potentially by altering odor detection. Furthermore, acute immature OSN silencing reduces the amplitude of odor-evoked dendritic calcium responses in OB neurons in vivo. Together, these findings suggest that immature OSNs provide odor information that complements mature OSN input to contribute to odor-guided behavior in the intact olfactory system.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.isci.2026.117605&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.09.750152" target="_blank" rel="noopener">FUSE: FUsing EEG-MEG in a Shared Embedding via self-supervised learning for BCI</a></div>
+  <div class="title-cn">FUSE：通过自监督学习在共享嵌入空间中融合EEG与MEG用于脑机接口</div>
+  <div class="one-line">为解决EEG-MEG多模态MI-BCI共享表征学习问题，作者用两阶段自监督卷积编码器-解码器以PSD预测替代信号重建，发现20名参与者中位准确率升至0.794且表征可跨个体迁移。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Messuti, G.; Scarpetta, S.; Sorrentino, P.; Corsi, M.-C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.09.750152">10.64898/2026.09.09.750152</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.09.750152">https://www.biorxiv.org/content/10.64898/2026.09.09.750152</a></div><div class="d-block keywords">命中关键词：brain, neural, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是面向脑机接口的EEG/MEG多模态表征学习研究，不涉及演化、跨物种比较或单细胞细胞类型同源性问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对运动想象脑机接口中EEG与MEG多模态共享表征学习不足的问题，作者提出两阶段深度学习框架FUSE：先用卷积编码器-解码器从时域信号预测EEG/MEG功率谱密度，学习共享潜在表示；再冻结编码器用于下游分类。基于20名参与者同步EEG-MEG数据评估，方法优于手工谱特征，并较MEG单模态明显提升、较EEG单模态小幅提升，中位准确率达0.794；且超过半数跨被试模型与被试特异模型精度差距不超过0.01，说明表征具有可迁移性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Combining complementary neurophysiological modalities offers a promising strategy for improving motor imagery (MI) brain-computer interfaces (BCIs), but learning shared representations across modalities remains largely unexplored. Here, we propose a two-phase deep learning framework for multimodal EEG-MEG decoding that explicitly decouples representation learning from downstream classification. In the first phase, a convolutional encoder-decoder learns a shared latent representation by predicting the power spectral density (PSD) of EEG and MEG signals directly from time-domain activity, rather than using the conventional objective of reconstructing the input signal. In the second phase, the encoder is frozen and its learned representations are reused, without further adaptation, to perform the classification of the downstream MI-BCI task. The framework was evaluated on simultaneous EEG and MEG recordings from 20 participants. The learned representations consistently outperformed conventional handcrafted spectral features, increasing median classification accuracy from 0.734 to 0.794. The multimodal framework also improved performance over MEG alone (median accuracy from 0.680 to 0.794) and yielded a modest increase over EEG alone (median accuracy from 0.765 to 0.794), providing a more robust decoding strategy than single-modality approaches. Furthermore, the learned latent representations were transferable across participants, with more than half of cross-subject models performing within 0.01 accuracy of their subject-specific counterparts. These findings demonstrate that task-agnostic representation learning can capture physiologically meaningful multimodal neural representations that remain transferable across individuals, offering a promising foundation for more robust and reusable BCI pipelines.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.09.750152&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42128069/" target="_blank" rel="noopener">Maternal immune activation perturbs the brain epitranscriptome.</a></div>
+  <div class="title-cn">母源免疫激活扰动脑表观转录组</div>
+  <div class="one-line">为阐明母源免疫激活致RNA代谢紊乱的机制，作者利用空间转录组学和直接RNA测序，发现FTO去甲基化酶受扰并可作为治疗靶点改善子代行为表型。</div>
+  
+  <div class="meta">Brain, behavior, and immunity · 2026-05-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jeon S, Kukreja B, Jang J, Liang Y, Hahm A, Turcke CE, Yim YS, Kalish BT</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.bbi.2026.106804">10.1016/j.bbi.2026.106804</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42128069/">https://pubmed.ncbi.nlm.nih.gov/42128069/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦临床疾病机制（母源免疫激活导致神经发育障碍），完全缺乏演化、跨物种比较或细胞类型同源性分析视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>母源免疫激活（MIA）导致异常胎儿神经发育及神经发育障碍风险升高。本研究利用空间转录组学界定发育中小鼠脑内表观转录组调控因子的细胞类型及脑区特异性分布，并通过直接RNA测序揭示MIA如何改变脑表观转录组景观，发现去甲基化酶FTO显著受扰。药理学和遗传学靶向FTO可改善MIA子代行为表型，为治疗干预提供新靶点。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Maternal immune activation (MIA) results in abnormal fetal neurodevelopment and an increased risk of neurodevelopmental disorders. Altered RNA translation has been implicated in the pathophysiology of MIA-associated neurodevelopmental deficits, but more precise mechanisms underlying disruption in RNA metabolism are lacking. Here, we characterize key components of the RNA epitranscriptomic machinery, which refers to the set of reversible chemical modifications on RNA molecules that influence RNA function, including translation, stability, splicing, and localization. Using spatial transcriptomics, we define cell type- and brain region-specific distribution of epitranscriptome regulators in the developing mouse brain. We also use direct RNA sequencing to define how MIA changes the brain epitranscriptome landscape. We identify the demethylase FTO as being notably perturbed in the context of MIA. Using pharmacological and genetic approaches, we target FTO to ameliorate behavioral phenotypes in MIA offspring. In total, this work expands upon mechanisms of translational misregulation in MIA and identifies new targets for therapeutic manipulation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106804&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42183627/" target="_blank" rel="noopener">The 3-Body Problem: How Astrocytes May Govern Plasticity.</a></div>
+  <div class="title-cn">三体问题：星形胶质细胞如何调控可塑性</div>
+  <div class="one-line">为探索星形胶质细胞在突触可塑性中的作用，作者提出三体模型，认为星形胶质细胞参与突触信用分配，建立星形胶质细胞-神经元互作的概念框架。</div>
+  
+  <div class="meta">The Neuroscientist : a review journal bringing neurobiology, neurology and psychiatry · 2026-05-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Watanabe A, Guo C, Sjöström PJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1177/10738584261445371">10.1177/10738584261445371</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42183627/">https://pubmed.ncbi.nlm.nih.gov/42183627/</a></div><div class="d-block keywords">命中关键词：brain, neuron, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦星形胶质细胞在突触可塑性中的计算角色，完全缺乏演化、跨物种比较或细胞类型同源性视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>学习和记忆曾被认为是神经元和神经网络的专属领域，但近年研究表明星形胶质细胞参与突触可塑性和信息储存。然而，其具体作用尚不清楚。Hebbian和脉冲时序依赖可塑性中，毫秒级的突触前后神经元同时激活决定可塑性，但新证据显示慢速星形胶质细胞信号与记忆直接相关。本文从星形胶质细胞中心视角出发，提出在三体排列中，星形胶质细胞可能参与突触信用分配问题，为理解星形胶质细胞与神经元的相互作用提供概念框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Learning and memory were long thought to be the domains of neurons and neural networks, but recent work across brain systems has established that astrocytes play a role in synaptic plasticity and information storage. However, it remains unclear what this role is. In Hebbian and spike timing-dependent plasticity, simultaneous activation of pre- and postsynaptic neurons on a millisecond timescale determines plasticity, yet emerging evidence suggests that slow astrocyte signaling over many seconds is directly linked to memory. Here we take an astrocyte-centric view on plasticity to explore the possible computational and coding roles of astrocytes. We propose that in a 3-body arrangement with pre- and postsynaptic compartments, astrocytes may participate in the synaptic credit assignment problem. This review thus offers a candidate conceptual framework for understanding the interplay between astrocytes and neurons in the context of neural network performance and plasticity.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1177/10738584261445371&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.04</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42848555/" target="_blank" rel="noopener">Spiking Neural Networks for Temporal Processing: Status Quo and Future Prospects.</a></div>
+  <div class="title-cn">面向时间处理的脉冲神经网络：现状与未来展望</div>
+  <div class="one-line">为解决现有神经形态基准测试无法充分评估脉冲神经网络时间处理能力的问题，作者构建包含四个多时间尺度任务的新基准套件，系统评估SNN方法并揭示其优势与挑战。</div>
+  
+  <div class="meta">IEEE transactions on neural networks and learning systems · 2026-10-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ma C, Chen X, Li Y, Yang Q, Wu Y, Li G, Pan G, Tang H, Tan KC, Wu J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TNNLS.2026.3736737">10.1109/TNNLS.2026.3736737</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42848555/">https://pubmed.ncbi.nlm.nih.gov/42848555/</a></div><div class="d-block keywords">命中关键词：neuron, neural, artificial intelligence, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为人工智能/计算神经科学领域的工程方法论文，完全不涉及演化、跨物种比较或单细胞转录组学。</div><div class="d-block"><span class="lbl">中文全摘要：</span>时间处理对生物和人工智能系统至关重要。脉冲神经网络（SNNs）凭借丰富的神经元动力学和事件驱动计算，适合高效时间处理。本文首先评估常用神经形态基准的局限性，进而引入包含四个多时间尺度任务的基准套件，系统评估近期SNN方法。结果表明SNN在神经元模型、归一化方法和神经架构方面取得显著进展，但在在线学习和长程时间依赖方面仍面临挑战。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Temporal processing is fundamental for biological and artificial intelligence systems, as it enables the comprehension of dynamic environments and facilitates timely responses. Spiking neural networks (SNNs) are well-suited for efficient temporal processing owing to their rich neuronal dynamics and event-driven computation. Given the recent surge in the development of SNNs, there is an urgent need for a comprehensive evaluation of their temporal processing capabilities. In this article, we first conduct an in-depth assessment of commonly used neuromorphic benchmarks, revealing critical limitations in their ability to evaluate the temporal processing capabilities of SNNs. To bridge this gap, we further introduce a benchmark suite consisting of four tasks characterized by rich temporal dependencies across multiple timescales. Utilizing this benchmark suite, we comprehensively evaluate recently introduced SNN approaches. Our results demonstrate substantial progress in neuron models, normalization methods, and neural architectures, while also uncovering challenges for online learning and long-range temporal dependencies compared to nonspiking sequence models. These findings establish a comprehensive understanding of the current state of SNNs in temporal processing and lay the foundation for the advancement of neuromorphic algorithms toward efficient operation in dynamic environments.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3736737&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.95</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42837816/" target="_blank" rel="noopener">Multidimensional integrative analyses identify CA4 as a potential schizophrenia driver gene.</a></div>
+  <div class="title-cn">多维度整合分析鉴定CA4为精神分裂症潜在驱动基因</div>
+  <div class="one-line">为识别精神分裂症因果基因，作者整合三个独立队列的 bulk 转录组数据（CMC、LIBD、GEO）及遗传关联分析，发现CA4下调与精神分裂症风险相关。</div>
+  
+  <div class="meta">Psychiatry research · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gu C, Dang X, Yang X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.psychres.2026.117484">10.1016/j.psychres.2026.117484</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42837816/">https://pubmed.ncbi.nlm.nih.gov/42837816/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床精神疾病GWAS与基因表达关联研究，无任何演化、跨物种比较或神经发育视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>精神分裂症脑组织中存在大量差异表达基因，但因果基因难确定。本研究对CMC（258例/279例对照）、LIBD（155例/196例对照）及GEO（140例/134例对照）三个大规模独立数据集进行差异表达分析，鉴定出CA4、SCN1B等7个一致变化的基因；GO分析提示细胞核、线粒体等通路异常；遗传关联分析发现rs6503945与精神分裂症风险相关（P=3.17×10⁻³），支持CA4为精神分裂症风险基因。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Gene expression studies have identified multiple dysregulated genes in brains of schizophrenia cases compared with controls. However, many dysregulated genes are not replicated or confirmed in independent cohorts and it remains a major challenge to identify genes whose altered expression have a causal role in schizophrenia. Here we conducted differential expression analysis in three large-scale independent expression datasets, including CommonMind Consortium (CMC, 258 cases and 279 controls), Lieber Institute for Brain Development (LIBD, 155 cases and 196 controls), and a GEO meta-analysis (140 cases and 134 controls), and identified 7 overlapping genes (CA4, SCN1B, IGFBP6, HR, GHR, DCP2, and FAM65B) that showed concordant expression change across all three datasets, strongly suggesting the pivotal role of these genes in schizophrenia. We also conducted Gene Ontology (GO) analysis and found that pathways related to nucleus, protein binding, mitochondria, among others, are dysregulated in schizophrenia cases in at least two independent datasets, indicating the potential causal role of these pathways in schizophrenia. Further we explored the genetic associations between these 7 overlapping genes and schizophrenia in populations of European ancestry, and found that a genetic variant (rs6503945) near CA4 showed association with schizophrenia risk (P = 3.17 × 10-3). Finally, integrative analyses supported that CA4 is a risk gene whose genetically regulated downregulation is associated with schizophrenia risk. Collectively, these convergent and consistent results suggest that CA4 is a potential schizophrenia driven gene whose downregulation may have a causal role in schizophrenia pathogenesis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.psychres.2026.117484&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.93</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42824274/" target="_blank" rel="noopener">A spatial-channel reconstruction guided frequency-time-space deep neural framework for SSVEP-based brain-computer interface EEG decoding.</a></div>
+  <div class="title-cn">基于空间通道重建引导的频率-时间-空间深度神经网络的SSVEP脑机接口EEG解码</div>
+  <div class="one-line">为解决SSVEP脑机接口高模型复杂度与大数据依赖问题，作者提出SCR-FTSDNN框架，结合傅里叶变换、时序卷积与扩张卷积，在Benchmark和BETA数据集上实现有限校准数据下的高精度目标识别。</div>
+  
+  <div class="meta">Cognitive neurodynamics · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wu X, Allison BZ, Chen W, He X, Wang C, Wang X, Cichocki A, Lu Y, Jin J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s11571-026-10565-6">10.1007/s11571-026-10565-6</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42824274/">https://pubmed.ncbi.nlm.nih.gov/42824274/</a></div><div class="d-block keywords">命中关键词：brain, neural, deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯工程类脑机接口算法研究，不涉及任何演化生物学、跨物种比较或神经发育相关内容，与研究者核心视角完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>稳态视觉诱发电位(SSVEP)脑机接口因高信息传输率和多目标识别能力受关注，但深度学习模型复杂度高、依赖大规模校准数据。本研究提出空间通道重建频率-时间-空间深度卷积神经网络(SCR-FTSDNN)：先将原始EEG信号经傅里叶变换提取频域特征，再用时序卷积捕获动态特性；网络中引入空间通道重建卷积模块增强判别特征提取，并采用扩张卷积扩大感受野、抑制冗余信息。在Benchmark和BETA两个公开数据集上的实验表明，该模型在有限校准数据下仍具优越识别准确率和鲁棒性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In recent years, steady-state visual evoked potential (SSVEP)-based brain-computer interfaces (BCIs) have attracted extensive attention owing to their high information transfer rate (ITR) and multi-target recognition capability. Deep learning (DL) methods have shown strong potential in SSVEP feature extraction and target frequency classification. However, their relatively high model complexity and dependence on large-scale calibration data increase the burden of data acquisition and may induce subject fatigue, thereby limiting user experience and practical application. To address these issues, this study proposes a Spatial and Channel Reconstruction-based Frequency-Time-Space Deep Convolutional Neural Network (SCR-FTSDNN) for efficient and accurate SSVEP target recognition. Specifically, the raw EEG signals are first transformed into the frequency domain using Fourier transform to extract preliminary frequency-related representations. Then, temporal convolution is employed to further capture dynamic temporal characteristics. In the network architecture, spatial and channel reconstruction convolution modules are introduced to enhance the extraction of discriminative features and improve feature representation capability. Moreover, dilated convolution is adopted to enlarge the receptive fields of frequency, spatial, and temporal features, suppress redundant information, and assign higher weights to key discriminative components. To evaluate the effectiveness of SCR-FTSDNN, systematic experiments are conducted on two public SSVEP datasets, namely Benchmark and BETA, and comparisons are made with several existing methods. The experimental results demonstrate that SCR-FTSDNN achieves superior recognition accuracy and robustness, particularly under limited calibration data, indicating its strong adaptability and potential for practical SSVEP-BCI applications. The reproducibility code is available at: https://github.com/Walek669/SSVEPclassification.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11571-026-10565-6&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.92</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42703838/" target="_blank" rel="noopener">The effect of in utero exposure to air pollution and subsequent cognitive and behavioral development in children aged 1-3 years old.</a></div>
+  <div class="title-cn">宫内暴露于空气污染对1至3岁儿童认知与行为发育的影响</div>
+  <div class="one-line">为解决孕期空气污染对早期发育影响不清问题，作者用210人纵向队列结合PM2.5/NO2暴露评估，发现1.5-3岁儿童存在性别特异的认知行为损害。</div>
+  
+  <div class="meta">Child neuropsychology : a journal on normal and abnormal development in childhood and adolescence · 2026-09-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ramjan S, DeIngeniis D, Brabander CJ, Hinton VJ, Sie SY, Vemu KS, Byrd D, Nomura Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1080/09297049.2026.2723475">10.1080/09297049.2026.2723475</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42703838/">https://pubmed.ncbi.nlm.nih.gov/42703838/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文为人群队列环境暴露与儿童神经行为发育研究，缺乏演化、跨物种比较或单细胞细胞类型同源性视角，对该研究者价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估孕期空气污染对儿童早期神经发育的影响，作者分析了Stress in Pregnancy（SIP）纵向队列210名儿童在18、24、36个月的随访数据，采用Bayley-III和ABAS-3评估认知行为结局，并结合公共数据库获得PM2.5与NO2暴露。结果显示存在显著性别差异：PM2.5主要负向影响男童的交流、社交和大运动功能，NO2则主要影响女童的交流、大运动及社会情绪技能。研究为早期识别和干预提供依据。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>This study investigated the effect of in utero exposure to pollution (PM2.5 and NO2), on trajectories of cognitive-behavioral development between ages 1.5 and 3 years. The prenatal period represents a critical window for child development, during which the brain is particularly vulnerable to the adverse effects of air pollution. Yet few studies have examined the associations between prenatal air pollution exposure and developmental functioning in early childhood. Data was analyzed from the Stress in Pregnancy (SIP) study, a longitudinal cohort study (n = 210). Neurodevelopmental outcomes were assessed at 18, 24, and 36 months, using the Bayley Scales of Infant and Toddler Development-Third Edition, and the Adaptive Behavior Assessment System, Third Edition at Queens College, CUNY in Queens, New York. Air pollution exposure was obtained from public databases. The most notable findings were sex-specific effects of prenatal air pollution exposure on several developmental markers. PM2.5 exposure had a significant negative effect on communication, social skills, and gross motor functioning in male children, whereas NO2 had a negative effect on females in the domains of communication, gross motor functioning, and social-emotional skills. By identifying sex-specific developmental sub-domains that are affected by air pollutants, this study provides a foundation for further investigating the sex-specific effects of pollutants. These findings can also inform early detection protocols for cognitive and behavioral difficulties and support the development of interventions to optimize neurodevelopment in children.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/09297049.2026.2723475&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.9</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42596844/" target="_blank" rel="noopener">Assessment of the fetal Evans Index in pregnancies complicated by fetal growth restriction.</a></div>
+  <div class="title-cn">胎儿生长受限妊娠中胎儿Evans指数的评估</div>
+  <div class="one-line">为解决FGR中胎儿脑重塑评估问题，作者用前瞻性病例对照超声测量Evans指数，发现129例中FGR的EI降低且其独立诊断/预后价值有限。</div>
+  
+  <div class="meta">Current medical research and opinion · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kından A, Kurt A, Akbulut ÖV, Ağaoğlu RT, Codal B, Kından A, Savran Üçok B, Ateş Ç, Özler MR, Sağlam E, Yakut Yücel K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1080/03007995.2026.2717002">10.1080/03007995.2026.2717002</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42596844/">https://pubmed.ncbi.nlm.nih.gov/42596844/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是人类胎儿生长受限的临床超声研究，既无演化也无跨物种比较视角，对脑演化与单细胞比较研究几乎无直接价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估胎儿生长受限（FGR）中的脑部比例重塑，作者在≥32周单胎妊娠中开展前瞻性病例对照研究，按Delphi标准纳入67例FGR和62例对照，在标准经脑室横断面测量Evans指数（EI）及额部比例指标。结果显示FGR组EI更低（0.28 vs 0.30），AUC为0.707；EI与额角宽度强相关。EI≥0.297与NICU入院风险降低在单因素分析中显著，但校正后不独立，提示其补充价值有限。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Fetal growth restriction (FGR) can affect fetal brain development despite adaptive circulatory redistribution. The fetal Evans Index (EI)-the ratio of frontal horn width to inner cranial diameter-may capture proportional cranial remodeling in FGR. In a prospective case-control study of singleton pregnancies ≥32 weeks, FGR was defined by Delphi consensus criteria. EI and frontal proportional ratios were obtained on the standardized axial transventricular plane. We evaluated how well EI distinguished FGR cases from controls and whether its association with NICU admission was independent of conventional fetal growth measurements. The cohort comprised 129 pregnancies (67 FGR, 62 controls). EI was lower in FGR than in controls (0.28 ± 0.02 vs 0.30 ± 0.02; p &lt; 0.001), alongside reduced frontal horn width and a lower FABD/OFD ratio (p &lt; 0.001). EI correlated strongly with frontal horn width (r = 0.752, p &lt; 0.001). EI provided moderate discrimination for FGR (AUC = 0.707, 95% CI 0.617-0.797; cut-off 0.297; sensitivity 78.8%, specificity 51.6%). NICU admission was markedly higher in FGR (44.8% vs 4.8%; p &lt; 0.001). EI ≥ 0.297 was associated with reduced NICU odds in univariate analysis (OR = 0.20, 95% CI 0.07-0.62), but not after adjustment (adjusted OR = 0.38, 95% CI 0.11-1.38); abdominal circumference percentile remained independently associated with NICU admission (adjusted OR = 0.97, 95% CI 0.95-0.99). Late-onset FGR is associated with reduced EI and altered frontal proportional indices, suggesting subtle anterior cerebral remodeling rather than ventriculomegaly. EI may provide complementary neurosonographic information, but its stand-alone diagnostic or prognostic value appears limited.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1080/03007995.2026.2717002&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.9</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.02.756323" target="_blank" rel="noopener">Learning Interpretable Switching Dynamics in Shared Neural-Behavioral Latent Space</a></div>
+  <div class="title-cn">学习共享神经-行为隐空间中的可解释切换动力学</div>
+  <div class="one-line">为解决神经活动与行为变量的共享动态结构建模问题，作者提出Switching Shared Latent Dynamics (SSLD)框架，整合共享表征学习与切换动力学，在猴运动皮层和小鼠宽场钙成像数据中实现神经-行为共享隐空间的准确重建与状态识别。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang, Y.; Caro, J. O.; Oren, R.; Higley, M. J.; Cardin, J.; Churchland, A.; Saxena, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.02.756323">10.64898/2026.10.02.756323</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.02.756323">https://www.biorxiv.org/content/10.64898/2026.10.02.756323</a></div><div class="d-block keywords">命中关键词：brain, neural, foundation model</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算神经科学方法学研究，聚焦神经-行为动态建模，完全缺乏演化、跨物种比较或单细胞组学内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>现代记录技术可同时测量高维神经活动与丰富行为变量，但现有方法难以联合建模共享表征与动态结构。作者提出SSLD框架，学习神经与行为共享的隐空间并赋予非线性切换循环动力学，辅以私有潜变量捕获模态特异性变异。在模拟数据及猴运动/体感皮层、小鼠宽场钙成像（决策与自发运动）四个数据集上，SSLD准确重建信号、恢复与行为时段对齐的离散状态，并分离行为相关与私有神经信息。消融实验验证各组件贡献。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Modern recording technologies enable simultaneous measurement of high-dimensional neural activity and rich behavioral variables, creating both an opportunity and a modeling challenge: identifying the shared latent structure that mediates the brain-behavior relationship and the underlying dynamics through which it evolves across behavioral states. Existing approaches focus on different parts of this challenge: shared representation learning methods identify neural-behavioral subspaces but typically do not model dynamical structure, while dynamical models capture temporal variation and discrete state transitions in neural activity, but do not explicitly disentangle shared neural-behavioral structure from modality-specific variability. We introduce Switching Shared Latent Dynamics (SSLD), a unified framework that learns a latent representation shared between neural activity and behavior and endows this shared space with nonlinear switching recurrent dynamics to reflect the hypothesis that behaviorally relevant neural representations exhibit structured dynamical changes across behavioral states. Complementary private latent variables capture modality-specific variability, providing a window into neural activity that does not directly interact with behavior. We evaluate SSLD on a simulated dataset and four diverse experimental datasets spanning species, brain regions, and recording modalities: monkey motor and premotor cortex during reaching, somatosensory cortex during a bump task, widefield calcium imaging across mouse dorsal cortex during (a) self-initiated decision-making and (b) spontaneous movements. Across all four datasets, SSLD accurately reconstructs neural and behavioral signals, recovers discrete states in the dynamics that align with experimentally defined behavioral epochs, and isolates behaviorally-relevant neural information in the shared latent while preserving private neural variability. Ablations confirm that shared representation learning, behavioral supervision, and switching dynamics each contribute to performance. SSLD offers an interpretable approach to modeling shared neural-behavioral dynamics that complements ongoing efforts toward foundation models for neuroscience.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756323&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.89</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42368439/" target="_blank" rel="noopener">Within- and between-study site variations in ambient air pollution exposure at ages 9-10 years in the Adolescent Brain Cognitive Development (ABCD) Study.</a></div>
+  <div class="title-cn">ABCD研究中9-10岁儿童环境空气污染暴露的研究内与研究间站点差异</div>
+  <div class="one-line">为解决儿童空气污染暴露差异的地理异质性问题，作者用ABCD基线数据结合交叉性分析与两阶段Meta分析，发现不同站点中Hispanic/Latinx和Black儿童PM2.5、NO2暴露负担更高。</div>
+  
+  <div class="meta">Environmental epidemiology (Philadelphia, Pa.) · 2026-06-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Cardenas-Iniguez C, de Jesus AV, Schachner JN, Abad S, Ahmadi H, Schwartz J, Sukumaran K, Hackman DA, Chen JC, Herting MM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1097/EE9.0000000000000490">10.1097/EE9.0000000000000490</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42368439/">https://pubmed.ncbi.nlm.nih.gov/42368439/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦儿童空气污染暴露与社会不平等，并非演化生物学、脑演化或单细胞比较研究，仅可作为“脑发育受环境影响”背景性趋势参考。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为刻画儿童空气污染暴露不平等及其地理异质性，作者利用ABCD研究2016-2018年基线数据，估计美国21个站点、19个都市区9-10岁儿童居住地PM2.5和NO2暴露，并结合种族/族裔与社会经济因素开展交叉性分析，采用两阶段Meta分析显式建模站点间异质性。结果显示，Hispanic/Latinx与Black儿童总体暴露更高，但不同站点差异幅度明显不同；且几乎所有参与者暴露均高于WHO指南，提示儿童神经发育保护仍存在监管缺口。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Minority and socioeconomically disadvantaged children face disproportionate air pollution burdens, yet the geographic heterogeneity and intersectional structure of these disparities remain poorly characterized in pediatric populations. Using baseline data (2016-2018) from the Adolescent Brain Cognitive Development Study, the largest longitudinal study of child brain development in the United States, we estimated residential fine particulate matter (PM2.5) and nitrogen dioxide (NO2) among 9- to 10-year-olds across 21 sites spanning 19 metropolitan areas. We employed an intersectional analytic approach to examine race/ethnicity and socioeconomic effects jointly, and a two-stage meta-analytic design to explicitly model between-site heterogeneity. Hispanic/Latinx and Black children experienced higher average PM2.5 and NO2 than white peers overall, but intersectional analyses revealed that Hispanic/Latinx preadolescents from the lowest income households bore the greatest PM2.5 burden, and higher educated Black families showed increased NO2 exposure relative to those with high school diplomas. Site-specific analyses revealed substantial geographic heterogeneity in disparity magnitude, challenging the assumption of homogeneous national patterns. These findings underscore the need for locally targeted interventions. Nearly all participants exceeded World Health Organization air quality guidelines despite meeting Environmental Protection Agency thresholds, highlighting a regulatory gap with particular relevance to children&#x27;s developing neurological systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1097/EE9.0000000000000490&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐的9篇文献聚焦于神经科学前沿与神经工程交叉领域，核心亮点包括：阿片类药物戒断的神经机制取得突破性进展，首次揭示编码戒断严重度的全脑神经网络；同时，Mamba架构在MEG基础模型中的成功应用标志着状态空间模型正成为神经信号长时程建模的新范式。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经机制解析与建模：从阿片戒断脑网络、嗅觉未成熟神经元功能到母源免疫激活的表观转录组调控，多维度揭示神经系统运作的分子与环路机制</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>神经形态计算与基础模型：MEG-Mamba与SNN基准测试等工作显示，非Transformer架构与脉冲神经网络正成为神经时间序列分析的新工具</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>脑机接口与多模态融合：CLMT-net、FUSE等工作推动EEG-MEG联合解码与细粒度运动想象识别，自监督学习与对比学习成为提升BCI性能的关键技术</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文反映出神经科学研究正经历三重方法学转向：一是从传统假设驱动转向数据驱动的机器学习与可解释AI相结合，如可解释机器学习解码戒断状态、多尺度Transformer解码EEG；二是从单模态向多模态融合演进，特别是EEG-MEG共享表征学习；三是从瞬时测量向长时程、全周期动态建模发展，Mamba架构的引入和SNN基准套件的构建均体现这一趋势。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">研究者可直接借鉴的技术路径包括：将Mamba等状态空间模型迁移至自身神经信号分析场景；采用两阶段自监督策略处理多模态神经数据；关注神经发育类器官模型中的E/I平衡调控机制。值得关注的空白领域是：当前嗅觉与发育研究缺乏跨物种比较视角，为演化神经科学留下切入点；而星形胶质细胞参与突触信用分配的理论框架，为计算神经科学提供了可量化的模型假设。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
