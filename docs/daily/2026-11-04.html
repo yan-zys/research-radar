@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-04</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-04</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 1 · Relate 14）· 命中关键词 12 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">6.38</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.31.763190" target="_blank" rel="noopener">DPYD	 links glial lipids and myelination to sleep duration</a></div>
+  <div class="title-cn">DPYD连接胶质脂质与髓鞘化及睡眠时长</div>
+  <div class="one-line">为探索睡眠调控的遗传机制，作者以DPYD基因为靶点，采用跨物种比较方法结合遗传学与药理学操作，发现DPYD及其直系同源基因在胶质细胞中通过调控脑脂质促进睡眠，其缺失导致髓鞘化减少且睡眠缩短，并在果蝇中发现该基因在包裹胶质中通过形成脂质滴促进睡眠，揭示了胶质脂质在睡眠调控中的深层保守作用。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zimmerman, A. J.; Deal, S.; Almeraya Del Valle, E.; Donnelly, J.; Kroll, F.; Guo, X.; Tsundupalli, T.; Shetty, Z.; Doldur-Balli, F.; Keenan, B.; Grant, S. F.; Rihel, J.; Sehgal, A.; Pack, A. I.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.31.763190">10.64898/2026.10.31.763190</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.31.763190">https://www.biorxiv.org/content/10.64898/2026.10.31.763190</a></div><div class="d-block keywords">命中关键词：brain, glia, cross-species, Drosophila, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>虽涉及跨物种比较（小鼠、斑马鱼、果蝇）且含胶质细胞/髓鞘演化线索，但核心为睡眠调控的生理机制研究，缺乏演化假说检验、细胞类型同源分析或基因调控网络比较等该研究者核心关注点。</div><div class="d-block"><span class="lbl">背景：</span>睡眠作为一种基本的生理状态，其调控机制在进化上高度保守，但背后的遗传和细胞机制远未阐明。胶质细胞，特别是少突胶质细胞及其形成的髓鞘，近年来被认为在神经环路功能和调控中扮演重要角色，但胶质细胞与睡眠之间的因果联系尚缺乏分子水平的证据。此外，跨物种比较为识别保守的生物学机制提供了有力工具，但如何将分子功能与演化上的细胞类型创新（如髓鞘的出现）相联系，仍是神经演化领域的重要课题。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者采用跨物种比较策略，在小鼠（体内基因敲除）、斑马鱼（遗传和药理学操作结合行为学分析）和果蝇（遗传操作结合睡眠行为检测）中功能验证DPYD及其直系同源基因；利用单细胞/组织水平表达分析定位基因表达细胞类型；通过脂质组学分析、髓鞘染色和电镜观察评估髓鞘化程度；结合人类GWAS数据与顺式调控元件分析，将遗传变异与细胞类型特异性基因调控关联。</div><div class="d-block"><span class="lbl">研究结果：</span>DPYD在小鼠和斑马鱼中富集于少突胶质细胞谱系，其缺失导致髓鞘化减少和睡眠缩短，且不依赖于尿嘧啶分解代谢功能。斑马鱼中改变髓鞘化足以改变睡眠时长。果蝇DPYD直系同源基因在包裹胶质中通过促进脂质滴形成来调控睡眠，提示胶质脂质调控的深层保守性。人类睡眠相关GWAS变异定位于少突胶质细胞特异性的DPYD顺式调控元件。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究建立了DPYD作为连接髓鞘生物学与睡眠的分子纽带，揭示了胶质脂质在睡眠调控中的深层保守作用，为理解胶质细胞功能提供了新视角。然而，该研究主要聚焦生理机制而非演化假说检验，其&quot;跨物种&quot;设计服务于功能保守性验证而非系统性的细胞类型同源比较或演化创新分析，对该研究者核心关注的脑演化、细胞类型起源与基因调控网络演化的直接参考价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>睡眠调控具有遗传性且跨物种保守，但遗传机制不明。本研究探究DPYD基因（编码二氢嘧啶脱氢酶）在睡眠中的作用。通过跨物种方法，发现DPYD及其直系同源基因特异性地在胶质细胞中通过调控脑脂质促进睡眠。在小鼠和斑马鱼中，DPYD直系同源基因富集于少突胶质细胞谱系，其缺失减少髓鞘化并缩短睡眠，且独立于其在尿嘧啶分解为β-丙氨酸中的已知功能。斑马鱼中遗传和药理学操纵髓鞘显示改变髓鞘化足以扰动睡眠时长。在缺乏髓鞘的果蝇中，DPYD直系同源基因在包裹胶质中通过形成胶质脂质滴促进睡眠——后者被认为是髓鞘的演化前体。此外，人类GWAS鉴定的睡眠变异位于保守顺式调控元件中，该元件选择性接触少突胶质细胞内DPYD启动子，将人类遗传关联与少突胶质细胞对DPYD的特异性调控相连。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The regulation of sleep is heritable and conserved across species1,2, but the governing genetic mechanisms remain poorly understood. Here, we investigate the role of DPYD--which encodes the pyrimidine catabolic enzyme, dihydropyrimidine dehydrogenase--in sleep. Using a cross-species approach, we show that DPYD and its orthologs act specifically in glia to promote sleep through the regulation of brain lipids. In mouse and zebrafish, we find that DPYD orthologs are enriched in oligodendrocyte lineage cells, and their loss reduces myelination and sleep independent of DPYDs established role in uracil catabolism to {beta}-alanine. Genetic and pharmacological manipulations of myelin in zebrafish show that altering myelination is sufficient to perturb sleep duration. In Drosophila, which lack myelin, we find that the DPYD ortholog acts in ensheathing glia to promote sleep through formation of glial lipid droplets, a proposed evolutionary precursor to myelin. Furthermore, a human GWAS-identified sleep variant2 resides in a conserved cis-regulatory element that selectively contacts the promoter of DPYD within oligodendrocytes, connecting the human genetic association to oligodendrocyte-specific control of DPYD. Together, these results identify a deeply conserved role for glial lipids in sleep regulation and establish DPYD as a mechanistic link between myelin biology and sleep.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.31.763190&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42842651/" target="_blank" rel="noopener">MIMAS: An open-source microlens-array miniature microscope for accessible large-field cortical imaging in freely behaving mice.</a></div>
+  <div class="title-cn">MIMAS：一种开源微透镜阵列微型显微镜，用于自由行为小鼠的大视野皮层成像</div>
+  <div class="one-line">为解决传统头戴式显微镜光学复杂度高、可及性差的问题，作者用4×5微透镜阵列替代传统多元素光学系统，结合计算拼接，在仅2.31 g重量下实现约4×4.5 mm²细胞分辨率钙成像，捕获自由行为小鼠数千神经元活动。</div>
+  
+  <div class="meta">Science advances · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xie M, Ma J, Zhang B, Lu J, Yin H, Jiang Y, Zhao Y, Qian Y, Guo ZV, Liu W, Fu Q, Guo C, Chen L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aei8743">10.1126/sciadv.aei8743</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42842651/">https://pubmed.ncbi.nlm.nih.gov/42842651/</a></div><div class="d-block keywords">命中关键词：neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯硬件工程研究，聚焦微型显微镜设备开发，完全不含演化、跨物种比较或单细胞转录组学内容，与该研究者核心研究方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>自然行为中的大规模皮层动态测量困难，因头戴式成像系统需在视野、分辨率、重量和光学复杂度间取舍。现有宽场微型显微镜依赖复合或定制校正光学组件，增加设备复杂度并限制无专门光学实验室的可及性。本研究呈现微型集成微透镜阵列系统（MIMAS），以4×5微透镜阵列作为唯一成像元件替代传统多元素光学。通过模块化子区域采集与计算配准拼接相结合，MIMAS在仅2.31 g重量下实现约4×4.5 mm²视野的细胞分辨率成像。在稀疏标记2/3层皮层神经元的自由行为小鼠中，MIMAS实现多背侧皮层区域同步钙成像，从数千神经元提取信号，捕获与运动状态相关的分布式皮层活动及开放场探索中的位置调制反应，30分钟记录中未检测到运动干扰或信号质量下降。此外还支持宽场血管成像及异氟烷血管直径依赖性血流动力学反应解析。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Large-scale cortical dynamics during natural behavior are difficult to measure because head-mounted imaging systems must balance field of view, spatial resolution, weight, and optical complexity. Existing wide-field miniature microscopes often rely on compound or custom-corrected optical assemblies, which increase device complexity and limit accessibility for laboratories without specialized optics expertise. Here, we present the Miniature Integrated Microlens Array System (MIMAS), an open-source head-mounted fluorescence microscope that replaces conventional multi-element optics with a 4 × 5 microlens array as its sole imaging element. By combining modular subfield acquisition with computational registration and stitching, MIMAS achieves cellular-resolution imaging across an approximately 4 × 4.5 mm2 field of view while weighing only 2.31 g. In freely behaving mice with sparse labeling of layer 2/3 cortical neurons, MIMAS enabled simultaneous calcium imaging across multiple dorsal cortical regions, with signals extracted from thousands of neurons. This broad sampling captured distributed cortical activity related to locomotor state and sparse position-modulated responses during open-field exploration without detectable disruption of locomotion or loss of signal quality over 30 min of recording. Beyond neuronal imaging, MIMAS also supported wide-field vascular imaging and resolved vessel caliber-dependent hemodynamic responses to isoflurane. These results establish MIMAS as a lightweight, accessible, and versatile platform for large-scale fluorescence imaging in freely behaving mice and demonstrate an alternative strategy for wide-field cortical imaging that lowers the optical complexity barrier for individual laboratories.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei8743&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.37</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42610441/" target="_blank" rel="noopener">Local inhibitory dynamics underpin temporal integration and functional segregation between barrels and septa in the mouse barrel cortex.</a></div>
+  <div class="title-cn">局部抑制动力学支撑小鼠桶状皮层中桶与隔区之间的时间整合及功能分化</div>
+  <div class="one-line">为解决小鼠桶状皮层桶与隔区如何实现重复触须输入整合问题，作者用在体同步记录、遗传命运示踪、钙成像和Elfn1敲除，发现SST+中间神经元驱动隔区多触须整合与功能分化。</div>
+  
+  <div class="meta">eLife · 2026-08-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Argunşah AÖ, Stachniak TJ, Yang JW, Cai L, van der Bourg A, Kastli R, Karayannis T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.107099">10.7554/eLife.107099</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42610441/">https://pubmed.ncbi.nlm.nih.gov/42610441/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠桶状皮层局部抑制回路与感觉整合机制，缺乏演化或跨物种比较视角，对以脑演化和细胞类型同源性为核心的研究者参考价值较低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为解释小鼠桶状皮层中barrel与septa对重复触须刺激为何产生不同整合模式，作者结合在体同步记录、遗传命运示踪、组织透明化、钙成像、Elfn1缺失和病毒示踪进行分析。结果显示，重复多触须刺激下septa的多/单触须反应比逐步升高，而barrel保持稳定；SST+与VIP+中间神经元分布不同，且SST+在重复多触须刺激中更易被招募。删除Elfn1后，septa增强效应及barrel-septa功能分离均消失，提示局部抑制回路支持皮层功能特化。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Mice, like humans, enhance tactile perception through repeated sampling of spatially segregated sensory inputs. In the whisker system, individual whisker identity is preserved along the whisker-brainstem-thalamus-cortex pathway, culminating in distinct cortical domains: barrels and septa. Using simultaneous in vivo recordings from barrel and septal domains, we identify a progressive divergence in spiking activity during repeated single- and multi-whisker stimulation. While the multi- to single-whisker response ratio remains stable in barrels, it increases progressively in septa, suggesting recruitment of local inhibitory circuits. Genetic fate mapping and tissue clearing revealed distinct laminar and regional distributions of SST+ and VIP+ interneurons in barrel and septal domains. Calcium imaging showed that both interneuron types respond to whisker stimulation, but SST+ interneurons were preferentially recruited during repeated multi-whisker stimulation. Deletion of Elfn1, a regulator of excitatory synaptic dynamics onto SST+ interneurons, abolished the progressive increase in septal multi- to single-whisker response ratios. Temporal decoding analyses further demonstrated a loss of barrel-septa functional segregation in Elfn1 knockout mice. Finally, viral tracing combined with whole-brain clearing revealed distinct projection patterns from barrels and septa to secondary somatosensory (S2) and motor (M1) cortices. Together, these findings support a model in which Elfn1-dependent recruitment of SST+ interneurons contributes to preferential multi-whisker integration and functional specialization within the mouse somatosensory cortex.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.107099&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.36</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42559936/" target="_blank" rel="noopener">Brainstem neurons coordinate the bladder and urethral sphincter for urination.</a></div>
+  <div class="title-cn">脑干神经元协调膀胱与尿道括约肌以实现排尿</div>
+  <div class="one-line">为解决排尿时膀胱与EUS协调神经元未明问题，作者用对PMC中ESR1+细胞的激活/抑制、神经切断和解剖示踪，发现其3类脊髓投射亚群按时序协调膀胱收缩与括约肌松弛。</div>
+  
+  <div class="meta">eLife · 2026-08-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li X, Li X, Li J, Qin H, Liang S, Li J, Jian T, Wang X, Yin L, Yuan C, Liao X, Jia H, Chen X, Yao J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.103224">10.7554/eLife.103224</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42559936/">https://pubmed.ncbi.nlm.nih.gov/42559936/</a></div><div class="d-block keywords">命中关键词：neuron, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦哺乳动物排尿神经回路与功能操控，缺乏演化或跨物种比较视角，对该研究者仅有有限的神经细胞类型概念参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>哺乳动物排尿依赖膀胱与外尿道括约肌（EUS）的精确协调，但负责该协调的具体神经元亚群一直未明。作者鉴定出脑桥排尿中枢（PMC）中表达雌激素受体1的ESR1+细胞：激活可100%诱发排尿，抑制可100%终止正在进行的排尿。结合盆神经/阴部神经切断实验与解剖分析，发现该群体由3类基于脊髓投射的亚群组成，分别靶向骶副交感核、背灰连合或两者，从而以严格时序协调膀胱收缩与括约肌松弛。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Urination, a vital and conserved process of emptying urine from the urinary bladder in mammals, requires precise coordination between the bladder and external urethral sphincter (EUS) that is tightly controlled by a complex neural network. However, the specific subpopulation of neurons that accounts for such coordination remains unidentified, limiting the development of target-specific therapies for certain urination disorders, for example, detrusor-sphincter dyssynergia. Here, we find that cells expressing estrogen receptor 1 (ESR1+) in the pontine micturition center (PMC) initiate voiding when activated and suspend ongoing voiding when suppressed, each at 100% reliability. Transection of the pelvic nerve does not impair PMCESR1+ neurons&#x27; control of the EUS via the pudendal nerve, whereas transection of the pudendal nerve does not impair their control of the bladder via the pelvic nerve. Anatomically, PMCESR1+ neurons consist of three distinct spinal-projection-based subpopulations: one targeting the sacral parasympathetic nucleus, one innervating the dorsal gray commissure, and a third that projects to both regions, thereby enforcing the coordination of bladder contraction and sphincter relaxation in a rigid temporal sequence. Thus, we identify a cell type in the brainstem that controls the bladder-urethra coordination for urination.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103224&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.36</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42611752/" target="_blank" rel="noopener">TLR4 signaling drives tissue inflammation, Claudin-5 internalization, and vascular barrier breakdown in a mouse model of neonatal meningitis.</a></div>
+  <div class="title-cn">TLR4信号驱动小鼠新生儿脑膜炎模型中的组织炎症、Claudin-5内化和血管屏障破坏</div>
+  <div class="one-line">为解决新生儿细菌性脑膜炎软脑膜反应机制不清问题，作者结合条件性敲除、软脑膜单核RNA测序和内皮细胞培养，发现非髓系细胞TLR4驱动炎症、Claudin-5内化及血管通透性升高。</div>
+  
+  <div class="meta">eLife · 2026-08-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Seegren PV, Rattner A, Smallwood PM, Wang Y, Nathans J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.110458">10.7554/eLife.110458</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42611752/">https://pubmed.ncbi.nlm.nih.gov/42611752/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠新生儿脑膜炎中TLR4介导的炎症与血管屏障破坏，虽用到单核RNA测序，但缺乏演化或跨物种比较视角，对该研究者仅有有限方法参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>新生儿细菌性脑膜炎致死致残率高，但软脑膜对感染的分子与细胞反应机制未明。作者在小鼠大肠杆菌脑膜炎模型中，结合非髓系细胞Tlr4条件性敲除、软脑膜单核RNA测序及脑内皮细胞培养，研究TLR4作用。结果显示，删除Tlr4显著降低各类软脑膜细胞炎症反应，并阻断感染相关血管通透性增加；在bEnd.3细胞中，E. coli诱导NF-κB激活、Claudin-5选择性内化和单层通透性升高，均依赖TLR4。研究揭示了TLR4依赖的宿主应答程序。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neonatal bacterial meningitis is a leading cause of infant morbidity and mortality, yet the molecular and cellular basis of the leptomeningeal response to infection remains poorly defined. Here, we study a mouse model of neonatal Escherichia coli meningitis, combining conditional gene knockouts, leptomeningeal single-nucleus RNA sequencing, and endothelial cell culture to explore the role of Toll-like receptor 4 (TLR4) signaling in the host response to infection. Deletion of Tlr4 in non-myeloid cells dramatically reduced the inflammatory response in all leptomeningeal cell types and abrogated the infection-associated increase in vascular permeability. In a brain endothelial cell line (bEnd.3 cells), exposure to E. coli triggered NF-κB activation, selective internalization of Claudin-5, and increased monolayer permeability, responses that were eliminated by Tlr4 knockout. RNA-seq showed that TLR4 controls an NF-κB-driven transcriptional program that orchestrates the endothelial response to E. coli. These findings reveal multiple TLR4-dependent host responses to neonatal Gram-negative bacterial meningitis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110458&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.35</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42823473/" target="_blank" rel="noopener">Brain stimulation boosts CSF flow.</a></div>
+  <div class="title-cn">脑刺激促进脑脊液流动</div>
+  <div class="one-line">由于摘要为空，无法提取具体信息。</div>
+  
+  <div class="meta">Nature neuroscience · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Marin IA</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1038/s41593-026-02477-9">10.1038/s41593-026-02477-9</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42823473/">https://pubmed.ncbi.nlm.nih.gov/42823473/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床/生理学研究，与演化、跨物种比较及细胞类型同源性分析完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>论文摘要未提供，无法评估具体研究内容。根据标题判断，该研究关注脑刺激对脑脊液流动的影响，属于临床神经生理学或治疗学研究范畴，不涉及演化生物学、跨物种比较或单细胞转录组学。</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1038/s41593-026-02477-9&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.33</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42853951/" target="_blank" rel="noopener">Cell heterogeneity contributes to the variable response of HIV-1 to latency-reversing agents.</a></div>
+  <div class="title-cn">细胞异质性导致HIV-1对潜伏期逆转剂的反应存在差异</div>
+  <div class="one-line">为解决HIV-1潜伏期转录变异性来源不清问题，作者利用双拷贝MS2标记系统与数学分析，发现细胞状态驱动病毒拷贝间转录相关性变化，揭示细胞异质性对药物反应的影响。</div>
+  
+  <div class="meta">Science advances · 2026-10-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Topno R, Karaki H, Mazzarda F, Pourcelot O, Philippe M, Zibara K, Radulescu O, Bertrand E</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aeb1435">10.1126/sciadv.aeb1435</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42853951/">https://pubmed.ncbi.nlm.nih.gov/42853951/</a></div><div class="d-block keywords">命中关键词：cell state</div><div class="d-block"><span class="lbl">推荐理由：</span>纯HIV-1病毒学与临床研究，无任何演化、跨物种比较或神经相关视角</div><div class="d-block"><span class="lbl">中文全摘要：</span>转录噪声导致基因表达变异，但其在HIV-1潜伏期的来源和影响尚不完全清楚。本研究结合双拷贝MS2标记系统与数学分析，探究活细胞中HIV-1转录的变异性。基础状态下，同一细胞内原病毒转录活性无相关性，表明变异主要来自启动子内在随机性；经潜伏期逆转剂刺激后，病毒拷贝转录相关性增强，揭示从启动子驱动向细胞状态驱动变异的转变。分子药物靶点分析证实细胞间效应差异。该研究为靶向潜伏病毒库提供机制见解。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Transcriptional noise contributes to gene expression variability, but its origin and impact in HIV-1 latency remain incompletely characterized. Here, we combine a dual-copy MS2-tagging system with dedicated mathematical analysis to investigate the variability of HIV-1 transcription in live cells. In the basal state, the transcriptional activity of proviruses located in the same cell was uncorrelated, indicating that expression variability primarily comes from the intrinsic stochasticity of promoter dynamics. Upon stimulation with diverse latency-reversing agents, transcription of viral copies became more correlated within cells than across them, revealing a shift from promoter-driven to cell state-driven variability. Analysis of the molecular drug targets confirmed variable effects across cells. Our findings indicate that cellular heterogeneity can shape the response to latency-reversing agents and demonstrate how quantitative tools can dissect noise sources. This work offers mechanistic insights into HIV-1 latency and informs strategies to target the latent viral reservoir.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aeb1435&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.32</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42528398/" target="_blank" rel="noopener">Dichotomy between extracellular signatures of active dendritic chemical synapses and gap junctions.</a></div>
+  <div class="title-cn">活性树突化学突触与缝隙连接胞外信号特征的二分性</div>
+  <div class="one-line">为解决缝隙连接输入如何塑造LFP问题，作者用导电性神经元模型记录不同输入模式下胞外电位，发现化学突触与缝隙连接在极性、偶极形成和频率响应上显著不同。</div>
+  
+  <div class="meta">eLife · 2026-07-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sirmaur R, Narayanan R</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.103046">10.7554/eLife.103046</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42528398/">https://pubmed.ncbi.nlm.nih.gov/42528398/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦活性树突中化学突触与缝隙连接对局部场电位的电生理建模差异，与脑演化、细胞类型同源和单细胞比较框架仅有间接参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>局部场电位长期被视为主要反映化学突触输入，但缝隙连接输入对活性树突胞外信号的作用尚不清楚。作者建立导电性神经元模型，记录不同缝隙连接和化学突触同步、节律输入下的胞外电位。结果显示，化学突触在近端电极产生负向偏转并形成胞外偶极，而缝隙连接产生正向偏转且不形成偶极；不同频率节律性缝隙连接输入还会更强抑制高频LFP功率，并改变尖峰相位与LFP关系。这些差异源于突触电流与电压驱动跨膜电流的相对主导性不同。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Local field potentials (LFPs) are compound signals that represent the dynamic flow of information across the brain, which have been historically associated with chemical synaptic inputs. How do gap junctional inputs onto active compartments shape LFPs? We developed a methodology to record extracellular potentials associated with different patterns of gap junctional inputs onto conductance-based models. We found that synchronous inputs through chemical synapses yielded a negative deflection in proximal extracellular electrodes whereas those onto gap junctions manifested a positive deflection. Importantly, we observed extracellular dipoles only when inputs arrived through chemical synapses but not with gap junctions. Remarkably, hyperpolarization-activation cyclic nucleotide-gated channels, which typically conduct inward currents, mediated outward currents triggered by the fast voltage transition caused by synchronous inputs. With rhythmic inputs at different frequencies arriving through gap junctions, we found strong suppression of LFP power at higher frequencies as well as frequency-dependent differences in the spike phase associated with the LFP when compared to respective chemical synaptic counterparts. All observed differences in LFP were mediated by the relative dominance of synaptic currents vs. voltage-driven transmembrane currents with chemical synapses vs. gap junctions, respectively. Our analyses unveil a hitherto unknown role for active dendritic gap junctions in shaping extracellular potentials.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.103046&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.3</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709471/" target="_blank" rel="noopener">Cellular modifiers of TDP-43 phase transition and cytoplasmic aggregation.</a></div>
+  <div class="title-cn">TDP-43相变与胞质聚集的细胞调控因子</div>
+  <div class="one-line">为解决TDP-43液-固相变机制不清问题，作者结合化学与全基因组遗传筛选并建立半透化细胞体系，发现RNA剪接、翻译、蛋白稳态和核输出调控其LLPS与聚集。</div>
+  
+  <div class="meta">eLife · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chin N, Zhang Q, Zou J, Cheng KC, Zheng W, Ye Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.110172">10.7554/eLife.110172</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709471/">https://pubmed.ncbi.nlm.nih.gov/42709471/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦TDP-43相变与ALS相关病理机制，虽涉及脑类器官，但缺乏演化或跨物种比较视角，对该研究者仅具边缘性参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>TDP-43可形成液态核内组装体，其液-固相变与聚集倾向及神经毒性相关，但调控机制尚不明确。作者结合化学筛选和全基因组遗传筛选，鉴定RNA剪接、蛋白翻译、蛋白稳态失衡及核输出等调控过程；并建立可部分重现TDP-43相变的半透化细胞体系。结果显示，抑制核输出可重塑核环境，促进RNA依赖的TDP-43液-液相分离并减轻聚集，在携带ALS相关突变的脑类器官中也降低了致病性磷酸化TDP-43积累。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>RNA-binding protein TAR DNA-binding protein 43 (TDP-43) can form liquid-like nuclear assemblies whose phase behavior is thought to influence its aggregation propensity and neurotoxic activity. The mechanisms that govern the liquid-to-solid phase transition of TDP-43 remain poorly defined. Here, we combined chemical and genome-wide genetic screens to identify cellular factors that modulate the phase behavior of an RNA-binding-defective TDP-43 mutant. Our screens uncovered multiple cellular processes, including RNA splicing, protein translation, proteostasis imbalance, and nuclear export as TDP-43 phase regulators. We also developed a semi-permeabilized cell system that partially recapitulates the TDP-43 phase transition in vitro, and showed that nuclear export inhibition reshapes the nuclear environment to favor RNA-dependent liquid-liquid phase separation (LLPS) of TDP-43, which mitigates its aggregation. Nuclear export inhibition in a brain organoid model bearing an ALS-associated mutation reduces pathogenic phospho-TDP-43 accumulation. These findings identify multiple modulators of TDP-43 phase transitions in a sensitized model system and establish a framework for further dissecting the link between nuclear transport and TDP-43 phase dynamics.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110172&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.29</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42504924/" target="_blank" rel="noopener">Active dendrites enable robust spiking computations despite timing jitter.</a></div>
+  <div class="title-cn">活动性树突使神经元在时序抖动下仍能实现稳健的脉冲计算</div>
+  <div class="one-line">为解释树突长平台电位的计算功能，作者构建具可重置记忆的生理学脉冲模型，发现其使神经元在异步含抖动输入下可靠放电并完成关联/辨别任务。</div>
+  
+  <div class="meta">eLife · 2026-07-27</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Burger TSJ, Rule ME, O&#x27;Leary T</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.89629">10.7554/eLife.89629</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42504924/">https://pubmed.ncbi.nlm.nih.gov/42504924/</a></div><div class="d-block keywords">命中关键词：neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为计算神经科学建模研究，聚焦树突平台电位的计算功能与神经形态硬件，与研究者的脑演化、单细胞转录组及跨物种细胞类型比较方向无直接交集，仅有间接的背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>树突动作电位数十毫秒的长平台期比轴突脉冲长约一个数量级，其计算功能与快速信息整合需求看似矛盾。作者构建生理学模型：延长的树突脉冲为每个树突提供可重置的输入记忆。模型显示，非线性平台电位使神经元在异步、含时序抖动的稀疏输入下仍能可靠放电并完成关联/辨别任务，为树突电位的皮层功能提供可检验假说，并为模拟硬件的神经形态脉冲计算提供仿生方案。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Dendritic action potentials exhibit long plateaus of many tens of milliseconds, outliving axonal spikes by an order of magnitude. The computational role of these slow events seems at odds with the need to rapidly integrate and relay information throughout large nervous systems. We propose that the timescale of dendritic potentials allows for reliable integration of asynchronous inputs. We develop a physiologically grounded model in which the extended duration of dendritic spikes equips each dendrite with a resettable memory of incoming signals. This provides a tractable model for capturing dendritic nonlinearities observed in experiments and in more complex, detailed models. Using this model, we show that long-lived, nonlinear dendritic plateau potentials allow neurons to spike reliably when confronted with asynchronous input spikes. We demonstrate this model supports non-trivial computations in a network solving an association/discrimination task using sparse spiking that is subject to timing jitter. This demonstrates a computational role for the specific timecourse of dendritic potentials in situations where decisions occur quickly, reliably, and with a low number of spikes. Our results provide empirically testable hypotheses for the role of dendritic action potentials in cortical function, as well as a potential bio-inspired means of realising neuromorphic spiking computations in analog hardware.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.89629&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.25</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42742131/" target="_blank" rel="noopener">Rank- and threat-dependent social modulation of innate defensive behaviors.</a></div>
+  <div class="title-cn">社会等级与威胁类型依赖的先天防御行为社会性调制</div>
+  <div class="one-line">为解决社会等级如何影响小鼠先天防御问题，作者用looming刺激与活体大鼠暴露行为范式，发现社会在等级和威胁类型依赖下重塑防御状态转换。</div>
+  
+  <div class="meta">eLife · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Li LY, Gao X, Zhang J, Wu WW, Li YT</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.109571">10.7554/eLife.109571</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42742131/">https://pubmed.ncbi.nlm.nih.gov/42742131/</a></div><div class="d-block keywords">命中关键词：neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是小鼠社会等级调控先天防御行为的行为学研究，缺乏演化或跨物种比较视角，对该研究者核心问题帮助有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>恐惧与防御行为会受社会环境影响，但社会等级如何在自然情境下调控先天防御仍不清楚。作者在小鼠中结合短暂视觉looming刺激和活体大鼠持续捕食威胁两种生态学相关范式，比较社会陪伴对防御反应的影响。结果显示，社会存在可缓解威胁诱导压力，并以等级和威胁类型依赖方式改变防御策略：在looming条件下降低即时防御并减轻后续焦虑，在大鼠暴露时促进由被动向主动防御转变，且优势个体获益更明显。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Fear and defense are among the most fundamental survival behaviors and are profoundly influenced by the social environment in group-living animals. However, it remains poorly understood how social context-and particularly dominance hierarchy, a defining feature of many social species-modulates defensive strategies under naturalistic conditions. To address this question, we investigated the social modulation of innate fear in mice exposed to two ethologically relevant threats: a transient visual looming stimulus and a sustained predatory threat posed by a live rat. We found that social presence alleviated threat-induced stress and modulated defensive behaviors in a rank- and threat-specific manner. During looming exposure, it reduced immediate defensive responses and alleviated post-looming anxiety, with dominants deriving greater benefit. During rat exposure, it promoted a shift from passive to active defense, again most prominently in dominants. These behavioral changes were accompanied by reorganization of transitions between defensive states, indicating that dominance hierarchy shapes both the expression and temporal organization of innate defensive behaviors. Conversely, threat exposure strengthened social engagement, with dominant mice exhibiting more proactive social behaviors and subordinate mice responding more readily to dominant social initiations. Together, these findings demonstrate how dominance hierarchy modulates defensive responses to distinct naturalistic threats and, in turn, how threat experience shapes social behavior, providing a behavioral framework for probing the neural basis of socially modulated innate fear.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109571&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.25</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42815575/" target="_blank" rel="noopener">Electroacupuncture Alleviates Functional Constipation by Activating HSF1-Dependent Mitochondrial Unfolded Protein Response in Colonic Smooth Muscle Cells.</a></div>
+  <div class="title-cn">电针通过激活结肠平滑肌细胞中HSF1依赖性线粒体未折叠蛋白反应缓解功能性便秘</div>
+  <div class="one-line">为解决电针治疗功能性便秘的细胞分子机制不清问题，作者利用单细胞RNA测序及AAV介导的HSF1调控，发现电针通过激活HSF1依赖性UPRmt信号恢复结肠平滑肌细胞线粒体稳态，改善便秘表型。</div>
+  
+  <div class="meta">Cellular and molecular gastroenterology and hepatology · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wang W, Zeng W, Dong H, Zou Q, Hou Y, Zheng Q, Zhang W, Li Y, Yao J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.jcmgh.2026.101913">10.1016/j.jcmgh.2026.101913</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42815575/">https://pubmed.ncbi.nlm.nih.gov/42815575/</a></div><div class="d-block keywords">命中关键词：scRNA-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床疾病机制研究，聚焦电针治疗功能性便秘的分子通路，无任何演化或跨物种比较视角，与研究者核心方向完全不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>功能性便秘（FC）与胃肠动力障碍及线粒体功能障碍相关。作者建立洛哌丁胺诱导的FC小鼠模型，采用电针刺激ST25和ST37穴位，结合单细胞RNA测序、透射电镜、流式细胞术及AAV介导的HSF1敲除/过表达，发现电针显著改善胃肠动力和神经体液稳态，鉴定结肠平滑肌细胞为关键响应细胞群，激活HSF1依赖性线粒体未折叠蛋白反应（UPRmt），恢复线粒体膜电位、ATP产生及呼吸链复合物活性，减轻mtROS积累，从而缓解FC。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Functional constipation (FC) is closely associated with impaired gastrointestinal motility and mitochondrial dysfunction. Electroacupuncture (EA) has shown therapeutic potential in FC; however, the underlying cellular and molecular mechanisms remain incompletely understood. We investigated whether EA alleviates FC through regulation of heat shock factor 1 (HSF1)-dependent mitochondrial unfolded protein response (UPRmt) signaling in colonic smooth muscle cells (SMCs). A loperamide-induced FC mouse model was established in male mice and treated with EA at Tianshu (ST25) and Shangjuxu (ST37). Gastrointestinal motility and neurohumoral mediators were evaluated. Single-cell RNA sequencing (scRNA-seq) was performed to identify EA-responsive colonic cell populations and molecular pathways. Mitochondrial ultrastructure and function, as well as HSF1-dependent UPRmt signaling, were assessed using transmission electron microscopy, immunofluorescence staining, flow cytometry, colorimetric assays, qRT-PCR, and western blotting. AAV-based HSF1 knockdown and overexpression under a smooth muscle-enriched promoter were further used for mechanistic validation. EA markedly improved gastrointestinal motility and partially restored neurohumoral homeostasis in FC mice. scRNA-seq identified colonic SMCs as a principal EA-responsive cell population and revealed transcriptional remodeling associated with mitochondrial homeostasis and contractile function. EA attenuated mitochondrial ultrastructural damage, restored mitochondrial membrane potential and ATP production, reduced mtROS accumulation, and enhanced mitochondrial respiratory chain complexes activities in colonic SMCs. These effects were accompanied by increased nuclear accumulation of HSF1 and upregulation of UPRmt-associated proteins, including HSP60, mtHSP70, and LONP1. HSF1 knockdown aggravated mitochondrial dysfunction and constipation-associated phenotypes, whereas HSF1 overexpression largely mimicked the therapeutic effects of EA. EA alleviated FC, at least in part, through activation of HSF1-dependent UPRmt signaling and restoration of mitochondrial homeostasis in colonic SMCs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jcmgh.2026.101913&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.24</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42607065/" target="_blank" rel="noopener">A public generalizable AI tool for automated segmentation of coronal brain tissue slabs for 3D neuropathology.</a></div>
+  <div class="title-cn">一种用于冠状脑组织切片三维神经病理学自动分割的公开可泛化AI工具</div>
+  <div class="one-line">为解决尸检冠状脑组织照片需手工分割的瓶颈，作者用基于U-Net的公开模型训练1414张人工标注图像，实现接近人工一致性的自动分割结果。</div>
+  
+  <div class="meta">PloS one · 2026-08-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Williams Ramirez J, Zemlyanker D, Deden-Binder L, Herisse R, Garcia Pallares E, Gopinath K, Gazula H, Mount C, Kozanno LN, Marshall MS, Connors TR, Frosch MP, Montine M, Oakley DH, Mac Donald CL, Keene CD, Hyman BT, Fischl B, Iglesias JE</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0355740">10.1371/journal.pone.0355740</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42607065/">https://pubmed.ncbi.nlm.nih.gov/42607065/</a></div><div class="d-block keywords">命中关键词：brain, machine learning, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是面向人脑病理切片照片分割的深度学习工具论文，既无演化也无跨物种比较视角，对该研究者核心问题帮助很小。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对脑库和神经病理实验室常规采集的尸检冠状脑组织照片在三维分析前需手工分割、难以扩展的问题，作者开发了基于U-Net的自动分割工具，使用来自两个站点、包含固定与新鲜组织及不同诊断样本的1414张人工标注图像训练。模型在未见测试图像上达到中位Dice&gt;0.98、平均表面距离&lt;0.4 mm、95% Hausdorff距离&lt;1.60 mm，性能接近人工标注者间/内一致性，并已公开工具与训练数据。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Advances in image registration and machine learning have recently enabled volumetric analysis of postmortem brain tissue from conventional photographs of coronal slabs, which are routinely collected in brain banks and neuropathology laboratories around the world. One caveat of this methodology is the requirement of segmentation of the tissue from the background and out-of-slice tissue in photographs, which currently requires laborious manual intervention. Manual delineation is a bottleneck in this process and poses challenges in scalability, and resources, restricting adoption of these methods. In this article, we present a deep learning model to automate this process. The automatic segmentation tool relies on a U-Net architecture that was trained with a combination of 1,414 manually segmented images of both fixed and fresh tissue, from specimens with varying diagnoses, photographed at two different sites. Automated model predictions on a subset of photographs not seen in training were analyzed to estimate performance compared to manual labels, including both inter- and intra-rater variability. Our model achieved a median Dice score over 0.98, mean surface distance under 0.4 mm, and 95% Hausdorff distance under 1.60 mm, which approaches inter-/intra-rater levels. Our tool is publicly available at surfer.nmr.mgh.harvard.edu/fswiki/PhotoTools and training data is available at https://zenodo.org/records/20647553.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0355740&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.21</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42599991/" target="_blank" rel="noopener">Ligand-tuned extracellular domain dynamics are correlated with signaling states in an adhesion GPCR.</a></div>
+  <div class="title-cn">配体调谐的细胞外结构域动态与黏附型GPCR信号状态相关</div>
+  <div class="one-line">为解决ADGRG6细胞外结构域如何被配体调控的问题，作者用smFRET结合胞内信号检测，发现其在三种构象状态间动态转换且激动剂将其限制在高活性相关状态。</div>
+  
+  <div class="meta">Science advances · 2026-08-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Cechova K, Bandekar SJ, Kordon SP, Foroutan M, Leon K, Siffer G, Schamber MR, Luiso M, Araç D, Vafabakhsh R</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aea8715">10.1126/sciadv.aea8715</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42599991/">https://pubmed.ncbi.nlm.nih.gov/42599991/</a></div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦ADGRG6黏附型GPCR的分子构象与信号机制，缺乏演化或跨物种比较视角，对该研究者仅有神经发育相关背景性参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>黏附型G蛋白偶联受体通过大型细胞外区域与黏附配体结合来传递信号，但配体如何调控其构象动态仍不清楚。作者以对多器官发育和髓鞘形成重要的ADGRG6/GPR126为对象，结合单分子FRET与胞内信号实验，发现其细胞外结构域可在三种构象状态间动态转换；将其共价锁定在闭合构象会使受体陷入低活性状态，而激动剂结合会限制其仅访问与更高活性相关的状态。研究揭示了ADGRG6经由细胞外结构域动态实现别构调控的机制，并为靶向干预提供线索。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Adhesion G protein-coupled receptors (aGPCRs) transduce signals via engagement of their large extracellular regions (ECRs) with adhesion partners. ADGRG6 (GPR126) is an aGPCR vital for the development of multiple organs and myelination. ECR conformational dynamics of ADGRG6 has been shown to modulate aGPCR signaling and in vivo function. Yet, how adhesion partners regulate ECR conformational dynamics is poorly understood. Here, we studied activation of ADGRG6 using single-molecule FRET (smFRET) and intracellular signaling assays. We reveal that the ADGRG6 ECR dynamically transitions between three conformational states. Covalently locking the ECR in the closed conformation traps the receptor in a low-activity state. Agonist binding physically restricts the ECR to only access states associated with higher activity. This detailed mechanistic insight into ADGRG6 allosteric regulation by ECR dynamics offers avenues for targeted therapeutic development.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aea8715&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.56</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42974913/" target="_blank" rel="noopener">Class-wide sequence, structural, and docking-profile diversity of insect odorant receptors and structural specialization of Orco.</a></div>
+  <div class="title-cn">昆虫嗅觉受体的类群范围序列、结构及对接谱多样性及Orco的结构特化</div>
+  <div class="one-line">为解析昆虫嗅觉受体（OR）的演化多样性与Orco共受体的结构特化，作者整合序列相似性、结构相似性和分子对接方法，分析了115种昆虫的OR蛋白，开发了&#x27;主干-分支&#x27;网络分类框架，发现OR库大小与成虫食性、幼虫食性和栖息环境相关，鉴定出Orco中高度保守的胞外β-折叠结构，提出该结构限制配体进入结合口袋并促使其从同源受体向异源OR-Orco复合体转变，为理解昆虫嗅觉系统的演化提供了类群范围的比较框架。</div>
+  
+  <div class="meta">eLife · 2026-11-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang T, Yang X, Fu Y, Xue W, Zhang Y, Duan S, Yin Y, Guo Y, Gao C, Liu Y, Li G, Xu C, Lu H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.110877">10.7554/eLife.110877</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42974913/">https://pubmed.ncbi.nlm.nih.gov/42974913/</a></div><div class="d-block"><span class="lbl">推荐理由：</span>研究聚焦昆虫嗅觉受体蛋白的结构与功能，虽有跨物种比较，但无单细胞组学、无神经系统细胞类型演化分析，与研究者核心方向差距较大。</div><div class="d-block"><span class="lbl">背景：</span>昆虫嗅觉依赖于 odorant receptor (OR) 与 odorant receptor co-receptor (Orco) 形成的异源复合体，但OR家族在昆虫中经历了广泛的序列分歧和谱系特异性扩张，使得跨物种大尺度比较变得复杂。尽管此前已对个别物种的OR功能有所研究，但缺乏系统性的类群范围分析框架来整合序列、结构和功能信息。此外，Orco作为OR复合体中的通用共受体，其演化起源和结构特化机制尚不清楚，尤其是从同源受体到异源复合体的关键演化转变过程。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者整合了三种互补策略：基于序列相似性的聚类分析、AlphaFold2预测的结构相似性比较，以及大规模分子对接模拟。开发了&#x27;trunk-branch&#x27;网络框架对OR进行分类，该框架首先识别核心保守结构特征（trunk），再捕获谱系特异性变异（branch）。对115种代表性昆虫的ORs进行了系统分析，并构建了跨物种的比较对接谱。</div><div class="d-block"><span class="lbl">研究结果：</span>OR库大小与成虫食性、幼虫食性及栖息地显著相关，但与昼夜节律无关。尽管序列和结构群落组成差异显著，几乎所有被抽样目均含有归属于全部六种对接谱群落的ORs。全变态昆虫表现出更高的OR序列群落多样性。二叠纪末大灭绝前起源的目与后起源的目之间，对接谱组成存在显著差异。Orco蛋白中存在一个高度保守的胞外β-折叠结构，该结构物理性限制配体进入结合口袋，可能解释其减弱的气味分子结合能力。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究建立了首个整合序列、结构和功能信息的昆虫OR类群范围比较框架，为后续实验和演化研究提供了可检验的假说。对Orco结构特化的发现揭示了从同源到异源受体复合体这一关键演化转变的分子机制，深化了对昆虫嗅觉系统起源和多样化的理解。&#x27;主干-分支&#x27;网络方法也为其他快速演化的膜蛋白家族的比较研究提供了可借鉴的方法学范式。</div><div class="d-block"><span class="lbl">中文全摘要：</span>昆虫嗅觉由异源四聚体OR-Orco复合体介导，但序列分歧和谱系特异性扩张阻碍了大尺度比较。研究整合序列/结构相似性与分子对接分析115种昆虫ORs，发现OR库大小与成虫/幼虫食性及栖息地相关。新开发的&#x27;主干-分支&#x27;网络框架将ORs按序列和结构相似性分类，大尺度对接揭示几乎所有目均包含全部六种对接谱群落。全变态昆虫OR序列群落多样性高于非全变态类群，且二叠纪末大灭绝前后的谱系间对接谱组成存在差异。关键发现为Orco中高度保守的胞外β-折叠限制配体进入结合口袋，可能导致其对天然气味分子结合能力降低。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Insect olfaction is facilitated by a heterotetrameric odorant receptor-odorant receptor co-receptor (OR-Orco) complex. However, extensive sequence divergence and lineage-specific expansion have complicated large-scale comparisons of OR repertoires across insects. Here, we integrated sequence similarity, structural similarity, and molecular docking to analyze ORs from 115 insect species. OR repertoire size was associated with adult diet, larval diet, and habitat, but not with circadian rhythm. We developed a &#x27;trunk-branch&#x27; network framework to classify ORs according to sequence and structural similarity and used large-scale molecular docking to derive comparative docking profiles. Despite marked differences in sequence- and structural-community composition, almost all sampled orders contained ORs assigned to all six docking-profile communities. Holometabolous insects showed higher OR sequence-community diversity than non-holometabolous insects, and docking-profile composition differed between extant lineages whose order-level origins predate or postdate the end-Permian mass extinction. Most notably, we identified a highly conserved extracellular β-sheet in Orco that restricts ligand access to the binding pocket and may contribute to its reduced capacity to bind natural odorants. The emergence of Orco represents a key evolutionary transition from homomeric receptors to heteromeric OR-Orco complexes, and our results suggest that this transition may have been accompanied by pronounced specialization of the extracellular domain and binding pocket. Together, these analyses provide a class-wide framework for comparing insect OR diversity and generate testable hypotheses for future experimental and evolutionary studies.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110877&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献聚焦于睡眠调控的遗传与细胞机制，核心工作以DPYD基因为切入点，首次揭示了胶质细胞脂质代谢在睡眠调节中的跨物种保守功能，将髓鞘化、脂质滴形成与睡眠时长建立了分子联系，为理解睡眠的胶质调控网络提供了新视角。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>胶质细胞代谢调控睡眠：DPYD在胶质细胞中通过脂质代谢途径影响睡眠时长，并关联髓鞘化过程，揭示了非神经元细胞在睡眠调控中的关键作用</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>跨物种比较遗传学：通过果蝇包裹胶质与小鼠/人类系统的比较研究，验证了DPYD直系同源基因的功能保守性，建立了从遗传筛选到机制验证的研究范式</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>脂质代谢与神经功能耦合：发现脂质滴形成是胶质细胞促进睡眠的重要细胞机制，将脂代谢异常与睡眠障碍的病理关联推进至分子层面</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">该研究体现了从人类遗传学出发、经模式生物验证再回归机制解析的研究路径，融合了正向遗传筛选、基因编辑、药理学干预及细胞生物学成像等多层次技术手段。趋势上强调打破神经元中心主义，关注胶质细胞的主动调控功能，同时利用进化保守性加速靶点发现，体现了系统生物学与比较遗传学的深度整合。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">研究者可直接借鉴该文的跨物种策略，将人类GWAS发现的睡眠相关基因快速置于果蝇等平台进行功能验证；关注胶质脂质代谢这一新兴方向，探索髓鞘动态变化与睡眠稳态的因果关联；同时DPYD作为药物可及靶点，为开发调节睡眠的小分子化合物提供了新的干预窗口。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
