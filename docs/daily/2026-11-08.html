@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-08</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-08</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 0 · Relate 15）· 命中关键词 18 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-relate">Relate</span><span class="score">4.98</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42384530/" target="_blank" rel="noopener">Industrial Brain: Self-Evolving Neuro-Symbolic Autonomy With Causal Resilience for Cyber-Physical Systems.</a></div>
+  <div class="title-cn">工业大脑：面向信息物理系统的因果韧性自演化神经符号自主系统</div>
+  <div class="one-line">为解决神经符号系统在开放世界中缺乏因果推理和自适应自演化能力的问题，作者提出SENSA框架，整合神经-符号双向自对齐、因果驱动自演化和分层韧性规划，在八个基准数据集上实现自主认知决策。</div>
+  
+  <div class="meta">IEEE transactions on pattern analysis and machine intelligence · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wang J, Wang B, Wang G, Ma Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TPAMI.2026.3708591">10.1109/TPAMI.2026.3708591</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42384530/">https://pubmed.ncbi.nlm.nih.gov/42384530/</a></div><div class="d-block keywords">命中关键词：brain, neural, artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>纯人工智能/工程领域论文，与生物演化、神经演化、单细胞组学完全无关</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经符号推理（NeSy）是人工智能关键领域，但现有研究未充分解决开放世界中的因果推理、认知自主和自适应自演化问题。本文提出自演化神经符号自主系统（SENSA），通过神经-符号双向自对齐实现实时互适应，设计因果驱动自演化利用因果推理和反事实分析自主优化决策策略，并开发分层韧性规划以在对抗条件下维持性能。理论证明SENSA可逼近真实解，在八个基准数据集上的评估验证了优越性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neuro-Symbolic reasoning, commonly abbreviated as &quot;NeSy,&quot; represents a critical and challenging area in artificial intelligence, characterized by its integration of data-driven neural learning and interpretable symbolic reasoning. Unfortunately, most NeSy research to date has mainly concentrated on developing interpretable AI systems for tasks like visual scene parsing or question answering, and has not adequately addressed the need for causal reasoning, cognitive autonomy, and adaptive self-evolution in open-world environments. This bring great challenges and makes previous methods fail to disentangle these causal cognitive complexities. This paper propose Self-Evolving Neuro-Symbolic Autonomy (SENSA) with causal resilience, integrating neural-symbolic bidirectional self-alignment, causal-driven self-evolution, and hierarchical resilience planning to achieve autonomous cognitive decision-making. With this regard, a neural-symbolic bidirectional self-alignment is developed, which enables real-time mutual adaptation, ensuring robustness against adversarial noise and causal coherence in dynamic open-real environments. Specifically, we design a novel causal-driven self-evolution that enables AI systems to autonomously refine their decision-making policies by leveraging causal reasoning and counterfactual analysis. On this basis, we further develope the hierarchical resilience planning to adapt, recover, and maintain performance even under disruptive or adversarial conditions. The SENSA bridges the gap between neural adaptability and symbolic rigor, which is called industrial brain, achieving causal reasoning and self-evolving autonomy in Cyber-Physical Systems. Theoretically, we prove that the causal reasoning, cognitive autonomy, and adaptive self-evolution by our SENSA can approximate the ground-truth. Empirically, extensive evaluations on eight benchmark datasets demonstrate our superiority over state-of-the-art baselines.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3708591&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.95</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42806248/" target="_blank" rel="noopener">Most Early-Born Subplate Neurons Persist as Layer 6b Neurons in the Adult Mouse Neocortex.</a></div>
+  <div class="title-cn">大多数早期出生的皮层下神经元在成年小鼠新皮层中持续存在为第6b层神经元</div>
+  <div class="one-line">为解决早期出生的皮层下神经元（SpN）在成年期的命运不清问题，作者利用EdU脉冲标记结合3D组织透明化技术，量化了SpN向L6b神经元的存活与转化比例，发现大多数L6b神经元起源于SpN并持续终生。</div>
+  
+  <div class="meta">The Journal of comparative neurology · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sugita Y, Moriya-Ito K, Hanashima C, Ohtaka-Maruyama C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/cne.70200">10.1002/cne.70200</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42806248/">https://pubmed.ncbi.nlm.nih.gov/42806248/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>纯发育神经生物学研究，完全缺乏演化或跨物种比较视角，仅聚焦小鼠皮层发育与细胞命运追踪。</div><div class="d-block"><span class="lbl">中文全摘要：</span>研究痛点：皮层下神经元（SpNs）在发育中的新皮层起关键作用，但其向成年L6b神经元的转化程度不明。方法：采用多时间点EdU脉冲标记与3D组织透明化技术，精确追踪并定量分析SpN的命运与分布。关键结果：发现大部分L6b神经元实为SpN的残留，数量与SpN相当（~320,000个），且保留多样化亚型。研究意义：直接证明成年L6b神经元主要起源于最早神经发生期的SpN，为理解皮层发育与细胞持续性提供新依据。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Subplate neurons (SpNs) are early-born neurons in the mammalian neocortex and play a pivotal role in cortical development. It is widely believed that SpNs are predominantly lost due to postnatal cell death, with only a few remnants contributing to layer 6b (L6b) neurons in the adult neocortex, but the extent to which SpNs persist as L6b neurons remains largely unknown. To address this, we conducted a comprehensive birthdate analysis using multiple ethynyl deoxyuridine (EdU) injections over 24 h, thereby precisely tracking the survival and distribution of SpNs in the adult mouse neocortex. We further estimated the total number of SpNs and L6b neurons based on the total volumes of the subplate and L6b, quantified by employing 3D tissue clearing. Our findings reveal that a significant proportion of L6b neurons are remnants of SpNs and comprise diverse subtypes reminiscent of those in the postnatal period (SpNs: 319,588 ± 49,263, L6b neurons: 316,720 ± 11,268). This study provides direct evidence showing that most L6b neurons in the adult mouse neocortex originate as SpNs during the earliest stages of neurogenesis and persist throughout life.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/cne.70200&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.9</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42755252/" target="_blank" rel="noopener">Nitrergic and secretagogin-expressing neurons in the olfactory neurogenic region of intact and maternally separated rats.</a></div>
+  <div class="title-cn">完整与母婴分离大鼠嗅觉神经发生区域中的硝基能神经元和表达 secretagogin 的神经元</div>
+  <div class="one-line">为解决母婴分离对大鼠V-SVZ/RMS特定神经元影响问题，作者用nNOS与SCGN双重免疫荧光，发现MS使nNOS+细胞增多并改变SCGN+细胞沿RMS分布。</div>
+  
+  <div class="meta">Histology and histopathology · 2026-09-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Popovičová A, Fabianová K, Martončíková M, Žideková M, Račeková E</div><div class="d-block meta">DOI: <a href="https://doi.org/10.14670/HH-25-137">10.14670/HH-25-137</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42755252/">https://pubmed.ncbi.nlm.nih.gov/42755252/</a></div><div class="d-block keywords">命中关键词：neurogenesis, neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦大鼠早期应激对嗅觉神经发生区特定神经元的形态学影响，缺乏演化或跨物种比较视角，对该研究者核心方向帮助很有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估早期生活应激对成年大鼠嗅觉神经发生区的影响，作者研究了母婴分离模型中V-SVZ和RMS内nNOS+与SCGN+神经元的分布、数量及相互关系。通过nNOS和SCGN双重免疫荧光，确认两类细胞在V-SVZ/RMS中具有不同形态和分布。结果显示，MS大鼠V-SVZ/RMS中nNOS+细胞总数增加，且V-SVZ增幅显著；SCGN+细胞则失去正常的尾侧至头侧递减模式，在RMS尾侧减少、头侧增加，提示两类神经元对早期应激反应不同。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Maternal separation (MS), a source of early-life stress, may influence postnatal neurogenesis, including proliferation, cell death, or migration of progenitor cells in the olfactory neurogenic region-the ventricular-subventricular zone (V-SVZ) and the rostral migratory stream (RMS). In this study, we investigated the impact of MS on populations of nitric oxide (NO)-producing neurons and neurons expressing secretagogin (SCGN) within the V-SVZ/RMS of adult rats. The aim was to obtain new morphological data on these neuronal populations in intact rats and rats subjected to MS during the first three neonatal weeks (3 hours/day). We analyzed their distribution, number, and mutual relationships within the V-SVZ and in specific anatomical subregions of the RMS. Double immunofluorescence labeling for neuronal nitric oxide synthase (nNOS) and SCGN confirmed the presence of nNOS+ and SCGN+ neurons in the V-SVZ/RMS, each exhibiting distinct morphological features and distribution patterns. The response to MS differed between the two neuronal populations. Quantitative analysis revealed an increased number of nNOS+ cells in the V-SVZ/RMS of MS rats, with a statistically significant increase observed specifically in the V-SVZ. In contrast, the typical caudo-rostral decrease in SCGN+ cell numbers-seen in intact rats, with the lowest count in the rostral part of the RMS-was absent in MS animals. Instead, MS rats showed a significant decrease in SCGN+ neuron numbers in the caudal part of the RMS and a significant increase in the rostral part of the migratory pathway. These findings indicate that nitrergic and SCGN-expressing neurons in the V-SVZ/RMS respond differently to early-life stress induced by MS, exhibiting distinct changes in both cell number and spatial distribution.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.14670/HH-25-137&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.9</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42806437/" target="_blank" rel="noopener">Acute Effects of Brief Exercise on Alcohol Craving Among Young Adults With Problematic Alcohol Use: A Systematic Review.</a></div>
+  <div class="title-cn">短暂运动对问题性饮酒年轻成人酒精渴求的急性效应：系统综述</div>
+  <div class="one-line">为解决急性运动对减少酒精渴求效果不明问题，作者采用系统综述与Meta分析方法，纳入6项研究进行随机效应模型分析，发现单次运动可中等程度降低年轻成人酒精渴求（Hedges&#x27; g≈0.55），但神经生物学机制证据有限。</div>
+  
+  <div class="meta">European journal of sport science · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sampedro-Piquero P, Cordellat-Marzal A, Dragotti M, Mandolesi L, Gigliotta O, Moreno-Fernández RD</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/ejsc.70258">10.1002/ejsc.70258</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42806437/">https://pubmed.ncbi.nlm.nih.gov/42806437/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床心理学与行为干预研究，完全无演化、跨物种比较或单细胞组学视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>酒精渴求是酒精滥用的关键环节，尤其在脑发育持续的成年早期。本系统综述评估单次运动对18-29岁问题性饮酒者酒精渴求的影响，并探索神经生物学机制。遵循PRISMA指南检索4个数据库，最终纳入6项研究。Meta分析显示急性运动较基线或对照显著降低渴求（g≈0.55），伴随焦虑减轻、应激生理标志物调节及脑活动变化，但研究间异质性中等，需更多临床导向研究。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Alcohol craving is a key process in alcohol abuse, especially during young adulthood, a period of heightened vulnerability and continued brain development. Although acute physical exercise has been proposed as a potential strategy to reduce craving and modulate affective and cognitive processes, current evidence remains limited regarding its effectiveness and underlying mechanisms. This systematic review examined the effects of brief exercise interventions on alcohol craving in young adults with problematic alcohol use or alcohol use disorder (AUD) and explored available evidence on associated neurobiological responses. Four electronic databases were searched for studies published between 2016 and 2026 following PRISMA guidelines. The review protocol was registered in PROSPERO (CRD420261371036). Eligible studies included participants aged 18-29 years and assessed alcohol craving following a single bout of exercise. Random-effects meta-analyses using Hedges&#x27; g were conducted when sufficient data were available, while additional outcomes were synthesized narratively. Six studies met the inclusion criteria. Meta-analysis showed a moderate and statistically significant reduction in alcohol craving following acute exercise compared with baseline or control conditions (g ≈ 0.55), with moderate between-study heterogeneity. Narrative findings indicated that acute exercise was often accompanied by reductions in anxiety and negative affective state, modulation of stress-related physiological markers, improvements in executive functioning, and changes in indices of brain and autonomic activity, although findings varied across studies. Overall, available evidence suggests that a single session of physical exercise may be associated with short-term reductions in alcohol craving in young adults, highlighting the need for further clinically focused and methodologically robust research.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/ejsc.70258&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.89</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42722394/" target="_blank" rel="noopener">Electronic media exposure and neurodevelopment in children under 5 years of age: an updated evidence-based narrative review.</a></div>
+  <div class="title-cn">5岁以下儿童电子媒体暴露与神经发育：一项更新的循证叙述性综述</div>
+  <div class="one-line">为解决婴幼儿电子媒体暴露对神经发育影响问题，作者系统综述37项研究，发现过量屏幕暴露与语言延迟、注意力缺陷、睡眠障碍等不良结局相关，建议限制使用并加强看护者监督。</div>
+  
+  <div class="meta">Clinical and experimental pediatrics · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kundu S, Bhattacharya S, Kumar R, Kumari K, Biswas C, Oraon APO, Ganguly A</div><div class="d-block meta">DOI: <a href="https://doi.org/10.3345/cep.2026.01417">10.3345/cep.2026.01417</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42722394/">https://pubmed.ncbi.nlm.nih.gov/42722394/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床儿科综述，无演化、跨物种比较或单细胞组学视角，与研究者核心方向完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>本综述整合PubMed等数据库中21项原始研究、12篇综述及4项国际指南，分析5岁以下儿童电子媒体暴露与神经发育的关联。结果显示，过量屏幕暴露与语言延迟、执行功能受损、社会情绪困难、睡眠紊乱及运动减少相关，神经影像学提示语言相关白质完整性下降。美国儿科学会等建议限制屏幕时间并推广有看护者监督的适龄媒体使用。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The rapid integration of electronic media into daily life has transformed early childhood experiences worldwide. While digital technology offers opportunities for learning, communication, and entertainment, concerns persist regarding its impact on neurodevelopment during the critical early years of life. This narrative review synthesizes current evidence on the association between electronic media exposure and neurodevelopmental outcomes in children under 5 years of age. The literature search of PubMed, Embase, Scopus, Web of Science, and the Cochrane Library identified 21 original studies, 12 review articles (systematic reviews/meta-analyses, scoping reviews, and narrative reviews), and 4 international guidelines/recommendations, which were included in the narrative synthesis. Evidence related to cognitive, language, motor, behavioral, socioemotional development, sleep, and neuroimaging findings was critically reviewed. Overall, excessive and early screen exposure was associated with language delays, impaired attention and executive functioning, socioemotional difficulties, sleep disturbances, and reduced motor activity. Sleep disruption, including shorter sleep duration and delayed sleep onset, may represent an important pathway linking excessive media use with adverse neurodevelopmental outcomes. Neuroimaging studies also suggest reduced white matter integrity in language-related brain pathways, providing biological plausibility for these associations.Developmental outcomes were influenced by parental mediation, content quality, socioeconomic factors, and increased screen exposure during the coronavirus disease 2019 pandemic. Current guidelines from the American Academy of Pediatrics, World Health Organization, and Indian Academy of Pediatrics recommend limiting screen exposure and promoting caregiver-supervised, developmentally appropriate media use. Excessive and unsupervised electronic media use may adversely affect multiple domains of neurodevelopment, particularly when it replaces interactive play, caregiver engagement, and healthy sleep. Further longitudinal studies incorporating objective measures of media exposure, sleep assessment, and neuroimaging are needed to strengthen current evidence and guide pediatric recommendations.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.3345/cep.2026.01417&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.89</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42632799/" target="_blank" rel="noopener">Withdrawal notice to &quot;Corrigendum to Complement activation sustains neuroinflammation and deteriorates adult neurogenesis and spatial memory impairment in rat hippocampus following sleep deprivation&quot; [Brain, Behav., Immun. 137 (2026) 106787].</a></div>
+  <div class="title-cn">关于&#x27;睡眠剥夺后大鼠海马补体激活维持神经炎症并加剧成年神经发生与空间记忆损伤&#x27;的撤稿通知</div>
+  <div class="one-line">为解决睡眠剥夺导致认知障碍的机制问题，作者研究补体激活在神经炎症中的作用，发现其恶化成年神经发生和空间记忆。</div>
+  
+  <div class="meta">Brain, behavior, and immunity · 2026-08-22</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wadhwa M, Prabhakar A, Anand JP, Ray K, Prasad D, Kumar B, Panjwani U</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.bbi.2026.106958">10.1016/j.bbi.2026.106958</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42632799/">https://pubmed.ncbi.nlm.nih.gov/42632799/</a></div><div class="d-block keywords">命中关键词：neurogenesis, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文为撤稿通知，且主题涉及睡眠剥夺后的补体激活、神经炎症与认知障碍，完全缺乏演化、跨物种比较或细胞类型比较视角，属于纯临床/疾病机制研究，与该研究者核心方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>本文为一篇撤稿通知，撤回的研究探讨睡眠剥夺对大鼠海马的影响，聚焦补体激活在神经炎症中的作用，发现补体系统持续激活加剧成年神经发生障碍和空间记忆损伤。该研究属于临床神经免疫学范畴，不涉及跨物种比较、演化或细胞类型分析。</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbi.2026.106958&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.86</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42735213/" target="_blank" rel="noopener">Exploring the placental lipidome in physically active versus inactive pregnancies.</a></div>
+  <div class="title-cn">探索体力活跃与体力不活跃妊娠中的胎盘脂质组学</div>
+  <div class="one-line">为阐明孕期运动益处的机制，作者利用非靶向脂质组学（LC-MS/MS）分析36例人类足月胎盘样本，发现34种脂质在体力活跃组与不活跃组间差异显著，其中多种DHA相关脂质在活跃组升高。</div>
+  
+  <div class="meta">Journal of applied physiology (Bethesda, Md. : 1985) · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>MacDonald ML, Yadegari A, Chittaro JT, Dantas A, Wasslen K, Rosales CA, Shearer J, Redman LM, Smith J, Adamo KB</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1152/japplphysiol.00357.2026">10.1152/japplphysiol.00357.2026</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42735213/">https://pubmed.ncbi.nlm.nih.gov/42735213/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>纯临床研究，完全不含演化或跨物种比较视角，与研究者的核心方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>该研究针对孕期运动益处的分子机制不明，采用非靶向脂质组学结合LC-MS/MS分析36例人类足月胎盘，通过加速度计客观分组。结果鉴定192种脂质，34种显著差异（|log2FC|≥0.58，FDR&lt;0.05），DHA相关脂质7种在活跃组升高，5种脂质实现完美组区分，磷酸丝氨酸脱羧通路富集于活跃组。MFSD2a表达无差异。提示运动可改善胎儿脑和视网膜发育的DHA供应。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Physical activity during pregnancy is highly beneficial, but the mechanisms underlying these benefits have not been elucidated. Given its central role in supporting pregnancy, the placenta is a primary target for investigation. We implemented untargeted lipidomic analysis on 36 human placenta samples collected at term from uncomplicated pregnancies. Participant activity levels were objectively measured using accelerometry, and participants were categorized as physically active or inactive. Samples were assessed by liquid chromatography-tandem mass spectrometry. The docosahexaenoic acid (DHA) transporter major facilitator superfamily domain-containing 2a (MFSD2a) was analyzed with Western blot. A total of 192 lipids were annotated. Among these, 34 lipid species differed significantly between groups [|log2FC| ≥ 0.58; false discovery rate (FDR)-adjusted P &lt; 0.05]. Multivariate analyses demonstrated modest separation between groups. DHA was identified in 17 lipid species, and seven were higher in the active group. Area under the receiver operating characteristic curve revealed five lipids with perfect group separation. Pathway analysis showed enrichment of the phosphatidylserine decarboxylase pathway in the active group. No differences in MFSD2a expression were identified. The results demonstrate a relationship between physical activity and the placental lipidome. Several DHA species are higher in the active group, suggesting improved fetal availability for brain and retinal development. Lipids with perfect group separation may represent biomarkers of physical activity. Multiple lipid species and pathways warranting future targeted investigation are highlighted.NEW &amp; NOTEWORTHY This paper provides novel insight into the placental lipidome in relation to physical activity status in uncomplicated pregnancies. Lipid profiles differ significantly between physically active and inactive groups. Several lipids containing DHA, an essential omega-3 fatty acid with critical roles in fetal brain development, were found to be higher in placentas from active pregnancies. Thirty-four differentially expressed lipids were identified, highlighting future avenues for exploring how physical activity impacts pregnancy outcomes.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1152/japplphysiol.00357.2026&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.82</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42833428/" target="_blank" rel="noopener">How Does Adolescent Neurodevelopment Impact Substance Use? The Substance use Neuroplasticity And Peer (SNAP) Model: a Novel Neurodevelopmental Model of Adolescent Substance Use.</a></div>
+  <div class="title-cn">青春期神经发育如何影响物质使用？SNAP模型：青少年物质使用的全新神经发育模型</div>
+  <div class="one-line">为解决青少年物质使用缺乏针对性神经发育模型的问题，作者整合人类与临床前研究文献，提出SNAP模型以描述该群体物质使用起始与升级的差异化机制。</div>
+  
+  <div class="meta">Neuroscience and biobehavioral reviews · 2026-10-05</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Dash GF, Lichenstein SD, Cheng A, Prieto S, Thomsen KR, Yip SW, Leventhal AM, Feldstein Ewing SW</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.neubiorev.2026.107023">10.1016/j.neubiorev.2026.107023</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42833428/">https://pubmed.ncbi.nlm.nih.gov/42833428/</a></div><div class="d-block keywords">命中关键词：neurodevelopment, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床/心理学导向的青少年药物滥用神经发育模型综述，完全无演化、跨物种比较或单细胞组学内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>青少年物质使用（13-18岁）是社会重大关切，但现有成瘾模型基于成人慢性阶段模型，未能反映青少年特有的神经生物学风险机制。本文综述人类及临床前研究的神经发育文献，提出物质使用神经可塑性与同伴（SNAP）模型，旨在捕捉该高危群体物质使用起始与升级的独特模式，以改善当前概念化、测量与治疗中的发育不匹配问题。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Substance use among adolescents age 13-18 remains a significant societal concern, yet contemporary neuroscience models of addiction have been grounded in the chronic, cyclic stage model developed for adult presentations of substance use disorder (SUD). Relative to adults, adolescents exhibit distinct patterns of substance use, and many structural and functional findings garnered from studies of addiction in the adult brain have not been reliably observed or replicated in adolescent samples. Thus, contemporary models of adult addiction do not readily translate to adolescents, resulting in downstream developmental incongruities in how substance use is conceptualized, measured, and treated in this age group. Here, we present a review of the current state of human and preclinical models of neurobiological risk factors and mechanisms specific to substance use in adolescents. Grounded in this literature, we present the Substance use Neuroplasticity And Peer (SNAP) model, a novel neurodevelopmental model of adolescent substance use that captures the differentiated nature of substance use initiation and escalation in this high-need, yet undertreated population.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.neubiorev.2026.107023&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.8</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.11.751080" target="_blank" rel="noopener">Pathogen-associated odor experience induces inherited olfactory avoidance in a parasitoid wasp</a></div>
+  <div class="title-cn">病原体相关气味体验诱导寄生蜂遗传性嗅觉回避</div>
+  <div class="one-line">为解决病原相关气味能否诱导寄生蜂跨代嗅觉回避问题，作者用气味暴露、钙成像、头部转录组和CCAPR RNAi，发现Scleroderma guani及其F1/F2后代表现遗传性MC回避。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu, S.; Ge, J.; Sun, J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.11.751080">10.64898/2026.09.11.751080</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.11.751080">https://www.biorxiv.org/content/10.64898/2026.09.11.751080</a></div><div class="d-block keywords">命中关键词：neural, RNA interference</div><div class="d-block"><span class="lbl">推荐理由：</span>研究聚焦寄生蜂嗅觉经验的跨代行为传递与分子机制，虽涉及非模式昆虫神经系统与转录组，但缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>作者研究寄生蜂Scleroderma guani对病原相关挥发物的经验是否会改变气味价值并传递给后代。通过让雌蜂暴露于白僵菌Beauveria bassiana感染宿主挥发物或甲基肉桂酸（MC），结合行为测试、蘑菇体钙成像、头部转录组、CCAPR RNA干扰及sinefungin处理，发现12小时暴露可诱导雌蜂及未暴露F1、F2后代回避相关气味，伴随CCAPR表达下降；抑制甲基转移酶可阻断F1偏好传递，提示存在甲基化敏感的跨代传递机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Odors allow animals to evaluate resources and risks, but the neural and inherited consequences of experience with ecologically meaningful odors remain poorly understood. Since both parasitoids and entomopathogenic fungi are widely used as agents in integrated biocontrol, we asked whether exposure to pathogen-associated volatiles can reassign odor value in a parasitoid wasp and whether the acquired bias is transmitted to descendants. Adult female Scleroderma guani were exposed, without host contact, to volatiles from Beauveria bassiana-infected hosts or to methyl cinnamate (MC), a representative component of the infected-host odor. Twelve-hour exposure shifted subsequent choices away from infected-host odor and MC, whereas shorter exposure produced different effects, indicating duration-dependent olfactory plasticity. The shift occurred without an explicit reward or punishment and is therefore consistent with non-associative learning. Unexposed F1 and F2 descendants of MC-exposed females expressed the same avoidance bias. MC stimulation elicited stronger calcium responses in mushroom-body regions of trained females and their descendants. Head transcriptomes identified reduced expression of the crustacean cardioactive peptide receptor (CCAPR) as a shared molecular signature, and CCAPR RNA interference phenocopied the odor-avoidance behavior. Finally, maternal treatment with sinefungin, a broad S-adenosylmethionine-dependent methyltransferase inhibitor, left maternal behavioral shift intact but abolished the F1 bias, implicating a methylation-sensitive process in transmission. Together, these results reveal that a pathogen-associated odor can induce durable, cross-generational reweighting of olfactory value in a non-model insect and identify candidate neural and neuropeptidergic mechanisms linking sensory experience to inherited behavior, and providing a new perspective on utilizing training in integrated biocontrol as well.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.751080&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.8</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42820274/" target="_blank" rel="noopener">Brain structure correlates of circulating endocannabinoids and related lipids in early adolescents.</a></div>
+  <div class="title-cn">早期青少年循环内源性大麻素及相关脂质与脑结构的关联</div>
+  <div class="one-line">为探究内源性大麻素系统对青春期脑结构的影响，作者利用ABCD队列294名青少年数据及结构方程模型，发现循环内源性大麻素与皮层厚度、表面积及体积存在显著共变。</div>
+  
+  <div class="meta">Development and psychopathology · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Baacke KA, Kaiver CM, Shankula CA, Sullivan RM, Stinson EA, Hanchon Z, Hillard CJ, Lisdahl KM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1017/S0954579426101904">10.1017/S0954579426101904</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42820274/">https://pubmed.ncbi.nlm.nih.gov/42820274/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床/发育心理学研究，无演化或跨物种比较视角，与研究者的演化生物学核心方向完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>内源性大麻素（eCB）系统参与多种生物学过程，对青春期脑发育至关重要。本研究基于ABCD队列294名10-14岁青少年，采用结构方程模型分析循环eCB及相关脂质与脑结构的横断面关联。校正性别和年龄后，发现循环eCB与大脑皮层广泛区域的皮层厚度、表面积和体积存在显著协变。结果提示eCB系统可能在青春早期脑发育中发挥关键作用，但机制有待进一步研究。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The endocannabinoid (eCB) system underlies many biological processes and is thought to be critical in adolescent brain development. However, the eCB system&#x27;s contributions to brain morphometry during adolescence remains understudied. Here we investigated cross-sectional associations between brain structure and circulating eCBs and related lipids in a subsample of adolescents (N = 294, ages 10-14, 44.5% female, 65.3% White) from the Adolescent Brain and Cognitive Development (ABCD) study utilizing a structural equation modeling approach. After accounting for sex and age, significant covariance between circulating eCBs and related lipids and cortical thickness, surface area, and volume in brain regions throughout the cortex were revealed. While the mechanisms underlying these associations need further research, these results suggest that the eCB system likely plays a critical role in early-adolescent brain development. Future work should determine underlying mechanisms, evaluate these associations longitudinally, and consider sex differences and the modulatory effects of pubertal hormones.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1017/S0954579426101904&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.77</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42809392/" target="_blank" rel="noopener">Distribution and voltage dependence of ion channels shape single-neuron computations.</a></div>
+  <div class="title-cn">离子通道的分布与电压依赖性塑造单神经元计算</div>
+  <div class="one-line">为解决电压门控离子通道亚细胞定位与功能不明的问题，作者开发果蝇内源离子通道标记工具，解析视觉运动敏感神经元中离子通道的分布与电生理特性，并构建生物物理模型揭示T5神经元方向调谐机制。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Vieira RM, Deistler M, Guillemet C, Schilling T, Macke JH, Borst A, Groschner LN</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2610600123">10.1073/pnas.2610600123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42809392/">https://pubmed.ncbi.nlm.nih.gov/42809392/</a></div><div class="d-block keywords">命中关键词：neuron, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯果蝇电生理与神经元计算机制研究，无演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>电压门控离子通道在神经元质膜上呈非均匀分布，定位于特定结构域以调控细胞兴奋性与计算功能。本研究在果蝇中开发内源离子通道标记与可视化工具，聚焦视觉运动敏感神经元中高度表达的离子通道，报道其亚细胞定位及稳态激活/失活曲线；整合结构与功能数据至生物物理约束模型，成功复现T5神经元的方向调谐特性，并揭示电压门控钠通道在非放电神经元中的功能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Voltage-gated ion channels do not distribute evenly in the plasma membrane of a neuron; they localize to distinct domains where they govern the excitability of the cell and the computations it performs. Informed by electron microscopic reconstructions, models of morphologically realistic neurons offer the opportunity to study these computations, but they lack constraints on the subcellular localizations and functional properties of voltage-gated channels. Here, we address this problem in Drosophila melanogaster by developing tools to tag and visualize endogenous ion channels in genetically designated populations of cells and in single neurons. Focusing on a suite of highly expressed ion channels in visual motion-sensitive neurons, we report their subcellular localizations and their steady-state activation and inactivation curves. Integrating these structural and functional data into a biophysically constrained model reproduces the directional tuning of motion-sensitive T5 neurons and reveals the function of voltage-gated sodium channels in nonspiking neurons.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2610600123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.76</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42838051/" target="_blank" rel="noopener">Cold sensing by a glutamate receptor drives avoidance behavior in Drosophila larvae.</a></div>
+  <div class="title-cn">谷氨酸受体介导的冷觉感知驱动果蝇幼虫回避行为</div>
+  <div class="one-line">为解决冷感知机制不清问题，作者利用定制热电刺激设备结合钙成像，鉴定出头部位aC3da神经元及其表达Clumsy谷氨酸受体作为新型冷感受器，驱动果蝇幼虫冷回避行为。</div>
+  
+  <div class="meta">Current biology : CB · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xu LA, Son HJ, Bai X, Sui J, Li R, Ronan EA, Kim GH, Ye B</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.cub.2026.09.030">10.1016/j.cub.2026.09.030</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42838051/">https://pubmed.ncbi.nlm.nih.gov/42838051/</a></div><div class="d-block keywords">命中关键词：neuron, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯行为神经电生理研究，聚焦果蝇幼虫冷感知的分子机制，缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>动物感知并躲避有害环境对生存至关重要。尽管热与凉感知机制已较清楚，但寒冷感知机制尚不明晰。本研究以果蝇幼虫为模型，通过定制热电设备施加快速精确热刺激，发现头部冷刺激可诱发逃逸反应。研究鉴定出头部位 anterior C3da（aC3da）冷敏感神经元是冷回避反应所必需的，并证明kainate型谷氨酸受体Clumsy作为新型冷感受器介导头部冷感知。在aC3da神经元中敲低Clumsy会削弱其冷敏感性，而异源表达Clumsy则可赋予冷敏感性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The ability to sense and avoid noxious environments is essential for animal survival. While the mechanisms of heat and cool sensation are well studied, those underlying the sensation of cold are relatively less understood. Here, we use Drosophila larvae as a model to investigate how animals sense and avoid cold temperatures. By implementing custom-built thermoelectric devices capable of delivering rapid and precise thermal stimuli, we find that cold delivered to the larval head evokes robust escape behavioral responses. We identify anterior C3da (aC3da), a group of head-located cold-sensitive neurons, as necessary and sufficient for such avoidance responses. We further demonstrate that the kainate-type glutamate receptor Clumsy acts as a novel cold sensor required for head cold sensitivity. Knockdown of Clumsy in head cold-sensing neurons suppresses their cold sensitivity. Heterologous expression of Clumsy confers cold sensitivity. Our results show that Drosophila larvae have evolved the capacity to detect and avoid cold temperatures through a previously uncharacterized cold-sensing mechanism.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.09.030&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.75</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42545760/" target="_blank" rel="noopener">Impaired Metabolic Remodeling Characterizes Injured Niches during Post-ischemic Kidney Repair.</a></div>
+  <div class="title-cn">缺血后肾脏修复过程中受损生态位以代谢重塑受损为特征</div>
+  <div class="one-line">为解决急性肾损伤向慢性肾病转变中的微环境机制不清问题，作者用MSI联合Stereo-seq并创新进行niche projection整合，发现小鼠受损生态位中氧化磷酸化和脂肪酸β-氧化缺陷扩展至看似健康的近端小管细胞。</div>
+  
+  <div class="meta">Journal of the American Society of Nephrology : JASN · 2026-08-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rietjens RGJ, Manzato B, Liao Y, Sol WMPJ, Mahfouz A, Giera M, van den Berg BM, Dumas SJ, Wang G, Rabelink TJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1681/ASN.0000001216">10.1681/ASN.0000001216</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42545760/">https://pubmed.ncbi.nlm.nih.gov/42545760/</a></div><div class="d-block keywords">命中关键词：spatial omics, Stereo-seq, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦小鼠缺血后肾修复的空间代谢微环境，与脑演化、神经细胞类型同源和跨物种单细胞比较关系较弱，仅空间多组学整合思路可作方法参考。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对急性肾损伤向慢性肾病转变中组织微环境作用不明的问题，作者分析小鼠双侧缺血再灌注后14天肾脏，结合内标归一化质谱成像、BANKSY空间域分析及Stereo-seq空间转录组，并以niche projection整合代谢组与转录组。结果显示受损生态位具有弥散性代谢异常；处于受损生态位中的近端小管细胞即使表观健康，也出现琥珀酸升高、亚油酸降低，以及氧化磷酸化和脂肪酸β-氧化通路下调。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The role of the tissue microenvironment in the transition from acute kidney injury to chronic kidney disease remains poorly understood. While persistence of failed-repair proximal tubule cells is postulated to hamper kidney regeneration, the spatial metabolic architecture of injured tissue and its effect on regenerative capacity have not been fully characterized. We analyzed mouse kidneys 14 days post bilateral ischemia-reperfusion injury using a multimodal spatial omics approach. Internal standard normalized mass spectrometry imaging (MSI) quantified metabolite abundances, followed by unsupervised spatial domain analysis using the BANKSY algorithm to identify tissue niches based on lipidome profiles. Consecutive sections underwent high-resolution spatial transcriptomics (Stereo-seq), and we applied niche projection to integrate metabolomic and transcriptomic data, enabling comparison of proximal tubule cells in healthy versus injured niches. Unsupervised spatial domain analysis revealed distinct healthy and injured niches, with injured niches exhibiting diffusely spread metabolic abnormalities extending beyond failed-repair proximal tubule cells. Quantitative metabolomics demonstrated that seemingly healthy proximal tubule cells residing in injured niches exhibited elevated succinic acid and depleted linoleic acid compared with cells in healthy niches. Spatial transcriptomics confirmed these metabolic defects at the transcriptional level, revealing downregulation of oxidative phosphorylation and fatty acid β-oxidation pathways in proximal tubule cells within injured microenvironments. Combined spatially resolved analysis of internal standard-normalized MSI and spatial transcriptomics revealed distinct healthy and injured tissue niches following ischemia-reperfusion injury. Metabolic abnormalities, including defects in oxidative phosphorylation and fatty acid β-oxidation, were not restricted to failed-repair proximal tubule cells but extended into seemingly healthy epithelial cells embedded within injured microenvironments.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1681/ASN.0000001216&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.92</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.10.28.681564" target="_blank" rel="noopener">Benchmarking large-scale single-cell RNA-seq analysis</a></div>
+  <div class="title-cn">大规模单细胞RNA-seq分析的基准测试</div>
+  <div class="one-line">为解决大规模单细胞RNA-seq数据集带来的计算挑战，作者系统比较了Seurat、OSCA、scrapper、Scanpy和rapids_singlecell五种分析框架的可扩展性、效率和准确性，使用130万和420万细胞数据集及四个有ground truth标签的小数据集，发现GPU加速的rapids_singlecell速度最快，OSCA和scrapper聚类准确性最高，强调算法和基础设施选择对大规模单细胞分析的关键影响。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Billato, I.; Pages, H.; Carey, V.; Waldron, L.; Sales, G.; Romualdi, C.; Risso, D.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.10.28.681564">10.1101/2025.10.28.681564</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.10.28.681564">https://www.biorxiv.org/content/10.1101/2025.10.28.681564</a></div><div class="d-block keywords">命中关键词：scRNA-seq, Seurat, Scanpy</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算方法论 benchmarking，无生物学发现、无动物物种单细胞图谱、无演化或跨物种比较视角，仅涉及分析工具性能比较，与该研究者核心研究方向完全不符。</div><div class="d-block"><span class="lbl">背景：</span>单细胞RNA测序技术的飞速发展使得数据集规模急剧膨胀，从最初的几千个细胞增长到数百万甚至上千万个细胞。这种数据规模的爆炸式增长对现有的生物信息学分析工具提出了严峻的计算挑战，包括内存消耗、计算时间和分析流程的可扩展性。然而，目前缺乏对主流分析框架在算法设计和硬件配置层面系统性、大规模的比较评估，导致研究者在选择分析工具时缺乏明确的指导依据。</div><div class="d-block"><span class="lbl">研究方法：</span>作者选取五种广泛使用的单细胞分析框架（Seurat、OSCA、scrapper、Scanpy和rapids_singlecell），系统比较其在不同规模数据集上的性能表现。使用130万和420万细胞的大规模数据集测试可扩展性，使用BE1、sc_mixology、脐带血CITE-seq和Hao四个具有已知细胞身份标签的数据集评估聚类准确性。以PCA为范例步骤，比较六种SVD算法（exact、ARPACK、IRLBA、randomized、Jacobi和incremental PCA）在密集矩阵、稀疏矩阵和HDF5-backed数据上的表现，并在CPU和GPU配置下进行评估。</div><div class="d-block"><span class="lbl">研究结果：</span>所有方法在PCA结果上高度一致，截断算法几乎没有准确性损失。基于GPU的rapids_singlecell相比最优CPU方法实现15倍加速，内存使用适中。在CPU上，ARPACK和IRLBA对稀疏矩阵最高效，randomized SVD对HDF5-backed数据表现最佳。在完整流程中，rapids_singlecell速度最快；OSCA和scrapper在已知细胞身份的数据集中聚类准确性最高（ARI高达0.97）。性能差异主要由高可变基因选择和PCA实现驱动。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究为大规模单细胞数据分析提供了实用的工具选择指南，强调可扩展性取决于算法和基础设施的共同优化。GPU加速和优化的BLAS/LAPACK配置能显著提升性能，而基于Bioconductor的流程在准确性方面保持稳健。这些基准测试结果有助于研究者根据数据规模和分析需求选择最合适的分析工具，促进大规模单细胞研究的普及和效率提升。然而，该工作纯属于计算方法论范畴，未涉及任何生物学发现或物种比较。</div><div class="d-block"><span class="lbl">中文全摘要：</span>大规模单细胞RNA-seq数据集带来重大计算挑战。本工作基准测试了五种常用分析框架（Seurat、OSCA、scrapper、Scanpy和rapids_singlecell）的可扩展性、效率和准确性，重点关注算法和基础设施选择对性能的影响。研究使用代表性数据集进行系统比较，包括130万和420万细胞数据集用于可扩展性评估，以及四个具有ground truth标签的较小数据集（BE1、sc_mixology、脐带血CITE-seq和Hao）用于聚类准确性评估。PCA作为代表性步骤，评估了六种SVD算法在多种数据表示和硬件配置下的计算性能。GPU计算提供15倍加速，rapids_singlecell最快，OSCA和scrapper聚类准确性最高（ARI达0.97）。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The increasing size of single-cell RNA sequencing (scRNA-seq) datasets poses major computational challenges. This work benchmarks the scalability, efficiency, and accuracy of five widely used analysis frameworks (Seurat, OSCA, scrapper, Scanpy, and rapids_singlecell), focusing on the impact of algorithmic and infrastructural choices on performance. We performed a systematic comparison of these workflows using representative datasets, including a 1.3 million and a 4.2 million cell dataset for scalability and four smaller datasets (BE1, sc_mixology, cord blood CITE-seq and Hao) with ground truth labels to assess clustering accuracy. Principal Component Analysis (PCA) was used as a paradigmatic step to evaluate the computational performance of six SVD algorithms (exact, ARPACK, IRLBA, randomized, Jacobi, and incremental PCA) across multiple data representations (dense, sparse, HDF5) and hardware configurations (CPU vs GPU). All methods showed high concordance in PCA results, with negligible loss of accuracy in truncated approaches. GPU-based computation using rapids_singlecell provided a 15x speed-up over the best CPU methods, with moderate memory usage. On CPU, ARPACK and IRLBA were the most efficient for sparse matrices, while randomized SVD performed best for HDF5-backed data. Among full pipelines, rapids_singlecell was the fastest, whereas OSCA and scrapper achieved the highest clustering accuracy (ARI up to 0.97) in datasets with known cell identities. Performance differences were largely driven by the choice of highly variable genes (HVGs) and PCA implementation. The study highlights that scalability in scRNA-seq analysis depends critically on both algorithmic and infrastructural factors. GPU acceleration and optimized BLAS/LAPACK configurations markedly enhance performance, while Bioconductor-based pipelines remain robust in accuracy. The provided benchmarks offer practical guidelines for efficient and reliable analysis of large-scale single-cell datasets.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.28.681564&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">4.82</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.15.759380" target="_blank" rel="noopener">GENOAR: Global Engine for Navigating the Omnicell space via Agent-based Research</a></div>
+  <div class="title-cn">GENOAR：基于智能体研究的全局引擎用于导航全能细胞空间</div>
+  <div class="one-line">为解决单细胞转录组数据规模化存储与AI兼容性问题，作者开发了GENOAR平台，利用AI智能体和并行计算处理约5400万个人和小鼠细胞数据，实现数据预处理、智能标注与检索；发现AI智能体在数据检索性能上可与人类专家媲美；展示了其在视网膜母细胞瘤祖细胞特征分析中的应用，为构建可扩展的单细胞图谱提供了技术框架，但缺乏演化生物学应用。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-21</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Paik, H.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.15.759380">10.64898/2026.10.15.759380</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.15.759380">https://www.biorxiv.org/content/10.64898/2026.10.15.759380</a></div><div class="d-block keywords">命中关键词：single-cell atlas, transcriptomic atlas, Cell atlas, artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为AI驱动的单细胞数据平台工具开发，无演化比较视角，物种仅涉及人和小鼠，且以疾病应用（视网膜母细胞瘤）为案例，不符合研究者核心兴趣。</div><div class="d-block"><span class="lbl">背景：</span>单细胞转录组学数据呈爆炸式增长，但数据的规模化整合、标准化存储与AI兼容性仍面临挑战。现有数据库和分析工具难以同时满足人类研究者和AI系统的需求，亟需开发新型数据引擎以实现高效导航与智能检索。疾病研究如视网膜母细胞瘤的肿瘤微环境解析，也需要大规模图谱数据的支持。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发GENOAR平台，整合并行计算进行单细胞数据预处理加速，设计双AI智能体系统：AI命名师采用智能体技术规范细胞类型标签，AI图书管理员执行数据检索任务。平台整合人和小鼠超5400万细胞的单细胞转录组数据，采用分析就绪格式存储，并应用于视网膜母细胞瘤原发肿瘤及类器官环境的祖细胞转录特征分析。</div><div class="d-block"><span class="lbl">研究结果：</span>GENOAR在三个关键组件上表现优异：并行计算显著加速预处理流程；AI智能体成功实现数据存储、标注标准化与智能检索，检索性能达到人类专家水平；基于平台分析揭示了视网膜母细胞瘤及其类器官环境中与祖细胞相关的转录特征；平台验证可用于后生动物单细胞图谱的按需构建，但演示物种仅限人和小鼠。</div><div class="d-block"><span class="lbl">研究意义：</span>GENOAR展示了构建AI兼容、可扩展且可重复的单细胞转录组图谱的可行性，为大规模单细胞数据整合提供了技术基础设施。然而，该工作主要贡献在于计算工具开发，未涉及跨物种比较、细胞类型同源性或神经系统演化等演化生物学核心问题，对专注于脑演化与细胞类型演化的研究者直接价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>尽管生成模型已革新诸多领域，构建可扩展的AI兼容数据集仍具挑战。本研究开发了GENOAR平台，利用AI智能体和并行计算覆盖约5400万细胞，用于多种下游任务。并行计算加速单细胞数据预处理；AI智能体实现数据存储与探索。GENOAR包含AI命名师（规范非结构化标签）和AI图书管理员（数据检索），呈现人和小鼠超5400万细胞的分析就绪格式。应用方面揭示了视网膜母细胞瘤及其类器官中祖细胞相关转录特征，并验证了其用于后生动物单细胞图谱按需构建的可行性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Although generative models have revolutionized many fields, including genomics, building a scalable dataset compatible with artificial intelligence (AI) is essential yet underexplored. Here, we developed a Global Engine for navigating the Omnicell space via Agent-based Research (GENOAR) that covers approximately 54 million cells for diverse downstream tasks using AI agents and parallel computing. GENOAR outperforms in three parts. Parallel computations accelerated the preprocessing of single-cell transcriptomic data; the other components enabled agent-assisted data storage and exploration for both AI models and humans. GENOAR involves two AI agents: an AI nomenclaturist ordered the unstructured labels of the single-cell transcriptomic profiles, and an AI librarian retrieved data. GENOAR presents transcriptomic profiles from more than 54 million cells from humans and mice in an analysis-ready format for humans and AI agents. AI agents in GENOAR exhibited successful retrieval performance compared with human experts. Using GENOAR, we elucidated progenitor cell-associated transcriptional signatures in native retinoblastoma and organoid environments. GENOAR was released and validated for the on-demand construction of single-cell atlases for metazoa. In conclusion, using GENOAR, the development of a single-cell transcriptomic atlas compatible with both AI systems and human researchers is feasible, scalable, and reproducible.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.15.759380&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐的五篇文献横跨神经科学、计算生物学与系统科学，聚焦于神经发育命运追踪、大规模单细胞数据分析、神经符号系统自治及运动干预成瘾行为等前沿议题。其中，rapids_singlecell等GPU加速框架在大规模单细胞分析中的突破性速度表现，以及SENSA框架在自主认知决策中的因果韧性设计，尤为值得关注。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经发育与细胞命运：聚焦皮层下神经元起源与嗅球神经发生，两项研究分别揭示SpN向L6b的终生持续转化及母婴分离对nNOS+/SCGN+神经元分布的影响</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>计算工具与算法革新：聚焦大规模单细胞RNA-seq分析的工程化解决方案，系统比较五种框架的可扩展性与准确性，凸显GPU加速与算法优化并重的技术路径</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>复杂系统智能与干预：涵盖工业神经符号系统的自演化自治机制，以及急性运动对酒精渴求的短期调控效应，体现跨尺度因果干预的研究取向</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同体现出三重方法学走向：一是从描述性关联转向因果机制解析，无论是SENSA的因果驱动自演化还是运动干预的效应量评估，均强调因果推断的引入；二是计算密集型研究日益依赖硬件加速与算法协同优化，单细胞分析领域GPU并行计算成为突破数据规模瓶颈的关键；三是多模态技术整合，如EdU脉冲标记联合3D组织透明化、免疫荧光双重标记等，推动空间分辨率与定量精度的同步提升。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批文献提供了多层次的跟进切入点：计算生物学者可重点关注rapids_singlecell与OSCA/scrapper的性能-精度权衡策略，结合自身数据规模选择基础设施；神经科学家可借鉴SpN命运追踪的时空标记方案，拓展至其他发育窗口研究；智能系统研究者则可深入SENSA的神经-符号双向对齐机制，探索开放环境下的因果决策边界。此外，运动干预的Meta分析为行为健康领域的实验设计提供了效应量参考基线。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
