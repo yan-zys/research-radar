@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-09</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-09</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 0 · Relate 15）· 命中关键词 15 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-relate">Relate</span><span class="score">4.89</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.08.743614" target="_blank" rel="noopener">Cellular senescence is associated with age-related loss of liver zonation and hepatocyte function</a></div>
+  <div class="title-cn">细胞衰老与年龄相关的肝脏分区丧失及肝细胞功能下降有关</div>
+  <div class="one-line">为解决小鼠肝脏随年龄分区丧失问题，作者结合GeoMx、Visium、CosMx与snRNA-seq，发现细胞衰老伴随“无分区”肝细胞扩增及WNT下降、BMP升高。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Laux, L.; Aristel, A.; Ali, S.; Lande, K.; Li, M.; Evensen, K. G.; Havas, A.; Miao, Z.; Zhang, Z.; Peters, S.; Hu, J.; Angelini, L.; Klaers, M.; Brocksome, J.; Lewis, A.; Paidimukkala, N.; Brown, M. E.; Carver, C. M.; Schafer, M. J.; Albrecht, J. H.; Wehner, A.; Adams, P.; Aliferis, C.; Adeyi, O.; Khosla, M.D, S.; Dong, X.; Wang, J.; Robbins, P. D.; Zhang, N.; Niedernhofer, L. J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.08.743614">10.64898/2026.08.08.743614</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.08.743614">https://www.biorxiv.org/content/10.64898/2026.08.08.743614</a></div><div class="d-block keywords">命中关键词：snRNA-seq, Visium, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦小鼠肝脏衰老与细胞衰老导致的分区丧失，虽使用snRNA-seq和空间转录组，但缺乏演化或跨物种比较视角，对该研究者仅有有限方法参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为阐明细胞衰老对肝脏衰老生物学的作用，作者在不同年龄野生型小鼠肝脏中联合GeoMx、Visium、CosMx和snRNA-seq，分析衰老特征、分区标记及代谢通路变化。结果显示 aged liver 中经典分区特征减弱，zone 2 标记扩展、zone 3 标记降低，并出现随年龄扩增的“no-zone”样肝细胞群，其SASP最强。Ercc1加速衰老模型支持衰老细胞对分区丧失的因果作用，机制上提示WNT下降与BMP升高参与其中。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The liver is organized into tightly regulated zones with distinct metabolic functions but zonation erodes with age. Cellular senescence contributes to aging and liver diseases, however, its impact on aging biology is ill-defined. As part of The Cellular Senescence Network Consortium, we used multiple spatial transcriptomics approaches (GeoMx, Visium, CosMx) with snRNA-seq to profile senescence signatures, zonation markers, and metabolic pathways in livers from wild-type (WT) mice of multiple ages. We observed a loss of canonical zone signatures in aged mouse livers characterized by &#x27;expansion&#x27; of midlobular (zone 2) marker gene expression, accompanied by diminished expression of zone 3 marker genes by middle-age (18 months), indicative of loss of cell identity. Multiple analytic approaches identified distinct age-, zone- and sex-specific senescence signatures, which were significantly associated with zonation markers changes. This was recapitulated in Ercc1 mutant models of accelerated senescence, supporting a causal role of senescent cells in liver aging. A &#x27;no-zone&#x27; hepatocyte-like cluster expanded with age and with the strongest Senescence-Associated Secretory Phenotype (SASP) profile. Gene expression profiles from senescent hepatocytes implicate decreased WNT signaling and increased BMP as contributing to age-related loss of zonation. Together, these data elucidate the role of senescent cells in driving aging biology in non-diseased liver through disruption of cell:cell signaling and the loss of metabolic and cell identity gene expression necessary for hepatocyte function.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.08.743614&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.85</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42838276/" target="_blank" rel="noopener">Photoperiodic control of metamorphic timing via a myoglianin-allatotropin signaling pathway in the cricket Svercacheta siamensis.</a></div>
+  <div class="title-cn">蟋蟀Svercacheta siamensis中通过myoglianin-allatotropin信号通路的光周期调控变态时间</div>
+  <div class="one-line">为阐明光周期调控昆虫变态时间的分子机制，作者在蟋蟀Svercacheta siamensis中通过RNAi敲降myo和AT，发现Myo-AT-JH级联通路调控变态时间。</div>
+  
+  <div class="meta">Journal of insect physiology · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Shinohara T, Goto SG</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.jinsphys.2026.105073">10.1016/j.jinsphys.2026.105073</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42838276/">https://pubmed.ncbi.nlm.nih.gov/42838276/</a></div><div class="d-block keywords">命中关键词：brain, RNA interference</div><div class="d-block"><span class="lbl">推荐理由：</span>纯发育生理学机制研究，缺乏演化或跨物种比较视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>昆虫变态的光周期调控依赖环境信号与内分泌系统的互作，但具体机制不清。作者在蟋蟀中发现：长日照促进脑内myo表达，myo通过上调allatotropin调控保幼激素合成，进而决定变态时间。RNAi敲降myo降低AT表达，AT RNAi则延缓变态，揭示Myo-AT-JH新通路。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Photoperiodic regulation of insect development depends on interactions between environmental cues and endocrine signaling systems. In the cricket Svercacheta siamensis, the photoperiodic transition from the juvenile form to the adult form is a major developmental event controlled by juvenile hormone (JH), with long-day conditions promoting early metamorphosis and short-day conditions delaying metamorphosis through additional nymphal molts. Previous studies have identified myoglianin (Myo), a transforming growth factor-β ligand, as a photoperiod-responsive regulator of JH signaling. However, the organ in which photoperiodically regulated Myo expression occurs, and the mechanism by which Myo influences JH signaling, remain unclear. To address these questions, we first examined the developmental and photoperiodic regulation of myo expression in the brain and corpora cardiaca-corpora allata (CC-CA) complex. We found that myo expression increased during the 7th (final) instar under long-day conditions in the brain, but not in the CC-CA complex, suggesting that photoperiod-responsive Myo signaling originates in the brain. To identify downstream factors that potentially link Myo signaling to JH regulation, we examined four allatoregulatory neuropeptide genes. Among these, only allatotropin (AT) showed developmental and photoperiodic expression patterns, similar to those of myo. RNA interference (RNAi) targeting myo significantly reduced AT expression. Furthermore, AT RNAi increased the expression of juvenile hormone acid O-methyltransferase and Krüppel homolog 1, which are markers associated with JH biosynthesis and signaling, and significantly delayed metamorphosis with additional nymphal molts. These results suggest that AT acts downstream of Myo and contributes to the photoperiodic regulation of metamorphic timing through the modulation of JH signaling.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.jinsphys.2026.105073&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.84</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42742611/" target="_blank" rel="noopener">Optimizing adolescent brain development.</a></div>
+  <div class="title-cn">优化青少年大脑发育</div>
+  <div class="one-line">无具体摘要信息，无法生成。</div>
+  
+  <div class="meta">World psychiatry : official journal of the World Psychiatric Association (WPA) · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Giedd JN</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/wps.70078">10.1002/wps.70078</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42742611/">https://pubmed.ncbi.nlm.nih.gov/42742611/</a></div><div class="d-block keywords">命中关键词：brain development, brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦人类青少年脑发育的临床/心理学视角，完全缺乏演化、跨物种比较及单细胞组学内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>无具体摘要信息，无法生成。</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/wps.70078&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.83</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42465404/" target="_blank" rel="noopener">Multiscale harmonization, semantic integration, and immersive exploration of single-cell data in support of novel biological insights.</a></div>
+  <div class="title-cn">多尺度协调、语义整合与沉浸式单细胞数据探索以支持新生物学发现</div>
+  <div class="one-line">为解决人体多尺度单细胞数据可视化受限问题，作者利用VR多尺度电梯系统整合HuBMAP和SenNet数据，实现从整体到亚细胞尺度的沉浸式探索，揭示衰老模式和3D组织架构。</div>
+  
+  <div class="meta">bioRxiv : the preprint server for biology · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bueckle A, Zhu C, Wong AYH, Enninful A, Miao Y, Farzad N, Pedersen M, Mattison C, Sloan N, Mares J, Xing C, Herr BW, Khare J, Kumar YR, Parekh K, Chavan S, Luby P, Patel U, Jain Y, Hickey JW, Bader GD, Phatnani H, Menon V, Fan R, Sorger P, Snyder M, Börner K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.07.737090">10.64898/2026.07.07.737090</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42465404/">https://pubmed.ncbi.nlm.nih.gov/42465404/</a></div><div class="d-block keywords">命中关键词：brain, Visium</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为人体空间单细胞数据可视化工具开发，完全缺乏演化、跨物种比较或神经发育视角，与人类医学成像应用相关，与研究者的演化生物学核心方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞图谱计划产生人体多尺度数据，但受限于二维屏幕。本研究基于Human Reference Atlas的VR框架，开发&#x27;HRA: Powers of Ten&#x27;系统，通过多尺度电梯实现从整体到5个器官、5种检测技术和4个空间尺度的沉浸式可视化。整合CODEX、Visium等技术数据，揭示衰老模式、细胞邻域和亚细胞肝脏架构。应用开源并上架Meta Store。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell atlassing efforts like the Human BioMolecular Atlas Program (HuBMAP) and Cellular Senescence Network (SenNet) produce multiscale datasets across the healthy, adult, human body but are typically explored on 2D screens with limited 3D affordances, even though understanding cell location within tissue, organ, and body requires spatial reasoning across many orders of magnitude. The Human Reference Atlas (HRA) provides standard terminologies and a Common Coordinate Framework (CCF) for harmonizing this data spatially and semantically. Building on the HRA Organ Gallery in virtual reality (VR), we present &quot;HRA: Powers of Ten,&quot; which integrates, harmonizes, and visualizes biological data from these efforts in VR using a Multiscale Elevator System that lets users descend, like riding an elevator through an inverted skyscraper, from a whole body view of 81 reference organs to datasets across 5 organs (lymph node, brain, large intestine, small intestine, liver), 5 assay types (CODEX, Visium, v-CyCIF, Xenium, SBF-SEM), and 4 spatial scales. Shared by Data Providers, these VR scenes enable biological insights into senescence patterns, cellular neighborhoods, 3D tissue reconstruction, and subcellular liver architecture. A standard operating procedure supports adding further datasets. Freely available on the Meta Store to over 20 million headsets, the application, data, code are open-source.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.83</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.07.737090" target="_blank" rel="noopener">Multiscale harmonization, semantic integration, and immersive exploration of single-cell data in support of novel biological insights</a></div>
+  <div class="title-cn">多尺度协调、语义整合与沉浸式探索单细胞数据以支持新生物学见解</div>
+  <div class="one-line">为解决人体多器官单细胞数据跨尺度空间整合与可视化问题，作者构建VR多尺度电梯系统，整合HuBMAP和SenNet的5种空间组学技术数据，实现从全身到亚细胞尺度的沉浸式探索。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Bueckle, A.; Zhu, C.; Wong, A. Y. H.; Enninful, A.; Miao, Y.; Farzad, N.; Pedersen, M.; Mattison, C.; Sloan, N.; Mares, J.; Xing, C.; Herr, B. W.; Khare, J.; Kumar, Y. R.; Parekh, K.; Chavan, S.; Luby, P.; Patel, U.; Jain, Y.; Hickey, J. W.; Bader, G. D.; Phatnani, H.; Menon, V.; Fan, R.; Sorger, P.; Snyder, M.; Börner, K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.07.737090">10.64898/2026.07.07.737090</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.07.737090">https://www.biorxiv.org/content/10.64898/2026.07.07.737090</a></div><div class="d-block keywords">命中关键词：brain, Visium</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦人体多器官空间单细胞数据整合与VR可视化，无演化或跨物种比较视角，与研究者的演化生物学核心视角完全不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞图谱计划如HuBMAP和SenNet产生健康成人体多尺度数据集，但通常限于2D屏幕浏览。作者基于Human Reference Atlas的通用坐标框架，开发VR应用&#x27;HRA: Powers of Ten&#x27;，通过多尺度电梯系统实现从全身81个参考器官到5个器官（淋巴结、脑、大肠、小肠、肝脏）、5种检测技术（CODEX、Visium、v-CyCIF、Xenium、SBF-SEM）及4种空间尺度的沉浸式导航，揭示衰老模式、细胞邻域、3D组织重建和肝细胞亚结构等生物学见解。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell atlassing efforts like the Human BioMolecular Atlas Program (HuBMAP) and Cellular Senescence Network (SenNet) produce multiscale datasets across the healthy, adult, human body but are typically explored on 2D screens with limited 3D affordances, even though understanding cell location within tissue, organ, and body requires spatial reasoning across many orders of magnitude. The Human Reference Atlas (HRA) provides standard terminologies and a Common Coordinate Framework (CCF) for harmonizing this data spatially and semantically. Building on the HRA Organ Gallery in virtual reality (VR), we present &quot;HRA: Powers of Ten,&quot; which integrates, harmonizes, and visualizes biological data from these efforts in VR using a Multiscale Elevator System that lets users descend, like riding an elevator through an inverted skyscraper, from a whole body view of 81 reference organs to datasets across 5 organs (lymph node, brain, large intestine, small intestine, liver), 5 assay types (CODEX, Visium, v-CyCIF, Xenium, SBF-SEM), and 4 spatial scales. Shared by Data Providers, these VR scenes enable biological insights into senescence patterns, cellular neighborhoods, 3D tissue reconstruction, and subcellular liver architecture. A standard operating procedure supports adding further datasets. Freely available on the Meta Store to over 20 million headsets, the application, data, code are open-source.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.07.737090&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">4.81</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709818/" target="_blank" rel="noopener">Integration of Semaphorin/Plexin activation and amplification by a Neuropilin-like coreceptor ensures robust homeostatic plasticity.</a></div>
+  <div class="title-cn">Neuropilin样共受体整合Semaphorin/Plexin信号激活与放大以确保稳健稳态可塑性</div>
+  <div class="one-line">为阐明神经回路如何维持稳态可塑性的分子机制，作者以果蝇神经肌肉突触为模型，通过遗传筛选和生化分析鉴定Neto-α为Sema2b/PlexB通路的新型共受体及Abl激酶的招募因子，发现Neto-α通过解除PlexB自抑制并放大信号输出实现快速稳态增强，揭示了该保守模块在神经功能及肿瘤发生中的广泛作用。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Vicidomini R, Han TH, Hsieh WC, Nguyen P, Li J, Giniger E, Serpe M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2604252123">10.1073/pnas.2604252123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709818/">https://pubmed.ncbi.nlm.nih.gov/42709818/</a></div><div class="d-block keywords">命中关键词：neural, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦果蝇神经肌肉突触的信号通路分子机制，虽涉及神经发育但缺乏跨物种比较、演化视角及单细胞组学内容，与研究者核心方向不符。</div><div class="d-block"><span class="lbl">背景：</span>神经元回路必须通过稳态可塑性机制维持功能稳定性，以应对捕食者逃避或毒素暴露等挑战。Semaphorin/Plexin信号通路在跨物种的突触稳态增强中具有核心作用，但分泌型Semaphorin与Plexin受体亲和力较弱，需要额外的共受体来实现高效信号转导。Neuropilin家族蛋白已被发现可作为Semaphorin的共受体，但其在特定神经突触稳态中的具体作用机制尚不清楚。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者以果蝇神经肌肉突触为模型系统，通过遗传学筛选鉴定参与Sema2b/PlexB信号通路的必要组分；利用生化相互作用分析验证Neto-α与Sema2b、PlexB及Abl的物理结合；结合电生理记录和功能缺失/获得性遗传实验，评估Neto-α和Abl在突触稳态增强中的功能贡献。</div><div class="d-block"><span class="lbl">研究结果：</span>研究鉴定Neto-α为Sema2b/PlexB通路的新型共受体：其Neuropilin样结构域与Sema2b协同作用以解除PlexB胞外域的自抑制状态，从而启动下游信号；同时Neto-α胞内结构域招募酪氨酸激酶Abl作为胞内信号放大器。实验证实激活（Neto-α介导的PlexB去抑制）与放大（Abl增强）两种功能缺一不可，共同确保快速而有效的稳态可塑性反应。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究揭示了一个将信号激活与放大整合于单一分子机器的保守调控策略，阐明了Neto/Neuropilin-Sema-Plex-Abl模块在神经稳态中的核心作用。该发现不仅深化了对突触可塑性分子基础的理解，也为探索该通路在肿瘤发生等更广泛的细胞情境中的功能提供了新视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>稳健稳态可塑性对神经元回路抵御扰动至关重要。Semaphorin/Plexin信号介导突触前稳态增强，但分泌型Semaphorin与Plexin受体亲和力低，需共受体辅助。本研究鉴定出离子型谷氨酸受体辅助亚基Neto-α和酪氨酸激酶Abl为果蝇神经肌肉突触Sema2b/PlexB通路的关键组分：Neto-α作为Neuropilin样共受体解除PlexB自抑制，同时招募Abl增强信号输出，二者共同保障快速有效的稳态补偿。该Neto/Sema/Plex/Abl模块在演化上保守，可能参与肿瘤发生等非神经过程。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Robust homeostatic plasticity is essential for survival, enabling neuronal circuits to withstand destabilizing forces and restore function during critical challenges such as predator evasion or toxin exposure. Semaphorin/Plexin signaling is central to presynaptic homeostatic potentiation at central synapses and at neuromuscular junctions across species. However, our understanding of this pathway has remained incomplete, as secreted Semaphorins bind weakly to their Plexin receptors and require additional coreceptors for efficient signaling. Here, we identify Neuropilin and Tolloid-like protein (Neto-α), an auxiliary subunit for ionotropic glutamate receptors (iGluRs), and the tyrosine kinase Abelson (Abl) as essential components of the Sema2b/PlexB signaling pathway that drives rapid homeostatic potentiation and stabilizes synaptic strength at the Drosophila neuromuscular junction. Neto-α functions as a Neuropilin-like coreceptor that cooperates with Sema2b to relieve PlexB autoinhibition and initiate signaling. In parallel, Neto-α recruits Abl, which functions as a cytosolic amplifier to enhance pathway output. We demonstrate that both pathway activation and amplification are required for a rapid and effective homeostatic response. By integrating these two functions within a single molecular assembly, Neto-α ensures fast and efficient compensatory responses to perturbations. This evolutionarily conserved signaling module, Neto (or Neuropilin)/Sema/Plex/Abl, likely operates in cellular contexts beyond neural function, including in tumorigenesis.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2604252123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">4.8</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42622516/" target="_blank" rel="noopener">Neural computations in the foveal and peripheral visual fields during active search.</a></div>
+  <div class="title-cn">主动搜索过程中中央凹与周边视野中的神经计算</div>
+  <div class="one-line">为解决主动视觉中中央凹与周边注意协同机制不清问题，作者结合猴V4和IT区中央凹/周边感受野神经记录，发现中央凹特征注意显著增强并与周边注意互补调控注视和眼跳。</div>
+  
+  <div class="meta">eLife · 2026-08-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang J, Zhu X, Ma Z, Wang S, Wang Y, Esteky H, Tian Y, Zhou H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.109498">10.7554/eLife.109498</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42622516/">https://pubmed.ncbi.nlm.nih.gov/42622516/</a></div><div class="d-block keywords">命中关键词：neural</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦猴V4/IT在主动视觉搜索中的注意电生理机制，缺乏演化或跨物种比较视角，对该研究者仅具边缘性神经系统功能背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>主动视觉需要中央凹与周边感受野的协调注意处理，但其神经动力学机制尚不清楚。作者在猴自由注视搜索复杂刺激时，记录V4和IT中中央凹及周边感受野神经活动。结果发现中央凹神经元存在稳健的基于特征的注意增强，挑战了该调制主要发生于周边视野的传统观点。整合两类记录后，作者揭示特征注意在整个视野中呈非均一、动态分布；行为上，中央凹注意增强促进目标持续或重复注视，周边信号则促进目标检测和后续眼跳引导。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Active vision requires coordinated attentional processing across both foveal and peripheral receptive fields (RFs), yet the underlying neural dynamics and computational mechanisms remain poorly understood. Previous research has predominantly focused on attention in the visual periphery, leaving the role of foveal processing in naturalistic tasks largely unexplored. Here, we recorded neural activity from both foveal and peripheral RFs in areas V4 and IT of monkeys during free-gaze visual search among complex stimuli. We found robust feature-based attentional enhancements in foveal units, challenging the prevailing view that such modulation is predominantly peripheral. By integrating data from foveal and peripheral recordings, we revealed a non-uniform, dynamically distributed pattern of feature attention across the visual field. Behaviorally, foveal attentional enhancements promoted sustained or repeated fixations on targets, while peripheral attentional signals facilitated target detection and guidance of future saccades. These findings suggest that foveal and peripheral attention operate in a complementary fashion and highlight the critical role of foveal feature attention in shaping global attention allocation and fixation behavior during active vision. This work advances our understanding of the neural computations that support complex visual search and underscores the need to account for foveal processing in models of attention.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109498&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">4.79</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42820839/" target="_blank" rel="noopener">Sex-biased expression of enteroendocrine cell-derived hormones contributes to higher fat storage in Drosophila females.</a></div>
+  <div class="title-cn">肠内分泌细胞来源激素的性别偏倚表达促进果蝇雌性更高的脂肪储存</div>
+  <div class="one-line">为探究肠内分泌细胞来源激素在两性中的调控差异，作者在果蝇中进行性别偏倚表达分析并结合肠道特异性敲低实验，发现AstC等激素在雌性肠道中高表达且AstC敲低特异性降低雌性脂肪储存。</div>
+  
+  <div class="meta">eLife · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Biswas P, Rideout EJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.109426">10.7554/eLife.109426</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42820839/">https://pubmed.ncbi.nlm.nih.gov/42820839/</a></div><div class="d-block keywords">命中关键词：neuron, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯果蝇生理学与性别差异研究，完全缺乏演化、跨物种比较、神经发育或细胞类型同源性分析视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>肠内分泌（EE）细胞在果蝇肠道中产生多种肽类激素，协调生理与行为。本研究发现AstA、AstC、Tk、NPF和Dh31在整体和头部样本呈雄性偏倚表达，但AstC、Tk和NPF在肠道中呈强烈雌性偏倚。肠道特异性敲低AstC显著降低5日龄雌性脂肪储存，而对雄性无影响；敲低其受体AstC-R2亦重现该表型，揭示EE细胞来源激素的性别偏倚调控机制。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Enteroendocrine (EE) cells in the Drosophila gut produce and release multiple factors, including Allatostatin A (AstA), Allatostatin C (AstC), neuropeptide F (NPF), tachykinin (Tk), Diuretic hormone 31 (Dh31), Bursicon, CCHamide 1, CCHamide 2, and short neuropeptide F. Collectively, these peptides ensure that physiology (e.g., fat storage, fluid balance) and behavior (e.g., feeding, sleep) are coordinated with environmental factors such as nutrient quantity and quality. Despite notable sex differences in physiology and behavior, it remains unclear whether the regulation and function of these EE cell-derived factors are shared between males and females. Given that recent data identified sex-biased physiological effects of two EE cell-derived hormones on Drosophila food intake and energy mobilization, we performed a detailed characterization of these hormones in male and female flies. Despite an overall male bias in mRNA levels of AstA, AstC, Tk, NPF, and Dh31 in whole-body and head samples, we observed a strong female bias in mRNA levels of AstC, Tk, and NPF in the gut. To determine whether this sex-biased regulation was physiologically significant, we monitored triglyceride levels in flies with gut-specific knock-down of EE cell-derived hormones. In 5-day-old flies, knock-down of EE cell-derived AstC significantly reduced fat storage in females with no effect in males, whereas knock-down of EE cell-derived Tk produced a non-significant trend toward reduced fat storage in females. These female-specific effects on fat storage were reproduced in flies with neuron-specific knock-down of the AstC (AstC-R2) and Tk receptors (TkR99D). Together, these data uncover strongly sex-biased regulation of EE cell-derived hormones and show that gut-specific knock-down of at least one of these hormones had a female-specific effect on body fat.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.109426&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">4.77</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42708447/" target="_blank" rel="noopener">BetaII-spectrin gaps and patches emerge from the patterned assembly of the actin/spectrin membrane skeleton in human motor neuron axons.</a></div>
+  <div class="title-cn">βII-血影蛋白缺口与斑块源于人类运动神经元轴突中肌动蛋白/血影蛋白膜骨架的模式化组装</div>
+  <div class="one-line">为解决人类运动神经元轴突MPS组装模式问题，作者用共聚焦与超分辨成像并结合staurosporine和肌动蛋白聚合抑制，发现βII-spectrin呈缺口-斑块交替分布。</div>
+  
+  <div class="meta">eLife · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Gazal NG, Castellanos-Montiel MJ, Bruno G, Franco-Flores AK, Lépine S, Gursu L, Haghi G, Maussion G, Reintsch WE, Stefani FD, Anastasía A, Bisbal M, Gorostiza EA, Durcan TM, Unsain N</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.108021">10.7554/eLife.108021</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42708447/">https://pubmed.ncbi.nlm.nih.gov/42708447/</a></div><div class="d-block keywords">命中关键词：neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人iPSC来源运动神经元轴突骨架组装与疾病相关神经生物学，缺乏演化或跨物种比较视角，对该研究者仅有一般神经细胞结构背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>轴突膜相关周期性骨架（MPS）维持轴突完整性与功能，而长轴突的人类脊髓运动神经元尤其易退变。作者利用iPSC来源人运动神经元，结合共聚焦和超分辨成像，描绘βII-spectrin及MPS在轴突中的空间分布，发现轴突中段存在边界清晰的βII-spectrin缺口与含有有序MPS的斑块交替模式。staurosporine可快速诱导该模式，而抑制肌动蛋白聚合可阻断斑块形成，支持肌动蛋白成核驱动MPS新生斑块、并耗竭邻近区域spectrin的模型。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The actin/spectrin membrane-associated periodic skeleton (MPS) is a cytoskeletal structure that supports axonal integrity and function. Lower spinal motor neurons (MNs) are characterized by exceptionally long axons and are particularly susceptible to degeneration in a wide range of hereditary neuromuscular disorders, including amyotrophic lateral sclerosis. Using confocal and super-resolution imaging, we characterized the spatial distribution of βII-spectrin and the assembly pattern of the MPS in human MN axons derived from induced pluripotent stem cells. We discovered a striking gap-and-patch pattern in the medial axon, where sharply demarcated βII-spectrin gaps alternate with patches containing a well-organized MPS. The pattern is acutely induced by the kinase inhibitor staurosporine and pharmacological inhibition of actin polymerization prevents patch formation, indicating a requirement for actin nucleation in MPS assembly. Our data supports a model in which spectrin incorporation into nascent MPS patches depletes neighboring regions, producing long-range gaps-and-patches patterns.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.108021&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-relate">Relate</span><span class="score">4.75</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42752677/" target="_blank" rel="noopener">A segmentation-guided CNN-Vision transformer feature fusion framework for multi-class breast ultrasound image classification.</a></div>
+  <div class="title-cn">一种分割引导的CNN-视觉Transformer特征融合多分类乳腺超声图像分类框架</div>
+  <div class="one-line">为解决乳腺超声多分类难题，作者用分割引导的CNN与Vision Transformer特征融合框架，基于BUSI 780张图像取得95.11%准确率。</div>
+  
+  <div class="meta">PloS one · 2026-09-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wu M, Wang J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pone.0353628">10.1371/journal.pone.0353628</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42752677/">https://pubmed.ncbi.nlm.nih.gov/42752677/</a></div><div class="d-block keywords">命中关键词：neuron, transformer, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是乳腺超声医学影像分类的深度学习工程研究，不涉及演化、跨物种比较、脑/神经系统或单细胞转录组学核心问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>乳腺超声图像因低对比度、散斑噪声及良恶性肿瘤视觉模式重叠而难以进行多分类。作者提出分割引导的CNN与Vision Transformer特征融合框架：先用融合CNN与Swin Transformer的FET-Unet分割病灶区域，再提取并融合CNN和Vision Transformer特征，最后以四层全连接网络将图像分为良性、恶性和正常三类。在BUSI数据集780张图像上，模型达到95.11%准确率、95.66%敏感性、97.63%特异性，F1值0.944644，优于既有方法。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Breast ultrasound (BU) imaging is widely used for detecting breast abnormalities because it is cost-effective, non-invasive, and suitable for dense breast tissue. However, multi-class classification of BU images is considered a challenging task due to low contrast, speckle noise, and overlapping visual patterns between benign and malignant tumours. To address this issue, we develop a segmentation-guided CNN and Vision Transformer based feature fusion framework for efficient multi-class BU image classification. The framework first applies a lesion segmentation model to identify the region of interest by using Fusion-Enhanced Transformer (FET) Unet model. The FET Unet model uses CNNs and Swin Transformers integrated and constructs a UNet-like architecture. In the second step, CNN-based and Vision Transformer-based features are extracted from the segmented lesion regions. In the third step, the CNN and Vision Transformer features are fused to generate a robust feature representation. A deep neural network classifier comprising four dense layers with 1,024, 512, 256, and 128 neurons, respectively, followed by a softmax output layer, is then developed using the fused features to classify breast ultrasound images into benign, malignant, and normal categories. The proposed framework was evaluated using the publicly available Breast Ultrasound Images (BUSI) dataset, which contains 780 ultrasound images collected from women aged 25-75 years, including 437 benign, 210 malignant, and 133 normal cases. Numerical results show that the proposed framework showed 95.11% of accuracy, 95.66% of sensitivity and 97.63% of specificity and F1 score of 0.944644. Based on the classification accuracy, the effectiveness of the proposed hybrid framework is demonstrated in comparison with previously reported methods for multi-class breast ultrasound image classification.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pone.0353628&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.74</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42504837/" target="_blank" rel="noopener">Sensory adaptation and pupil-linked arousal support flexible evidence accumulation during perceptual decision making.</a></div>
+  <div class="title-cn">感觉适应与瞳孔关联的唤醒支持知觉决策中的灵活证据累积</div>
+  <div class="one-line">为解决动态环境中灵活证据累积的神经实现机制问题，作者结合猕猴MT区单单位电生理记录与瞳孔测量（改进随机点运动方向辨别任务），发现刺激特异性感觉适应塑造证据编码、唤醒调节可能作用于累积过程本身，且两者相互独立。</div>
+  
+  <div class="meta">eLife · 2026-07-27</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>McGaughey KD, Gold JI</div><div class="d-block meta">DOI: <a href="https://doi.org/10.7554/eLife.110685">10.7554/eLife.110685</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42504837/">https://pubmed.ncbi.nlm.nih.gov/42504837/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为猕猴MT区电生理与瞳孔测量的认知神经科学研究，既不涉及演化比较、单细胞转录组或细胞类型同源性，物种与方法学均与研究者画像不匹配。</div><div class="d-block"><span class="lbl">中文全摘要：</span>动态环境中的有效决策需要灵活的证据累积，但其神经实现机制尚不清楚。作者在猕猴中结合中颞区（MT）单单位电生理记录与瞳孔关联唤醒测量，采用改进的随机点运动方向辨别任务，在行为相关测试刺激前施加时间稳定性可变的适应刺激。结果发现，猴子的决策反映了依赖于时间情境稳定性的适应性证据累积，对应于MT区刺激特异性感觉适应和任务诱发瞳孔反应的情境依赖性变化，但适应与瞳孔调节彼此无关。研究表明多种机制共同贡献于灵活的证据累积：感觉适应塑造证据编码，唤醒变化可能塑造累积过程本身。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Effective decision making in dynamic environments requires flexible evidence accumulation. Although models often express this flexibility as a property of the accumulator, its implementation in the brain may involve adaptive mechanisms operating at other stages of the decision process. We examined two such mechanisms: (1) stimulus-specific sensory adaptation at the level of evidence encoding, and (2) arousal-related neuromodulation, which could, in principle, affect both evidence encoding and accumulation. We measured single-unit activity in the middle temporal (MT) area and pupil-linked arousal while monkeys performed a modified random-dot motion direction-discrimination task in which an adapting stimulus with varied temporal stability preceded a behaviorally relevant test stimulus. The monkeys&#x27; decisions reflected adaptive evidence accumulation that depended on temporal-context stability and corresponded to context-dependent changes in both stimulus-specific sensory adaptation in MT and task-evoked pupil responses. However, adaptation and pupil adjustments were not related to each other. Together, these findings suggest that multiple mechanisms contribute to flexible, context-dependent evidence accumulation, including changes in sensory adaptation that shape evidence encoding and changes in arousal that may shape the accumulation process itself.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.7554/eLife.110685&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.79</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.28.762359" target="_blank" rel="noopener">LOTUS: lineage-aware optimal transport reconstructs continuous clonal fate dynamics</a></div>
+  <div class="title-cn">LOTUS：谱系感知的最优传输重建连续克隆命运动态</div>
+  <div class="one-line">为解决单细胞测序中破坏性采样导致祖先-后代关系缺失的问题，作者开发了LOTUS框架，整合时间分辨转录组快照与克隆谱系信息，耦合克隆级最优传输与神经非平衡传输模型，在LARRY造血谱系条形码scRNA-seq中重建了分支轨迹、预测了早期中性粒细胞-单核细胞命运边界，并在CellTagging成纤维细胞重编程及疟疾反应性记忆CD4+ T细胞纵向数据中验证了性能，但研究仅限于造血和T细胞领域，未涉及神经系统或跨物种比较。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lu, J.; Hou, H.; Zhang, Z.; Lin, Y.; Lin, Y.; Zhou, P.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.28.762359">10.64898/2026.10.28.762359</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.28.762359">https://www.biorxiv.org/content/10.64898/2026.10.28.762359</a></div><div class="d-block keywords">命中关键词：neural, scRNA-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为计算生物学方法学创新，聚焦造血、重编程和T细胞克隆动力学，无演化或跨物种比较视角，与研究者的核心研究方向无关。</div><div class="d-block"><span class="lbl">背景：</span>单细胞测序技术虽能解析细胞异质性，但其破坏性采样特性使得无法直接追踪单个细胞的谱系历史。传统最优传输方法在重建细胞命运动态时，常产生与已知谱系约束不一致的结果。尤其在造血、细胞重编程和免疫应答等动态过程中，整合转录组信息与克隆追踪数据成为准确重建连续命运轨迹的关键挑战。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发LOTUS框架，整合时间分辨单细胞转录组数据与克隆谱系信息（来自工程化条形码或内源性T细胞受体克隆型），通过耦合克隆级最优传输与神经非平衡传输算法，在谱系一致性约束下建模细胞状态连续变化、群体增长和克隆传播。</div><div class="d-block"><span class="lbl">研究结果：</span>在分支模拟中，LOTUS相比基准方法显著降低谱系不一致运输，非目标路由比例从4.94-14.84%降至1.10%。在LARRY造血谱系条形码scRNA-seq数据中，重建了分支轨迹，改善了早期中性粒细胞-单核细胞命运边界预测，并推断了多命运祖细胞和命运偏向性元克隆。在CellTagging成纤维细胞重编程和疟疾反应性记忆CD4+ T细胞数据中，成功区分了重编程成功与失败轨迹。</div><div class="d-block"><span class="lbl">研究意义：</span>LOTUS为谱系解析的单细胞数据提供了连续命运动态的重建框架，但其应用目前局限于造血、重编程和T细胞免疫等系统，未涉及神经系统发育或演化研究。对于关注脑演化、神经发育和跨物种细胞类型同源性比较的研究者而言，该工具的方法学思路或有远期借鉴价值，但当前研究内容与核心研究方向距离较远。</div><div class="d-block"><span class="lbl">中文全摘要：</span>破坏性采样掩盖了祖先-后代关系，限制了细胞命运动态的连续重建。作者提出LOTUS框架，整合时间分辨转录组快照与工程化条形码或内源性T细胞受体克隆型信息，耦合克隆级最优传输与神经非平衡传输以建模连续细胞状态变化。在分支模拟中，LOTUS将非目标路由从4.94-14.84%降至1.10%；在LARRY造血数据和CellTagging重编程数据中，重建了分支轨迹并区分了成功与失败轨迹。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Destructive sampling in single-cell sequencing obscures ancestor-descendant relationships, limiting the continuous reconstruction of cell-fate dynamics. Here we present Lineage-aware optimal transport for unbalanced single-cell dynamics (LOTUS), a framework that integrates time-resolved transcriptomic snapshots with clonal lineage information from engineered barcodes or endogenous T cell receptor clonotypes. LOTUS couples clone-level optimal transport with neural unbalanced transport to model continuous cellular state change, population growth and clonal propagation under lineage-consistent constraints. In branching simulations, LOTUS reduced lineage-inconsistent transport relative to benchmark methods, lowering off-target routing from 4.94-14.84% to 1.10%. On LARRY lineage-barcode scRNA-seq of hematopoiesis, LOTUS reconstructed branching trajectories, improved early neutrophil-monocyte fate-boundary prediction, and inferred multi-fate progenitors and fate-biased meta-clones, linking their distinct fate potentials to inferred epigenetic priming. On CellTagging scRNA-seq of fibroblast reprogramming, it distinguished reprogrammed from failed trajectories and prioritized fate-associated perturbation genes. In longitudinal scRNA-seq and TCR-seq of malaria-responsive memory (CD45RA-) CD4+ T cells, it preserved endogenous clonotype structure and reconstructed TR1 dynamics and regulatory networks. LOTUS thus converts lineage-resolved single-cell snapshots into interpretable, continuous models of fate dynamics and their regulatory programs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.28.762359&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.77</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2025.11.30.691081" target="_blank" rel="noopener">ClustSIGNAL identifies cell types and subtypes using an adaptive smoothing approach for scalable spatial omics clustering</a></div>
+  <div class="title-cn">ClustSIGNAL：基于自适应平滑方法的可扩展空间组学聚类鉴定细胞类型及亚型</div>
+  <div class="one-line">为解决空间转录组数据因稀疏性和复杂组织结构导致的无监督聚类难题，作者开发了ClustSIGNAL方法，利用基于邻域复杂度的表达平滑策略，通过熵度量邻域组成并生成细胞特异性权重以控制有效平滑半径，经模拟分析验证其对分割错误和稀疏性的鲁棒性，并在多样本图谱级空间转录组数据集中实现可扩展的多样本聚类，避免过度平滑并识别具有生物学意义的空间信息细胞状态，但该工具尚未应用于任何动物器官演化或神经系统比较研究。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Panwar, P.; Guo, B.; Zhou, H.; Hicks, S. C.; Ghazanfar, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2025.11.30.691081">10.64898/2025.11.30.691081</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2025.11.30.691081">https://www.biorxiv.org/content/10.64898/2025.11.30.691081</a></div><div class="d-block keywords">命中关键词：cell state, spatial omics, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯粹的空间转录组计算方法学工具，无动物系统、无演化比较视角、无神经系统研究，与研究者核心关切完全不符。</div><div class="d-block"><span class="lbl">背景：</span>空间转录组学技术能够在保留空间位置信息的同时测量基因表达，但数据固有的稀疏性和组织结构的复杂性使得细胞类型的无监督聚类面临重大挑战。现有的空间聚类方法常因固定的平滑策略而难以平衡噪声抑制与信号保留之间的矛盾，尤其在处理大规模、多样本的图谱级数据时 scalability 不足。开发能够自适应调整平滑强度、适应不同区域结构复杂性的聚类方法，是当前空间转录组学分析的重要需求。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发ClustSIGNAL方法，核心创新在于基于邻域复杂度的自适应表达平滑策略。该方法利用熵来量化局部邻域的组成复杂度，并据此为每个细胞计算特异性权重，动态控制其有效平滑半径。该方法在多种模拟数据集和真实空间转录组数据集上进行系统基准测试，评估其对分割错误、数据稀疏性的鲁棒性，以及在大规模、多样本图谱数据上的可扩展性。</div><div class="d-block"><span class="lbl">研究结果：</span>模拟分析表明ClustSIGNAL对细胞分割错误和数据稀疏性具有高度鲁棒性。在多种空间转录组数据集的基准比较中，ClustSIGNAL实现了对图谱级数据的可扩展多样本聚类。该方法能够有效区分均质区域和异质区域：在均质区域稳定表达信号，在异质区域保留独特的表达模式，从而避免过度平滑，成功识别出具有生物学意义的空间信息细胞状态。</div><div class="d-block"><span class="lbl">研究意义：</span>ClustSIGNAL为空间转录组学数据分析提供了新的计算工具，其自适应平滑策略解决了固定平滑方法中的固有权衡难题。该方法在大规模图谱数据上的可扩展性使其适用于未来大规模空间组学项目。然而，该研究仅限于方法学验证和工具开发，未涉及任何具体生物系统的应用研究，尤其未触及神经演化、跨物种比较或细胞类型同源推断等该研究者关注的核心科学问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间转录组数据的无监督聚类因数据稀疏性和复杂组织结构而面临挑战。作者提出ClustSIGNAL空间聚类方法，采用基于邻域复杂度的表达平滑策略，利用熵来度量邻域组成并生成细胞特异性权重，从而控制邻域内的有效平滑半径。模拟分析证明该方法对分割错误和稀疏性具有鲁棒性。在多种空间转录组数据集上的基准测试显示，ClustSIGNAL能够对图谱级数据进行可扩展的多样本聚类。该方法通过在均质区域稳定表达、在异质区域保留独特表达来避免过度平滑，并识别具有生物学意义的空间信息细胞状态。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Unsupervised clustering of spatial transcriptomics data is challenging due to sparsity and complex tissue structures. We introduce ClustSIGNAL spatial clustering method that employs neighbourhood complexity-based expression smoothing. ClustSIGNAL uses entropy to measure neighbourhood compositions and generate cell-specific weights that control the effective smoothing radius within neighbourhoods. Simulation analysis demonstrates its robustness to segmentation errors and sparsity. Benchmarking across diverse SRT datasets shows its ability to perform scalable, multi-sample clustering of atlas-level data. By stabilising expression in homogeneous regions and preserving distinct expression in heterogeneous regions, ClustSIGNAL avoids over-smoothing and identifies biologically meaningful spatially-informed cell states. ClustSIGNAL Bioconductor package: bioconductor.org/packages/clustSIGNAL.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.11.30.691081&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">3.86</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.07.720061" target="_blank" rel="noopener">StabCell: Stability selection for clustering and marker detection in single-cell RNA sequencing</a></div>
+  <div class="title-cn">StabCell：单细胞RNA测序中基于稳定性选择的聚类与标志物检测</div>
+  <div class="one-line">为解决传统单细胞分析流程中聚类与差异表达分析使用相同数据导致的选择性推断和过拟合问题，作者开发了StabCell框架，通过稳定性选择在互补随机子样本上重复执行聚类和差异表达分析，评估聚类和标志物稳定性，获得稳定聚类、细胞特异性稳定性评分和稳定标志物基因集；在模拟数据中证明StabCell能有效控制错误发现率并减少假阳性标志物，在iPSC向心肌细胞分化的真实数据集中可减少过聚类并优先识别生物学意义明确的标志物。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-31</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lück, N.; Rossi, A.; Staerk, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.07.720061">10.64898/2026.05.07.720061</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.07.720061">https://www.biorxiv.org/content/10.64898/2026.05.07.720061</a></div><div class="d-block keywords">命中关键词：scRNA-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>StabCell是一种单细胞聚类和标志物检测方法学工具，虽可应用于单细胞转录组数据分析，但论文聚焦于纯技术方法创新，无任何物种比较、演化分析或神经系统研究内容。</div><div class="d-block"><span class="lbl">背景：</span>单细胞RNA测序数据分析中，常规的差异表达分析流程通常先对细胞进行聚类，再对聚类结果进行差异表达检验以识别标志物基因。然而，由于聚类和差异表达分析使用同一套数据，这会导致选择性推断问题，使得对差异的估计过于自信，可能无法反映真实的生物学变异，尤其在低信噪比和低测序深度情况下问题更为严重。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了StabCell稳定性选择框架，该框架通过多次迭代地在互补的随机子样本上同时进行聚类和差异表达分析，系统评估聚类结果的稳定性和标志物基因的稳定性。具体而言，StabCell采用重采样策略生成多对互补子集，在每对子集上独立执行聚类和差异表达检验，然后通过一致性分析筛选稳定的聚类分配和标志物基因。</div><div class="d-block"><span class="lbl">研究结果：</span>StabCell在模拟数据中表现出良好的统计性能，能够有效控制预设的每族错误率阈值，相比传统方法筛选出更少的假阳性标志物基因，这一优势在低信噪比和低测序深度条件下尤为明显。同时，StabCell在标志物检测方面保持了与现有替代方法相当的竞争力。在诱导多能干细胞向心肌细胞分化的真实数据集应用中，StabCell有效减少了过聚类现象，并优先识别出具有生物学意义的标志物基因。</div><div class="d-block"><span class="lbl">研究意义：</span>StabCell为单细胞转录组数据分析提供了更稳健的统计框架，通过整合聚类和标志物检测步骤，有效缓解了选择性推断问题，提高了分析结果的可靠性和可解释性。该工具可应用于各类单细胞数据集，但其价值主要体现在方法学层面，对于以演化和跨物种比较为核心视角的研究者而言，需要额外开发或整合跨物种比较功能才能直接服务于其研究目标。</div><div class="d-block"><span class="lbl">中文全摘要：</span>传统单细胞RNA测序差异表达分析流程先用数据聚类再检验聚类间差异表达基因，但同一数据用于聚类和检验会产生选择性推断问题。StabCell通过稳定性选择框架整合聚类与标志物检测，在互补随机子样本上重复分析以评估稳定性，生成稳定聚类、稳定性评分和稳定标志物。模拟显示StabCell能有效控制PFER并减少假阳性，在低信噪比和低测序深度下优势显著；iPSC-心肌细胞分化数据应用表明其能减少过聚类并优先识别生物学意义标志物。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Conventional pipelines for differential expression analysis in single-cell RNA sequencing (scRNA-seq) data first cluster individual cells and then test for differentially expressed genes between the resulting clusters. Using the same data for clustering and testing, however, poses a selective inference problem and can result in overconfidence in differences that may not reflect true biological variation. We introduce StabCell, a stability selection framework which integrates clustering and detection of differentially expressed marker genes. By repeatedly performing clustering and differential expression analysis on complementary pairs of random subsamples, StabCell assesses clustering and marker stability, yielding a stable clustering, cell-specific stability scores, and sets of stable marker genes. In simulations, we demonstrate that StabCell generally maintains empirical per-family error rate (PFER) below prespecified thresholds, selecting fewer false positive marker genes than the conventional approach, especially in cases with low signal-to-noise ratio and low sequencing depth. Simultaneously, StabCell provides competitive marker detection performance compared to alternative approaches. An application to a cell differentiation dataset from induced pluripotent stem cells (IPSCs) to cardiomyocytes illustrates that StabCell can reduce overclustering and prioritize biologically meaningful marker genes, improving the robustness and interpretability of scRNA-seq analyses.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.07.720061&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.78</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42963948/" target="_blank" rel="noopener">LoGIC: a cross-species local gene-cluster integrative catalog.</a></div>
+  <div class="title-cn">LoGIC：跨物种局部基因簇整合目录。</div>
+  <div class="one-line">为解决同源基因尤其是成簇分布基因的功能解析难题，作者开发了LoGIC数据库，整合30个代表性真核物种的20306个局部基因簇信息，提供序列相似性、功能偏好、跨物种保守性、组织表达谱及Hi-C染色质结构等多维度数据，发现这些基因簇在不同物种中的保守与重塑模式，为串联基因重复、旁系同源基因功能分化及谱系特异性基因家族扩张研究提供了重要资源。</div>
+  
+  <div class="meta">Nucleic acids research · 2026-10-31</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Song L, Liu D, Wang XJ</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/nar/gkag1047">10.1093/nar/gkag1047</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42963948/">https://pubmed.ncbi.nlm.nih.gov/42963948/</a></div><div class="d-block keywords">命中关键词：cross-species</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为基因簇数据库工具，虽涉及跨物种比较，但聚焦基因组层面的基因簇保守性分析，未涉及神经系统、脑演化或单细胞转录组学，与该研究者核心研究方向关联较弱。</div><div class="d-block"><span class="lbl">背景：</span>同源基因特别是形成局部基因簇者，因功能冗余和补偿效应，其精确功能解析长期面临挑战。现有数据库多聚焦于单个基因或基因家族层面，缺乏针对局部基因簇及其多模态信息的系统性整合资源，制约了对基因簇演化规律及其生物学意义的深入理解。</div><div class="d-block"><span class="lbl">研究方法：</span>作者从30个代表性真核物种中鉴定局部基因簇，整合基因组位置、序列相似性、功能注释等多源数据；对人类基因簇进一步纳入组织表达谱和Hi-C染色质相互作用数据，构建可交互查询的LoGIC数据库平台。</div><div class="d-block"><span class="lbl">研究结果：</span>LoGIC共鉴定20306个局部基因簇，支持用户查询基因簇的序列相似性、功能偏好、跨物种保守性等信息；人类基因簇还可关联组织表达谱与Hi-C染色质结构数据，揭示了不同物种间基因簇的保守与重塑模式。</div><div class="d-block"><span class="lbl">研究意义：</span>LoGIC为研究基因重复、旁系同源基因功能分化、谱系特异性基因家族扩张及同源基因簇的跨物种演化提供了综合性数据资源，但其应用范围主要集中于基因组演化领域，对神经系统的细胞类型演化研究直接价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>同源基因尤其是基因组位置邻近形成基因簇者常具补偿功能，给其功能与关系解析带来挑战。本文推出LoGIC数据库，收录30个代表性真核物种的20306个局部基因簇，除基本基因组特征外，还提供簇内基因序列相似性、物种内功能偏好、跨物种保守性等信息，人类基因簇另含组织表达谱与Hi-C染色质结构数据，可助力串联重复、旁系分化、谱系特异性扩张及跨物种基因簇演化研究。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Homologous genes, especially those sharing close genomic locations and forming gene clusters, often have compensatory roles, therefore pose remarkable challenges for deciphering the functions and relationships of these genes. A comprehensive database of local homologous gene clusters with multimodal information would greatly facilitate such research. Here, we present LoGIC (https://omicslab.genetics.ac.cn/LoGIC/), a Local Gene-cluster Integrative Catalog that includes 20 306 local gene clusters identified from 30 representative eukaryotic species. In addition to the basic genomic features of each gene cluster, LoGIC also allows users to examine the sequence similarity of gene members within a cluster, the functional preference of clustered genes within a species, and the cross-species conservation of gene clusters. Information of tissue-wide expression profile and relationship with chromatin Hi-C structure is also available for human gene clusters. Together, LoGIC can facilitate studies of tandem gene duplication, paralog functional divergence, lineage-specific gene-family expansion, and evolutionary conservation or remodelling of homologous gene clusters across-species.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/nar/gkag1047&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献涵盖衰老生物学、发育生物学和空间组学可视化三大领域。其中两项独立工作均基于VR技术构建多尺度单细胞数据探索平台，整合HuBMAP与SenNet大型数据集，实现从全身到亚细胞尺度的沉浸式分析，成为最值得关注的突破性进展；另两项工作分别揭示细胞衰老导致肝脏分区丧失的分子机制，以及光周期调控昆虫变态的神经内分泌通路。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>衰老与细胞功能退化：聚焦细胞衰老对组织功能的影响，代表性工作通过多组学技术揭示肝脏衰老分区丧失伴随WNT信号下降及衰老肝细胞扩增</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>发育与神经内分泌调控：关注环境信号整合调控发育时序的机制，代表性工作阐明蟋蟀中光周期通过Myo-AT-JH级联通路控制变态时间的分子基础</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>空间多组学数据整合与可视化：解决海量异质数据跨尺度整合难题，两项代表性工作均利用VR技术构建多尺度电梯系统，实现人体单细胞空间数据的沉浸式交互探索</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同反映出空间组学与多模态数据整合已成为生命科学研究的主流技术路线。一方面，GeoMx、Visium、CosMx、snRNA-seq等空间组学技术被联合应用以解析复杂生物学问题；另一方面，VR等沉浸式交互技术正被引入以突破传统二维可视化瓶颈，应对从全身器官到亚细胞结构的多尺度数据整合挑战。此外，大型整合性数据库（如HuBMAP、SenNet）的构建为系统级生物学研究提供了重要基础设施。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">这批文献为研究者提供了多重切入点：在衰老研究领域，可跟进肝脏分区丧失的干预策略，探索恢复WNT信号或清除衰老细胞对肝功能的影响；在发育生物学领域，可验证Myo-AT-JH通路在其他昆虫中的保守性，或拓展至其他环境信号整合机制；在方法学层面，VR多尺度可视化框架可迁移至其他器官系统或疾病模型，尤其适用于肿瘤微环境、神经退行性疾病等需要空间定位的研究场景。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
