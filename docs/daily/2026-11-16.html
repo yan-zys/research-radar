@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-16</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-16</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 12 · Relate 3）· 命中关键词 14 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.16</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42665446/" target="_blank" rel="noopener">Robust annotation and discovery of novel cell types in single-cell ATAC-seq data through cross-modal reference alignment.</a></div>
+  <div class="title-cn">通过跨模态参考比对在单细胞ATAC-seq数据中稳健注释并发现新型细胞类型</div>
+  <div class="one-line">为解决scATAC-seq细胞类型注释困难问题，作者开发CARA跨模态贝叶斯框架，将scRNA-seq知识迁移至scATAC-seq，实现批校正、注释及新型细胞类型检测，并在造血分化轨迹中验证。</div>
+  
+  <div class="meta">Genome research · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Cao L, Zhang W, Zhou F, He Y, Long Y, Chen S, Wang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/gr.281981.126">10.1101/gr.281981.126</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42665446/">https://pubmed.ncbi.nlm.nih.gov/42665446/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, ATAC-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦于单细胞ATAC-seq数据的跨模态细胞类型注释方法学（scRNA-seq向scATAC-seq的知识迁移），虽涉及单细胞技术，但完全缺乏演化、跨物种比较、神经发育或脑演化等核心视角，与研究者的演化生物学与比较基因组学方向无直接关联。</div><div class="d-block"><span class="lbl">中文全摘要：</span>scATAC-seq细胞类型注释因数据稀疏性、高维度、参考标注稀缺及批次效应而困难。作者提出CARA跨模态贝叶斯框架，通过scRNA-seq预训练与scATAC-seq半监督学习结合分布对齐、动态类权重及新型细胞检测，实现无需大量scATAC标注的注释。在多样本基准中CARA优于基线方法，保持批次效应稳健性，保留精细谱系结构并重建造血分化轨迹；通过多维不确定性和潜在空间聚类识别参考外新型、稀有或异常群体。CARA还可推广至单细胞DNA甲基化数据的跨模态注释。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate cell-type annotation is essential for revealing the dynamic, cell-type-specific accessibility of regulatory elements from single-cell assay for transposase-accessible chromatin using sequencing (scATAC-seq) data. However, unlike the more mature single-cell RNA-sequencing (scRNA-seq) cell-type annotation workflows, scATAC-seq cell-type annotation remains challenging owing to extreme sparsity, high dimensionality, the scarcity of labeled scATAC references, and pronounced batch effects across data sets. To enable annotation without relying on extensive scATAC labels, we introduce CARA, a cross-modal Bayesian framework that transfers cell-type knowledge from scRNA-seq to scATAC-seq. CARA simultaneously enables cell-type annotation, batch correction, and detection of cell types absent from the reference by combining pretraining on scRNA-seq data and semisupervised learning on target scATAC-seq data, along with distribution alignment, dynamic class weighting, and novel cell-type detection. Across diverse benchmark data sets, CARA consistently outperforms baseline methods, remaining robust to batch effects. CARA&#x27;s cross-modal alignment and robust annotation strategy preserve fine-grained lineage structure, enabling reconstruction of the hematopoietic differentiation trajectory. Through multidimensional uncertainty and latent-space clustering, CARA identifies novel, rare, or aberrant populations outside the reference cell-type space, providing candidates for further biological validation and perturbation. Using an omic-specific generative framework and distribution alignment, CARA delivers accurate knowledge transfer and detects novel cell types in single-cell DNA methylation data, demonstrating generalization capability to gene-centric modalities. Ultimately, CARA offers a powerful and flexible solution for cross-modal cell-type annotation in complex single-cell settings, facilitating the discovery of novel cell types and mechanistic insight into cell-type-specific regulation across diverse analyses.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1101/gr.281981.126&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42606969/" target="_blank" rel="noopener">Optimal Initialization Scale for Neural Networks With Locally Quadratic Loss Landscapes: An SGD Dynamics Perspective.</a></div>
+  <div class="title-cn">局部二次损失景观下神经网络的最优初始化尺度：基于SGD动力学的视角</div>
+  <div class="one-line">为解决神经网络初始化尺度选择问题，作者用局部二次损失景观下的SGD/Fokker-Planck理论推导高斯初始化最优方差条件，并在MNIST与CIFAR-10上验证其可降低损失。</div>
+  
+  <div class="meta">IEEE transactions on neural networks and learning systems · 2026-08-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Horii H, Has S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TNNLS.2026.3721153">10.1109/TNNLS.2026.3721153</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42606969/">https://pubmed.ncbi.nlm.nih.gov/42606969/</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是神经网络优化与初始化理论研究，不涉及演化、跨物种比较、脑/神经系统演化或单细胞转录组学核心问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为解决神经网络权重初始化尺度缺乏严格理论依据的问题，作者在局部二次损失景观和准稳态SGD假设下，将SGD表示为Langevin动力学对应的Fokker-Planck方程，并通过KL散度推导期望损失关于初始化方差的显式上界，进一步得到高斯初始化的最优方差条件。作者在MNIST浅层全连接网络和CIFAR-10两层CNN上验证：满足理论条件时可获得更低训练损失，且He-normal在CNN中因接近最优比例而表现最佳。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Stochastic gradient descent (SGD), one of the most fundamental optimization algorithms in machine learning (ML), can be recast through a continuous-time approximation as a Fokker-Planck equation for Langevin dynamics, a viewpoint that has motivated many theoretical studies. Within this framework, we study the relationship between the quasi-stationary distribution derived from this equation and the initial distribution through the Kullback-Leibler (KL) divergence. As the quasi-steady-state distribution depends on the expected cost function, the KL divergence eventually reveals the connection between the expected cost function and the initialization distribution. Under the assumptions of a locally quadratic neural-network loss landscape and a quasi-stationary SGD regime, we derive an explicit upper bound for the expected loss in terms of the initialization variance. Then, by minimizing this bound, we obtain an optimal condition of the initialization variance in the Gaussian case. This result provides a concrete mathematical criterion, rather than a heuristic approach, to select the scale of weight initialization within the locally quadratic SGD regime. In addition, we experimentally confirm our theoretical results by using classical SGD to train shallow fully connected neural networks on the MNIST dataset and a two-layer CNN model on the CIFAR-10 dataset. The results show that, for the simple network model, if the variance of the initialization distribution satisfies our theoretical optimal condition, then the corresponding network achieves lower final training loss and higher test accuracy than the conventional He-normal initialization. For the two-layer CNN model, He-normal initialization gives the best performance among the tested initializations. This observation is consistent with the proposed optimal condition, since the variance ratio of He-normal initialization remains close to the optimal value not only at the overall level but also approximately at the layer-wise level. This suggests that satisfying the proposed condition at both global and layer-wise scales may be important for achieving lower loss in this architecture. We also discuss the limitation of our optimal condition on complex networks. Our work thus supplies a mathematically grounded indicator for choosing the initialization variance and clarifies its physical meaning in terms of the parameter dynamics in neural network models.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNNLS.2026.3721153&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.12</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42721167/" target="_blank" rel="noopener">EEG-Based Auditory Attention Recognition Using DSCANet: An Innovative Incremental Learning Framework.</a></div>
+  <div class="title-cn">基于EEG的听觉注意识别：一种创新的增量学习框架DSCANet</div>
+  <div class="one-line">为解决EEG听觉注意识别需反复重训且易灾难性遗忘问题，作者用结合DWSOINN与EWC的DSCANet增量学习框架，发现其在KUL和DTU上提升准确率并增强稳定性。</div>
+  
+  <div class="meta">IEEE journal of biomedical and health informatics · 2026-09-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang K, Li J, Li Z, Yan S, Jia D, Chen Y, Liang X, Wang X, Chen F, Siu AK, Pan H, Chen S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/JBHI.2026.3733073">10.1109/JBHI.2026.3733073</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42721167/">https://pubmed.ncbi.nlm.nih.gov/42721167/</a></div><div class="d-block keywords">命中关键词：brain, deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于EEG听觉注意识别与增量学习工程方法研究，既无演化也无跨物种比较视角，对以脑演化和单细胞跨物种同源分析为核心的研究者价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对复杂声学环境下基于EEG的听觉注意识别模型在引入新模式时需整体重训且易发生灾难性遗忘的问题，作者提出DSCANet。该框架结合深度学习特征提取与增量学习机制，利用DWSOINN自动检测新模式并触发更新，结合EWC约束参数变化以保留旧知识。在KUL与DTU数据集上，1秒决策窗、LOSO-CV条件下准确率分别达81.51%和63.03%，较最强基线提升3.41和6.23个百分点，并表现出更强稳定性与抗遗忘能力。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Auditory attention recognition from electroencephalography (EEG) is fundamental for understanding how the brain selectively processes auditory stimuli in complex acoustic environments. Nevertheless, conventional models usually require retraining the entire network whenever new auditory attention patterns need to be incorporated. This retraining strategy is not only inefficient but also prone to catastrophic forgetting, as previously learned patterns may be overwritten when the model adapts to new information. To address the above challenges, a theoretically supported architecture Dynamic Self-Organizing Convolutional Attention Network (DSCANet) is proposed. The model integrates deep learning with incremental learning mechanisms. The deep learning module is responsible for effectively extracting key EEG features, while the incremental learning module combines the Dynamic Wasserstein Self-Organizing Incremental Neural Network (DWSOINN) with Elastic Weight Consolidation (EWC) to enable continuous adaptation to new data without forgetting previously acquired knowledge. Specifically, DWSOINN autonomousl detects novel patterns in the input and triggers incremental updates at the appropriate time, whereas EWC constrains parameter updates to preserve information from earlier learning phases. Experiments on KUL and DTU show that DSCANet improves classification accuracy and incremental learning stability. The main subject-independent evaluation was conducted under leave-one-subject-out cross validation (LOSO-CV), with additional validation strategies used to assess distributional adaptation and rapid personalization. Specifically, under the 1-second decision window in LOSO-CV, DSCANet achieves 81.51% accuracy on the KUL dataset and 63.03% on the DTU dataset, exceeding the strongest baseline by 3.41 and 6.23 percentage points, respectively. Meanwhile, the model shows stronger stability and resistance to forgetting during incremental learning, which supports its adaptability and robustness in dealing with non-stationary EEG patterns.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/JBHI.2026.3733073&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.11</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.1101/2025.10.13.680966" target="_blank" rel="noopener">Seeing in the Dark: Intelligent Fourier Light Field Imaging for Bioluminescence Microscopy</a></div>
+  <div class="title-cn">暗中视物：用于生物发光显微镜的智能傅里叶光场成像</div>
+  <div class="one-line">为解决生物发光显微成像光子预算低、难以快速三维成像的问题，作者用结合深度学习重建的傅里叶光场显微镜，实现在秀丽隐杆线虫和类器官中的亚秒级体积成像。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Morales-Curiel, L.-F.; Kreis, A.; Krieg, M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1101/2025.10.13.680966">10.1101/2025.10.13.680966</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.1101/2025.10.13.680966">https://www.biorxiv.org/content/10.1101/2025.10.13.680966</a></div><div class="d-block keywords">命中关键词：neuron, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>论文核心是生物发光显微成像与深度学习重建的工程方法，不涉及演化、生物体间比较或单细胞细胞类型同源性问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>生物发光显微镜虽具非侵入优势，但受限于荧光素酶亮度低和光子预算不足，通常需长时间曝光，难以真实记录快速三维生理过程。作者开发了结合深度学习重建的傅里叶光场显微镜，在提升空间分辨率的同时实现亚秒级体积生物发光成像，避免传统光场成像中的速度—分辨率权衡及缓慢经典反卷积。该方法用于自由运动秀丽隐杆线虫实时3D钙成像，并量化干细胞来源球状体中的细胞动态及肌肉、神经元钙活动，展示了其在活体动态体积研究中的实用性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Bioluminescence microscopy offers a uniquely non-invasive window into cellular dynamics, yet its use has traditionally been limited by the intrinsically low brightness of luciferases. The poor photon budget forces long exposures, preventing faithful visualization of rapid physiological processes, especially in three dimensions. To overcome this barrier, we developed a Fourier light field microscope coupled with deep learning-based reconstruction that achieves sub-second volumetric bioluminescence imaging with significantly improved spatial resolution. This approach eliminates the speed-resolution trade-off of conventional light field methods and bypasses the need for slow classical deconvolution. We demonstrate its power by performing real-time 3D calcium imaging in freely moving Caenorhabditis elegans, and by quantifying cell dynamics within stem cell- derived spheroids using fluorescently labeled nuclei and calcium dynamics in muscles and neurons. Together, these results establish our framework as a practical tool for dynamic, volumetric studies of living systems.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.1101/2025.10.13.680966&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.06</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.22.740086" target="_blank" rel="noopener">Embodied reinforcement learning in the primate cortico-basal ganglia system</a></div>
+  <div class="title-cn">灵长类皮层-基底神经节系统中的具身强化学习</div>
+  <div class="one-line">为解决强化学习中价值表征是否跨运动系统统一的问题，作者记录猕猴皮层-基底神经节8个节点神经活动并比较群体活动几何，发现扫视与伸手对应的价值编码维度 largely distinct。</div>
+  
+  <div class="meta">bioRxiv · 2026-07-23</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Giarrocco, F.; Averbeck, B. B.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.22.740086">10.64898/2026.07.22.740086</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.22.740086">https://www.biorxiv.org/content/10.64898/2026.07.22.740086</a></div><div class="d-block keywords">命中关键词：neural, artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦猕猴皮层-基底神经节系统中的强化学习神经编码，不涉及演化、跨物种比较或单细胞细胞类型同源问题，对该研究者仅具边缘性神经系统功能背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为检验强化学习中价值是否由独立于运动系统的统一神经信号表征，作者在猕猴学习刺激-奖励关联、并以扫视或伸手作答时，记录皮层-基底神经节系统8个节点的神经活动。群体活动几何分析显示，扫视和伸手对应的价值编码维度大多彼此分离，且这种现象也出现在通常被视为编码运动无关价值的边缘区域。跨运动系统读出时价值信息明显下降，提示价值学习具有具身性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Learning the value of environmental stimuli from reward experience allows animals to make advantageous choices. Existing biological accounts of reinforcement learning (RL) often assume that this value is represented as a single, motor-system-invariant neural signal. Here we recorded neuronal activity across eight nodes of the macaque cortico-basal ganglia system, from limbic to neocortical regions, while monkeys learned stimulus-reward associations using either saccades or reaches as the required motor response. The geometry of population activity revealed largely distinct value-coding dimensions for saccades and reaches, including in limbic regions typically associated with motor-system-invariant value coding. Consequently, value information was substantially reduced when read out across motor systems. These results provide circuit-wide evidence that challenges existing neural implementations of RL. They link biological accounts of value learning to embodied frameworks in cognitive science and artificial intelligence, in which behavior is grounded in an agent&#x27;s physical structure rather than abstracted from it.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.22.740086&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.06.722433" target="_blank" rel="noopener">Learning activator-inhibitor dynamics at the cell cortex with neural likelihood ratio estimation</a></div>
+  <div class="title-cn">用神经似然比估计学习细胞皮层的激活子-抑制子动力学</div>
+  <div class="one-line">为解决细胞尺度Rho活性图样形成机制问题，作者用神经似然比估计结合仿真推断（创新在正则化分类网络近似似然），发现RhoGAP或可通过降低丝状成核率维持蛙卵Rho波。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-03</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Maxian, O.; Munro, E.; Dinner, A.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.06.722433">10.64898/2026.05.06.722433</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.06.722433">https://www.biorxiv.org/content/10.64898/2026.05.06.722433</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦蛙卵细胞皮层Rho GTPase自组织动力学与神经似然比推断，不含演化或跨物种比较视角，对脑与神经系统演化研究仅有有限方法启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为理解细胞尺度组织如何由分子层激活子-抑制子相互作用产生，作者结合已有Rho GTPase、F-actin互作模型与基于神经网络的仿真推断，使用过参数化并正则化的分类网络近似不同参数下的数据似然。结果表明，F-actin装配动力学可由实验数据直接推断，但需降低网络对模型失配的敏感性。用于解释蛙卵中RhoGAP共表达扰动后，作者提出RhoGAP可能通过降低丝状成核率来维持Rho活性波，并给出可实验检验预测。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>A key question in cell biology is how cell-scale organization emerges from a given set of molecular players and rules of interaction. Given its multiscale nature, addressing this question requires a combination of experimental perturbation, mathematical modeling, and parameter inference. We leverage recent advances in each of these fields, focusing in particular on neural-network methods for simulation-based inference, to study how cell-scale patterns of Rho GTPase activity are defined by molecular-scale activator-inhibitor interactions with filamentous actin. Using an existing model of this interaction, we demonstrate that an over-expressive, regularized classification neural network can approximate the likelihood of data arising from a particular parameter set. We show that variations in F-actin assembly dynamics can be inferred directly from experimental data, but only if the network is made less sensitive to model misspecification. We use our approach to interpret perturbation experiments in which increasing RhoGAP coexpression increases the frequency and coherence of Rho activity waves in frog eggs. After showing that the known functions of RhoGAP are insufficient to explain experimentally-observed dynamics, we use neural methods to suggest an alternative pathway by which RhoGAP could decrease filament nucleation rates to sustain waves. Our work yields specific, experimentally-testable predictions and illustrates how a combination of traditional forward models and modern inference tools can aid in unraveling mechanisms of self-organization.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.06.722433&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.03</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.19.745667" target="_blank" rel="noopener">PandaDock: An Open-Source Molecular Docking Platform with Flexible-Ligand Search and Equivariant Neural Scoring</a></div>
+  <div class="title-cn">PandaDock：具有柔性配体搜索与等变神经网络打分的开源分子对接平台</div>
+  <div class="one-line">为解决蛋白-配体对接与亲和力预测问题，作者用含SO(3)解析梯度、亲和力网格缓存和SE(3)-等变GNN打分的开源平台，发现其在814个复合物中rank1成功率33.7%。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Panda, P. K.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.19.745667">10.64898/2026.08.19.745667</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.19.745667">https://www.biorxiv.org/content/10.64898/2026.08.19.745667</a></div><div class="d-block keywords">命中关键词：neural, graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是分子对接与GNN打分的计算化学工具论文，不涉及演化、跨物种比较或单细胞细胞类型同源性研究。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为提升蛋白-配体对接效率与亲和力预测，作者开发开源平台PandaDock，结合柔性配体扭转树、Monte Carlo+L-BFGS优化、SO(3)指数映射解析梯度、可缓存亲和力网格，以及SE(3)-等变GNN打分。其在814个复合物上rank1达到2Å内构象恢复率33.7%，返回构象集为57.0%；GNN在741,706个复合物训练后，于独立测试集相关性最高达r=0.690。平台提供完整CLI与可复现实验框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>We present PandaDock, an open-source molecular docking platform implementing flexible-ligand conformational search with analytic gradients, a precomputed affinity grid engine, specialized modules for induced-fit, metal-coordination and tethered docking, and an SE(3)-equivariant graph neural network scoring function trained at scale. Ligand flexibility is represented as a torsion tree and pose parameters are optimized by Monte Carlo with Metropolis acceptance refined by L-BFGS, with rotational gradients obtained in closed form through the derivative of the SO(3) exponential map rather than by finite differences. Affinity grids are built by a blocked neighbor-selection scheme that is exact and 5.6-9.7x faster than dense evaluation, and may be cached across ligands sharing a receptor and site, reducing a six-ligand series from 29.3 s to 10.4 s. On 814 protein-ligand complexes spanning 14 target families, PandaDock recovers a pose within 2 Angstroms of the crystal geometry in 33.7% of cases at rank 1 and in 57.0% of cases within the returned ensemble. The GNN scoring function is trained on 741,706 co-folded complexes from SAIR under target-disjoint splits, reaching a Pearson r of 0.407 on 90,219 held-out complexes and transferring to 202 independent crystal structures with measured Ki, Kd, IC50 or EC50 at r = 0.467. We report the model against three controls, a target-mean predictor, a ligand-descriptor-only baseline, and within-target correlations, and document both where it performs and where it does not, including its unsuitability for pose rescoring. On an independent 30-compound series against a single GABAA receptor target, PandaDock&#x27;s empirical scoring function ranks 8th of 25 methods evaluated, ahead of every AutoDock Vina and Vinardo configuration tested, while the GNN scores below Vina, consistent with the within-target ceiling identified on SAIR. At full scale on the PDBbind v2020 refined set (n = 4,640, native crystal poses), the fully independent SAIR model reaches r = 0.531, and a dedicated model trained on PDBbind alone under a target-disjoint split reaches r = 0.690 on its own held-out test complexes, the strongest evidence in this work that PandaDock&#x27;s affinity predictions generalize. PandaDock is distributed under an open-source license at https://github.com/pritampanda15/PandaDock with a complete command-line interface and a reproducible benchmarking harness.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.19.745667&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.03</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42365721/" target="_blank" rel="noopener">A novel model (SED-GNDE) integrating graph neural differential equations with selective electrodialysis process for nutrient prediction from synthetic wastewater.</a></div>
+  <div class="title-cn">整合图神经微分方程与选择性电渗析过程的新模型（SED-GNDE）用于合成废水中营养物预测</div>
+  <div class="one-line">为解决选择性电渗析过程中营养离子回收难以预测的问题，作者提出图神经网络耦合神经常微分方程的SED-GNDE模型，实现高精度动态预测。</div>
+  
+  <div class="meta">Water research · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Huang Y, Ye ZL, Pan X, Huang J, Lin L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.watres.2026.126368">10.1016/j.watres.2026.126368</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42365721/">https://pubmed.ncbi.nlm.nih.gov/42365721/</a></div><div class="d-block keywords">命中关键词：neural, machine learning, graph neural network, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为环境工程领域的水处理机器学习模型研究，完全不含演化、神经科学或单细胞组学内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>选择性电渗析（SED）是废水中回收磷酸盐、铵、硫酸盐和钾等营养离子的有效方法，但多参数耦合使过程预测困难。本研究构建SED-GNDE模型，将膜堆结构与图神经网络及神经常微分方程结合以刻画离子传输行为。实验验证表明，该模型泛化性能优于传统机器学习模型；采用主动学习策略数据效率最高。最终模型NRMSE和NMAE分别为0.032和0.014，在变电压及协调电压-流量调控的动态工况下保持鲁棒，可为电渗析营养回收的模型预测控制提供基础模块。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Selective electrodialysis (SED) is a promising method for recovering nutrient ions, such as phosphate, ammonium, sulfate and potassium, from wastewater. However, nutrient recovery by SED is an intricate process governed by multi-dimensional parameters, including wastewater characteristics, membrane properties and operating conditions, making the recovery process complex and challenging to predict. In this study, a novel model, termed SED-GNDE, was developed by integrating the membrane stack structure with graph neural networks and incorporating neural ordinary differential equations to capture ion transport behavior, so as to realize the prediction of nutrient ions in the SED process. Different sets of experiments were designed and carried out to validate and optimize the model. The results showed that SED-GNDE exhibited better generalization performance than traditional machine learning models. Based on a comparison among different data utilization strategies (random partitioning, cross-validation and active learning), the active learning strategy showed higher data efficiency and achieved superior generalization performance. The final iterative model demonstrated strong predictive performance, with NRMSE and NMAE values of 0.032 and 0.014, respectively. Furthermore, several operational modes were conducted to evaluate the disturbance rejection performance of the model, which indicated that SED-GNDE remained robust under dynamic operating modes involving variable voltage and coordinated voltage-flow regulation. These results suggested that SED-GNDE may serve as a useful foundational module within a model predictive control framework for dynamic electrodialysis operation in nutrient recovery.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.watres.2026.126368&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.02</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.08.01.742159" target="_blank" rel="noopener">Physics-Guided Neural Reconstruction of Cellular Membranes for 3D Electron Microscopy</a></div>
+  <div class="title-cn">用于三维电子显微镜的物理引导细胞膜神经重建</div>
+  <div class="one-line">为解决离散膜表示难以可靠计算曲率问题，作者用物理约束的隐式神经表示重建3D膜几何，发现其在噪声下更稳健并可解析内吞小窝颈部各向异性曲率。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Matsuda, A.; Kim, S. M.; Akamatsu, M.; Lee, C. T.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.08.01.742159">10.64898/2026.08.01.742159</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.08.01.742159">https://www.biorxiv.org/content/10.64898/2026.08.01.742159</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦3D电子显微镜下细胞膜几何重建与曲率分析，属于成像/物理建模方法，缺乏演化或跨物种比较视角，对该研究者仅有很弱的方法启发。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对三维电子显微镜中膜超微结构定量分析受限于离散表示难以准确恢复高阶几何特征的问题，作者提出物理引导神经网络框架，以隐式神经表示从体成像数据重建膜几何并达到曲率级精度。合成数据基准表明，训练中加入基于物理的正则化可提高曲率恢复准确性并增强抗噪性。该方法进一步推广到高尔基体、线粒体及细胞内吞小窝三维曲率分析，揭示小窝颈部存在各向异性曲率。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>With advances in three-dimensional electron microscopy modalities, quantitative characterization of membrane ultrastructure has emerged as an approach to interrogate how organization of proteins and other components around the membrane drive structure and function. Hindering these efforts, the confident reconstruction of geometric features such as membrane curvature is challenging since it requires the calculation of higher-order derivatives from discrete membrane representations. Modern advances in using neural networks to learn continuous implicit representations of complex shapes present a promising solution to this problem. This work presents a physics-informed neural network framework for reconstructing membrane geometries to curvature-order accuracy from images using an implicit neural representation. Benchmarking using synthetic data illustrates that physics-based regularization during training improves accuracy of recovered curvatures, improving robustness to image noise. Application to experimental datasets demonstrate that the framework generalizes to complex cellular structure, such as the Golgi apparatus and mitochondria. We further perform three-dimensional curvature analysis of endocytic pits in cells to reveal anisotropic curvatures at the pit neck, previously predicted to be a lower-energy pathway for neck constriction. This work provides a unified framework for reconstructing three-dimensional membrane shape, including curvature, from volumetric imaging data. By capturing membrane geometry more accurately, our approach yields mechanical insights that can be linked to molecular-scale interactions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.08.01.742159&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.0</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.07.13.738185" target="_blank" rel="noopener">Developmental remodeling uncouples neural stem cell function from niche anatomy</a></div>
+  <div class="title-cn">发育性重塑将神经干细胞功能与龛位解剖结构解耦</div>
+  <div class="one-line">为解决神经干细胞能力是否受龛位解剖限制问题，作者用Afadin发育性缺失扰乱皮层组织，发现异位生发区可长期维持自我更新和多谱系分化。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mateos-White, I.; Marin-Garnes, A.; Veintimilla-Escot, L.; Fabra-Beser, J.; Lazaro-Carot, L.; Planells, J.; Mateos-Martinez, C. M.; Martinez-Bisbal, M. C.; Martinez-Martinez, E.; Ferron, S. R.; Gil-Sanz, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.07.13.738185">10.64898/2026.07.13.738185</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.07.13.738185">https://www.biorxiv.org/content/10.64898/2026.07.13.738185</a></div><div class="d-block keywords">命中关键词：neural, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦皮层神经干细胞与龛位解剖的发育重塑机制，缺乏演化或跨物种比较视角，对该研究者仅具一般背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>干细胞通常被认为依赖特化龛位维持长期功能，但其能力是否受解剖结构内在限制尚不清楚。作者通过发育期删除细胞黏附调控因子Afadin，扰乱皮层组织结构，发现神经祖细胞从脑室表面移位并形成持续至成年后期的异位生发区。该区神经干细胞长期保留自我更新和多谱系分化能力；同时V-SVZ发生组织架构、细胞组成、分子状态和干细胞活性的持续重组，提示规范龛位解剖并不决定功能性干细胞能力上限。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Stem cells are generally thought to depend on specialized niches that provide signals for their long-term maintenance. Whether stem-cell competence is intrinsically constrained by anatomical organization remains unclear. Here, we show that neural stem cells can establish and sustain functional persistent stem-cell populations outside their normal anatomical context. Using developmental deletion of the cell-adhesion regulator Afadin as a tool to disrupt cortical tissue organization, we find that neural progenitors are displaced from the ventricular surface and establish an ectopic germinal zone (EGZ) into advanced adulthood. EGZ stem-cell populations retain self-renewal and multilineage differentiation capacity throughout this period. In parallel, the ventricular-subventricular zone (V-SVZ) undergoes persistent reorganization of tissue architecture, cellular composition, molecular state, and stem-cell activity. Together, these findings reveal unexpected plasticity in the relationship between stem cells and their tissue environment, suggesting that canonical niche anatomy may constrain where stem cells normally reside without defining the limits of functional stem-cell competence.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.07.13.738185&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.98</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42530088/" target="_blank" rel="noopener">Role of Neural Crest Cells in Establishing Corneal Transparency During Embryonic Development in Mice.</a></div>
+  <div class="title-cn">神经嵴细胞在小鼠胚胎发育过程中建立角膜透明性中的作用</div>
+  <div class="one-line">为解决小鼠胚胎角膜透明性建立的时空基础不清问题，作者用免疫荧光、组织透明化3D成像、SHG、FFOCM和TEM多模态分析，发现NCC动态、基质细胞形态转变与ECM有序重塑共同驱动角膜成熟。</div>
+  
+  <div class="meta">Journal of cellular physiology · 2026-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Ghoubay D, Vidal C, Rappeneau Q, Emini J, Gitton Y, Fouquet S, Klein MS, Plamann K, Latour G, Borderie V</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/jcp.70215">10.1002/jcp.70215</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42530088/">https://pubmed.ncbi.nlm.nih.gov/42530088/</a></div><div class="d-block keywords">命中关键词：neural, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠角膜神经嵴细胞与基质形态发生，缺乏研究者关注的脑演化、跨物种细胞同源比较与单细胞转录组内容，仅对神经发育与组织演化提供边缘参考。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为厘清角膜透明性在胚胎期如何建立，作者对小鼠E10至P0角膜发育进行多模态时空分析，结合整体与切片免疫荧光、组织透明化3D成像、SHG、FFOCM及TEM。结果显示，早期眼周间充质广泛表达Sox9、HNK1，随后在角膜基质中逐步受限并下调；Sox10阳性细胞主要伴随发育中的神经分布。与此同时，基质细胞由圆形转为扁平伸长，胶原自E12起于上皮下沉积并逐渐致密有序，提示NCC动态、细胞分化与ECM重塑协同塑造透明角膜。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Corneal transparency emerges during embryogenesis through the coordinated organization of neural crest-derived cells (NCCs) and extracellular matrix (ECM), yet the temporal and structural basis of this process remains incompletely defined. Here, we provide a multimodal, spatiotemporal analysis of mouse corneal development from embryonic Day 10 (E10) to birth (P0), combining whole-mount and sectioned immunofluorescence, tissue clearing with three-dimensional (3D) imaging, second harmonic generation (SHG) microscopy, full-field optical coherence microscopy (FFOCM), and transmission electron microscopy (TEM). We show that early periocular mesenchyme is characterized by broad expression of neural crest-associated markers (Sox9, HNK1), followed by progressive spatial restriction and downregulation as cells populate the corneal stroma. Sox10-positive cells remain primarily associated with developing nerves and are largely excluded from the stromal compartment. Concomitantly, stromal cells undergo marked morphological transitions, from rounded to progressively flattened and elongated phenotypes, accompanying stromal expansion. Collagen deposition is first detected in the subepithelial region around E12 and increases thereafter, with SHG and TEM analyses revealing progressive organization and compaction of fibrillar networks. Quantitative ultrastructural analysis indicates dynamic changes in interfibrillar spacing during development, consistent with ongoing ECM remodeling. The emergence of a posterior-to-anterior gradient in cell morphology and matrix organization suggests a spatially coordinated maturation process across the stroma. Together, these findings provide an integrated structural framework linking NCCs dynamics, stromal cell differentiation, and ECM organization during murine corneal development. This work establishes a quantitative and multiscale atlas of corneal morphogenesis that informs how tissue architecture compatible with transparency is progressively established in vivo.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/jcp.70215&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.98</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42566466/" target="_blank" rel="noopener">Experience-dependent modulation of extracellular matrix integrity supports perceptual skill learning and memory.</a></div>
+  <div class="title-cn">经验依赖的细胞外基质完整性调节支持知觉技能学习与记忆</div>
+  <div class="one-line">为解决知觉学习中ECM变化时程与巩固机制不清问题，作者在蒙古沙鼠中追踪并操控听觉皮层ECM完整性，发现ECM在每次训练后24小时内快速降解并恢复，且其破坏会损害学习与记忆稳定性。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-08-11</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Winne J, Schrader R, Anfuson M, Caras ML</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2601801123">10.1073/pnas.2601801123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42566466/">https://pubmed.ncbi.nlm.nih.gov/42566466/</a></div><div class="d-block keywords">命中关键词：neural</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦蒙古沙鼠听觉皮层ECM对知觉学习与记忆的调控，缺乏演化或跨物种比较视角，对该研究者仅具一般神经可塑性背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>知觉学习需要长期训练，其神经机制限制了实际应用，而既有ECM调控学习的时间模型难解释日常训练后的快速巩固。作者在蒙古沙鼠知觉学习过程中追踪并操控听觉皮层细胞外基质完整性，发现ECM在每次训练后迅速降解并于24小时内恢复，且随训练推进该循环逐渐减弱并在表现平台期消失。用软骨素酶ABC消化ECM会损害知觉学习，并在学习后处理时破坏已获得技能记忆，表明ECM是调控知觉学习与稳定记忆的关键因素。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Perceptual learning refines sensory abilities but requires extensive training, limiting its real-world impact. Understanding its neural mechanisms could accelerate skill acquisition. The extracellular matrix (ECM) has been proposed to regulate learning by degrading to enable synaptic plasticity, and reaccumulating over several days to stabilize the changes. However, this time course does not align with the temporal dynamics of many forms of learning, including perceptual learning, which involves daily performance gains that consolidate between training sessions. To resolve this discrepancy, we tracked and manipulated auditory cortical ECM integrity in Mongolian gerbils during perceptual learning. We found that the ECM undergoes rapid training-induced changes, degrading and returning to baseline within 24 h of each session. The magnitude of this cycle diminished with continued training, and the cycle ultimately disappeared as performance plateaued. Enzymatic digestion of the ECM with chondroitinase ABC (chABC) impaired perceptual learning, and postlearning chABC treatment destabilized the acquired skill memory. These findings identify the ECM as a key regulator of perceptual learning and support a framework in which an experience-dependent decrease in ECM degradation constrains further plasticity, preserving learned representations against interference from new input.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2601801123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.28</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.11.07.765081" target="_blank" rel="noopener">Network inference at single-cell resolution reveals morphoregulatory divergence and multilayered buffering in limb evolution</a></div>
+  <div class="title-cn">单细胞分辨率下的网络推断揭示肢体演化中的形态调控分歧与多层缓冲</div>
+  <div class="one-line">为探究保守发育遗传程序如何贡献于形态演化，作者结合单细胞转录组与染色质可及性分析、跨物种标签转移及基因调控网络推断技术，比较小鼠与猪肢体发育，发现HOX、FGF和SHH调控程序存在离散分歧，FGFR抑制可模拟猪GREM1表达远端扩展，并揭示PTCH1调控景观中的SHH响应改变及前后极性变化，证实反刍动物肢体调控模块退化、额外远端增强子保守以及顺式调控输入的广泛冗余，发现Ptch1剂量减少可通过转录补偿实现缓冲，为理解偶蹄目肢体形态演化的机制框架提供了证据。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-09</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Alcaina-Caro, A.; Sospedra-Arrufat, I.; Tissieres, V.; Salvador-Martinez, I.; Almorox, L.; Pawluk, J. J.; Diaz-Rueda, A.; Fernandez-Minan, A.; Hurtado, A.; Martinez Real, F.; Lupianez, D.; Pernaute, B.; Visel, A.; Osterwalder, M.; Heyn, H.; Tena, J. J.; Nusspaumer, G.; Lopez-Rios, J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.11.07.765081">10.64898/2026.11.07.765081</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.11.07.765081">https://www.biorxiv.org/content/10.64898/2026.11.07.765081</a></div><div class="d-block keywords">命中关键词：cross-species</div><div class="d-block"><span class="lbl">推荐理由：</span>该研究聚焦脊椎动物附肢（肢体）发育的形态演化，虽涉及跨物种比较和单细胞组学，但完全未涉及神经系统、脑演化或细胞类型同源性问题，与研究者的核心方向不符。</div><div class="d-block"><span class="lbl">背景：</span>发育遗传程序的保守性及其变化如何转化为形态多样性是演化发育生物学的核心问题。肢体作为研究形态演化的经典系统，其发育受HOX、FGF、SHH等信号通路的精确调控，但这些调控网络在不同物种间的演化变异及其对形态分歧的贡献尚不明确。偶蹄目动物（如猪）的肢体特化（如蹄的形成）为研究这一问题提供了良好模型。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者采用单细胞RNA测序和单细胞ATAC测序技术对小鼠和猪的肢体发育进行多组学分析；运用跨物种标签转移（cross-species label transfer）进行细胞类型对应分析；构建基因调控网络以比较物种间调控程序差异；通过FGFR抑制实验进行功能验证；利用等位基因特异性分析检测转录补偿效应。</div><div class="d-block"><span class="lbl">研究结果：</span>研究发现小鼠与猪肢体发育中细胞组织广泛保守，但HOX、FGF和SHH调控程序存在离散分歧。FGFR抑制可使小鼠肢体芽呈现与猪相似的GREM1表达远端扩展表型。SHH响应改变和前后极性变化汇聚于PTCH1调控景观。功能实验证实偶蹄目中存在肢体调控模块的退化、额外远端增强子的保守性，以及顺式调控输入的广泛冗余。Ptch1单倍剂量不足可通过转录补偿机制实现缓冲。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究揭示了顺式调控和通路水平的鲁棒性如何容纳分布式调控变化同时保留发育功能，为理解偶蹄目肢体形态演化提供了机制框架。研究强调了多层缓冲在维持发育稳定性中的重要作用，对演化发育生物学具有方法论启示，但其研究对象为肢体而非神经系统，对脑演化研究者的直接参考价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>保守发育遗传程序的变化如何促进形态演化仍 poorly understood，尤其在非常规模式物种中。本研究整合单细胞转录组和染色质可及性分析、跨物种标签转移及基因调控网络推断，比较小鼠与猪肢体发育。分析发现细胞组织广泛保守，但HOX、FGF和SHH调控程序存在离散分歧。小鼠肢体芽中FGFR抑制可模拟猪GREM1表达的远端扩展，而SHH响应改变和前后极性汇聚于PTCH1调控景观。功能解析揭示偶蹄目肢体调控模块退化、额外远端增强子保守及顺式调控输入的广泛冗余。等位基因特异性分析显示Ptch1剂量减少可通过转录补偿缓冲。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>How changes in conserved developmental genetic programs contribute to morphological evolution remains poorly understood, particularly in non-conventional model species. Here, we combine single-cell transcriptomic and chromatin-accessibility profiling with cross-species label transfer and gene regulatory network inference to compare mouse and pig limb development. Our analyses identify broadly conserved cellular organization but discrete divergence in HOX-, FGF- and SHH-regulated programs. FGFR inhibition in mouse limb buds phenocopies the distal expansion of pig GREM1 expression, while altered SHH responses and anterior-posterior polarity converge on the PTCH1 regulatory landscape. Its functional dissection reveals degeneration of a limb regulatory module in artiodactyls, conservation of an additional distal enhancer, and extensive redundancy among cis-regulatory inputs. Allele-specific analyses further show that reduced Ptch1 dosage is buffered by transcriptional compensation. Together, these findings reveal how cis-regulatory and pathway-level robustness can accommodate distributed regulatory change while preserving developmental function, providing a mechanistic framework for the evolution of artiodactyl limb morphology.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.07.765081&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-important">Important</span><span class="score">5.11</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.22.752727" target="_blank" rel="noopener">A Thermodynamic Theory of Axon Guidance: Navigation Through High-Entropy Signaling States</a></div>
+  <div class="title-cn">轴突导向的热力学理论：穿越高熵信号状态的导航</div>
+  <div class="one-line">为解释生长锥如何整合多重竞争信号以实现精确神经回路形成，作者提出将轴突导向重构为热力学调控计算的理论框架，利用人工神经网络训练体内遗传数据模拟轴突寻路，发现生长锥沿高熵山脊导航以保持可塑性，转向和分支发生在竞争熵宏观状态边界附近，为理解生物模式形成的鲁棒性提供了新视角。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wadsworth, W. G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.22.752727">10.64898/2026.09.22.752727</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.22.752727">https://www.biorxiv.org/content/10.64898/2026.09.22.752727</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该研究为纯理论计算框架，聚焦于轴突导向的热力学理论，无演化或跨物种比较视角，不涉及单细胞转录组学，与该研究者核心研究方向差距较大。</div><div class="d-block"><span class="lbl">背景：</span>神经回路精确形成依赖于生长锥对多重分子信号的整合与响应，但生长锥如何在复杂信号环境中保持可塑性与持久延伸之间的平衡仍缺乏统一理论框架。传统研究多聚焦于特定导向分子的信号转导机制，而对信号整合的计算原理关注不足。</div><div class="d-block"><span class="lbl">研究方法：</span>作者构建人工神经网络，利用体内遗传数据及其对应的神经突起生长模式进行训练，将局部导向信号网络的微观状态映射至宏观生长行为。随后模拟轴突在细胞外分子梯度中的寻路过程，构建动态熵景观以分析生长锥的导航策略。</div><div class="d-block"><span class="lbl">研究结果：</span>训练模型揭示生长锥优先沿高熵山脊导航，该区域保留信号可塑性以支持持续延伸；转向和分支行为主要发生于竞争熵宏观状态的边界区域，与细胞骨架机械调控的转变一致。该框架表明，当信号网络在竞争行为状态边界附近运行时，微观变异性可涌现出鲁棒的生物模式。</div><div class="d-block"><span class="lbl">研究意义：</span>该理论框架为理解轴突导向的计算原理提供了新范式，将热力学概念引入神经发育研究，可能启发对生物系统鲁棒性与可塑性权衡机制的新认识。然而，该研究未涉及演化比较、跨物种分析或单细胞技术，与演化发育神经生物学的直接关联有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>精确神经回路形成要求生长锥整合多重竞争信号。本研究提出理论框架，将轴突导向重构为热力学调控计算：人工神经网络训练体内遗传数据，将局部导向信号网络微观态映射到宏观生长行为；模拟结果显示生长锥沿高熵山脊导航以保持可塑性，转向和分支发生于竞争熵宏观状态边界，与细胞骨架机械调控转变一致。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Precise neural circuit formation requires growth cones to integrate multiple, sometimes competing, guidance signals into persistent yet adaptable movement. Here, we propose a theoretical framework that recasts axon guidance as a thermodynamically regulated computation. An artificial neural network, trained on in vivo genetic data and associated outgrowth patterns, maps the microstates of a localized guidance signaling network to macroscopic outgrowth behaviors. Using the trained model, we simulated axon pathfinding through extracellular gradients of molecular cues and created dynamic entropic landscapes. These results reveal that growth cones navigate high-entropy ridges that preserve plasticity. Navigation along these ridges supports persistent extension, whereas turning and branching occur near boundaries between competing entropic macrostates, consistent with transitions in the cytoskeletal machinery that controls growth-cone movement. More broadly, the framework proposes that robust biological patterning can emerge from microscopic variability when signaling networks operate near boundaries between competing behavioral states.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.22.752727&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.30.763227" target="_blank" rel="noopener">Pycea: a scverse toolkit for single-cell lineage tracing analysis</a></div>
+  <div class="title-cn">Pycea：用于单细胞谱系追踪分析的scverse工具包</div>
+  <div class="one-line">为解决谱系数据难以整合进单细胞分析流程的问题，作者开发了Pycea工具包及其配套的TreeData数据结构，实现了谱系树与细胞测量数据的兼容存储与联合分析，提供了树可视化、分支识别、距离比较、祖先状态推断等功能，为发育、再生和疾病研究中的谱系分析提供了可扩展的计算框架。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Colgan, W. N.; Weine, E.; Koblan, L. W.; Jones, M. G.; Weissman, J. S.; Yosef, N.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.30.763227">10.64898/2026.10.30.763227</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.30.763227">https://www.biorxiv.org/content/10.64898/2026.10.30.763227</a></div><div class="d-block keywords">命中关键词：ancestral, Scanpy</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为谱系追踪分析工具开发，虽涉及单细胞分析技术，但无演化或跨物种比较视角，与研究者核心关注的脑演化、细胞类型同源性和跨物种比较基因组学方向不符。</div><div class="d-block"><span class="lbl">背景：</span>单细胞谱系追踪技术能够在单细胞分辨率下重建细胞的发育历史，揭示细胞命运决定和组织形成的动态过程。然而，谱系数据通常以树状结构存储，与现有的单细胞分析框架（如基于AnnData的scverse生态）存在格式不兼容的问题。这种数据整合的困难限制了研究者将谱系信息与基因表达、表型等分子特征联合分析的能力。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了TreeData数据结构以扩展AnnData，使其能够存储谱系树并与细胞测量数据兼容；基于该结构构建Pycea工具包，实现与Scanpy等scverse工具的无缝衔接。Pycea集成了多种谱系分析方法，包括树可视化、分支（clade）识别、树间距离比较、祖先状态推断和谱系统计学功能，并通过算法优化保证可扩展性。</div><div class="d-block"><span class="lbl">研究结果：</span>Pycea和TreeData成功实现了谱系树数据与单细胞表达数据的整合存储与联合分析，无需在不同数据格式间转换即可与现有scverse工具链协同工作。工具包提供的分析方法涵盖了从基础可视化到复杂统计推断的多种需求，并通过开源发布促进社区应用。</div><div class="d-block"><span class="lbl">研究意义：</span>该工作为单细胞谱系追踪数据的分析提供了标准化的计算基础设施，降低了谱系数据整合的技术门槛，有助于推动发育生物学、再生医学和肿瘤进化等领域中谱系信息的多维度挖掘。然而，该工具专注于技术方法层面，未涉及具体的生物学发现或演化问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>谱系追踪能够重建发育、再生和疾病中的细胞历史，但将谱系数据整合到单细胞分析流程中仍具挑战。作者介绍Pycea——一个用于谱系分析和可视化的Python工具包，以及TreeData——一种扩展AnnData的数据结构，可在存储谱系树的同时兼容细胞测量数据。TreeData与Scanpy等scverse工具兼容，无需格式转换即可实现整合分析。Pycea提供可扩展的树可视化、分支识别、距离比较、祖先状态推断和谱系统计方法。该软件开源。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Lineage tracing enables reconstruction of cellular histories in development, regeneration, and disease, but integrating lineage data into single-cell analysis workflows remains challenging. We introduce Pycea, a Python toolkit for lineage analysis and visualization, and TreeData, an extension of AnnData that stores lineage trees alongside cellular measurements. TreeData is compatible with Scanpy and other scverse tools, enabling integrated analysis without converting between formats. Pycea provides scalable methods for tree visualization, clade identification, distance comparisons, ancestral state inference, and lineage statistics. This software is open source and available at https://github.com/YosefLab/pycea.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.30.763227&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献聚焦神经科学、单细胞技术与深度学习方法的交叉创新，涵盖轴突导向热力学理论、EEG听觉注意识别、皮层-基底神经节强化学习机制、细胞皮层Rho动力学以及神经干细胞龛位重塑等前沿工作。其中，将轴突导向重构为热力学调控计算的理论框架尤为引人注目，为理解神经回路形成的鲁棒性提供了全新视角。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经发育与轴突导向：从热力学计算理论到干细胞龛位解剖重塑，揭示神经回路形成的物理与发育机制</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>单细胞与谱系分析技术：scATAC-seq跨模态注释、谱系追踪工具Pycea及细胞尺度活性动力学推断，推动多模态整合分析</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>生物医学成像与重建：傅里叶光场生物发光显微成像、物理约束神经膜重建，突破光子预算与噪声限制</div>
+<div class="trend-dir"><span class="trend-dir-no">四是</span>分子对接与过程预测：开源对接平台PandaDock与电渗析图神经微分方程模型，拓展化学信息学与工业应用</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这批论文显著体现了深度学习与传统学科深度融合的方法学走向：一方面，物理约束、几何等变性与热力学原理被系统引入神经网络设计，提升模型的可解释性与泛化能力；另一方面，跨模态迁移、增量学习与隐式神经表示成为处理稀缺生物数据的核心策略。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">研究者或可借鉴三项核心策略：一是将物理定律嵌入深度学习架构以处理高噪声生物数据；二是开发模块化工具链实现多模态数据的兼容存储与联合分析；三是关注发育与再生中的动态过程建模，尤其是干细胞命运决定与组织重塑的时空预测。这些切入点兼具理论创新与应用转化潜力。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
