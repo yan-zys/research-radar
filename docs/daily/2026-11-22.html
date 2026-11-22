@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-22</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-22</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 13 · Relate 2）· 命中关键词 12 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.19</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42716081/" target="_blank" rel="noopener">A statistical mixture-of-experts framework for EMG artifact removal in EEG: empirical insights and a proof-of-concept application.</a></div>
+  <div class="title-cn">一种用于EMG伪影去除的统计混合专家框架：经验性见解与概念验证应用</div>
+  <div class="one-line">为解决高噪声下EEG信号质量差的问题，作者提出基于混合专家框架的单通道滤波算法，利用CNN和RNN专家网络在EEGdenoiseNet数据集上实现竞争性去噪性能。</div>
+  
+  <div class="meta">Journal of neural engineering · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Choi BJ, Milsap G, Scholl CA, Tenore F, Ogg M</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1088/1741-2552/aea4f8">10.1088/1741-2552/aea4f8</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42716081/">https://pubmed.ncbi.nlm.nih.gov/42716081/</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯工程/信号处理研究，聚焦EEG-EMG去噪算法，完全缺乏演化生物学、跨物种比较或神经发育等核心视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经接口的信号质量受限，而现有ML-based EEG去噪方法在高噪声下表现不佳。本研究提出基于混合专家(MoE)框架的单通道信号滤波算法，包含三项统计洞见：EMG伪影可量化分型、局部专家专精于窄信噪比范围、基于相关性的目标函数加速收敛。该算法在67人EEGdenoiseNet数据集上测试，并在SEED语料库验证，显示高噪声下性能优势，为神经接口信号处理提供新思路。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Objective.Effective control of neural interfaces is limited by poor signal quality. While neural network-based electroencephalography (EEG) denoising methods for electromyogenic (EMG) artifacts have gained traction in recent years, existing models perform suboptimally in settings with high noise. Since neural interfaces rely almost universally on some form of signal processing, uncovering effective algorithmic insights into EEG denoising is crucial for future success.Approach.To address the shortcomings of current machine learning (ML)-based denoising algorithms, we present a single-channel signal filtration algorithm driven by a new mixture-of-experts (MoEs) framework. Our algorithm leverages three new statistical insights into the EEG-EMG denoising problem: (1) EMG artifacts can be partitioned into quantifiable types to aid downstream MoE classification, (2) local experts trained on narrower signal-to-noise ratio ranges can achieve performance increases through specialization, and (3) correlation-based objective functions, in conjunction with rescaling algorithms, can enable faster convergence in a neural network-based denoising context.Main results.We empirically demonstrate these three insights into EMG artifact removal and use our findings to create a new downstream MoE denoising algorithm consisting of convolutional and recurrent neural networks. We tested all results on a major benchmark dataset (EEGdenoiseNet) collected from 67 subjects. We found that our MoE denoising model achieved competitive overall performance with contemporary ML denoising algorithms and strong lower bound performance in high noise settings. We further validated the framework on the SEED EEG corpus, observing statistically significant downstream classification gains under high-noise contamination.Significance.These preliminary results highlight the promise of our MoE framework for enabling advances in EMG artifact removal in EEG, especially in high noise settings. Further experimentation will be necessary to assess our MoE framework on a wider range of test cases and explore its downstream potential to unlock more effective neural interfaces.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1088/1741-2552/aea4f8&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.17</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.02.756329" target="_blank" rel="noopener">Desktop iDMS: A stand-alone application of intelligent differential mobility spectrometry (iDMS), a neural net-work that predicts optimal separation and compensa-tion voltages for field asymmetric differential ion mobil-ity spectrometry</a></div>
+  <div class="title-cn">Desktop iDMS：用于场不对称差分离子迁移谱的智能差分离子迁移谱（iDMS）独立应用程序——一种预测最佳分离和补偿电压的神经网络</div>
+  <div class="one-line">为解决糖鞘脂类异构体质谱分离需手动优化参数的问题，作者开发基于深度神经网络的iDMS桌面应用，从12种脂质训练集预测最佳分离电压和补偿电压，实现自动化DMS参数优化。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Nguyen-Tran, T.; Hashimoto-Roth, E.; Shi, X.-X.; Organ, M. G.; Perkins, T. J.; Lavallee-Adam, M.; Bennett, S. A. L.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.02.756329">10.64898/2026.10.02.756329</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.02.756329">https://www.biorxiv.org/content/10.64898/2026.10.02.756329</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文属于质谱仪器分析方法学，与演化生物学、单细胞转录组学及神经发育演化完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>糖鞘脂类异构体结构高度相似，常规MRM-LC-ESI-MS/MS无法区分。作者开发iDMS——一种监督式深度神经网络，基于12种脂质（6对立体异构体）的实测信号强度训练集，预测单糖鞘脂的最佳离子迁移分离电压（SV）和补偿电压（CoV）。该工具以桌面应用程序形式发布，包含数据预处理模块（DMS Data Extraction Toolkit），无需技术环境即可运行，可返回实测/归一化/预测离子流图、各SV/CoV组合的可分离性评估及最优分辨率参数预测，加速MRM-LC-ESI-DMS-MS/MS方法部署。软件基于GNU v3.0许可免费发布。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Summary: Mass spectrometry resolution of glycosphingolipids requires advanced separation methods. The virtual-ly identical structures of glycolipid epimers cannot be discriminated by routine multiple reaction monitoring-high-performance liquid chromatography-electrospray ionization-tandem mass spectrometry (MRM-LC-ESI-MS/MS). Sep-aration can be achieved using field asymmetric (differential) ion mobility mass spectrometry (FAIMS/DMS). A major bottleneck to MRM-LC-ESI-DMS-MS/MS method development lies in manually optimizing the compound-dependent parameters of separation voltage (SV) and compensation voltage (CoV). To address this challenge, we developed intelligent Differential Mobility Spectrometry (iDMS). iDMS is a supervised deep neural network that evaluates and predicts the optimal ion mobility SV and CoV parameters for any user-requested monoglycosphingolipid from a training set of measured signal intensities composed of 12 lipids (6 stereoisomer pairs). We initially introduced iDMS as a series of python scripts. Here, we share desktop applications of both iDMS and its pre-processing input data assembly modules (DMS Data Extraction Toolkit). Both software assemblies enable users to rapidly deploy a validated machine learning alternative to manual DMS optimization. The applications are user-friendly, operate with-out need for any technical operating environment, make training dataset assembly quick and simple, and return measured, normalized, and predicted ionograms at every user-interrogated SV, evaluation of separability at each SV and CoV combination, and prediction of optimal resolution parameters to accelerate users MRM-LC-ESI-DMS-MS/MS deployment. Availability and implementation: Desktop iDMS and DMS Data Extraction Toolkit are native desktop applications for macOS (Apple Silicon), freely available for download at https://www.neurolipidomics.com/platforms.html under the GNU v3.0 license. The source code is available from GitHub and Zenodo at https://github.com/Neurolipidomics/iDMS, https://zenodo.org/records/22214408, https://github.com/Neurolipidomics/DMSDataExtractionToolkit, and https://zenodo.org/records/22777403. Bench-marking metrics are available at https://www.biorxiv.org/content/10.64898/2026.08.26.747394v1.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.02.756329&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.15</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42836370/" target="_blank" rel="noopener">Distinct chromatin landscapes dictate resident cardiac macrophage lifecycles and functions.</a></div>
+  <div class="title-cn">不同的染色质景观决定驻心巨噬细胞的生命周期和功能</div>
+  <div class="one-line">为揭示驻心巨噬细胞异质性的表观遗传调控机制，作者利用小鼠scATAC-seq和RNA-seq整合分析，发现组织驻留特性决定染色质可及性和转录因子结合模式，MAF/IRF8调控巨噬细胞亚群分化及抗原呈递功能。</div>
+  
+  <div class="meta">Cardiovascular research · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wong A, Vohra S, Ellis K, Hamidzada H, Cordeiro B, Vanneste D, Bellworthy R, Arlidge C, Macklin J, Kantores C, Momen A, Dick SA, Clemente-Casares X, Marichal T, Langlais D, Wilson MD, Lupien M, Epelman S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/cvr/cvag215">10.1093/cvr/cvag215</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42836370/">https://pubmed.ncbi.nlm.nih.gov/42836370/</a></div><div class="d-block keywords">命中关键词：cell state, ATAC-seq</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦心脏巨噬细胞的染色质调控机制，不涉及演化、跨物种比较或神经系统，与研究者核心视角完全不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>心脏驻留巨噬细胞存在三种亚群，但其表观遗传调控机制不明。本研究通过小鼠bulk和scATAC-seq整合RNA-seq，鉴定出两种与组织驻留相关的染色质状态：CCR2-状态对应不依赖单核细胞的TLF+和MHC-IIhi亚群，CCR2+状态对应依赖单核输入的巨噬细胞。足迹分析揭示AP-1在CCR2+、MAF家族因子在TLF+巨噬细胞中富集。髓系特异性敲除Mafb/Maf或Irf8分别改变亚群组成或消除CCR2-亚群MHC-II表达，证明组织驻留通过表观遗传结构调控单核依赖性和免疫功能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Three resident macrophage subsets co-exist in the homeostatic heart, exhibiting distinct origins transcriptional identities and functions. However, the underlying epigenetic architecture regulating resident cardiac macrophage subset heterogeneity is not known, which limits mechanistic understanding and therapeutic targeting. We performed bulk and single-cell ATAC-seq to map the chromatin landscape of murine resident macrophage subsets. Integration of ATAC-seq with RNA-seq of each cardiac macrophage subset revealed two primary chromatin accessibility-based cell states that correlated with tissue residency - a CCR2- macrophage chromatin-based cell state that corresponded with resident TLF+ (TIMD4 + LYVE1 + FOLR2+) and CCR2-MHC-IIhi subsets that do not require monocytes for maintenance, and a CCR2+ chromatin-based cell state that corresponded to CCR2 + MHC-IIhi macrophages, which rely on monocyte input. Using footprint analysis, we identified subset-specific differences in transcription factor binding that explained transcriptional differences, including enriched AP-1 binding in CCR2+ macrophages and enriched MAF-family factor binding in TLF+ macrophages. Importantly, we demonstrate myeloid-specific loss of Mafb or Maf skewed macrophage subset composition toward CCR2+ macrophages and increased MHC-II expression in TLF+ macrophages. Furthermore, we identify a link between IRF8 and MHC-II, in which myeloid-specific loss of Irf8 abolished MHC-II expression exclusively in fate-mapped resident CCR2- subsets but not in CCR2+ macrophages, demonstrating a subset-specific dependency of IRF8 in modulating antigen-presentation. Together, these data suggest tissue residency dictates chromatin accessibility and transcription factor binding in cardiac macrophages, linking epigenetic structure to monocyte-dependency, distinct gene expression patterns and critical functions such as antigen presentation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/cvr/cvag215&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.13</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/41622454/" target="_blank" rel="noopener">Multi-omics prediction of key proteases regulating scar formation and neural repair after spinal cord injury.</a></div>
+  <div class="title-cn">多组学预测调控脊髓损伤后瘢痕形成与神经修复的关键蛋白酶</div>
+  <div class="one-line">为解决脊髓损伤后瘢痕形成机制不清问题，作者利用单细胞测序结合机器学习方法，鉴定Mmp12和Adam17为关键效应蛋白酶，发现marimastat抑制可促进神经功能恢复。</div>
+  
+  <div class="meta">Neural regeneration research · 2026-10-01</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Jian H, Ren J, Du J, Wu K, Liu S, Zhao Y, Zhou H, Feng S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.4103/NRR.NRR-D-25-01391">10.4103/NRR.NRR-D-25-01391</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/41622454/">https://pubmed.ncbi.nlm.nih.gov/41622454/</a></div><div class="d-block keywords">命中关键词：neural, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯临床疾病机制研究，聚焦小鼠脊髓损伤后的蛋白酶调控及药物干预，无任何演化、跨物种比较或细胞类型同源性分析视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经系统损伤伴随巨噬细胞浸润及成纤维细胞、内皮细胞激活。本研究整合单细胞与bulk RNA测序数据，鉴定脊髓损伤后上调的蛋白酶相关差异表达基因，通过基因集变异分析、LASSO回归及随机森林方法确定adamalysins、丝氨酸蛋白酶和基质金属蛋白酶为关键类型。WGCNA结合机器学习预测关键蛋白酶基因，免疫浸润与单细胞分析定位其富集细胞类型。分子对接及体内外实验验证Mmp12和Adam17为调控损伤进展的核心效应分子，marimastat选择性抑制可减少轴突脱髓鞘和纤维瘢痕形成，促进神经功能恢复。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neurological injury is often accompanied by extensive infiltration of macrophages along with activation of fibroblasts and endothelial cells. The activity of these cells is associated with elevated levels of various proteases, which contribute to the hydrolysis of multiple proteins, disrupt the extracellular matrix, and further promote the migration of immune cells into uninjured neural tissue. In this study, we combined single-cell sequencing with bulk RNA sequencing data from spinal cord injury to identify up-regulated protease-related differentially expressed genes post-injury. Using gene set variation analysis, least absolute shrinkage and selection operator regression, and random forest methods, we identified adamalysins, serine proteases, and matrix metalloproteinases as key protease types. Weighted gene co-expression network analysis combined with machine learning algorithms helped predict critical protease genes involved in spinal cord injury. Immune infiltration and single-cell analyses were applied to identify cell types enriched in proteases and their spatial localization. Molecular docking and in vivo and in vitro assays using a mouse model of spinal cord injury were used to validate potential drug interactions. We identified Mmp12 and Adam17 as key effectors regulating injury progression, and determined that macrophages, fibroblasts, and monocytes are the primary cells mediating the functions of core proteinases after injury. Subsequent in vivo and in vitro experiments demonstrated that selective inhibition of key protease activity with marimastat reduced axonal demyelination and fibrous scar formation after spinal cord injury, thereby promoting the recovery of neurological function. Our study identified the key proteases that regulate spinal cord injury repair along with their mechanisms of action, and verified that inhibiting these proteases effectively alleviates scar formation and inflammatory cell infiltration, providing novel therapeutic targets for the treatment of spinal cord injury.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.4103/NRR.NRR-D-25-01391&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42709663/" target="_blank" rel="noopener">Low birth weight is associated with accelerated brain aging in mid- and old-age: A large population-based cohort study in the UK Biobank.</a></div>
+  <div class="title-cn">低出生体重与中老年期脑加速衰老相关：一项基于英国生物样本库的大规模人群队列研究</div>
+  <div class="one-line">为解决低出生体重是否影响成年后脑衰老问题，作者用UK Biobank 20,920人MRI表型机器学习脑龄模型和结构方程模型，发现低出生体重与更大脑龄差相关且低度炎症部分介导该关联。</div>
+  
+  <div class="meta">Neuroepidemiology · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lv H, Cai Y, Mo D, Gao X, Wu W, Xu J, Jing F, Zhang Y, Wei M, Fang X, Xiang Y, Ma X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1159/ned/adwag031">10.1159/ned/adwag031</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42709663/">https://pubmed.ncbi.nlm.nih.gov/42709663/</a></div><div class="d-block keywords">命中关键词：brain, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该研究是UK Biobank人群脑衰老流行病学分析，既无演化或跨物种比较视角，也不涉及单细胞、细胞类型同源或神经系统演化问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估低出生体重与成年后脑衰老的关系及低度炎症的介导作用，作者在UK Biobank纳入20,920名无慢性神经疾病成人，基于1,079项MRI表型用机器学习估算脑龄，并计算脑龄差（BAG）。结果显示，低出生体重者较正常出生体重者BAG更大，这一关联在中年与老年人群中均存在；低度炎症可部分介导该关联，占总效应5.54%。研究提示低出生体重与脑加速衰老相关。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Low birth weight has been linked to cognitive decline and neurological disorders in adults. We aimed to investigate the association between low birth weight and brain aging and explore whether low-grade inflammation plays a mediating role in this association. Within the UK Biobank cohort, 20,920 adults free of chronic neurological disorders who underwent brain magnetic resonance imaging scans an average of nine years after baseline were included. Self-reported birth weight was classified as low (&lt;2500g), normal (2500-4000g), or high (≥4000g). Brain age was estimated using machine learning algorithms based on 1,079 magnetic resonance imaging phenotypes. Brain age gap (BAG) was calculated as the difference between brain age and chronological age. Low-grade inflammation was calculated using the inflammation score (white blood cell count, platelet count, neutrophil granulocyte-to-lymphocyte ratio, C-creative protein). Data were analyzed using linear regression and structural equation models. The association between birth weight and BAG was significantly nonlinear (Pnon-linear&lt;0.001). Compared to participants with normal birth weight, those with low birth weight had significantly larger BAG (β=0.38, 95%CI=0.14, 0.63), across middle-aged (&lt;60years; β=0.47, 95%CI=0.04, 0.89) and older adults (60+years; β=0.35, 95%CI=0.05, 0.66). Low-grade inflammation partially mediated the association between low birth weight and larger BAG, accounting for 5.54% of the total association (P&lt;0.001). Low birth weight is associated with accelerated brain aging. Low-grade inflammation may partially mediate this association.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1159/ned/adwag031&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.1</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42133525/" target="_blank" rel="noopener">Physics-Informed Neural Operators for Signal Modeling in Particle-Based Communications.</a></div>
+  <div class="title-cn">基于物理信息神经算子的粒子通信信号建模</div>
+  <div class="one-line">为解决扩散驱动粒子信道中数据驱动模型依赖大量模拟数据且仅能捕获有限统计特性的问题，作者提出物理信息神经算子（PINO），融合稀疏信道测量与扩散-反应控制方程，在纳米机器信道中将相对L2误差从99.3%降至9.2%，并实现群体感应建模中R2达0.999及粗网格上4-5倍加速。</div>
+  
+  <div class="meta">IEEE transactions on nanobioscience · 2026-10</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Baydas OT, Akan OB</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TNB.2026.3693618">10.1109/TNB.2026.3693618</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42133525/">https://pubmed.ncbi.nlm.nih.gov/42133525/</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯工程/物理学方法论文，研究粒子通信信道建模与神经算子学习，无任何演化、跨物种比较、神经发育或细胞类型相关研究内容。</div><div class="d-block"><span class="lbl">中文全摘要：</span>数据驱动信道模型常需大量模拟数据且仅能捕获底层物理过程的有限统计特性。针对扩散驱动粒子信令的局限，本研究基于物理信息机器学习，融合稀疏信道测量与扩散-反应控制定律，探索物理信息算子学习以桥连该领域的机理偏微分方程建模与数据驱动代理模型。方法采用PINO预测时空粒子浓度场，并推广至不同信道配置，减少对显式几何参数化的依赖；进一步扩展至细菌菌落间群体感应建模，捕获自诱导因子动力学。与PINNs及DeepONets相比，PINO在纳米机器信道将相对L2误差从99.3%降至9.2%，在群体感应模型中将R2从0.808提升至0.999，且多分辨率推理在粗网格上实现4-5倍加速。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Data-driven channel models often require extensive simulation data and capture only limited statistics of the underlying physical process. To address these limitations in diffusion-based particle signaling, we build upon physics-informed machine learning to develop a framework that fuses sparse channel measurements with governing diffusion-reaction laws. This work explores physics-informed operator learning for particle-based communication channels, aiming to bridge mechanistic PDE modeling and data-driven surrogates in this domain. Our method employs a Physics-Informed Neural Operator (PINO) to predict the spatiotemporal particle concentration field and generalizes across channel configurations with reduced dependence on explicit geometric parameterization. We further extend the framework to model quorum sensing between bacterial colonies, capturing autoinducer dynamics. Compared with Physics-Informed Neural Networks (PINNs) and Deep Operator Networks (DeepONets), PINO achieves high accuracy and significant computational efficiency: on the nanomachine channel, PINO reduces the relative $\bf{ {\ell}_{2}}$ error from 99.3% to 9.2%; on the quorum sensing model, PINO improves $\bf {R}^{{2}}$ from 0.808 (DeepONet) to 0.999, while multi-resolution inference yields 4-5 $\times $ speed-ups on coarse grids. These results highlight physics-informed operator learning as a promising method for particle-based communication networks.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TNB.2026.3693618&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42601047/" target="_blank" rel="noopener">Extending a Formal Model of Predictive Coding to Human Spoken Word Recognition.</a></div>
+  <div class="title-cn">将预测编码的形式模型扩展到人类口语词识别</div>
+  <div class="one-line">为解决人类口语词识别中预测编码模型解释力不足问题，作者构建神经与行为上更充分的时间依赖PC神经网络模型，发现部分被视为PC标志的神经活动模式并不明显出现。</div>
+  
+  <div class="meta">Neural computation · 2026-08-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rogers B, Li MY, Hannagan T, Magnuson JS, Brown KS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1162/NECO.a.1570">10.1162/NECO.a.1570</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42601047/">https://pubmed.ncbi.nlm.nih.gov/42601047/</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人类口语词识别中的预测编码计算模型，不含演化或跨物种比较视角，对该研究者核心问题帮助很有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对人类口语词识别领域中，既有预测编码模型范围狭窄且难以充分解释行为现象的问题，作者提出一个在数学上形式化、兼具神经与行为合理性的时间依赖神经网络预测编码模型。结果显示，该模型可再现实证中的词汇激活与竞争时间过程，并表现出预测性加工及输入符合预期时神经活动降低；但在启动和噪声条件下，一些先前被认为是预测编码诊断标志的神经模式并未明显出现，提示相关证据需重新审视。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>There is a general consensus in theories of human speech recognition that humans engage in predictive processing during online speech processing. There are also claims that predictive processing is indicative of the operation of a predictive coding (PC) mechanism. PC is a generative, hierarchical feedback framework where feedback signals consist of input predictions, while feedforward signals consist primarily of prediction errors (PE). Some researchers have taken decreased neural signals when inputs conform to expectations as evidence for PC and claim that other possible explanatory frameworks (e.g., interactive activation) are incompatible with reported reductions in PE. However, these claims have been advanced using narrow-scope computational implementations of PC without known abilities to adequately (i.e., plausibly; simulate broader human spoken word recognition (SWR) behavioral phenomena. Here, we present the first known neurally and behaviorally adequate, mathematically formal neural network PC model of time-dependent human SWR. After demonstrating that the new model is able to emulate a fundamental, empirical signature of human SWR behavior (time course of lexical activation and competition, we compare model dynamics to neural performance targets that have been touted as hallmarks of PC in SWR. While the new model readily exhibits predictive processing (anticipatory activation of phonemes consistent with lexical knowledge) and reduced neural activity when inputs match expectations (a necessary component of PC more subtle patterns of neural activity under priming and noise conditions, previously proposed as diagnostic of PC do not emerge appreciably. This suggests that such patterns may not be hallmarks of PC. We discuss implications for PC-based theories of SWR.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1570&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734502/" target="_blank" rel="noopener">Targeting BCL-2 through Deep Learning-Based Drug Repurposing: A Multimodal Approach Combining Diffusion-Based Generative Modeling, Neural Relational Inference, and In Vitro Validation.</a></div>
+  <div class="title-cn">通过基于深度学习的药物重定位靶向BCL-2：结合扩散式生成建模、神经关系推断与体外验证的多模态方法</div>
+  <div class="one-line">为解决BCL-2可重定位配体筛选问题，作者用扩散生成建模结合扩展NRI动态分析与体外验证，发现Relugolix具有接近Venetoclax的作用特征。</div>
+  
+  <div class="meta">Journal of chemical information and modeling · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sayyah E, Tunç H, Çelebi A, Avşar T, Durdağı S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1021/acs.jcim.6c01299">10.1021/acs.jcim.6c01299</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734502/">https://pubmed.ncbi.nlm.nih.gov/42734502/</a></div><div class="d-block keywords">命中关键词：neural, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦BCL-2药物重定位与深度学习分子设计，不涉及演化、跨物种比较或单细胞细胞类型同源性研究，对该研究者价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为提高BCL-2药物重定位的准确性，作者构建多模态流程，结合NeuralPlexer扩散式复合物生成、分子对接、抗癌QSAR、全原子MD、MM/GBSA及扩展NRI轨迹分析。对3094种FDA批准药物筛选后，获得1294个结构可接受复合物。结果显示Relugolix兼具较优结合能与类似Venetoclax的动态相互作用模式，并在TR-FRET实验和LN-18胶质瘤细胞中表现出BCL-2抑制活性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Accurate identification of repurposable BCL-2 ligands requires not only plausible bound complex structures but also a dynamic description of how ligand binding reshapes residue-level communication. Here, we present a multimodal BCL-2 repurposing workflow built with diffusion-based generative modeling for ligand-specific complex generation and an extended neural relational inference (NRI) framework for trajectory-level interaction analysis. NeuralPlexer was applied to a library of 3094 FDA-approved drugs to generate BCL-2-ligand complex conformations at scale, yielding 1294 structurally acceptable complexes for downstream prioritization. To complement static scoring, filtered candidates were evaluated by molecular docking, anticancer QSAR classification, all-atom molecular dynamics (MD) simulations, and MM/GBSA binding free-energy calculations. We then extended NRI to protein-ligand trajectories to quantify residue-ligand and residue-residue dynamic couplings, enabling comparison of candidate-specific interaction signatures against the reference BCL-2 inhibitor Venetoclax. Among the prioritized compounds, Relugolix emerged as one of the most compelling hits, combining favorable binding energetics with an NRI-derived interaction pattern closely resembling that of Venetoclax. In vitro experiments supported BCL-2 inhibition by Relugolix in a TR-FRET assay and reduced viability of LN-18 glioma cells (IC50 = 23.55 μM). Together, these results establish a strategy that couples generative complex prediction with graph-based dynamic inference for structure-guided drug repurposing and identify Relugolix as a tractable scaffold for future BCL-2 inhibitor design.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1021/acs.jcim.6c01299&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.08</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42842297/" target="_blank" rel="noopener">A Bayesian deep learning framework for brain dynamic functional connectivity linked with cognition.</a></div>
+  <div class="title-cn">与认知关联的脑动态功能连接性的贝叶斯深度学习框架</div>
+  <div class="one-line">为解决动态功能连接难以刻画脑-认知关系的问题，作者用贝叶斯深度核学习框架分解动态与静态功能连接成分，发现其能预测青少年认知表现。</div>
+  
+  <div class="meta">Biometrics · 2026-10-07</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tian X, Guo Y, Ding S, Zhang Y, Esserman D, Zhao Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/biomtc/ujag174">10.1093/biomtc/ujag174</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42842297/">https://pubmed.ncbi.nlm.nih.gov/42842297/</a></div><div class="d-block keywords">命中关键词：brain, deep learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯神经影像学/机器学习研究，无演化、跨物种比较或单细胞组学视角，完全不符合研究者核心方向。</div><div class="d-block"><span class="lbl">中文全摘要：</span>现有方法难以有效整合时间动态来研究脑连接与认知的关系。本研究提出贝叶斯深度学习框架，将功能连接分解为动态和静态成分：动态成分通过阈值高斯过程建模平滑时变特征，静态成分利用含阈值层的深度神经网络学习非线性关系。该方法在青少年脑认知发展研究数据中表现优于现有方法，揭示了认知任务中的动态脑信号。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recent neuroimaging studies have revealed that brain functional networks exhibit temporal fluctuations during cognitive tasks, sparking growing interest in dynamic functional connectivity (FC). However, few existing methods effectively incorporate temporal dynamics when examining the relationship between brain connectivity and cognition. In this work, we propose a Bayesian deep learning framework that decomposes FC into dynamic and stationary components, thereby disentangling transient fluctuations from stable network structures. By leveraging deep kernel learning, the model flexibly represents transient functions as continuous processes, allowing the data to guide the discovery of meaningful temporal patterns beyond conventional assumptions. Building on this representation, the dynamic component is modeled via a thresholded Gaussian process, which captures smooth temporal variations while inducing sparsity to highlight significant temporal signals. Simultaneously, the stationary component is modeled using a deep neural network with an integrated thresholding layer, enabling the learning of complex nonlinear relationships and enhancing interpretability by emphasizing key connections. This integrative approach balances model flexibility, temporal resolution, and interpretability, providing a powerful tool for predicting cognitive outcomes from functional neuroimaging data. We demonstrate that our method outperforms existing approaches in both prediction accuracy and feature selection through extensive simulations. Applied to data from the Adolescent Brain Cognitive Development study, our framework uncovers dynamic brain signals during cognitive tasks that significantly contribute to variations in cognitive performance.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/biomtc/ujag174&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42560901/" target="_blank" rel="noopener">PERCEIV: A Multimodal Physiological Dataset of Visual Encodings for Adaptive InfoVis Interfaces.</a></div>
+  <div class="title-cn">PERCEIV：用于自适应信息可视化界面的视觉编码多模态生理数据集</div>
+  <div class="one-line">为解决自适应信息可视化中的用户状态建模问题，作者构建含120名参与者的脑-眼动-皮电同步多模态数据集，并提供基线分析、特征提取与分类评测流程。</div>
+  
+  <div class="meta">IEEE transactions on visualization and computer graphics · 2026-08-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Idesis S, Bruns MM, Cardona AL, Emami P, Duraisamy S, Leiva LA, Arapakis I</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TVCG.2026.3721212">10.1109/TVCG.2026.3721212</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42560901/">https://pubmed.ncbi.nlm.nih.gov/42560901/</a></div><div class="d-block keywords">命中关键词：brain, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是面向自适应信息可视化的人类多模态生理数据集与机器学习基线研究，不涉及演化、跨物种比较或单细胞细胞类型同源性问题。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为支持自适应信息可视化界面研究，作者发布PERCEIV大规模数据集，记录120名参与者在不同难度任务中的多模态生理响应，包括脑信号、眼动和皮电活动。数据实现时间同步，附带事件对齐衍生数据、试次级注释和参与者元数据，并提供认知负荷特征提取、质量控制、预处理及基线机器学习分类脚本，以及标准化数据划分与完整文档，便于复现与基准评测。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>We contribute PERCEIV (PERCeption of visual Encodings in InfoVis), a large-scale dataset to support studies of user responses to visual encoding variants as a foundation for adaptive information visualization interfaces. The dataset includes recordings from 120 participants who completed tasks of varying difficulty, while simultaneous multimodal data were collected from brain, eye, and electrodermal activity. All data are time-synchronized and accompanied by relevant annotations and participant metadata. We release raw sensor streams together with fully processed event-aligned derivatives and rich trial-level annotations. We also provide baseline analyses and scripts for ex tracting cognitive load features across modalities. In addition, we make the code for data pre-processing, feature extraction, qual ity control, and training/evaluating baseline Machine Learning classifiers available. Standardized data splits and comprehensive documentation further enable reproducible benchmarking and rapid reuse. We hope our dataset will facilitate novel studies of sensor modalities, development of computational models, and deeper understanding of cognitive state dynamics in controlled information-processing contexts.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3721212&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.06</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.17.752474" target="_blank" rel="noopener">An open field phenomics resource for multimodal maize yield prediction across divergent environments</a></div>
+  <div class="title-cn">一个用于跨差异环境多模态玉米产量预测的开放田间表型组资源</div>
+  <div class="one-line">为解决不同环境下无人机时序表型难比较与玉米产量预测问题，作者整合356次飞行影像、天气轨迹与基因组核并引入transformer neural process，发现联合核预测产量相关性最高达0.501并定位到3号和7号染色体重复QTL。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>DeSalvio, A. J.; Mohseni, P.; Adak, A.; Murray, S. C.; Arik, M. A.; Wong, R. K. W.; Jung, J.; Lima, D. C.; Aviles, A. C.; Buckler, E. S.; Duffield, N.; Edwards, J.; Ertl, D.; Flint-Garcia, S.; Gore, M. A.; Hirsch, C. N.; Holland, J. B.; Kaeppler, S. M.; Miller, J.; Romay, C.; Schnable, J. C.; Singh, M. P.; Sparks, E. E.; Thompson, A.; Washburn, J. D.; Weldekidan, T.; Winans, N. D.; de Leon, N.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.17.752474">10.64898/2026.09.17.752474</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.17.752474">https://www.biorxiv.org/content/10.64898/2026.09.17.752474</a></div><div class="d-block keywords">命中关键词：neural, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦玉米农学表型组与产量预测，不涉及演化、跨物种比较或神经系统/单细胞问题，对该研究者仅有极弱的方法学参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为应对无人机时序表型因飞行时间不规则而难以跨环境比较的问题，作者发布覆盖19个Genomes to Fields环境、356次飞行和1,180个玉米杂交种的整理影像资源，并整合植被指数与天气轨迹的功能主成分及基因组信息进行产量预测。联合基因组和表型组核可将留出杂交种预测相关性提升至r=0.501，在同时留出环境时达0.408；天气增益有限，积温并不稳定优于播后天数。研究还用transformer neural process直接学习不规则观测，并将植被指数主成分定位到3号和7号染色体重复QTL。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Temporal drone phenotyping captures crop development, but irregular flight schedules complicate comparisons across environments. We release curated imagery from 356 flights across 19 Genomes to Fields environments containing 1,180 maize (Zea mays L.) hybrids. To evaluate its utility, we integrated functional principal components of vegetation index and weather trajectories with genomic information. Combinined genomic and phenomic kernels improved yield prediction, reaching correlations up to r = 0.501 for held-out hybrids in environments represented in training and 0.408 when environments were also withheld. Accumulated growing degree days offered no consistent predictive advantage over days after planting, and weather contributed modest, task-dependent gains. A transformer neural process learned directly from irregular observations, serving as a novel application of neural process models in agriculture. Mapping vegetation index functional principal components identified recurrent quantitative trait loci on chromosomes 3 and 7. This resource and its reproducible analyses guide the use of temporal spectral data for crop prediction and genetic discovery.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.17.752474&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42601033/" target="_blank" rel="noopener">Twin Network Augmentation: A Novel Training Strategy for Improved Spiking Neural Networks and Weight Quantization.</a></div>
+  <div class="title-cn">双网络增强：一种改进脉冲神经网络与权重量化的新型训练策略</div>
+  <div class="one-line">为解决SNN性能与压缩效率不足问题，作者用双网络增强TNA协同训练同构双SNN，发现其在CIFAR-10/100和CIFAR-10-DVS上提升分类性能并支持三值权重量化。</div>
+  
+  <div class="meta">Neural computation · 2026-08-17</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Deckers L, Vandersmissen B, Tsang IJ, Van Leekwijck W, Latré S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1162/NECO.a.1568">10.1162/NECO.a.1568</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42601033/">https://pubmed.ncbi.nlm.nih.gov/42601033/</a></div><div class="d-block keywords">命中关键词：neuron, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于脉冲神经网络训练与权重量化的工程方法研究，不涉及演化、生物学脑起源或跨物种比较视角，对该研究者价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对人工神经网络能耗较高、脉冲神经网络性能仍有差距的问题，作者提出双网络增强（TNA）训练策略：将两个结构相同的SNN联合训练，同时优化各自交叉熵损失和输出logits间的均方误差。结果显示，TNA在CIFAR-10、CIFAR-100和CIFAR-10-DVS等基准数据集上显著提升分类表现，并可用于将网络压缩至三值权重精度进行推理，效果优于传统知识蒸馏方法。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The proliferation of artificial neural networks (ANNs) has led to increased energy consumption, raising concerns about their sustainability. Spiking neural networks (SNNs) operate using sparse, binary spikes to communicate information between neurons and offer a potential solution due to their limited energy requirements. Another technique for reducing a neural network&#x27;s footprint is quantization, which compresses weight representations to decrease memory usage and energy consumption. In this study, we present twin network augmentation (TNA), a novel training method aimed at improving the performance of SNNs on a range of benchmark data sets while also facilitating enhanced network compression through quantization of weights. TNA involves cotraining an SNN with a twin SNN with identical network architecture, optimizing both networks to minimize their cross-entropy losses and the mean squared error between their output logits. We demonstrate that TNA significantly enhances classification performance across various data sets and can be applied for reducing SNNs to ternary weight precision for inference. Our results show that TNA outperforms traditional knowledge distillation methods and achieves state-of-the-art performance for the evaluated network architecture on benchmark data sets, including CIFAR-10, CIFAR-100, and CIFAR-10-DVS. This letter underscores the effectiveness of TNA in bridging the performance gap between SNNs and ANNs and suggests further exploration into the application of TNA on different network architectures and data sets.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1162/NECO.a.1568&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.39</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.11.758365" target="_blank" rel="noopener">Lysosomal Glycosaminoglycan Catabolism Regulates Microglial Cell State in the Developing CNS</a></div>
+  <div class="title-cn">溶酶体糖胺聚糖分解代谢调控发育中CNS的小胶质细胞状态</div>
+  <div class="one-line">为揭示小胶质细胞如何在出生后CNS发育过程中获得稳态身份，作者利用Mucopolysaccharidosis VII小鼠模型敲除溶酶体酶β-葡萄糖醛酸酶（GUSB），结合单细胞RNA测序和LC/MS分析，发现GAG分解代谢障碍导致硫酸软骨素在溶酶体积聚，使小胶质细胞无法获得稳态身份而表现出未成熟和疾病相关特征，为理解ECM重塑与神经免疫细胞身份建立的联系提供了新机制。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Hope, K. T.; Zhang, Y.; Basu, A.; Luo, B.; Chassie, K.; Weiss, R. J.; Yellajoshyula, D.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.11.758365">10.64898/2026.10.11.758365</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.11.758365">https://www.biorxiv.org/content/10.64898/2026.10.11.758365</a></div><div class="d-block keywords">命中关键词：cell state</div><div class="d-block"><span class="lbl">推荐理由：</span>仅聚焦小鼠脑内小胶质细胞发育的分子机制，无跨物种比较或演化视角，属于典型的模式物种疾病机制研究。</div><div class="d-block"><span class="lbl">背景：</span>小胶质细胞是中枢神经系统中的固有免疫细胞，其在发育过程中如何获得成熟的稳态功能身份是神经免疫学的重要问题。出生后CNS发育阶段伴随着大量细胞外基质（ECM）的重塑，而溶酶体作为细胞降解代谢的关键细胞器，可能通过处理ECM组分参与调控细胞状态。糖胺聚糖（GAGs）是ECM的主要成分，其分解代谢障碍与多种溶酶体贮积症相关，但GAG代谢是否直接影响小胶质细胞身份建立尚不明确。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者使用Mucopolysaccharidosis VII（MPS VII）小鼠模型，通过基因敲除破坏β-葡萄糖醛酸酶（GUSB）功能。采用LC/MS技术对皮层小胶质细胞进行糖胺聚糖组成分析，结合单细胞RNA测序（scRNA-seq）对GUSB缺陷型小胶质细胞进行转录组表征，并通过生物信息学分析鉴定其细胞状态特征。</div><div class="d-block"><span class="lbl">研究结果：</span>GUSB缺失导致硫酸软骨素在小胶质细胞溶酶体中特异性积聚。这些GUSB缺陷型小胶质细胞无法正常获得稳态身份，scRNA-seq分析将其鉴定为一个独特的细胞群体，其转录特征与未成熟小胶质细胞和疾病相关小胶质细胞（DAM）高度相似，富集于核心疾病相关转录程序。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究首次将溶酶体GAG分解代谢确立为连接ECM重塑与小胶质细胞稳态身份获得的关键通路，为理解神经免疫细胞发育的代谢调控提供了新视角，并对溶酶体贮积症的神经病理机制具有潜在临床意义。但该研究仅限于小鼠单一模式物种，未涉及跨物种比较或演化分析。</div><div class="d-block"><span class="lbl">中文全摘要：</span>小胶质细胞在出生后CNS发育过程中获得成年稳态身份，期间伴随广泛的细胞外基质重塑，但机制尚不清楚。本研究发现溶酶体对糖胺聚糖的分解代谢是小胶质细胞建立稳态身份所必需的功能。利用MPS VII小鼠模型删除GUSB酶导致硫酸软骨素在溶酶体积聚，scRNA-seq鉴定出这些细胞为富集未成熟和疾病相关小胶质细胞核心转录程序的独特群体，揭示了溶酶体GAG分解代谢连接ECM重塑与稳态小胶质细胞身份获得的通路。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Microglia acquire their adult homeostatic identity during postnatal CNS development, a period of extensive extracellular matrix (ECM) remodeling, through mechanisms not fully understood. Here we show that lysosomal catabolism of glycosaminoglycans (GAGs), major ECM components, is a microglial function required to establish homeostatic identity. Using mouse models of Mucopolysaccharidosis VII, we examined the consequences of deleting {beta}-glucuronidase (GUSB), a lysosomal enzyme required for GAG degradation. Loss of GUSB resulted in the accumulation of undegraded chondroitin sulfate within microglial lysosomes, confirmed by LC/MS analyses of cortical microglia. GUSB-deficient microglia failed to acquire homeostatic identity. Single-cell RNA sequencing identified them as a distinct population enriched for a core transcriptional program shared by immature and disease-associated microglia (DAM). Together, these findings identify lysosomal GAG catabolism as a pathway linking ECM remodeling to the acquisition of homeostatic microglial identity during CNS development.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.11.758365&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.35</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/43044837/" target="_blank" rel="noopener">Monotreme development reveals ancestral mechanisms of mammalian middle ear and jaw evolution.</a></div>
+  <div class="title-cn">单孔类发育揭示哺乳动物中耳与颌演化的祖先机制</div>
+  <div class="one-line">为探究哺乳动物中耳与颌关节演化的发育机制，作者以单孔类针鼴为模型，结合组织学、转基因小鼠实验及与负鼠、小鼠的比较分析，发现梅克尔软骨的吸收通过保守的软骨细胞程序调控，且下颌骨形成驱动肌肉附着转移，揭示了现生哺乳动物中耳-颌转变的共享机制，为理解化石哺乳动物的肌肉附着提供了参考。</div>
+  
+  <div class="meta">Proceedings. Biological sciences · 2026-11-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Rawson JRG, Anthwal N, Fenelon JC, Johnston SD, Renfree MB, Martin-Silverstone E, Rayfield E, Tucker AS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1098/rspb.2026.0590">10.1098/rspb.2026.0590</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/43044837/">https://pubmed.ncbi.nlm.nih.gov/43044837/</a></div><div class="d-block keywords">命中关键词：ancestral</div><div class="d-block"><span class="lbl">推荐理由：</span>研究聚焦哺乳动物中耳与颌关节发育的骨骼形态学演化，虽涉及跨物种比较（针鼴、负鼠、小鼠），但无神经系统/脑演化内容，亦非单细胞组学研究。</div><div class="d-block"><span class="lbl">背景：</span>哺乳动物中耳的起源是脊椎动物演化的经典案例，涉及原始颌关节元素向听觉小骨的转化。这一过程在胚胎发育中重演，但单孔类（卵生哺乳动物）的独特发育模式使其成为研究该转化的关键比较对象。此前对化石哺乳动物的研究已揭示多次独立的耳-颌分离事件，但现生哺乳动物间共享的发育机制尚不清楚。</div><div class="d-block"><span class="lbl">研究方法：</span>研究采用组织学、免疫组化和显微CT技术对针鼴（Tachyglossus aculeatus）孵化后不同阶段的头部样本进行解剖学分析；利用转基因小鼠模型（Gsc-Cre; R26R-tdTomato）追踪细胞谱系；通过组织切片比较针鼴、负鼠（Monodelphis domestica）和小鼠（Mus musculus）的梅克尔软骨发育程序。</div><div class="d-block"><span class="lbl">研究结果：</span>针鼴梅克尔软骨在孵化后持续存在超过50天，形成初级下颌支撑，其吸收从远端向近端进行，依赖破软骨细胞招募，与兽类模式相似。该软骨发育 transient bone collar 并维持 prolonged intermandibular muscle attachment。转基因小鼠中齿骨缺失导致梅克尔软骨保留同源肌肉附着，证明齿骨形成对肌肉转移的必要性。</div><div class="d-block"><span class="lbl">研究意义：</span>研究揭示现生哺乳动物中耳-颌转化共享保守的发育机制，尽管化石记录显示该特征多次独立起源。结果为理解化石哺乳动物（尤其是骨化梅克尔软骨标本）的功能解剖学提供了发育生物学框架，但仅限于骨骼肌肉系统，未涉及神经系统演化。</div><div class="d-block"><span class="lbl">中文全摘要：</span>哺乳动物演化涉及新型齿骨-鳞颌关节的形成及原始颌关节脱离形成中耳，需要广泛的肌肉骨骼重塑。单孔类中，这一转化发生在孵化后发育阶段。本研究表征了针鼴耳骨从支撑下颌向听觉功能转变过程中的下颌解剖学变化，并与负鼠和鼠进行比较。针鼴的梅克尔软骨最初形成下颌主要支撑，在孵化后持续存在超过50天。其吸收涉及破软骨细胞招募，从远端区域开始，与现存兽类的分解机制和空间程序相似，表明现生哺乳动物间高度保守的模式。吸收前，针鼴梅克尔软骨形成 transient bone collar 并维持长期下颌间肌附着。转基因小鼠模型中齿骨的缺失导致梅克尔软骨上同源肌肉的保留，突显了形成中齿骨在驱动肌肉转化中的重要性。尽管中生代哺乳动物中耳-颌分离存在多次独立起源，研究发现这一转化通过共享机制进行，并为化石冠群哺乳动物骨化梅克尔软骨上的肌肉附着提供了新见解。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Mammalian evolution involved formation of a novel dentary-squamosal jaw joint and detachment of the ancestral jaw joint to form the middle ear, all of which required extensive musculoskeletal remodelling. In monotremes, this transformation occurs during post-hatching development. Here we characterize changes in jaw anatomy in the echidna as the ear bones transition from jaw support to hearing and compare with the opossum and mouse. In the echidna, Meckel&#x27;s cartilage initially formed the primary support for the jaw and persisted for over 50 days post-hatching. Resorption involved chondroclast cell recruitment, initiating in the distal region, similar to the breakdown mechanism and spatial programme of extant therians. This suggests a highly conserved pattern across extant mammals. Before its resorption, the echidna Meckel&#x27;s cartilage developed a transient bone collar and maintained a prolonged attachment of the intermandibular muscles. Loss of the dentary in a transgenic mouse model led to retention of the homologous muscle on Meckel&#x27;s cartilage, highlighting the importance of the forming dentary in driving muscular transitions. Despite multiple independent origins of ear-jaw separation in Mesozoic mammals, our findings suggest this transition proceeded through shared mechanisms and sheds light on the muscle attachments on the ossified Meckel&#x27;s cartilage of fossil crown mammals.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1098/rspb.2026.0590&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-important">Important</span><span class="score">5.16</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.26.727917" target="_blank" rel="noopener">platpy: A spatial-first framework for multi-layer spatial transcriptomic analysis</a></div>
+  <div class="title-cn">platpy：面向多层空间转录组分析的&quot;空间优先&quot;框架</div>
+  <div class="one-line">为解决现有空间转录组分析工具将空间坐标仅作为元数据而非核心组织原则导致分析效率低下的问题，作者开发了Python框架platpy，以绝对物理微米坐标为核心组织多模态数据（形态图像、转录点云、表达矩阵、分割细胞及用户定义区域），通过&quot;Channel&quot;对象实现自动配准，并提供ViewPort可视化引擎和DataPort数据提取接口；该工具支持ROI表达分箱、皮层展开和亚微米级精细对齐等功能，具有低内存占用和高效可视化特点，旨在与scanpy、squidpy等现有工具互补。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-05</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Maynard, T. M.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.26.727917">10.64898/2026.05.26.727917</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.26.727917">https://www.biorxiv.org/content/10.64898/2026.05.26.727917</a></div><div class="d-block keywords">命中关键词：Visium, Scanpy</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯空间组学分析工具开发，无跨物种比较、无演化视角、无新物种单细胞图谱发布，且摘要中提及的cortical unfolding等脊椎动物特有特征与该研究者关注的非模式动物脑演化方向不符。</div><div class="d-block"><span class="lbl">背景：</span>10x Genomics Visium HD和Xenium等空间转录组平台的普及产生了对可处理复杂大规模空间数据集分析工具的需求。当前框架将空间数据作为单细胞RNA-seq分析的延伸，空间坐标仅被保留为附注信息而非核心组织原则。这导致多模态数据对齐、兴趣区域选择和跨分辨率可视化等常见任务需要手动管理不同的数据类型、坐标和尺度，使空间分析变得耗时且易出错。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发基于Python的&quot;空间优先&quot;框架platpy，将所有数据（形态图像、转录点云、表达矩阵、分割细胞和用户定义区域）存储为携带自身空间元数据的类型化对象&quot;Channel&quot;，实现跨平台、分辨率和分析操作的自动配准。框架提供两个互补接口：用于高效多通道可视化的ViewPort合成引擎，以及用于下游分析原始数据提取的DataPort。采用现代Python数据管理方法以保证效率，支持快速可视化和低内存占用分析。</div><div class="d-block"><span class="lbl">研究结果：</span>platpy实现了基于ROI的表达分箱、皮层展开（cortical unfolding）以及转录与图像数据的亚微米级精细对齐等空间分析功能，展示了空间优先设计的实际优势。该框架通过与scanpy、squidpy、CellPose和StarDist等现有工具互补的方式处理大数据集的空间机制问题，而非取代这些工具。软件以MIT许可证开源发布。</div><div class="d-block"><span class="lbl">研究意义：</span>platpy作为空间组学分析基础设施工具，主要贡献在于技术层面的数据组织与可视化框架优化，而非揭示新的生物学机制或演化规律。对于从事跨物种脑演化比较的研究者而言，其方法学参考价值有限——该框架虽可应用于空间转录组数据，但缺乏针对非模式动物、跨物种细胞类型比较或演化重建的专门功能设计，且文中示例偏向脊椎动物皮层分析，与该研究者关注的早期两侧动物脑起源及无脊椎动物神经演化核心问题存在明显距离。</div><div class="d-block"><span class="lbl">中文全摘要：</span>现有空间转录组分析框架将空间数据视为单细胞RNA-seq的延伸，空间坐标仅作为元数据保留，导致多模态数据对齐、兴趣区域选择和跨分辨率可视化等任务繁琐易错。作者推出&quot;空间优先&quot;Python框架platpy，以绝对物理微米坐标为组织原则，将所有数据类型存储为携带空间元数据的&quot;Channel&quot;对象，实现自动配准；提供ViewPort可视化引擎和DataPort数据提取接口，支持ROI表达分箱、皮层展开和亚微米级精细对齐，具有低内存 footprint 和高效可视化特性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Background The emergence of accessible spatial transcriptomic platforms such as 10x Genomics Visium HD and Xenium has created demand for analysis tools that can handle the complexity and scale of spatial datasets. Current frameworks approach spatial data primarily as an extension of single-cell RNA-seq pipelines, where spatial coordinates are retained as metadata rather than treated as a first-class organizing principle. As a result, common tasks such as multi-modal data alignment, region-of-interest selection, and cross-resolution visualization require manually managing disparate data types, coordinates, and scales, making spatial analysis unnecessarily time-consuming and error-prone. Results We present platpy (pipeline for layered analysis of transcriptomics), a Python-based &quot;spatial-first&quot; framework that treats absolute physical micron coordinates as the organizing principle for all data types. All data -- morphology images, transcript point clouds, expression matrices, segmented cells, and user-defined regions -- are stored as typed objects (&quot;Channels&quot;) that carry their own spatial metadata, keeping all layers in automatic registration regardless of platform, resolution, or analysis operation. Two complementary interfaces simplify access to underlying data: the ViewPort, a compositing engine for efficient multi-channel visualization, and the DataPort, which extracts raw data in its native format for downstream analysis. A set of spatial analysis tools demonstrates the practical benefits of the framework, including ROI-based expression binning, cortical unfolding, and sub-micron fine alignment of transcript and image data. The use of modern Python data management methods helps maintain the efficiency of the framework, allowing for quick visualizations and analysis with a low memory footprint. Conclusions Platpy is designed to complement rather than replace widely used tools in the spatial analysis ecosystem (scanpy, squidpy, CellPose, StarDist), by handling the spatial mechanics of large datasets so that the analyst can focus on the biology. Platpy is freely available under the MIT license at https://github.com/maynardt/platpy.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.26.727917&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日13篇文献横跨神经信号处理、空间组学、药物重定位及作物表型组学等前沿领域，核心亮点在于人工智能方法与传统生物医学问题的深度耦合。尤为值得关注的是，多项工作将物理先验或空间几何约束嵌入神经网络架构，在提升预测精度的同时显著降低了对标注数据的依赖，代表了计算生物学方法论的重要转向。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经信息解码与脑功能建模：从EEG去噪、动态功能连接预测到脑-眼动-皮电多模态感知建模，研究者正借助贝叶斯深度学习、物理信息神经网络等手段突破传统信号处理的性能瓶颈，在低信噪比与个体差异显著的场景中实现更稳健的脑状态推断。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>空间与单细胞多组学整合分析：空间转录组框架platpy以物理坐标为组织原则实现多模态数据对齐，驻心巨噬细胞染色质景观研究则整合scATAC-seq与RNA-seq揭示表观遗传调控机制，两者共同指向空间维度与调控层级在解析细胞异质性中的关键作用。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>AI驱动的分子发现与表型预测：扩散生成模型用于BCL-2配体重定位、深度神经网络自动化质谱参数优化，以及transformer neural process整合无人机影像与基因组数据预测玉米产量，展现了机器学习在加速实验设计和跨尺度预测中的泛化能力。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这些论文共同反映了‘领域知识嵌入型AI’的方法学走向：无论是扩散方程约束的神经算子、物理微米坐标驱动的空间分析，还是结合药物动力学先验的生成模型，纯粹数据驱动的范式正让位于机理与数据融合的双轮驱动。同时，多模态数据融合成为标配，但核心创新点已从简单的‘模态堆砌’转向几何先验、动态建模与因果推断层面的深度整合。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批文献提供了三重可跟进路径：其一，物理信息神经网络在生物医学信号建模中的成功应用提示，可将偏微分方程等先验知识嵌入其他高噪声生理信号处理任务；其二，platpy的空间优先设计理念为空间组学工具开发提供了可迁移的方法论框架；其三，药物重定位与作物产量预测中‘生成模型+关系推断+实验验证’的闭环范式，为农业生物技术和转化医学研究提供了可复制的技术路线。建议关注跨模态对齐、小样本学习与因果机制解释等共性挑战。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
