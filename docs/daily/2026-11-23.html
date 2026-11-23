@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-23</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-23</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 0 · Important 15 · Relate 0）· 命中关键词 9 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+<p class="section-empty">今日暂无新物种单细胞图谱发布。</p>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-important">Important</span><span class="score">5.06</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42742878/" target="_blank" rel="noopener">Epigenetic Insights and Exosome-Based Therapeutics for Insomnia: Bridging Sleep Biology and Precision Medicine.</a></div>
+  <div class="title-cn">失眠的表观遗传学见解与基于外泌体的治疗：连接睡眠生物学与精准医学</div>
+  <div class="one-line">为解决失眠机制与精准治疗不足问题，作者综述神经表观遗传学、MSC来源外泌体和AI多组学整合进展，认为其可用于失眠分型、诊断与靶向治疗。</div>
+  
+  <div class="meta">Molecular neurobiology · 2026-09-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Korkutata M, Dilsiz N</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s12035-026-06175-2">10.1007/s12035-026-06175-2</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42742878/">https://pubmed.ncbi.nlm.nih.gov/42742878/</a></div><div class="d-block keywords">命中关键词：brain, artificial intelligence</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦失眠的表观遗传机制与外泌体精准治疗，属于临床/疾病综述，缺乏演化或跨物种比较视角，对该研究者核心问题帮助极小。</div><div class="d-block"><span class="lbl">中文全摘要：</span>失眠由遗传、表观遗传、环境和神经生理因素共同驱动，机制复杂且精准干预有限。本文为叙述性综述，整合DNA甲基化、组蛋白修饰、miRNA等神经表观遗传机制在睡眠-觉醒稳态、昼夜节律错位、应激反应和高唤醒中的作用，并讨论间充质干细胞来源外泌体跨血脑屏障递送分子货物、靶向睡眠回路及作为生物标志物的潜力，同时概述AI与多组学整合在失眠分型和结局预测中的前景。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Insomnia is a multifactorial disorder characterized by persistent sleep disturbances arising from complex interactions among genetic, epigenetic, environmental, and neurophysiological factors. Recent advances in neuroepigenetics show that abnormal DNA methylation, histone modifications, and dysregulation of microRNAs (miRNAs) contribute significantly to circadian misalignment, stress response, and hyperarousal, which are central to the development of insomnia. Meanwhile, mesenchymal stem cell-derived exosomes (MSC-Exos) are emerging as promising tools for precise drug delivery because of their biocompatibility, ability to cross the blood-brain barrier, and natural molecular cargo, especially miRNAs that can influence sleep-related gene expression. In this narrative review, we integrate current insights into how epigenetic mechanisms, including non-coding RNAs, histone modifications, and DNA methylation, modulate sleep-wake homeostasis and the circadian clock. We also discuss the potential of modified MSC-Exos for diagnosis and treatment, including targeting sleep circuits and delivering biomarkers. In addition, we highlight the role of artificial intelligence and multi-omics data integration as promising approaches for classifying insomnia subtypes and predicting outcomes. By connecting advances in sleep epigenetics, exosome engineering, and systems medicine, this overview provides a foundation for developing personalized, non-invasive treatments for insomnia and related circadian disorders.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s12035-026-06175-2&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42314246/" target="_blank" rel="noopener">Dynamic wavelet-based augmentation for enhanced EEG-based imagined speech classification.</a></div>
+  <div class="title-cn">基于动态小波增强的脑电想象言语分类提升方法</div>
+  <div class="one-line">为解决EEG想象言语分类受噪声与非平稳性影响的问题，作者用最小化小波熵的动态小波基选择结合系数高斯噪声增强，发现10名参与者32通道数据上最高准确率达98%。</div>
+  
+  <div class="meta">Computers in biology and medicine · 2026-08-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Mohan A, Anand RS</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.compbiomed.2026.111810">10.1016/j.compbiomed.2026.111810</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42314246/">https://pubmed.ncbi.nlm.nih.gov/42314246/</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于EEG脑机接口与信号增强分类工程研究，不涉及演化、跨物种比较或单细胞细胞类型同源性问题，对该研究者核心方向价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对EEG想象言语解码中信号噪声大、非平稳且分类不稳的问题，作者提出动态小波基选择增强方法：对每个EEG epoch通过最小化小波熵自适应选择最优小波基，并在对应小波系数中注入高斯噪声进行数据增强，随后结合带通道激励机制的卷积神经网络分类。在含32通道、8类刺激、10名参与者的数据集上，词汇-元音组合最高准确率达98%，Cohen&#x27;s kappa为0.95，优于传统增强和静态小波方法。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Brain-computer interfaces allow direct communication between the brain and external devices. They have real potential for assistive technologies and neurorehabilitation. Among the various paradigms, imagined speech decoding aims to translate silent mental speech into actionable outputs. Electroencephalography is used for imagined speech decoding due to its non-invasive nature, high temporal resolution, portability, and affordability compared to other neuroimaging modalities. The noisy and non-stationary characteristics of electroencephalography signals pose challenges for reliable classification. This study proposes a dynamic wavelet basis selection augmentation method. For each electroencephalography epoch, it adaptively chooses the most informative wavelet basis by minimizing wavelet entropy. After basis selection, data augmentation is performed by injecting Gaussian noise into the corresponding wavelet coefficients. The approach helps models handle the noise and differences in electroencephalography signals better than fixed methods. The augmented signals are classified using a convolutional neural network with channel-wise excitation mechanisms to enhance discriminative feature learning. Primary performance evaluation is conducted in an intra-subject setting using a hold-out validation protocol with trial-level separation. Additional verification is performed using cross-validation with 3, 5, and 7 folds to assess robustness. The imagined speech electroencephalography dataset comprises 32 channels, 8 stimuli, and recordings from 10 participants. The highest classification accuracy of up to 98% is achieved for the words-vowels experimental combination, with a Cohen&#x27;s kappa value of 0.95. Comparatively lower performance is observed in the full eight-class classification. The proposed approach outperforms conventional augmentation strategies and static wavelet-based approaches.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.compbiomed.2026.111810&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42229857/" target="_blank" rel="noopener">Ethanol drinking involves astrocytes in male Wistar rats.</a></div>
+  <div class="title-cn">雄性Wistar大鼠的乙醇饮用涉及星形胶质细胞</div>
+  <div class="one-line">为解决间歇性乙醇饮用中星形胶质细胞作用不清问题，作者用Western blot和侧脑室注射氟柠檬酸方法，发现雄性Wistar大鼠PL皮层和NAc core的GFAP升高且抑制星形胶质细胞可降低饮酒。</div>
+  
+  <div class="meta">Behavioural brain research · 2026-09-13</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tan X, Ding ZM</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.bbr.2026.116311">10.1016/j.bbr.2026.116311</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42229857/">https://pubmed.ncbi.nlm.nih.gov/42229857/</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦雄性Wistar大鼠酒精摄入的星形胶质细胞机制，缺乏演化或跨物种比较视角，与研究者核心关注的脑与细胞类型演化关联极弱。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为探究慢性间歇性乙醇饮用对星形胶质细胞的影响及其功能，作者在雄性Wistar大鼠中检测mPFC与NAc不同亚区GFAP表达，并通过侧脑室注射偏向抑制星形胶质细胞代谢的氟柠檬酸评估饮酒行为。结果显示，乙醇饮用使PL皮层和NAc core的GFAP蛋白升高，而IL皮层和NAc shell无显著变化；氟柠檬酸降低乙醇摄入与偏好，但不影响总液体摄入、水摄入或基础活动，提示星形胶质细胞参与慢性间歇性饮酒调控。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Astrocytes are the most abundant glial cells in the brain and an integrative component of the neural network. Studies have shown that ethanol altered expression of an astrocyte marker, i.e., glial fibrillary acidic protein (GFAP), in two key corticolimbic regions, the medial prefrontal cortex (mPFC) and nucleus accumbens (NAc). These regions comprise anatomically and functionally different subregions, i.e., the prelimbic (PL) and infralimbic (IL) cortex of the mPFC, the shell and core subregions of the NAc. However, ethanol effects on GFAP expression within these subregions remain largely unknown. In addition, effects of pharmacological manipulation of astrocytes on alcohol drinking have been understudied. Western blot was conducted to determine GFAP expression in subregions of the mPFC and NAc after chronic intermittent ethanol drinking. Fluorocitrate, a preferential metabolic inhibitor of astrocytes, was tested on intermittent ethanol drinking following administration into the lateral ventricle. Chronic intermittent ethanol drinking enhanced GFAP protein expression in the PL cortex and NAc core, but not in the IL cortex or NAc shell. Fluorocitrate reduced ethanol intake and preference without altering total fluid consumption. In addition, fluorocitrate did not affect water drinking when water was the only solution or basal locomotor activity. These results indicate that intermittent ethanol drinking induced GFAP elevation in a subregion-specific manner within the mPFC and NAc, and that a preferential metabolic inhibitor of astrocytes selectively attenuated ethanol drinking without non-specific inhibition of water drinking or general activity. Together, these results suggest that astrocytes may play an important role in chronic intermittent ethanol drinking.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.bbr.2026.116311&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-important">Important</span><span class="score">5.05</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42734726/" target="_blank" rel="noopener">Study on mental fatigue detection of crane operators based on frequency and channel attention spiking neural network with multivariate variational mode decomposition in real construction environments.</a></div>
+  <div class="title-cn">基于多变量变分模态分解与频率-通道注意力脉冲神经网络的真实施工环境下起重机操作员心理疲劳检测研究</div>
+  <div class="one-line">为解决真实施工环境中起重机操作员心理疲劳检测受强噪声干扰和准确率低问题，作者用结合MVMD、IMF注意力、通道注意力与SNN的MVMD-FCASNN方法，发现其分类准确率达98.81%且在-6 dB噪声下仍表现优异。</div>
+  
+  <div class="meta">Medical &amp; biological engineering &amp; computing · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yao W, Gu T, Wang F</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1007/s11517-026-03669-y">10.1007/s11517-026-03669-y</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42734726/">https://pubmed.ncbi.nlm.nih.gov/42734726/</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文属于工程场景下的EEG疲劳检测方法研究，既无演化也无跨物种比较视角，与研究者关注的脑演化和单细胞比较框架基本无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对复杂施工现场中塔式起重机操作员心理疲劳检测易受强噪声干扰、识别精度不足的问题，作者提出MVMD-FCASNN方法。该方法先用多变量变分模态分解联合分解多通道EEG，提取频率对齐的IMF；再引入IMF注意力与通道注意力，突出关键频段及额叶、中央区等重要脑区特征；随后结合脉冲神经网络保留时序动态。结果显示，该模型在疲劳分类任务中准确率达98.81%，在-6 dB高噪声条件下仍保持较强性能，优于传统方法，适用于施工场景实时疲劳监测。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>To address the issues of strong noise interference and low detection accuracy of mental fatigue in tower crane operators under complex construction site environments, this study proposes a novel mental fatigue recognition method based on a frequency and channel attention spiking neural network with multivariate variational mode decomposition (MVMD-FCASNN). The method employs multivariate variational mode decomposition (MVMD) to jointly decompose multichannel electroencephalogram (EEG) signals and extract frequency-aligned intrinsic mode functions (IMFs), thereby enhancing feature separability and robustness against interference. An IMF attention mechanism is designed to adaptively evaluate the contribution of distinct frequency bands, while a channel attention module emphasizes critical brain regions, particularly the frontal and central areas, to strengthen spatial representation. The extracted features are further processed using a spiking neural network (SNN) to preserve the temporal dynamics of EEG signals and improve performance under noisy conditions. Experimental results demonstrate that the proposed MVMD-FCASNN model achieves an accuracy of 98.81% in mental fatigue classification tasks and maintains strong performance even under high noise conditions (-6 dB), significantly outperforming traditional methods. This approach offers a reliable and efficient solution for real-time mental fatigue monitoring in high-noise construction scenarios.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1007/s11517-026-03669-y&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-important">Important</span><span class="score">5.04</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.08.750274" target="_blank" rel="noopener">Harnessing the Intrinsic Dynamics of Biological Neural Networks for Reservoir Computing</a></div>
+  <div class="title-cn">利用生物神经网络的内在动力学进行储备池计算</div>
+  <div class="one-line">为解决生物神经网络难用于储备池计算问题，作者用多电极阵列记录结合电刺激表征神经元培养物原生动力学，发现其具非线性、30–46 ms记忆和95.83% XOR准确率。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Somathilaka, S.; Clouse, J.; Balasubramaniam, S.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.08.750274">10.64898/2026.09.08.750274</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.08.750274">https://www.biorxiv.org/content/10.64898/2026.09.08.750274</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦神经元培养网络的储备池计算与电生理动力学，缺乏演化、跨物种比较或单细胞细胞类型同源性视角，对该研究者价值很低。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为评估活体神经元培养网络能否在不改造其递归连接的情况下充当储备池，作者结合多电极阵列记录与电刺激，分析自发群体活动并验证通道自适应尖峰检测，系统评估非线性、衰减记忆、状态依赖处理、可分离性、可扩展性和时间稳健性。结果显示该神经元储备池在选定工作点上XOR准确率达95.83%，刺激诱导状态信息可保持约30–46 ms；近混沌状态比同步活动支持更广的高可分离区域，且在10到40类输入和数小时神经漂移下仍保持可分辨性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Living neuronal networks exhibit nonlinear, recurrent, and evolving dynamics that make them promising substrates for reservoir computing, yet their computational use is complicated by spatial heterogeneity, spontaneous state transitions, and biological nonstationarity. Here, we investigate whether the native dynamics of a neuronal culture can be characterized and harnessed as a living reservoir without deliberately modifying the underlying recurrent network. Using multielectrode-array recordings and electrical perturbations, we characterize spontaneous population dynamics, validate channel-adaptive spike detection, and evaluate reservoir properties including nonlinearity, fading memory, state-dependent processing, separability, scalability, and temporal robustness. The neuronal reservoir exhibits nonlinear transformation, achieves 95.83\% XOR accuracy at the selected operating point, and retains stimulation-induced state information with characteristic relaxation times of approximately 30--46~ms. Importantly, separability depends on the pre-stimulation network condition, with a near-chaotic regime supporting broader high-separability regions than synchronized activity. Distinct stimulation conditions remain discriminable as the input space increases from 10 to 40 classes, while separability persists despite multi-hour neural drift. Finally, the reservoir is incorporated into a closed perception--action loop for Mario Kart control using a fixed readout. These results establish neuronal cultures as state-dependent living reservoirs whose native dynamics support computation.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750274&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-important">Important</span><span class="score">5.03</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42726614/" target="_blank" rel="noopener">Particle Transformer: A Physics-Informed Transformer for Real-Time Fluid-Structure Interaction Simulation.</a></div>
+  <div class="title-cn">粒子Transformer：一种用于实时流固耦合仿真的物理约束Transformer</div>
+  <div class="one-line">为解决流固耦合仿真难以兼顾实时性与物理一致性问题，作者用结合MPM物理损失的层次化Particle Transformer，发现其可在多种场景实现稳定实时模拟。</div>
+  
+  <div class="meta">IEEE transactions on visualization and computer graphics · 2026-09-11</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Wu Q, Li B, Liu S</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TVCG.2026.3732692">10.1109/TVCG.2026.3732692</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42726614/">https://pubmed.ncbi.nlm.nih.gov/42726614/</a></div><div class="d-block keywords">命中关键词：neural, transformer, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于物理仿真与工程计算领域，不涉及演化、生物比较或单细胞/神经系统研究，对该研究者几乎无直接价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对数据驱动物理仿真泛化差、物理一致性不足且难达实时性能的问题，作者提出Particle Transformer，以完整粒子物理状态为输入，直接预测下一时刻状态，并结合MPM框架进行单步物理迭代与物理损失构建，形成无需求解器的PINN体系。结果表明，该方法在多种流固耦合场景中具有较高物理精度、实时性能、稳定性与可扩展性。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Recently, the use of data-driven approaches to accelerate physical simulation has emerged as a prominent research frontier. However, existing methodologies often grapple with limitations such as constrained generalization capabilities, a lack of physical consistency, and performance that falls significantly short of real-time requirements. In this paper, we propose the Particle Transformer, a Physics-Informed Neural Network (PINN) designed to substitute the core computational steps of the Material Point Method (MPM), aiming to enhance efficiency while maintaining physical fidelity. Our proposed simulator takes the complete physical state of the particle system as input to predict the subsequent state of the system. This predicted output is then directly utilized as the input for the following time step without incorporating any supplementary numerical solvers, thereby enabling solver-free, low-latency simulation. Our approach fully leverages the contextual understanding capabilities of Transformers to learn complex physical laws. Simultaneously, it employs a hierarchical, block-based network architecture, allowing it to handle intricate scenarios involving large-scale particle systems. Furthermore, by exploiting the intrinsic properties of the MPM framework, we perform a single-step physical iteration on the predicted particles. This allows for the seamless formulation of physical loss terms, thereby constructing an integrated MPM-Transformer PINN framework. This design ensures that our simulator maintains high physical accuracy while achieving real-time performance. Experimental results demonstrate that the proposed method is effective across various fluid-solid coupling scenarios, supports real-time simulation, and exhibits robust stability. Moreover, the architecture is highly scalable and well-suited for integration into larger or more complex physical systems. This work identifies a promising direction toward scalable, real-time neural simulation of MPM-style coupled materials.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TVCG.2026.3732692&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-important">Important</span><span class="score">5.03</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42821380/" target="_blank" rel="noopener">Protocol for correlating in vivo calcium imaging with spatial transcriptomics in the mouse brain.</a></div>
+  <div class="title-cn">小鼠脑内钙成像与空间转录组学关联分析实验方案</div>
+  <div class="one-line">为解决神经元分子身份与其活动关联不清问题，作者建立钙成像后组织回收、多重基因检测及数据配准流程，实现单只小鼠脑内基因表达与神经活动的空间整合。</div>
+  
+  <div class="meta">STAR protocols · 2026-09-30</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yamazaki R, Eddison M, Payne A, Wang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.xpro.2026.104848">10.1016/j.xpro.2026.104848</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42821380/">https://pubmed.ncbi.nlm.nih.gov/42821380/</a></div><div class="d-block keywords">命中关键词：brain, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文仅描述小鼠脑内钙成像与空间转录组整合的技术协议，无任何演化、跨物种比较或细胞类型同源分析视角，属于纯技术方法论文。</div><div class="d-block"><span class="lbl">中文全摘要：</span>神经科学研究的核心挑战在于阐明不同神经元类型如何协调产生复杂行为，这需要将神经元的分子身份与其在体连接及活动关联。本文介绍整合小鼠脑空间基因表达谱分析与在体钙成像的实验方案，详述成像后组织回收、多重基因表达检测及两数据集计算配准的具体步骤。完整操作细节参见Yamazaki等。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>A central challenge in neuroscience research is to elucidate how distinct neuronal types coordinate to produce complex behaviors, which requires linking the molecular identity of neuronal types with their connectivity and activity in behaving animals. Here, we present a protocol for integrating spatial gene-expression profiling with in vivo calcium imaging in the mouse brain. We describe detailed procedures for tissue recovery after in vivo imaging, multiplexed gene-expression detection, and the computational steps to register these two datasets. For complete details on the use and execution of this protocol, please refer to Yamazaki et al.1.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104848&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-important">Important</span><span class="score">5.02</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748909" target="_blank" rel="noopener">Uncharted Waters: Projecting the European Emergence of Naegleria fowleri, Colloquially Known as the &#x27;Brain-Eating Amoeba&#x27;, Under Climate Warming</a></div>
+  <div class="title-cn">未知水域：在气候变暖背景下预测“食脑阿米巴”福氏耐格里阿米巴在欧洲的出现</div>
+  <div class="one-line">为解决福氏耐格里阿米巴在欧洲未来扩散风险问题，作者用Maxent结合204条美国记录与SHAP解释，发现2050年前欧洲多地适生性显著上升。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Tytar, V.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.02.748909">10.64898/2026.09.02.748909</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.02.748909">https://www.biorxiv.org/content/10.64898/2026.09.02.748909</a></div><div class="d-block keywords">命中关键词：brain, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦气候变暖下福氏耐格里阿米巴的生态位与公共卫生风险预测，不涉及演化、跨物种比较或单细胞脑/神经系统研究。</div><div class="d-block"><span class="lbl">中文全摘要：</span>针对福氏耐格里阿米巴可能随全球变暖扩散至欧洲的风险，作者基于美国本土204条分布记录，采用flexsdm中Maxent模型比较ENVIREM、Global Cloud Dynamics与WorldClim v.2数据，并在SSP2-4.5情景下预测2041–2060年欧洲适生区。结果显示WorldClim v.2表现最佳；年均温、最冷季度均温和昼夜温差是关键驱动因子。模型预测地中海盆地、中欧及大西洋沿岸适生性上升，乌克兰风险尤需关注。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Background. Naegleria fowleri, the causative agent of primary amoebic meningoencephalitis (PAM), is a thermophilic free-living amoeba historically endemic to warm freshwater environments, particularly in the southern United States. While human infections remain exceedingly rare, they are almost uniformly fatal. Global climate change is hypothesized to expand the geographic range of thermotolerant pathogens, potentially introducing them into previously unaffected regions. Objective. This study aims to quantify the current and future habitat suitability for N. fowleri within the contiguous United States (US) and, critically, to project these models onto Europe, a continent traditionally considered low-risk, to identify regions of potential emergence under climate change scenarios. Methods. We employed a modeling approach using the machine learning algorithm Maxent, implemented via the `flexsdm` R package. We utilized 204 occurrence records from the contiguous US. We evaluated three environmental datasets (ENVIREM, Global Cloud Dynamics, Worldclim v.2), selecting Worldclim v.2 for its superior predictive performance. Future projections were generated for the 2041-2060 period under the Shared Socioeconomic Pathway (SSP) 2-4.5 (intermediate scenario). Variable importance was assessed using Shapley additive explanations (SHAP) to decouple the contribution of each Bioclimatic predictor and identify the key drivers of range expansion. Results. The Worldclim v.2 dataset provided the most robust model. The model accurately identified the southeastern US as the core current habitat, consistent with historical PAM case distribution. Crucially, when projected onto Europe, the model reveals extensive regions of currently low suitability that transition to moderate or high suitability by 2050, particularly across the Mediterranean basin, parts of Central Europe, and the Atlantic coastal fringes. SHAP analysis identified temperature-related variables, specifically Annual Mean Temperature, Mean Temperature of the Coldest Quarter, and Mean Diurnal Range, as the most influential predictors, followed closely by precipitation variables (Precipitation of Driest Quarter/Month and Precipitation Seasonality). Under the SSP2-4.5 scenario, the model projects a distinct northward and eastward expansion of suitable habitat, with Ukraine emerging as a region of particular concern, especially in light of recent anthropogenic hydrological changes to the Dnipro River basin. Conclusion. Our findings support the hypothesis that global warming will facilitate the geographic spread of N. fowleri, carrying this pathogen into uncharted European waters. The projections for Europe, and for Ukraine, in particular, suggest a non-negligible risk of future autochthonous PAM cases. These results warrant the proactive inclusion of this pathogen in public health surveillance programs and climate change adaptation strategies across the continent.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.02.748909&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-important">Important</span><span class="score">5.02</span></div>
+  <div class="title-en"><a href="http://arxiv.org/abs/2610.07712v1" target="_blank" rel="noopener">Mathematical Invariant-Enabled Topological Neural Networks for Molecular and Materials Property Prediction</a></div>
+  <div class="title-cn">基于数学不变量的拓扑神经网络用于分子与材料性质预测</div>
+  <div class="one-line">为解决分子和材料结构表征不全面的问题，作者提出数学不变量启发的拓扑神经网络（MITNN），整合多尺度拓扑、谱论等数学表征，在蛋白-配体结合等任务中超越现有方法。</div>
+  
+  <div class="meta">arXiv · 2026-10-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Yiming Ren, Xiang Liu, Mustafa Hajij, Pietro Liò, Guo-Wei Wei</div><div class="d-block meta">原文链接: <a href="http://arxiv.org/abs/2610.07712v1">http://arxiv.org/abs/2610.07712v1</a></div><div class="d-block keywords">命中关键词：neural, machine learning, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算化学/材料科学方法学研究，完全不涉及演化生物学、神经生物学或跨物种比较，与研究者的核心视角完全无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>现有分子和材料学习方法依赖有限的结构表征。本研究提出数学不变量启发的拓扑神经网络（MITNN），通过拓扑、谱论、交换代数、微分几何和离散曲率等多尺度不变量表征复杂结构，并与拓扑神经网络架构整合。系统分析表明，特定数学表征与神经架构的组合优于单一模型。在蛋白-配体结合、金属有机框架性质、突变致蛋白溶解度和分子毒性预测中，MITNN均优于现有方法，为多科学机器学习提供数学多模态框架。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Existing molecular and materials learning approaches often rely on a limited set of structural representations, which may capture only selected aspects of complex three-dimensional structure. Here, we introduce mathematical invariant-enabled topological neural networks (MITNNs), a framework that represents complex structures through multiple complementary mathematical views and integrates them with topological neural architectures. MITNNs combine multiscale invariants from topology, spectral theory, commutative algebra, differential geometry, and discrete curvature, capturing complementary structural information from the same system. Systematic invariant-subset, architecture-subset, and ensemble analyses show that predictive performance depends on how mathematical representations and neural architectures are paired, with selected combinations outperforming individual models and the aggregation of all available components. Across protein-ligand binding, metal-organic framework properties, mutation-induced protein solubility, and molecular toxicity prediction, MITNN consistently outperforms existing methods. These results establish MITNN as a mathematically multimodal framework for scientific machine learning.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=arxiv%3A2610.07712v1&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42585041/" target="_blank" rel="noopener">FINER++: Building a Family of Variable-periodic Functions for Activating Implicit Neural Representation.</a></div>
+  <div class="title-cn">FINER++：构建一族用于激活隐式神经表示的可变周期函数</div>
+  <div class="one-line">为解决INR在多“频率”复杂信号表示中的谱偏置与容量-收敛鸿沟问题，作者提出可变周期激活函数框架FINER++，发现其在2D/3D/5D多类任务上优于现有INR方法。</div>
+  
+  <div class="meta">IEEE transactions on pattern analysis and machine intelligence · 2026-08-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhu H, Liu Z, Zhang Q, Fu J, Deng W, Ma Z, Guo Y, Cao X</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TPAMI.2026.3722883">10.1109/TPAMI.2026.3722883</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42585041/">https://pubmed.ncbi.nlm.nih.gov/42585041/</a></div><div class="d-block keywords">命中关键词：neural, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是隐式神经表示中的激活函数工程方法，不涉及演化、跨物种比较或单细胞转录组学，对该研究者仅具极弱的通用计算启发价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>隐式神经表示（INR）通过神经网络将坐标映射到属性，但现有方法受“频率”指定的谱偏置及容量-收敛鸿沟限制，难以表示多频复杂信号。作者提出FINER++框架，将现有周期/非周期激活函数扩展为可变周期形式，并通过不同范围的偏置初始化选择不同频率子函数，从而灵活调节支持的频率集合。该方法可泛化到Sine、Gauss和Wavelet等骨干，并在2D图像拟合、3D signed distance field、5D neural radiance fields和可流式INR传输任务中提升性能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Implicit Neural Representation (INR), which utilizes a neural network to map coordinate inputs to corresponding attributes, is causing a revolution in the field of signal processing. However, current INR techniques suffer from the &quot;frequency&quot;-specified spectral bias and capacity-convergence gap, resulting in imperfect performance when representing complex signals with multiple &quot;frequencies&quot;. We have identified that both of these two characteristics could be handled by increasing the utilization of definition domain in current activation functions, for which we propose the FINER++ framework by extending existing periodic/non-periodic activation functions to variable-periodic ones. By initializing the bias of the neural network with different ranges, sub-functions with various frequencies in the variable-periodic function are selected for activation. Consequently, the supported frequency set can be flexibly tuned, leading to improved performance in signal representation. We demonstrate the generalization and capabilities of FINER++ with different activation function backbones (Sine, Gauss. and Wavelet) and various tasks (2D image fitting, 3D signed distance field representation, 5D neural radiance fields optimization and streamable INR transmission), and we show that it improves existing INRs.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TPAMI.2026.3722883&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2025.12.17.695042" target="_blank" rel="noopener">Metabolic brain networks switch between a sparsely connected baseline and highly integrated states to support cognition</a></div>
+  <div class="title-cn">代谢性脑网络在稀疏连接基线与高度整合状态之间切换以支持认知</div>
+  <div class="one-line">为解决脑网络状态切换的代谢基础不清问题，作者结合85名健康成人的功能性FDG-PET与滑动窗分析，发现4种重复出现的代谢网络状态及其受神经化学层级调控。</div>
+  
+  <div class="meta">bioRxiv · 2026-08-16</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Deery, H.; Liang, E.; Moran, C.; Egan, G. F.; Jamadar, S. D.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2025.12.17.695042">10.64898/2025.12.17.695042</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2025.12.17.695042">https://www.biorxiv.org/content/10.64898/2025.12.17.695042</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人类脑代谢网络状态切换与认知/衰老机制，缺乏演化或跨物种比较视角，对该研究者核心问题帮助很有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为阐明人脑大尺度网络状态切换的代谢与神经化学基础，作者在85名20-86岁健康成人中结合功能性FDG-PET（fPET）与滑动窗分析，识别出4种重复出现的代谢网络状态：1种高频、稀疏连接的基线状态和3种短暂、全局整合的认知控制/注意状态。结果表明，认知表现依赖于动员代谢高效整合状态的能力；葡萄糖信号动态范围支持网络脱离基线，去甲肾上腺素系统充当状态切换门控，老年个体则表现出网络灵活性下降。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The human brain achieves cognitive flexibility by rapidly switching between large-scale functional network states. While network state switching is assumed to be an energetically demanding process, the direct metabolic and neurochemical foundation underpinning state switching has not been characterised. Here, we combine functional FDG-PET (fPET) imaging and sliding-window analyses to characterise metabolic network state switching in 85 healthy adults (20-86 years). Across the dynamic fPET scan, four recurring metabolic network states were identified: a highly prevalent, sparsely connected baseline state alongside three transient, globally integrated network states of cognitive control and attention. Cognitive performance relied on the capacity to mobilise the integrated and metabolically efficient associative system states. This flexible network switching was directly enabled by the moment-to-moment dynamic range of the underlying regional glucose signals, which supported the brain to move away from the baseline and enabled prolonged dwell times in network states supporting high-order cognition. Neurotransmitter analyses revealed a low-dimensional neurochemical hierarchy governing dynamic the network states, anchored by a dominant axis of endocannabinoid, metabolic, serotonergic and GABAergic systems. Dynamic departures from this stable axis were controlled by a specialised noradrenergic state-switching gate. The dynamic metabolic network architecture was also attenuated in older adults, who exhibited a loss of network flexibility and were anchored to the sparsely connected baseline state. These findings reveal that functional network state switching is an emergent property of the brain&#x27;s metabolic architecture and that the organisation of large-scale neural networks is constrained by energetic and neurochemical principles. This understanding may provide critical new insights into the metabolic basis of brain ageing, neurodegeneration and psychiatric conditions.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2025.12.17.695042&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42611654/" target="_blank" rel="noopener">Fuzzy Neural Module Network: Leveraging Univariate Models and Layer-Specific and Network-Wide Dual Learning.</a></div>
+  <div class="title-cn">模糊神经模块网络：利用单变量模型与层特异及网络全局双重学习</div>
+  <div class="one-line">为解决高低维数据建模与规则爆炸问题，作者用增量式模糊神经模块网络结合模块学习和全局BP微调，发现其在28个基准数据集上平均性能提升19%且复杂度显著降低。</div>
+  
+  <div class="meta">IEEE transactions on cybernetics · 2026-08-18</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Kim EH, Huang H, Wang Z, Duan H, Fu Z, Pedrycz W</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1109/TCYB.2026.3717170">10.1109/TCYB.2026.3717170</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42611654/">https://pubmed.ncbi.nlm.nih.gov/42611654/</a></div><div class="d-block keywords">命中关键词：neural, deep learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是模糊神经网络方法学研究，不涉及演化、跨物种比较、脑/神经系统进化或单细胞转录组分析，对该研究者仅具极弱的通用计算参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为解决模糊神经系统在高维问题中依赖降维且规则数量指数增长的难题，作者提出增量扩展的模糊神经模块网络。该方法以单变量模糊神经模块为基础，按决定系数逐步选择并层级连接模块，通过残差驱动持续优化表示能力，并结合最小二乘的模块级学习与基于BP、Adam的全局微调。作者在28个公开基准数据集上测试，较传统模糊聚类模型平均性能提升19%，且相对深度学习模型复杂度降低两个数量级以上。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In this study, we propose an incrementally expanding fuzzy neural module network (FNMN) designed to effectively handle both low- and high-dimensional problems without relying on dimensionality reduction techniques. The proposed framework adopts a modular and hierarchical architecture, in which univariate fuzzy neural modules (UFNMs) are incrementally selected and connected according to their representational capability, quantified by the coefficient of determination. The variable-specific univariate fuzzy rule architecture avoids exponential rule growth while preserving interpretability. A residual-driven hierarchy incrementally selects informative modules and progressively refines the model. A hybrid learning strategy combines efficient modulewise learning based on least squares error estimation with global fine-tuning via backpropagation (BP). Adam-based optimization is adopted to enhance convergence stability and reduce sensitivity to learning-rate settings. Extensive experiments on 28 publicly available benchmark datasets demonstrate the effectiveness of the proposed approach. The proposed method achieves an average performance improvement of 19% compared with a conventional fuzzy clustering-based model across diverse benchmarks. Statistical significance tests further confirm that the proposed model significantly outperforms recent neurofuzzy systems. Notably, competitive predictive performance is attained while model complexity is reduced by more than two orders of magnitude relative to deep learning approaches. These findings highlight the efficiency and scalability of the proposed framework.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1109/TCYB.2026.3717170&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42695463/" target="_blank" rel="noopener">Intrinsically Nonvolatile n-Type Polymer Synapses for Neuromorphic Vision.</a></div>
+  <div class="title-cn">用于神经形态视觉的本征非易失性n型聚合物突触</div>
+  <div class="one-line">为解决光突触依赖额外电荷俘获层的问题，作者提出非对称载流子俘获ACT分子设计策略，获得可感光存储并实现93.3%识别率的聚合物突触。</div>
+  
+  <div class="meta">Advanced materials (Deerfield Beach, Fla.) · 2026-09-04</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhang TY, Li YK, Yu ZD, Kong HK, Zhang XY, Long YX, Wang JY, Yao ZF, Pei J</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1002/adma.74890">10.1002/adma.74890</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42695463/">https://pubmed.ncbi.nlm.nih.gov/42695463/</a></div><div class="d-block keywords">命中关键词：brain, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该文属于神经形态材料与器件工程研究，不涉及演化、生物跨物种比较或单细胞转录组学，对该研究者仅具极弱背景性参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为解决神经形态视觉中光突触常依赖辅助电荷俘获组分、导致工艺复杂和基底兼容性差的问题，作者提出非对称载流子俘获（ACT）策略，通过调控n型共轭聚合物前线轨道能级与分布，实现电子高效传输与空穴稳定俘获。经计算筛选后制备单组分光突触器件，可同时完成光信号接收、存储和类脑突触功能。8×8柔性阵列表现均一，PPF指数达137±1%，基于该器件构建的ANN在环境条件下图像识别准确率为93.3%。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Neuromorphic vision requires photonic synapses capable of integrating optical sensing and memory. However, achieving synaptic plasticity in photonic synapses typically relies on auxiliary charge-trapping components, resulting in increased processing complexity and poor substrate compatibility that limit large-area integration. Although single-component photonic synapses represent an attractive alternative, their development has been hindered by the lack of rational material-design strategies. Here, we introduce an asymmetric carrier trapping (ACT) strategy that enables intrinsic nonvolatile photoresponse in n-type conjugated polymers. Through tailored frontier-orbital energies and distributions, ACT combines a deep-lying, delocalized lowest unoccupied molecular orbital (LUMO) for efficient electron transport with a localized highest occupied molecular orbital (HOMO) for stable hole trapping. Guided by computational screening, we fabricated single-polymer photonic synapses across diverse substrates. Enabled by intrinsic ACT behavior, these synapses operate without elaborate interfacial engineering while simultaneously performing optical signal reception, storage, and brain-like synaptic functions. Furthermore, an 8 × 8 flexible synaptic array exhibited highly uniform performance with paired-pulse facilitation (PPF) indices of 137 ± 1%. An artificial neural network (ANN) constructed using these polymer synapses achieved an image-recognition accuracy of 93.3% under ambient conditions. These findings establish ACT as a promising molecular strategy for intrinsically nonvolatile polymer synapses toward neuromorphic vision.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1002/adma.74890&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.05.15.724229" target="_blank" rel="noopener">Semantic ambiguity dissociates the roles of word meaning and co-occurrence statistics in sentence processing</a></div>
+  <div class="title-cn">语义歧义将句子加工中词义与共现统计的作用区分开来</div>
+  <div class="one-line">为解决人类下一词预测依赖词义还是共现统计问题，作者用语义歧义操纵结合3项自定步速阅读和MEG实验，发现歧义会破坏LLM surprisal与加工成本的对应关系。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zyryanov, A.; Pierz, V.; Oganian, Y.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.05.15.724229">10.64898/2026.05.15.724229</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.05.15.724229">https://www.biorxiv.org/content/10.64898/2026.05.15.724229</a></div><div class="d-block keywords">命中关键词：neural, large language model</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦人类语言加工中的语义歧义与LLM预测机制，既无演化也无跨物种比较视角，与研究者核心的脑与细胞类型演化问题关联极弱。</div><div class="d-block"><span class="lbl">中文全摘要：</span>围绕人类句子加工中的下一词预测究竟依赖词义表征还是词共现统计这一争议，作者设计含多义词的歧义语境，在保留共现统计线索的同时增加词义不确定性，从而解耦两种预测来源。通过3项自定步速阅读和MEG实验发现：对不可预测且无歧义的词，LLM word surprisal可解释更长阅读时和更强神经反应；而语义歧义会破坏这一关系。结果表明，人类预测性语言加工依赖超越共现统计的词义解析，并由共享皮层网络并行支持预测与歧义消解。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Next-word prediction is a key component of human language processing, which manifests itself in higher processing costs (longer reading times and enhanced neural responses) to unpredictable words. These costs are captured by large language model (LLM) surprisal, a metric inferred from statistical patterns of word co-occurrence. This makes word co-occurrence statistics a plausible candidate source for human next-word prediction. In contrast, psycholinguistic models posit that human next-word prediction relies on representations of word meaning. To contrast these views, we placed words that carry multiple meanings in contexts that rendered meaning ambiguous (e.g., &#x27;My colleagues portrayed the head&#x27;: body part or leader). With this, we kept word co-occurrence statistics available for prediction but introduced uncertainty into word meaning, effectively decorrelating these putative drivers of next-word prediction. Across three self-paced reading and magnetoencephalography (MEG) experiments, human processing costs for unpredictable unambiguous words were captured by LLM word surprisal, while ambiguity disrupted this relation. This shows that human next-word prediction is mechanistically linked to ambiguity resolution, diverging from LLM-like statistics-driven prediction specifically under ambiguity. We further found that a shared cortical network supports prediction and ambiguity resolution in parallel. Overall, our findings corroborate a distinctive feature of predictive language processing in humans, namely its reliance on word meaning beyond statistical patterns of word co-occurrence.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.05.15.724229&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-important">Important</span><span class="score">5.01</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750960" target="_blank" rel="noopener">Threat imminence and estimates of agency dictate proactive and reactive defensive behaviors in active place avoidance</a></div>
+  <div class="title-cn">威胁迫近性与主观能动性评估决定主动地点回避中的前摄性与反应性防御行为</div>
+  <div class="one-line">为解决环境可控性如何影响防御行为问题，作者用主动地点回避范式结合监督式机器学习，发现惩罚强度、行为能动性和空间接近性共同决定小鼠前摄性与反应性防御反应。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-14</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chambard, A.; Quittet, C.; Boyer, S.; Vilalta, T.; Naude, J.; Valjent, E.; Bertaso, F.; Besnard, A.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.11.750960">10.64898/2026.09.11.750960</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.11.750960">https://www.biorxiv.org/content/10.64898/2026.09.11.750960</a></div><div class="d-block keywords">命中关键词：neural, machine learning</div><div class="d-block"><span class="lbl">推荐理由：</span>该文是小鼠防御行为学研究，不涉及演化、跨物种比较或单细胞/比较基因组学，对研究者核心问题帮助很有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>防御行为不仅受威胁迫近性影响，环境可控性这一因素仍缺乏系统研究。作者在雄性和雌性小鼠中重构主动地点回避（APA）范式，并结合监督式机器学习，比较不同惩罚强度、行为能动性、危险状态及学习阶段下的探索与防御行为。结果显示，APA中的防御反应可分为前摄性风险评估和反应性冻结/逃跑，两者互斥，其发生概率受行为能动性和危险空间接近性影响；去甲肾上腺素转运体阻断剂选择性增强反应性防御行为。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Defensive survival behaviors are shaped by both danger attributes and internal physiological states. Well-characterized defensive responses depend not only on whether danger is potential or perceived, but also on its spatial and or temporal proximity. The relationship between danger imminence and defensive behaviors is referred to as the threat imminence continuum, which provides a conceptual framework bridging ecology and behavioral neuroscience. Although this theoretical framework is gaining momentum, another much less explored danger attribute is the extent to which the environment may be controllable. Most paradigms assessing defensive behaviors rely on conditioned stimuli as danger warning-signals in stable environments that hamper the study of environment controllability and its impact on defensive behaviors. To address this question, we repurposed the active place avoidance (APA) paradigm combined with supervised machine learning to characterize multivariate exploratory and defensive behaviors in male and female mice. One important benefit of APA is that it allows the study of active avoidance when the platform is rotating as well as deliberative avoidance when the platform is immobile. As such, APA is very well suited to test the impact of environment controllability on the expression of defensive behaviors. Using this unified preparation, we systematically compared quantitative danger attributes (punishment intensity, behavioral agency) across danger states (absence, presence and omission of punishment) and learning experience (early and late learning stages), while considering sex as a biological variable. Our results demonstrate that defensive behaviors depend on punishment intensity in a sex-dependent manner in APA. Defensive responses can be classified as proactive (risk assessment) or reactive (freezing, escape) in APA. Their response probability depends on behavioral agency, is mutually exclusive and depends on danger spatial proximity. Acute treatment with norepinephrine transporter blocker selectively increases reactive defensive behaviors while sparing proactive defensive behavior. Collectively, these results provide experimental evidence that environmental stability calibrate proactive and reactive defensive behaviors whose neural correlates may be divergent.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.11.750960&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐的15篇论文横跨神经科学、人工智能与材料计算三大前沿领域，尤其值得关注的是多项研究将生物神经系统的内在特性与类脑计算、AI算法深度结合——从生物神经网络直接用于储备池计算，到基于模糊神经模块的轻量化建模，再到非挥发聚合物突触的构建，体现了&quot;向自然学习&quot;的鲜明特色。同时，EEG信号处理、心理疲劳监测等研究也展现了AI赋能传统学科的强劲势头。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>神经机制与脑功能解析：涵盖失眠的表观遗传与外泌体治疗、星形胶质细胞在乙醇饮用中的作用、钙成像与空间转录组联合、脑代谢网络动态切换，以及语义歧义对句子加工的影响，多维度揭示神经系统的复杂运作机制。</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>类脑计算与神经形态工程：包括利用生物神经网络进行储备池计算、非挥发n型聚合物突触实现93.3%识别率的神经形态视觉，以及模糊神经模块网络对高低维数据的轻量建模，推动计算范式向生物智能靠拢。</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>AI驱动的智能感知与模拟：涉及动态小波增强的EEG想象言语分类、施工环境下起重机操作员疲劳检测、物理启发的Particle Transformer实时流固耦合模拟，以及数学不变量拓扑神经网络预测分子材料性质，展现AI技术在各领域的深度应用。</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">这批论文呈现出鲜明的跨学科融合与方法创新趋势：一是生物启发式计算成为核心范式，研究者越来越倾向于从生物神经系统的物理特性中汲取灵感，而非简单模拟其功能结构；二是物理约束与数据驱动深度融合，无论是Particle Transformer中的MPM物理损失，还是MITNN中的数学不变量，都体现了先验知识嵌入神经网络的设计哲学；三是多模态、多尺度整合成为标配，从钙成像-空间转录组联合到FDG-PET滑动窗分析，再到MVMD-FCASNN的多变量信号分解，研究者通过多层次信息融合提升系统认知能力。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">对研究者而言，这批文献提供了丰富的切入点：神经科学领域可跟进外泌体精准治疗、星形胶质细胞靶向干预等转化方向；AI与工程交叉领域可借鉴物理信息神经网络、动态小波变换等方法提升系统鲁棒性；材料与计算领域则可探索拓扑不变量表征、非挥发突触器件等新范式。特别建议关注生物神经网络与人工系统之间的双向借鉴——既用AI解析脑功能，也用生物原理革新计算架构，这一双向循环正成为涌现创新的重要源泉。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
