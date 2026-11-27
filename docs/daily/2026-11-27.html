@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Literature Intelligence Report · 2026-11-27</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+         background: #f2f4f8; color: #222; margin: 0; padding: 28px 16px 64px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .subtitle { color: #66788c; font-size: 13px; margin: 0 0 18px; line-height: 1.7; }
+  .overview { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+              border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.7;
+              margin-bottom: 22px; }
+  /* 分区标题（图谱/研究/计算）与图谱质量小字；section-empty 为空分区占位提示 */
+  .section-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px;
+                   padding-bottom: 6px; border-bottom: 1px solid #e3eaf3; }
+  .section-empty { font-size: 13px; color: #98a4b0; margin: 6px 0 16px; }
+  .atlas-info { font-size: 12px; color: #8a97a5; margin: 4px 0; line-height: 1.6; }
+  .card { background: #fff; border: 1px solid #e0e5ec; border-radius: 10px;
+          padding: 16px 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .card.c-must { border-left: 5px solid #c0392b; }
+  .card.c-important { border-left: 5px solid #e67e22; }
+  .card.c-relate { border-left: 5px solid #8a97a5; }
+  .card-head { font-size: 12px; color: #8a97a5; margin-bottom: 8px; }
+  .rank { font-weight: bold; color: #333; margin-right: 10px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+           color: #fff; font-weight: bold; vertical-align: middle; }
+  .badge.b-must { background: #c0392b; }
+  .badge.b-important { background: #e67e22; }
+  .badge.b-relate { background: #8a97a5; }
+  .score { color: #0b5cad; font-weight: bold; margin-left: 10px; }
+  .title-en { font-size: 16px; font-weight: bold; line-height: 1.5; margin: 6px 0; }
+  .title-en a { color: #112233; text-decoration: none; }
+  .title-en a:hover { color: #0b5cad; text-decoration: underline; }
+  .title-cn { font-size: 14px; color: #555; line-height: 1.6; margin: 2px 0 8px; }
+  .one-line { font-size: 14px; color: #333; line-height: 1.7; margin: 6px 0; }
+  .meta { color: #66788c; font-size: 12px; margin: 4px 0; line-height: 1.7; }
+  .meta a { color: #0b5cad; text-decoration: none; }
+  .keywords { color: #7a6f9b; }
+  details.card-details { margin-top: 10px; border-top: 1px dashed #e0e5ec; padding-top: 10px; }
+  details.card-details summary { cursor: pointer; font-size: 13px; color: #0b5cad;
+                                 user-select: none; }
+  .d-block { font-size: 14px; color: #333; line-height: 1.8; margin: 10px 0; }
+  .d-block .lbl { color: #0b5cad; font-weight: bold; }
+  .en-abstract { font-size: 13px; color: #666; line-height: 1.7; margin: 10px 0 4px;
+                 padding: 8px 12px; border-left: 4px solid #ccd6e2;
+                 background: #f7f9fc; border-radius: 0 6px 6px 0; }
+  .fb-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e5ec;
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fb-btn { font-size: 12px; padding: 5px 14px; border: 1px solid #0b5cad;
+            border-radius: 14px; color: #0b5cad; background: #fff; cursor: pointer; }
+  .fb-btn:hover { background: #eef4fb; }
+  .fb-btn.selected { background: #0b5cad; color: #fff; }
+  .reason-row { margin-top: 8px; display: none; flex-wrap: wrap; gap: 6px; align-items: center;
+                font-size: 12px; color: #66788c; }
+  .reason-btn { font-size: 12px; padding: 3px 10px; border: 1px solid #c9a0a0;
+                border-radius: 12px; color: #a05252; background: #fff; cursor: pointer; }
+  .reason-btn:hover { background: #faf0f0; }
+  .reason-btn.selected { background: #a05252; color: #fff; border-color: #a05252; }
+  .reason-input { font-size: 12px; padding: 3px 8px; border: 1px solid #d5dce4;
+                  border-radius: 6px; width: 130px; }
+  .fb-status { font-size: 12px; margin-left: 4px; }
+  .fb-status.ok { color: #1a7f37; }
+  .fb-status.fail { color: #c0392b; }
+  .fb-status.pending { color: #8a97a5; }
+  .trend-title { font-size: 18px; color: #0b5cad; margin: 30px 0 4px; }
+  .trend-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .trend-overview { font-size: 14px; line-height: 1.7; background: #fff;
+                    border: 1px solid #e4e9ef; border-left: 4px solid #0b5cad;
+                    border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 0 0 14px; }
+  .trend-block { background: #fff; border: 1px solid #e4e9ef; border-radius: 8px;
+                 padding: 12px 16px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
+  .trend-block-title { font-size: 14px; font-weight: bold; color: #0b5cad; margin: 0 0 8px; }
+  .trend-dir { margin: 6px 0; }
+  .trend-dir-no { display: inline-block; font-weight: bold; color: #0b5cad; margin-right: 8px; }
+  .trend-text { margin: 0; }
+  .submit-title { font-size: 18px; color: #0b5cad; margin: 34px 0 4px; }
+  .submit-layer { color: #9aa5b1; font-size: 12px; margin: 0 0 14px; line-height: 1.6; }
+  .submit-card { background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #1a7f37;
+                 border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .submit-card h3 { font-size: 15px; margin: 0 0 6px; color: #222; }
+  .submit-card p { font-size: 13px; color: #66788c; margin: 0 0 10px; line-height: 1.6; }
+  .submit-card textarea { width: 100%; box-sizing: border-box; font-size: 13px;
+                          padding: 8px 10px; border: 1px solid #d5dce4; border-radius: 6px;
+                          resize: vertical; font-family: inherit; }
+  .submit-btn { margin-top: 8px; font-size: 13px; padding: 6px 18px; border: none;
+                border-radius: 14px; color: #fff; background: #1a7f37; cursor: pointer; }
+  .submit-btn:hover { background: #15692e; }
+  .submit-status { font-size: 12px; margin-left: 10px; }
+  .submit-status.ok { color: #1a7f37; }
+  .submit-status.fail { color: #c0392b; }
+  .submit-status.pending { color: #8a97a5; }
+  .footer { text-align: center; color: #9aa5b1; font-size: 12px; margin-top: 40px;
+            line-height: 1.8; }
+  .footer a { color: #0b5cad; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Daily Literature Intelligence Report · 2026-11-27</h1>
+<p class="subtitle">论文详情卡片 · 每卡可展开详情，卡底一键反馈（点击即记录，不跳转页面）· 文末为今日推荐文献价值总结与关键词提交</p>
+
+<div class="overview">今日推送 15 篇（Must Read 1 · Important 1 · Relate 13）· 命中关键词 21 个</div>
+
+<h2 class="section-title">新物种单细胞图谱</h2>
+
+<div class="card c-must">
+  <div class="card-head"><span class="rank">Rank 1</span><span class="badge b-must">Must Read</span><span class="score">5.52</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/43098310/" target="_blank" rel="noopener">A single-cell atlas of rainbow trout head kidney reveals erythrocyte-associated antiviral immunity during IHNV infection.</a></div>
+  <div class="title-cn">虹鳟头肾单细胞图谱揭示IHNV感染期间与红细胞相关的抗病毒免疫</div>
+  <div class="one-line">为解析 teleost 鱼类头肾在病毒感染时的细胞特异性免疫动态，作者对虹鳟头肾进行单细胞 RNA 测序，覆盖感染后 0-144 小时共 150,024 个细胞，鉴定出 13 种主要细胞群体，发现中性粒细胞和巨噬细胞主导早期抗病毒反应，成熟红细胞在感染后期显著扩增并表现出干扰素刺激基因活性及 RIG-I 样受体等抗病毒通路上调，提示其在 teleost 抗病毒免疫中的免疫调节作用。</div>
+  <div class="atlas-info">虹鳟（Oncorhynchus mykiss）头肾单细胞图谱，150,024 细胞，scRNA-seq；无脑类群，无神经元类型区分，聚焦免疫细胞和造血细胞类型。</div>
+  <div class="meta">Fish &amp; shellfish immunology · 2026-11-26</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Sun J, Chen J, Zhu P, Wu J, Bai J, Kong W, Xu Z, Jiang P, Liu H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.fsi.2026.111834">10.1016/j.fsi.2026.111834</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/43098310/">https://pubmed.ncbi.nlm.nih.gov/43098310/</a></div><div class="d-block keywords">命中关键词：single-cell atlas, scRNA-seq, cell state, Cell atlas</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为鱼类头肾免疫器官的单细胞图谱，无神经系统相关研究，无演化或跨物种比较视角，与研究者关注的脑演化、神经系统起源等核心方向完全无关。</div><div class="d-block"><span class="lbl">背景：</span>头肾是 teleost 鱼类兼具免疫和造血功能的核心器官，但其细胞组成及病毒感染时的动态响应缺乏单细胞水平的系统解析。传染性造血器官坏死病毒（IHNV）是危害鲑科鱼类的重要病原体，理解宿主抗病毒免疫机制对水产养殖疾病防控具有重要意义。然而，现有研究多集中于哺乳动物模型，teleost 鱼类免疫细胞的异质性及功能特化尚待深入探索。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者对虹鳟头肾在 IHNV 感染后 0、24、48、72 和 144 小时进行单细胞转录组测序，共获得 150,024 个高质量细胞用于整合分析。通过无监督聚类识别主要细胞群体，并对各群体进行差异基因表达分析和通路富集分析，以揭示感染时序中的免疫动态变化。</div><div class="d-block"><span class="lbl">研究结果：</span>研究鉴定出头肾 13 种主要细胞群体，包括中性粒细胞、巨噬细胞、T 细胞、B 细胞、NK 样细胞、红细胞、造血干细胞、血栓细胞及肾脏相关细胞类型。IHNV 感染导致免疫和造血区室显著重塑：中性粒细胞和巨噬细胞表现强烈早期炎症和干扰素刺激基因反应；B 细胞向成熟和浆细胞状态动态转变；T 细胞显示广泛的转录重编程。红细胞在感染后显著扩增，成熟红细胞表现最强的晚期干扰素刺激基因活性及 RIG-I 样受体、NOD 样受体、JAK-STAT 信号和抗原加工呈递等抗病毒通路上调。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究提供了首个 time-resolved 的 teleost 头肾单细胞图谱，揭示了病毒感染时免疫和造血系统的动态协调机制。发现成熟红细胞作为重要免疫调节群体的潜在功能，拓展了对 teleost 抗病毒免疫认知，并为理解红细胞在非造血系统中的免疫作用提供了新视角。然而，该研究完全聚焦于免疫学问题，对脑演化、神经系统发育等研究方向无直接参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>头肾是 teleost 鱼类的核心免疫和造血器官，但其细胞类型特异性免疫动态尚不清楚。本研究通过单细胞 RNA 测序分析虹鳟头肾在传染性造血器官坏死病毒感染后的时序免疫景观，保留 150,024 个高质量细胞，鉴定 13 种主要细胞群体。病毒感染引起免疫和造血区室显著重塑，中性粒细胞和巨噬细胞表现早期炎症和干扰素刺激基因反应，B 细胞向成熟和浆细胞状态动态转变，T 细胞发生广泛转录重编程。值得注意的是，红细胞在感染后显著扩增并显示延迟的干扰素相关转录程序诱导，成熟红细胞表现最强的晚期干扰素刺激基因活性和抗病毒通路上调。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The head kidney is a central immune and hematopoietic organ in teleost fish, but the cell type-specific immune dynamics of this organ during viral infection remain poorly understood. In this study, we performed single-cell RNA sequencing (scRNA-seq) to characterize the temporal immune landscape of rainbow trout (Oncorhynchus mykiss) head kidney following infectious hematopoietic necrosis virus (IHNV) infection. Head kidney cells were collected at 0, 24, 48, 72, and 144 h post-infection, and 150,024 high-quality cells were retained for integrated analysis. Unsupervised clustering identified 13 major cell populations, including neutrophils, macrophages, T cells, B cells, NK-like cells, erythrocytes, hematopoietic stem cells, thrombocytes, and kidney-associated cell types. IHNV infection induced pronounced remodeling of immune and hematopoietic compartments. Neutrophils and macrophages exhibited strong early inflammatory and interferon-stimulated gene (ISG) responses, indicating their major contribution to initial antiviral defense. B cells showed dynamic changes toward mature and plasma cell states, suggesting activation of humoral immunity. T cells displayed substantial transcriptional reprogramming, with altered pathways related to chemokine signaling, JAK-STAT signaling, T cell receptor signaling, and NF-kappa B signaling. Notably, scRNA-seq analysis showed erythrocytes expanded markedly after infection and displayed delayed induction of interferon-related transcriptional programs. Among erythroid subpopulations, mature erythrocytes showed the strongest late-stage ISG activity and upregulation of antiviral pathways, including RIG-I-like receptor, NOD-like receptor, JAK-STAT signaling, and antigen processing and presentation. Together, these findings provide a time-resolved single-cell atlas of the rainbow trout head kidney during IHNV infection and suggest that mature erythrocytes may serve as an important immunomodulatory population in teleost antiviral immunity.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.fsi.2026.111834&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">单细胞与空间生物学</h2>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 2</span><span class="badge b-relate">Relate</span><span class="score">4.04</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.11.05.764666" target="_blank" rel="noopener">Regenerative epithelial spike cells instruct immune niche homeostasis in zebrafish fin epidermis</a></div>
+  <div class="title-cn">再生性上皮棘突细胞调控斑马鱼鳍表皮免疫微环境稳态</div>
+  <div class="one-line">为探究上皮细胞如何维持免疫细胞池，作者整合单细胞RNA测序与转基因实验，在斑马鱼中发现一类表达advillin的棘突上皮细胞，其通过Alk信号依赖的再生过程与mpeg1+免疫细胞动态互作，揭示该细胞群在组织损伤后再生及免疫微环境稳态中的调控作用，为理解表皮-免疫互作机制提供新视角。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-06</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Cao, S.; Keating, M. K.; O&#x27;Hagan, J.; Rodriguez-Parks, A.; Hou, Y.; Robertson, T. F.; Huttenlocher, A.; Kang, J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.11.05.764666">10.64898/2026.11.05.764666</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.11.05.764666">https://www.biorxiv.org/content/10.64898/2026.11.05.764666</a></div><div class="d-block keywords">命中关键词：scRNA-seq, zebrafish</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文聚焦斑马鱼鳍表皮再生与免疫微环境稳态，虽使用单细胞测序技术，但缺乏演化比较视角，不涉及神经系统、细胞类型同源性或跨物种比较，与研究者核心方向不符。</div><div class="d-block"><span class="lbl">背景：</span>上皮组织包含多种特化上皮细胞，它们与免疫细胞相互作用以维持组织稳态，但上皮-免疫互作如何维持免疫细胞池的机制仍不明确。斑马鱼作为重要的脊椎动物模式生物，其鳍再生系统是研究组织修复与细胞互作的经典模型。</div><div class="d-block"><span class="lbl">研究方法：</span>研究者整合单细胞RNA测序（scRNA-seq）分析与斑马鱼转基因实验，结合组织学成像技术鉴定上皮细胞群体；通过鳍截肢实验建立再生模型，利用Alk信号通路抑制实验验证棘突细胞再生的信号依赖性，并采用空间分析评估棘突细胞与mpeg1+免疫细胞的动态互作关系。</div><div class="d-block"><span class="lbl">研究结果：</span>研究发现一类表达advillin的新型上皮细胞群体——棘突细胞，具有独特的顶端棘突形态和外向投射特征，与哺乳动物簇细胞类似。棘突细胞与mpeg1+免疫细胞存在紧密空间关联。鳍截肢后，棘突细胞从前体细胞新生再生，其密度、形态和方向性发生动态变化，且该再生过程依赖Alk信号通路。棘突细胞通过动态互作维持免疫细胞群体稳态。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究鉴定了斑马鱼鳍表皮中独特的上皮细胞群体，揭示了其在组织再生和免疫微环境稳态中的调控功能，为理解上皮-免疫互作机制提供了新见解。但该研究局限于单一物种的组织修复背景，未涉及跨物种比较、细胞类型演化或神经系统相关议题，对该研究者核心研究方向的参考价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>上皮细胞与免疫细胞互作维持免疫池的机制尚不清楚。作者通过scRNA-seq和转基因实验在斑马鱼中发现表达advillin的棘突上皮细胞，其具有顶端突起结构，与mpeg1+免疫细胞空间关联密切。鳍截肢后，棘突细胞从前体细胞新生补充，依赖Alk信号，并与免疫细胞动态互作以维持免疫群体。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Epithelia comprise diverse specialized epithelial cells that interact with immune cells, yet how these interactions sustain immune cell pools remain poorly understood. Here, we integrated single-cell RNA sequencing (scRNA-seq) analysis with transgenic assays in zebrafish and discovered a previously unrecognized epithelial population marked by advillin (avil). We identified epithelial cells exhibiting unique morphology and localization, characterized by an apical spike projecting outward from the body - which we term spike cells. These cells exhibit features reminiscent of mammalian tuft cells. Notably, avil+ spike cells exhibit close spatial association with a subset of mpeg1+ immune cells. Following fin amputation, spike cells are replenished de novo from precursors and undergo dynamic changes in density, morphology, and orientation, and their regeneration depends on Alk signaling. Moreover, spike cells dynamically interact with mpeg1+ immune cells to maintain the immune cell population. Together, our findings identify a unique epithelial population in zebrafish fins and define their roles in maintaining immune cell niche dynamics.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.05.764666&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 3</span><span class="badge b-relate">Relate</span><span class="score">4.03</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.09.08.750078" target="_blank" rel="noopener">Transposable elements modulate gene expression in response to oxidative stress in Drosophila suzukii</a></div>
+  <div class="title-cn">转座子调控黑腹果蝇近缘种Drosophila suzukii对氧化应激的基因表达响应</div>
+  <div class="one-line">为解决D. suzukii中单个TE插入如何影响氧化应激响应问题，作者用野生型品系表达分析和等位基因特异表达方法，发现Mrp4-TE与inaE-TE增强邻近基因诱导表达且Mrp4-TE提高应激敏感性。</div>
+  
+  <div class="meta">bioRxiv · 2026-09-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Merenciano, M.; Belgaïdi, Z.; Regis, C.; Gand, L.; Pires Das Dores, A. C.; Vieira, C.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.09.08.750078">10.64898/2026.09.08.750078</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.09.08.750078">https://www.biorxiv.org/content/10.64898/2026.09.08.750078</a></div><div class="d-block keywords">命中关键词：transposable element, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>论文聚焦果蝇转座子对氧化应激基因表达的顺式调控，不含脑演化、细胞类型同源性或跨物种比较视角，仅可作为基因调控演化背景下的边缘参考。</div><div class="d-block"><span class="lbl">中文全摘要：</span>转座子是基因组与调控变异的重要来源，但D. suzukii中单个TE插入对氧化应激反应的作用尚不清楚。作者聚焦位于Mrp4和inaE基因内含子的两处多态TE插入，在野生型品系中结合百草枯诱导氧化应激与等位基因特异表达分析，发现携带TE插入的个体中邻近基因上调更强，且含插入等位基因在对照和应激条件下均趋于更高表达，支持顺式调控作用；其中Mrp4-TE还与更高氧化应激敏感性相关。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Transposable elements (TEs) are major contributors to genomic and regulatory variation and can influence the expression of nearby genes in response to environmental stress. The invasive fruit fly Drosophila suzukii, whose genome is composed of nearly 50% TE-derived sequences, provides an excellent model to investigate the regulatory impact of TEs on stress responses. Although previous studies found no global association between TEs and oxidative stress transcriptomic response in this species, the effects of individual TE insertions remain largely unexplored. Here, we investigated the role of two polymorphic intronic TE insertions, Mrp4-TE and inaE-TE, located within genes implicated in the oxidative stress response in D. melanogaster. Using wild-type strains of D. suzukii, we assessed the effect of these insertions on gene expression following oxidative stress induced by paraquat exposure. We found that their corresponding nearby genes Mrp4 and inaE were upregulated after paraquat treatment and that this response was significantly stronger in flies carrying the corresponding TE insertions. Allele-specific expression analyses further showed that the alleles containing the TE insertions exhibited a tendency towards higher expression levels than alleles lacking the insertions, both under control and oxidative stress conditions, supporting a cis-regulatory effect. In addition, Mrp4-TE was associated with increased sensitivity to oxidative stress. Together, our results provide the first evidence that TE insertions can modulate oxidative stress-responsive gene expression in D. suzukii. These findings highlight the importance of investigating individual TE insertions to understand the genetic and regulatory mechanism underlying stress responses, adaptation, and invasion success in this species.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.09.08.750078&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 4</span><span class="badge b-relate">Relate</span><span class="score">4.02</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42685693/" target="_blank" rel="noopener">Compression as a neural mechanism of mnemonic chunking in prefrontal cortex.</a></div>
+  <div class="title-cn">压缩作为前额叶皮层中记忆组块化的神经机制</div>
+  <div class="one-line">为解决工作记忆中组块化如何形成问题，作者用猕猴dlPFC神经群体记录结合自组织视觉空间记忆任务，发现组块化使表征向组块中心偏移并降低群体活动维度。</div>
+  
+  <div class="meta">Current biology : CB · 2026-09-02</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chiang FK, Rich EL</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.cub.2026.08.016">10.1016/j.cub.2026.08.016</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42685693/">https://pubmed.ncbi.nlm.nih.gov/42685693/</a></div><div class="d-block keywords">命中关键词：neural</div><div class="d-block"><span class="lbl">推荐理由：</span>研究聚焦猕猴前额叶工作记忆的神经编码与行为机制，缺乏演化、跨物种比较或细胞类型同源性视角，对该研究者仅具一般神经科学背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>组块化是工作记忆中的关键认知过程，但其神经形成机制不清。作者让猕猴执行可表征自发组块化的自组织视觉空间工作记忆任务，分析背外侧前额叶皮层（dlPFC）神经表征。结果发现，组块化总体提升记忆表现，但在组块边界处准确率更低、反应时更长；同时，dlPFC中空间目标表征系统性偏向共同组块中心，神经群体活动维度下降，提示记忆信息被压缩。行为偏差方向与神经表征扭曲一致，说明这种压缩更像有损压缩，有助于提升整体记忆保持。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Chunking is the mental process of grouping information into meaningful units and plays a central role in many cognitive processes such as working memory, yet the neural mechanisms that form chunks remain unknown. Here, we investigated how chunking impacts the representation of mnemonic information in the dorsolateral prefrontal cortex (dlPFC). Macaque monkeys performed a self-ordered visuospatial working memory task, in which spontaneous chunking could be behaviorally characterized. We found that chunking improved memory performance overall and produced lower accuracies and longer reaction times at chunk boundaries. In the dlPFC, chunking systematically biased neural representations of spatial targets toward common chunk centers. At the same time, chunking reduced the dimensionality of population activity, indicating a compression of mnemonic information. Memory-guided behavior was also biased in the same direction as the neural distortions, which suggests that the compression mechanisms are lossy rather than lossless. Together, these results offer a mechanistic account of chunking as a form of lossy compression in neural coding that sacrifices detail within a chunk but improves overall memory retention.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.cub.2026.08.016&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 5</span><span class="badge b-relate">Relate</span><span class="score">4.01</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42485394/" target="_blank" rel="noopener">Parabrachial Ntsr1 neurons modulate food intake and anxiety through a projection to the ventromedial hypothalamus.</a></div>
+  <div class="title-cn">臂旁核Ntsr1神经元通过投射到腹内侧下丘脑调节食物摄入和焦虑</div>
+  <div class="one-line">为解决威胁情境下抑食神经环路不清问题，作者用化学遗传、末梢激活、光纤测光与破伤风毒素沉默，发现小鼠PBN Ntsr1→VMH通路抑制进食并增强焦虑样行为。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-07-28</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Pauli JL, Park S, Felix RR, Palmiter RD</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2605466123">10.1073/pnas.2605466123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42485394/">https://pubmed.ncbi.nlm.nih.gov/42485394/</a></div><div class="d-block keywords">命中关键词：neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠PBN→VMH神经环路对摄食与焦虑的调控，缺乏演化或跨物种比较视角，对该研究者仅具一般神经回路背景参考价值。</div><div class="d-block"><span class="lbl">中文全摘要：</span>为解析臂旁核如何整合威胁与摄食信号，作者鉴定出小鼠外侧PBN中一群表达Ntsr1、并选择性投射至腹内侧下丘脑（VMH）的神经元，部分与Cck和Foxp2表达重叠。化学遗传激活该群神经元可诱导VMH中Nr5a1(SF1)和Bdnf神经元Fos表达，降低禁食后摄食并增加焦虑样行为；光纤测光显示其在焦虑情境中活性升高、进食时受抑，沉默则增食并减轻焦虑，揭示了威胁抑食回路。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The parabrachial nucleus (PBN) is an important hub located in the pons that relays sensory signals from peripheral regions. It is genetically diverse and contains many populations that modulate feeding and responses to threatening situations. A small Ntsr1-expressing population of neurons was identified that projects selectively to the ventromedial hypothalamus (VMH). The Ntsr1 neurons are scattered throughout the lateral PBN with a cluster of cells along the border to the nucleus of the lateral lemniscus that overlap with Cck and Foxp2 expression. Chemogenetic activation of PBN Ntsr1 neurons results in Fos induction in Nr5a1 (SF1) and Bdnf neurons in the VMH. Activation of PBN Ntsr1 neurons or their terminals in the VMH reduces food intake after fasting and increases anxiety-like behaviors. In anxiogenic feeding assays, activation of PBN Ntsr1 neurons increases latency to feed as well as reducing food intake. Photometry showed that PBN Ntsr1-neuronal activity increases during anxiogenic situations but is suppressed during food consumption, suggesting a role in threat-induced suppression of feeding. Silencing PBN Ntsr1 neurons with tetanus toxin light-chain increased food intake and reduced anxiety. These findings reveal a genetically defined PBN to VMH circuit that responds to threats and suppresses feeding behavior.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2605466123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 6</span><span class="badge b-relate">Relate</span><span class="score">3.99</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42827263/" target="_blank" rel="noopener">Single-cell RNA sequencing unravels mosquito biology and host-pathogen interactions.</a></div>
+  <div class="title-cn">单细胞RNA测序揭示蚊虫生物学与宿主-病原体互作</div>
+  <div class="one-line">为系统综述单细胞RNA测序在蚊虫生物学中的应用，作者梳理技术流程与数据分析策略，总结其在细胞图谱构建、吸血后转录重塑及媒介-病原互作中的研究进展，未涉及演化或神经相关研究。</div>
+  
+  <div class="meta">Parasites &amp; vectors · 2026-10-02</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Liu LB, Ye HB, Tian ZH, Zeng XH, Wu JH</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1186/s13071-026-07460-8">10.1186/s13071-026-07460-8</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42827263/">https://pubmed.ncbi.nlm.nih.gov/42827263/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, Cell atlas, Spatial transcriptomics</div><div class="d-block"><span class="lbl">推荐理由：</span>该文为技术综述，聚焦媒介生物学与病原互作，缺乏演化、跨物种比较或神经系统相关视角。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞RNA测序（scRNA-seq）通过高分辨率转录组分析重塑了蚊虫生物学与宿主-病原体互作的研究范式。本综述概述scRNA-seq技术流程与数据分析策略，重点介绍其在蚊虫细胞图谱构建、吸血后转录重塑、性二态性及受体共表达模式中的应用；并探讨scRNA-seq在揭示虫媒病毒细胞嗜性、宿主免疫应答及干预靶点鉴定中的作用。尽管存在细胞标志物缺乏与功能验证不足等挑战，该技术为单细胞水平理解蚊虫生物学提供新视角，为精准媒介防控奠定基础。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell RNA sequencing (scRNA-seq) is fundamentally reshaping the research paradigm of mosquito biology and host-pathogen interactions via its high-resolution transcriptomic profiling capability. This review first outlines the technical workflow and data analysis strategies of scRNA-seq, then highlights key applications of scRNA-seq in constructing mosquito cell atlases, deciphering post-blood-meal transcriptional remodeling, sexual dimorphism, and receptor coexpression patterns. Furthermore, the role of scRNA-seq in revealing the cellular tropism of mosquito-borne pathogens, host immune responses, and the identification of potential intervention targets is discussed. Despite current challenges such as the lack of specific cell markers and insufficient functional validation, scRNA-seq has provided a novel perspective for understanding mosquito biology at the single-cell level and laid an important foundation for developing targeted vector control strategies. Looking forward, integration with spatial transcriptomics, multiomics approaches, and dynamic experimental validation will further advance this field toward mechanistic research and translational applications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1186/s13071-026-07460-8&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 7</span><span class="badge b-relate">Relate</span><span class="score">3.98</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42679033/" target="_blank" rel="noopener">A single extracellular glycan links AMPA receptor gating to synaptic plasticity and memory persistence.</a></div>
+  <div class="title-cn">单个细胞外聚糖将AMPA受体门控与突触可塑性和记忆持久性连接起来</div>
+  <div class="one-line">为解决记忆持久性的稳定机制不清问题，作者用GluA1 N401Q敲入小鼠结合生化与成像分析，发现Asn401位点N-糖链通过影响AMPAR门控、脂筏分配和转运调控LTP维持与记忆持久性。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-09-08</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Midorikawa R, Wakazono Y, Basnet SKC, Kandel MB, Uchida T, Morise J, Yoshihara T, Asano M, Oka S, Takamiya K</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2607934123">10.1073/pnas.2607934123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42679033/">https://pubmed.ncbi.nlm.nih.gov/42679033/</a></div><div class="d-block keywords">命中关键词：brain</div><div class="d-block"><span class="lbl">推荐理由：</span>该文聚焦小鼠AMPAR糖基化调控突触可塑性与记忆机制，缺乏演化或跨物种比较视角，与研究者核心兴趣关联很弱。</div><div class="d-block"><span class="lbl">中文全摘要：</span>持久性突触可塑性对记忆至关重要，但其稳定机制仍不清楚。作者鉴定出AMPAR的GluA1亚基Asn401位点内源性N-连接聚糖，发现去除该糖链会降低受体去敏化、促进再敏化，并增强其与神经节苷脂结合，使受体更多进入富含神经节苷脂的脂筏微区，扰乱活动依赖性转运并促进过度内吞。在GluA1 N401Q敲入小鼠中，该改变选择性损害海马LTP维持及情景和空间记忆持久性，而对学习获得影响较小。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Persistent synaptic plasticity is essential for memory, yet its stabilizing mechanisms remain incompletely understood. AMPA-type glutamate receptors (AMPARs) mediate most fast excitatory transmission in the brain, but how extracellular posttranslational modifications regulate their functional dynamics in vivo remains unclear. Here, we identify a single endogenous N-linked glycan at Asn401 of the AMPAR GluA1 subunit as a regulator that links receptor gating, membrane microdomain organization, and memory persistence. Loss of this glycan markedly reduced AMPAR desensitization and promoted resensitization. Biochemical and imaging analyses showed that GluA1 lacking the N401 glycan preferentially partitions into ganglioside-rich lipid raft microdomains through enhanced ganglioside binding, thereby disrupting activity-dependent receptor trafficking and promoting excessive receptor internalization. Using GluA1 N401Q knock-in mice, we show that loss of this glycan selectively impairs hippocampal long-term potentiation maintenance and compromises contextual and spatial memory persistence, while leaving learning acquisition largely intact. Notably, this site exhibits partial occupancy in the mammalian brain, indicating that it functions as an endogenous tunable constraint on synaptic stability. Together, these findings establish site-specific glycosylation as a mechanism that coordinates AMPAR gating with membrane compartmentalization to control persistent synaptic plasticity and memory in vivo.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2607934123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 8</span><span class="badge b-relate">Relate</span><span class="score">3.97</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42777035/" target="_blank" rel="noopener">Octopus-inspired muscle activation unlocks high-DOF motion from a single actuator.</a></div>
+  <div class="title-cn">受章鱼启发的肌肉激活策略实现单执行器高自由度运动</div>
+  <div class="one-line">为解决软体机器人多执行器设计复杂臃肿问题，作者受章鱼神经肌肉接头启发开发线键合结，使单根形状记忆合金实现分区激活，达成双倍工作空间并降低40%能耗。</div>
+  
+  <div class="meta">Science advances · 2026-09-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Xin W, Tang Z, Wang P, He L, Hou L, Zhao L, Xie Z, Laschi C</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1126/sciadv.aei4282">10.1126/sciadv.aei4282</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42777035/">https://pubmed.ncbi.nlm.nih.gov/42777035/</a></div><div class="d-block keywords">命中关键词：octopus</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯软体机器人工程研究，完全不涉及演化、神经发育或跨物种比较生物学，与研究者的核心方向无关。</div><div class="d-block"><span class="lbl">中文全摘要：</span>软体机器人虽具无限自由度，但灵巧运动通常需大量执行器导致系统复杂。受章鱼神经肌肉接头启发，本研究开发线键合结实现单根形状记忆合金的分区激活。该技术使软体机器人实现连续形变，工作空间与可操作性约为传统堆叠设计两倍，同时能耗降低达40%。单一执行器可同时操控软体机械臂及其末端执行器，为软体机器人设计提供紧凑高效新范式。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>While soft robots leverage compliant materials to offer infinite degrees of freedom (DOFs), achieving dexterous motions usually requires numerous actuators, making the robot bulky, complex to assemble, and discontinuously segmented. Here, inspired by the octopus neuromuscular junctions (NMJs), we present similar wire bonding junctions (WBJs) that enable partitioned activation on a single shape memory alloy (SMA) actuator. By utilizing WBJs, soft robots achieve continuous deformation with approximately twice the workspace and manipulability of traditional stacked designs. We demonstrated that modulating voltage across these junctions allows the SMA to actuate variable lengths, maintaining high dexterity while reducing energy consumption up to 40%. With WBJs, one single SMA actuator could master both soft arm manipulator and its end effector. This compact, lightweight architecture enables the soft robot arm to be rolled for low-encumbrance drone deployment and confined-space sampling. Our results demonstrate a new actuation paradigm for achieving high DOF, offering a compact, efficient blueprint for soft robot design.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1126/sciadv.aei4282&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 9</span><span class="badge b-relate">Relate</span><span class="score">3.96</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/42837446/" target="_blank" rel="noopener">Chronic intermittent heat exposure induces anxiety in female mice via TLR4 upregulation in paraventricular nucleus CRH neurons.</a></div>
+  <div class="title-cn">慢性间歇性热暴露通过室旁核CRH神经元TLR4上调诱导雌性小鼠焦虑</div>
+  <div class="one-line">为解决热应激诱导焦虑的性别差异机制问题，作者利用雌性小鼠模型，发现CIHE通过上调PVN-CRH神经元TLR4破坏SuMM投射突触信号引发焦虑，HBET口服可防治。</div>
+  
+  <div class="meta">Proceedings of the National Academy of Sciences of the United States of America · 2026-10-13</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zhu S, Sun M, Ye Z, Zhou Y, Wu Y, Chen W, Li J, Feng X, Ye S, Chen X, Wang Y, Shu G, Wang S, Jiang Q, Wang L</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1073/pnas.2608918123">10.1073/pnas.2608918123</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/42837446/">https://pubmed.ncbi.nlm.nih.gov/42837446/</a></div><div class="d-block keywords">命中关键词：neuron</div><div class="d-block"><span class="lbl">推荐理由：</span>纯小鼠行为与疾病机制研究，无演化或跨物种比较视角，与研究者核心方向完全不符。</div><div class="d-block"><span class="lbl">中文全摘要：</span>环境应激是焦虑发作的重要因素。本研究报道两周慢性间歇性热暴露（CIHE）仅在雌性小鼠中诱导焦虑，伴随室旁核（PVN）促肾上腺皮质激素释放激素（CRH）神经元反应性显著降低。Toll样受体4（TLR4）作为PVN-CRH神经元上的关键介导分子，其过表达通过破坏至乳头体上核（SuMM）的突触信号导致焦虑。口服β-羟基丁酸酯（HBET）可有效预防CIHE诱导的焦虑，为应激相关代谢和精神并发症提供潜在治疗策略。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Environmental stress has long been recognized as a pivotal contributor to the onset of anxiety. In this study, we reported that two weeks of chronic intermittent heat exposure (CIHE) induces anxiety only in female mice and is accompanied by a significant reduction in the responsiveness of corticotropin-releasing hormone (CRH) neurons located in the paraventricular nucleus (PVN). Moreover, toll-like receptor 4 (TLR4), which is expressed on CRH neurons, has been identified as a critical mediator of this process. Further research has demonstrated that the overexpression of TLR4 in CRH neurons in the PVN contributes to the development of anxiety in mice by disrupting synaptic signaling in supramammillary nucleus (SuMM) projections from CRH neurons. Oral ester β-hydroxybutyl (HBET) can effectively prevent anxiety induced by CIHE in mice. In summary, our research provides compelling evidence that TLR4 expressed on PVNCRH neurons plays a pivotal role in mediating anxiety-like behaviors in mice induced by CIHE and offers potential therapeutic strategies for addressing stress-related metabolic and psychiatric complications.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1073/pnas.2608918123&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+<h2 class="section-title">计算生物学</h2>
+
+<div class="card c-important">
+  <div class="card-head"><span class="rank">Rank 10</span><span class="badge b-important">Important</span><span class="score">5.07</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/43096658/" target="_blank" rel="noopener">SPAMO: Spatial Multi-Omics Integration via Dual-Graph Encoding and Neighborhood-Constrained Cross-Modal Fusion.</a></div>
+  <div class="title-cn">SPAMO：通过双图编码与邻域约束跨模态融合进行空间多组学整合</div>
+  <div class="one-line">为解决空间多组学数据不同模态的稀疏性和噪声差异导致的空间域检测难题，作者开发了SPAMO跨模态融合框架，通过结合空间KNN图与模态特异性特征KNN图、执行邻域约束的跨模态注意力机制以及门控残差融合，在人类淋巴结、小鼠脑等数据集上实现了改进的空间域检测性能，为保留模态特异性表征的同时整合互补多组学信息提供了有效策略。</div>
+  
+  <div class="meta">Bioinformatics (Oxford, England) · 2026-11-26</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Su H, Feng J, Long W, Hou Y, Zhang Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1093/bioinformatics/btag871">10.1093/bioinformatics/btag871</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/43096658/">https://pubmed.ncbi.nlm.nih.gov/43096658/</a></div><div class="d-block keywords">命中关键词：brain, spatial omics, Tissue architecture</div><div class="d-block"><span class="lbl">推荐理由：</span>纯方法学工具开发，无跨物种比较或演化视角，物种仅限小鼠且非脑图谱，对该研究者参考价值极低。</div><div class="d-block"><span class="lbl">背景：</span>空间组学技术能够同时获取组织的空间位置信息和分子特征，多组学整合有望比单一模态更忠实地描绘组织结构。然而，不同模态数据（如转录组、蛋白质组、表观基因组等）具有截然不同的稀疏性模式和噪声特性，使得无监督空间域检测仍具挑战性。现有方法虽在结合空间与多模态信号方面取得进展，但如何在引入跨模态信息的同时保留模态特异性表征、避免非局部位点混合，仍是未被充分探索的问题。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了SPAMO（Spatial Multi-Omics Integration）框架，采用双图编码策略：构建跨模态共享的空间KNN图和模态特异性特征KNN图以学习模态特异性图表示；设计邻域约束的跨模态注意力机制，对共定位及邻近位点进行注意力计算；通过门控残差融合整合单模态和跨模态信息。</div><div class="d-block"><span class="lbl">研究结果：</span>SPAMO在人类淋巴结、小鼠脑及模拟基准数据集上进行评估，在空间域检测性能上达到竞争性或改进水平，且在真实数据集上提升最为明显，表明邻域约束跨模态融合策略能有效保留模态特异性表征同时整合互补多组学信息。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究提出的邻域约束跨模态融合策略为空间多组学数据整合提供了新思路，但属于通用性方法学工具，未涉及任何演化生物学问题、跨物种比较或特定物种（除小鼠脑作为验证数据外）的深入生物学发现。对于关注脑演化、细胞类型同源性及跨物种比较的研究者而言，该方法缺乏直接的科学问题关联。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间多组学数据中，不同模态具有不同的稀疏模式和噪声特征，使无监督空间域检测困难。现有方法在结合空间和多模态信号方面取得进展，但如何在引入跨模态信息时保留可靠的模态特异性表征并避免非局部位点混合仍探索不足。为此，作者提出SPAMO框架，通过学习模态特异性图表示、执行邻域约束的跨模态注意力以及门控残差融合，在人类淋巴结、小鼠脑及模拟基准上获得竞争性改进的域检测性能。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>In spatial omics, multi-omics data have the potential to delineate tissue architecture more faithfully than any single modality, but unsupervised spatial domain detection remains difficult because different modalities exhibit distinct sparsity patterns and noise characteristics. Existing methods have made progress in combining spatial and multimodal signals, yet how to introduce cross-modal information while preserving reliable modality-specific representations and avoiding non-local spot mixing remains insufficiently explored. To address this challenge, we present SPAMO, a cross-modal fusion framework for unsupervised spatial multi-omics domain detection. SPAMO learns modality-specific graph representations by combining a spatial-based KNN graph shared across modalities with a modality-specific feature based KNN graph, performs neighborhood-constrained cross-modal attention over co-located and neighboring spots, and uses gated residual fusion to integrate unimodal and cross-modal information. Across Human Lymph Node, Mouse Brain, and simulated benchmarks, SPAMO achieves competitive or improved domain-detection performance, with the clearest gains on real datasets. These results support neighborhood-constrained cross-modal fusion as an effective strategy for retaining modality-specific representations while incorporating complementary multi-omics information. Code is available on GitHub (https://github.com/ai4nucleome/SPAMO). The data and archived source code are available on Zenodo (https://doi.org/10.5281/zenodo.23411574). Supplementary data are available online.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1093/bioinformatics/btag871&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 11</span><span class="badge b-relate">Relate</span><span class="score">4.38</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/43084397/" target="_blank" rel="noopener">Protocol to identify and date ancient whole-genome duplications using KS age distributions and molecular clock estimates.</a></div>
+  <div class="title-cn">利用KS年龄分布和分子时钟估计鉴定和定年古老全基因组复制的实验方案</div>
+  <div class="one-line">为解决古老全基因组复制事件推断困难的问题，作者提出了一套基于KS年龄分布和分子时钟估计的计算流程，用于检测古代WGD遗迹并进行进化时间框架内的鉴定与定年，为新兴基因组数据的WGD研究提供标准化方法学工具。</div>
+  
+  <div class="meta">STAR protocols · 2026-11-25</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Chen H, Van de Peer Y</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1016/j.xpro.2026.104999">10.1016/j.xpro.2026.104999</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/43084397/">https://pubmed.ncbi.nlm.nih.gov/43084397/</a></div><div class="d-block keywords">命中关键词：whole-genome duplication, genome duplication</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为计算生物学方法学文章，聚焦全基因组复制事件的推断与定年，无跨物种比较、演化发育或单细胞组学内容，与研究者核心方向缺乏直接关联。</div><div class="d-block"><span class="lbl">背景：</span>全基因组复制是基因组进化的重要驱动力，在植物和动物演化史上多次发生。然而，由于时间久远和后续基因组重塑，古老WGD的检测与精确 dating 一直是进化基因组学中的难题。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了基于同义替换率（KS）分布分析和分子时钟校准的计算流程，包括：基因组数据预处理、同源基因对鉴定、KS值计算与年龄分布建模、WGD信号检测与统计显著性评估，以及基于分子时钟的时间框架推断。</div><div class="d-block"><span class="lbl">研究结果：</span>该方案系统描述了从原始基因组数据到WGD推断的完整步骤，能够有效区分WGD事件与连续的小规模重复事件，并结合分子时钟实现较精确的时间定年，适用于多种新测序基因组的WGD调查。</div><div class="d-block"><span class="lbl">研究意义：</span>该方案为WGD研究提供了标准化的计算工具箱，有助于快速评估新兴基因组数据中的古多倍化历史，但其应用价值主要限于基因组进化与物种系统发育领域，与细胞类型进化、神经发育及单细胞比较研究无直接交集。</div><div class="d-block"><span class="lbl">中文全摘要：</span>古老多倍体化由全基因组复制事件产生，在生命之树中反复发生，但其推断仍具挑战性。作者提出基于KS年龄分布和分子时钟估计的计算方案，通过搜索古老WGD遗迹并进行鉴定与定年，适用于新产生基因组数据的WGD调查研究。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Ancient polyploidy, the result of whole-genome duplication (WGD), has occurred repeatedly throughout the tree of life, yet the inference of ancient WGDs remains a challenging task. Here, we present a computational protocol for the inference of ancient WGDs using KS age distributions and molecular clock estimates. We describe steps to search for the remnants of ancient WGDs and the ensuing identification and dating in an evolutionary time frame. This protocol is suitable for WGD investigation of newly generated genome data. For complete details on the use and execution of this protocol, please refer to Chen et al.1.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1016/j.xpro.2026.104999&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 12</span><span class="badge b-relate">Relate</span><span class="score">4.12</span></div>
+  <div class="title-en"><a href="https://pubmed.ncbi.nlm.nih.gov/43013695/" target="_blank" rel="noopener">PhysInfer: A physics-constrained neural network for adaptive inference of transcriptional bursting from single-cell RNA-seq.</a></div>
+  <div class="title-cn">PhysInfer：一种用于自适应推断单细胞RNA-seq转录爆发的物理约束神经网络</div>
+  <div class="one-line">为解决从静态单细胞RNA-seq快照中推断转录爆发动态的参数不可识别性和模型拓扑失配问题，作者开发了PhysInfer——一种将物理约束神经网络与自适应模型选择和参数解耦相结合的无监督框架，通过物理信息损失函数将优化从不可识别的微观速率重新参数化为可解释宏观爆发量表示；在合成数据和鼠胚胎成纤维细胞数据中验证了推断准确性，并识别出部分基因支持有效的序贯三态表示，为表征静态单细胞转录组快照中的转录动力学模式提供了稳健、拓扑自适应且可解释的解决方案。</div>
+  
+  <div class="meta">PLoS computational biology · 2026-11-11</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Zeng X, Zhang J, Li S, Wang H</div><div class="d-block meta">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1014904">10.1371/journal.pcbi.1014904</a> · PubMed 链接: <a href="https://pubmed.ncbi.nlm.nih.gov/43013695/">https://pubmed.ncbi.nlm.nih.gov/43013695/</a></div><div class="d-block keywords">命中关键词：scRNA-seq, neural network</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算方法学工具，专注于转录组爆发动力学推断，无任何演化、跨物种比较或神经系统相关研究内容，与研究者核心方向完全无关。</div><div class="d-block"><span class="lbl">背景：</span>单细胞RNA测序技术已揭示基因表达的随机转录爆发特性，但从静态快照推断底层爆发动力学面临根本性挑战。传统方法受限于参数不可识别性问题——即多个不同的微观速率参数组合可能产生相同的观测分布，以及预设模型拓扑与实际生物学过程的不匹配。转录爆发的两个关键参数——爆发大小（BS）和爆发频率（BF）——对于理解基因调控机制至关重要，但在实际数据中的准确恢复仍具挑战性。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了PhysInfer框架，核心为物理约束神经网络结合自适应模型选择和参数解耦策略。具体采用物理信息损失函数，整合稳态分布似然与零值计数锚定，将优化目标从不可识别的微观速率转换为宏观可解释的爆发量表示。自适应拓扑模块用于区分基因最适的模型复杂度（2态 vs 3态）。方法在具有已知参数的合成数据及鼠胚胎成纤维细胞（MEF）scRNA-seq数据集上进行验证。</div><div class="d-block"><span class="lbl">研究结果：</span>PhysInfer在合成数据上实现了高推断准确性，尤其在低中激活regime中表现良好；随着ON态概率趋近饱和，爆发大小和生产性爆发频率的恢复变得越来越条件依赖。在MEF数据集中，PhysInfer重建了2137基因的转录动态流形，展示了基因间爆发频率和爆发大小的跨基因变异。自适应拓扑模块识别出一部分基因具有稳定的有效序贯三态表示支持，揭示了标准二态拟合未能捕获的分布结构。零值锚定策略提高了对高零值观测的稳健性。</div><div class="d-block"><span class="lbl">研究意义：</span>PhysInfer为从静态单细胞转录组快照中表征转录动力学模式提供了稳健、拓扑自适应且可解释的解决方案。然而，该方法目前仅在小鼠成纤维细胞系统中验证，未涉及任何跨物种比较、神经系统或演化生物学应用。对于专注脑演化、细胞类型同源性及跨物种比较基因组学的研究者而言，该工具的直接应用价值极为有限，除非未来扩展至神经发育或跨物种比较场景。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞RNA测序已证实基因表达由随机转录爆发驱动，但从静态快照推断爆发动态受参数不可识别性和模型拓扑失配限制。作者提出PhysInfer，一种无监督框架，整合物理约束神经网络与自适应模型选择及参数解耦，通过结合稳态分布似然与零值锚定的物理信息损失函数，将优化重新参数化为可解释的爆发大小和频率表示。合成数据验证显示低中激活 regime 下高推断准确性，鼠胚胎成纤维细胞应用揭示了2137基因的转录动态流形。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Single-cell RNA sequencing (scRNA-seq) has established that gene expression is driven by stochastic transcriptional bursting. However, inferring burst dynamics from static scRNA-seq snapshots is fundamentally constrained by parameter unidentifiability and model topology mismatch. Here, we propose PhysInfer, an unsupervised framework that integrates a physics-constrained neural network with adaptive model selection and parameter decoupling. A physics-informed loss function, combining stationary-distribution likelihood with zero-count anchoring, reparameterizes the optimization from unidentifiable microscopic rates to an interpretable macroscopic burst-quantity representation of burst size and burst frequency, thereby providing an interpretable parameterization for assessing practical recoverability in static data. Validation on synthetic data with known ground-truth parameters confirms high inference accuracy in low-to-medium activation regimes and shows that recovery of BS and productive BF becomes increasingly condition-dependent as the ON-state probability approaches saturation; under different recovery criteria, the condition-specific upper Pon limit for simultaneously recovering BS and productive BF varies with cell number and capture efficiency. Applied to a mouse embryonic fibroblast (MEF) dataset, PhysInfer reconstructs a transcriptional dynamic manifold across the 2,137-gene secondary BIC analysis set, showing cross-gene variation in fitted burst frequency and burst size. A model-specific stationary likelihood combined with zero-count anchoring improves robustness to zero-heavy observations. The adaptive topology module further identifies a distinct subset of genes with stable support for an effective sequential 3-state representation, revealing distributional structure beyond that captured by standard 2-state fitting. PhysInfer thus provides a robust, topology-adaptive, and interpretable solution for characterizing transcriptional kinetic patterns from static single-cell transcriptomic snapshots.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=pubmed%3A10.1371/journal.pcbi.1014904&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 13</span><span class="badge b-relate">Relate</span><span class="score">4.03</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.11.10.765653" target="_blank" rel="noopener">Inferring single-cell gene expression profiles from multicellular spatial transcriptomics data with st2sc</a></div>
+  <div class="title-cn">使用st2sc从多细胞空间转录组数据推断单细胞基因表达谱</div>
+  <div class="one-line">为解决空间转录组技术因每个位点聚合多个细胞信号而导致分辨率受限的问题，作者开发了st2sc框架，通过注意力梯度流追踪算法从Vision-Gene Transformer提取注意力图进行细胞实例分割，再结合多实例多目标回归预测单细胞基因表达计数，在合成数据、Visium样数据集及人类IPF肺组织中验证了优于现有方法的性能，提升了空间转录组单细胞分辨率分析的准确性。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-15</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Lee, Y. J.; Shah, S.; Mantrala, S.; Lugo-Martinez, J.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.11.10.765653">10.64898/2026.11.10.765653</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.11.10.765653">https://www.biorxiv.org/content/10.64898/2026.11.10.765653</a></div><div class="d-block keywords">命中关键词：Visium, Spatial transcriptomics, transformer</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算方法学工具，无任何演化、跨物种比较或神经系统研究内容，且聚焦于人类肺部疾病空间转录组反卷积，与该研究者核心方向完全无关。</div><div class="d-block"><span class="lbl">背景：</span>空间转录组技术能够在组织原位测量基因表达，但现有平台如Visium的空间分辨率有限，每个测序位点通常包含多个细胞的混合信号。将多细胞测量反卷积为单细胞水平的表达谱，需要同时解决细胞边界识别和基因表达定量两个关键问题。此前的方法在细胞实例分割的准确性，尤其是在缺乏预设背景约束的复杂组织环境中，以及基因表达计数的精确估计方面仍存在不足。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了st2sc（Spatial Transcriptomics to Single-Cell）框架，核心创新包括：（1）注意力梯度流追踪算法，从Vision-Gene Transformer提取注意力图以识别候选细胞实例，无需预定义背景约束；（2）基于检测实例的多实例多目标回归模型，预测精确的单细胞基因表达计数。方法在合成数据集、Visium样数据集及Visium HD的2μm bin数据上进行验证，并应用于人类特发性肺纤维化（IPF）肺组织样本。</div><div class="d-block"><span class="lbl">研究结果：</span>st2sc在细胞实例分割准确性和基因计数预测精度上显著优于现有最先进方法；能够解析Visium HD平台上存在争议的2μm分辨率bin数据；在人类IPF肺组织应用中，成功恢复了单细胞水平的亚型标志物表达分析，证明了该方法在复杂临床样本中的实用价值。</div><div class="d-block"><span class="lbl">研究意义：</span>该研究推进了空间转录组数据的单细胞分辨率解析能力，为下游更精确的生物学分析提供了技术基础。然而，该方法主要面向人类疾病研究中的应用优化，未涉及跨物种比较、演化分析或神经系统相关场景，其技术框架虽具通用性，但对该研究者聚焦的演化发育生物学和比较细胞类型学方向直接价值有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>空间转录组技术能量化组织切片内基因表达，但受限于每个位点聚合多细胞信号的分辨率瓶颈。现有方法虽可恢复单细胞表达谱，但准确估算单个细胞的基因水平表达仍具挑战。作者提出端到端框架st2sc，引入注意力梯度流追踪算法从Vision-Gene Transformer提取注意力图识别候选细胞实例，再经多实例多目标回归预测精确单细胞基因表达计数。综合评估显示其在细胞实例分割和基因计数预测上显著优于现有方法，并能解析Visium HD的2μm bin争议，应用于人类IPF肺组织可恢复亚型标志物水平分析。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>Spatial transcriptomics (ST) enables the quantitative measurement of gene expression within tissue sections but is currently limited in spatial resolution, as each spot aggregates signals from multiple cells. Recovering single-cell gene expression profiles from these multicellular measurements requires two steps: explicit identification of individual cells and accurate estimation of per-gene expression. While existing methods have demonstrated the feasibility of recovering single-cell expression profiles, accurately estimating gene-level expression for individual cells remains an important challenge. To address this challenge, we propose st2sc (Spatial Transcriptomics to Single-Cell), an end-to-end framework for inferring single-cell gene profiles from multicellular ST data. st2sc introduces a novel Attention Gradient Flow Tracking (AGFT) algorithm that extracts attention maps from a Vision-Gene Transformer to identify candidate cell instances without predefined background constraints. The detected instances are then used by a set of regressors trained under a multiple-instance, multiple-target regression setting to predict precise single-cell gene expression counts. Comprehensive evaluations on synthetic and Visium-like datasets demonstrate that st2sc significantly outperforms state-of-the-art methods in accurately segmenting cellular instances and predicting gene counts. The method can further resolve contested 2um bin in Visium HD. Application to human IPF lung showed the model can recover the subtype marker level analysis. This advancement further improves single-cell resolution analysis in spatial transcriptomics, facilitating more accurate downstream biological analyses.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.11.10.765653&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 14</span><span class="badge b-relate">Relate</span><span class="score">4.0</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.02.23.703392" target="_blank" rel="noopener">DemuxHMM: Large-Scale Single-Cell Embryo Profiling via Recombination Barcoding</a></div>
+  <div class="title-cn">DemuxHMM：基于重组条形码的大规模单细胞胚胎分析</div>
+  <div class="one-line">为解决现有单细胞去多路复用方法在时间点和个体数量上的局限性，作者开发了DemuxHMM框架，利用隐马尔可夫模型显式建模简单育种方案中产生的连续SNP模式，在Diversity Outbred小鼠真实数据和果蝇模拟数据上验证了其在大规模个体解析数据集中的性能和可扩展性优势，为模式生物的时间序列分析、交叉位点推断和eQTL研究等应用提供了工具。</div>
+  
+  <div class="meta">bioRxiv · 2026-11-12</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Afanassiev, A. I.; Wei, K.; Yachie, N.; Sugioka, K.; Schiebinger, G.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.02.23.703392">10.64898/2026.02.23.703392</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.02.23.703392">https://www.biorxiv.org/content/10.64898/2026.02.23.703392</a></div><div class="d-block keywords">命中关键词：scRNA-seq, Drosophila</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯计算方法学工具，聚焦基因分型与个体解复用技术，无演化、跨物种比较或神经系统研究内容，与该研究者核心方向无关。</div><div class="d-block"><span class="lbl">背景：</span>单细胞RNA测序技术使高分辨率发育时程研究成为可能，但大规模样本的个体溯源仍是瓶颈。现有去多路复用方法在处理多时间点、多个体实验时面临准确性或效率限制。基于重组条形码的策略为同时追踪大量个体提供了可能，但尚缺乏能充分利用连续SNP模式信息的计算工具。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了名为DemuxHMM的计算框架，核心是利用隐马尔可夫模型（HMM）显式建模简单育种方案中由重组产生的连续SNP模式。该方法特别适用于具有明确遗传背景的模型生物育种设计，如Diversity Outbred小鼠和果蝇等。</div><div class="d-block"><span class="lbl">研究结果：</span>DemuxHMM在Diversity Outbred小鼠真实数据集和模拟果蝇数据集上均表现出优于现有方法的性能和可扩展性，能够有效支持大规模个体解析数据集的去多路复用，适用于时间序列分析、交叉位点推断和eQTL等常见应用场景。</div><div class="d-block"><span class="lbl">研究意义：</span>该工具为模式生物的大规模单细胞发育研究提供了高效的个体溯源解决方案，但其应用范畴主要局限于遗传背景明确的模型系统，未涉及跨物种比较、细胞类型演化或神经系统发育等研究方向。</div><div class="d-block"><span class="lbl">中文全摘要：</span>单细胞RNA测序的高分辨率发育时程数据日益用于发育和疾病研究中的轨迹推断等分析。研究者可通过混合个体并在测序后推断细胞与个体的对应关系来高效生成这些数据集，该过程称为去多路复用。现有方法受限于可支持的时间点数量，原因包括需要逐个体处理或在大量个体时准确性下降。为解决这些局限，作者引入了一个计算框架DemuxHMM，使用隐马尔可夫模型显式建模简单育种方案中产生的连续SNP模式，在DO小鼠真实数据和果蝇模拟数据上展示了显著的性能和可扩展性提升。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>High-resolution developmental time-courses with single-cell RNA sequencing (scRNA-seq) increasingly target trajectory inference and other analyses in the study of development and disease. Researchers can efficiently generate these datasets by pooling individuals and inferring cell-to-individual mappings after sequencing, in a process called demultiplexing. Existing demultiplexing methods face limitations in the number of timepoints they can support, due to either the need for individual-by-individual processing or reduced accuracy at large numbers of individuals. To address these limitations, we introduce a computational framework for demultiplexing large-scale, individual-resolved datasets. Our framework includes a recombination-aware demultiplexing method, DemuxHMM, which uses a Hidden Markov Model (HMM) to explicitly model contiguous SNP patterns that arise from simple breeding schemes. We demonstrate substantial performance and scalability gains from this recombination-aware approach on both a real Diversity Outbred (DO) mouse data and a simulated Drosophila dataset. This performance demonstrates the value of the method when used for common applications on model organisms such as time series, crossover position inference, and eQTLS, among others.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.02.23.703392&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<div class="card c-relate">
+  <div class="card-head"><span class="rank">Rank 15</span><span class="badge b-relate">Relate</span><span class="score">3.99</span></div>
+  <div class="title-en"><a href="https://www.biorxiv.org/content/10.64898/2026.10.14.759117" target="_blank" rel="noopener">multiomeR: a pipeline for reproducible analysis of large-scale single-nucleus Epi Multiome datasets</a></div>
+  <div class="title-cn">multiomeR：用于大规模单核表观多组学数据集可重复分析的分析流程</div>
+  <div class="one-line">为解决大规模多样本单核Epi Multiome数据分析中存在的手工组装流程效率低、难以复现和内存消耗大等问题，作者开发了名为multiomeR的R语言可配置分析流程，实现了质量控制、数据整合与细胞类型注释的自动化，并在31个公共样本的基准测试中验证其相比Seurat/Signac工作流具有更短的运行时间和更低的内存占用。</div>
+  
+  <div class="meta">bioRxiv · 2026-10-20</div>
+  <details class="card-details">
+    <summary>详情（作者 / 链接 / 命中关键词 / 推荐理由 / 背景 / 研究方法 / 研究结果 / 研究意义 / 中英文摘要）</summary>
+    <div class="d-block"><span class="lbl">作者：</span>Koefoed, T. G.; He, S.; Thodberg, M.; Pikkupeura, L. M.; Krizic, K.; Kapel, B. S.; Martinez, R. S.; Rasmussen, S.; Hansen, T.</div><div class="d-block meta">DOI: <a href="https://doi.org/10.64898/2026.10.14.759117">10.64898/2026.10.14.759117</a> · bioRxiv 链接: <a href="https://www.biorxiv.org/content/10.64898/2026.10.14.759117">https://www.biorxiv.org/content/10.64898/2026.10.14.759117</a></div><div class="d-block keywords">命中关键词：Seurat, Cell Ranger</div><div class="d-block"><span class="lbl">推荐理由：</span>该论文为纯方法学工具开发，无演化或跨物种比较视角，无动物物种图谱，与该研究者核心研究方向无关。</div><div class="d-block"><span class="lbl">背景：</span>单细胞多组学技术尤其是10x Genomics Epi Multiome检测的普及，使得同时获取基因表达和染色质可及性数据成为可能。然而，现有分析流程通常需要研究者手动整合多个独立工具，在大规模研究中面临效率、可重复性和计算资源的多重挑战。</div><div class="d-block"><span class="lbl">研究方法：</span>作者开发了基于R语言的multiomeR分析流程，采用纯文本配置文件记录分析参数，实现步骤级追踪和增量式重运行，数据以磁盘存储替代内存驻留。流程整合质量控制、双模态数据整合与细胞类型注释，并包含供体比较、增强子-基因关联和遗传关联富集分析等可选模块。以Seurat v5.6和Signac v2构建的标准化工作流作为对照，在31个公共样本上进行基准测试。</div><div class="d-block"><span class="lbl">研究结果：</span>multiomeR在375,757个细胞核的基准测试中，估计运行时间为2.2小时，显著低于对照工作流的5.6小时，得益于独立步骤的并行化执行。内存消耗为87 GB·小时，低于对照的114 GB·小时，总CPU时间相近。流程的可配置性和步骤追踪功能提升了大规模多组学分析的可重复性和可维护性。</div><div class="d-block"><span class="lbl">研究意义：</span>multiomeR降低了大规模单核多组学研究的计算门槛和分析复杂度，对需要处理海量样本的基因组学研究具有实用价值。但该工具属于通用型生物信息学基础设施，未涉及具体生物学问题或物种，对演化生物学和跨物种比较研究的直接贡献有限。</div><div class="d-block"><span class="lbl">中文全摘要：</span>10x Genomics Epi Multiome检测可同时测量同一细胞核中的基因表达和染色质可及性，但Cell Ranger ARC后的分析通常由分散工具手工组装，导致修订缓慢、难以复现且内存密集。multiomeR通过可配置R流程解决这些问题，支持多样本两种数据类型的质量控制、处理和整合及细胞类型注释。纯文本配置文件记录分析选择，每步可追踪变更影响，数据存于磁盘而非内存。可选模块支持供体组比较、关联可及区域与调控基因、检验细胞类型遗传关联富集。在31个公共样本（375,757核）基准中，multiomeR运行时间（2.2 vs 5.6小时）和内存消耗（87 vs 114 GB·小时）均优于Seurat v5.6/Signac v2工作流。</div><div class="en-abstract"><span class="lbl">英文摘要（原文）：</span>The 10x Genomics Epi Multiome assay measures gene expression and chromatin accessibility in the same nuclei, and studies increasingly profile many samples. Yet analysis after Cell Ranger ARC is usually assembled by hand from separate tools, which makes it slow to revise, hard to reproduce and memory-intensive for large studies. multiomeR addresses these problems with a configurable R pipeline for quality control, processing and integration of both data types, and cell-type annotation across many samples. Plain-text configuration files record every analytical choice, each step is tracked so that a change reruns only what it affects, and data stay on disk rather than in memory. Optional modules compare groups of donors, link accessible regions to the genes they may regulate, and test which cell types are enriched for genetic associations with a trait. In a benchmark on 31 public samples (375,757 nuclei), multiomeR had a shorter estimated run time than a Seurat v5.6/Signac v2 workflow (2.2 versus 5.6 h), because it runs independent steps in parallel. It also used fewer memory gigabyte-hours (87 versus 114 GB-hours), with similar total CPU time. multiomeR thus makes large multi-sample multiome studies practical to analyze, revise and extend.</div>
+  </details>
+  <div class="fb-row"><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=good">相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad">不相关</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=read">已读</button><button class="fb-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=star">收藏</button><span class="fb-status"></span></div>
+  <div class="reason-row"><span>不相关原因（可选）：</span><button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad&amp;reason=%E6%96%B9%E5%90%91%E4%B8%8D%E7%AC%A6">方向不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad&amp;reason=%E7%89%A9%E7%A7%8D%E4%B8%8D%E7%AC%A6">物种不符</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad&amp;reason=%E5%8C%BB%E5%AD%A6%C2%B7%E4%B8%B4%E5%BA%8A%E5%99%AA%E5%A3%B0">医学·临床噪声</button> <button class="reason-btn" data-url="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad&amp;reason=%E6%96%B9%E6%B3%95%E4%B8%8D%E7%9B%B8%E5%85%B3">方法不相关</button><input class="reason-input" placeholder="其他原因…"><button class="reason-btn reason-custom" data-base="http://127.0.0.1:8710/feedback?paper_id=biorxiv%3A10.64898/2026.10.14.759117&amp;rating=bad&amp;reason=">提交</button><span class="reason-status fb-status"></span></div>
+</div>
+
+<h2 class="trend-title">今日推荐文献价值总结</h2>
+<p class="trend-layer">趋势分析层 · 基于今日 Must Read/Important 论文 AI 生成（无则取评分 Top 5）</p>
+<div class="trend-overview">今日推荐文献聚焦单细胞/空间多组学技术在非模式生物免疫解析与多模态数据整合中的前沿应用。其中，虹鳟头肾单细胞图谱首次揭示成熟红细胞在抗病毒免疫中的非经典功能，挑战了传统认知；SPAMO框架则为空间多组学数据的跨模态融合提供了创新性计算方法学工具。</div>
+<div class="trend-block"><div class="trend-block-title">聚焦方向</div><div class="trend-dir"><span class="trend-dir-no">一是</span>非模式生物免疫细胞图谱构建：以虹鳟头肾为对象，通过单细胞测序解析teleost鱼类病毒感染时的细胞特异性动态，揭示红细胞参与抗病毒免疫的新功能</div>
+<div class="trend-dir"><span class="trend-dir-no">二是</span>空间多组学整合计算方法：针对空间转录组、蛋白质组等多模态数据的稀疏性与噪声差异，开发邻域约束的跨模态融合策略以优化空间域识别</div>
+<div class="trend-dir"><span class="trend-dir-no">三是</span>干扰素刺激基因的非常规表达细胞：超越典型免疫细胞范畴，发现成熟红细胞等&#x27;非免疫&#x27;细胞在抗病毒应答中的免疫调节潜力</div></div>
+<div class="trend-block"><div class="trend-block-title">共同趋势</div><div class="trend-text">单细胞与空间组学技术正从模式生物向非模式生物拓展，且愈发重视数据整合的方法学创新。一方面，研究不再局限于描述性细胞图谱，而是结合感染时间序列挖掘动态功能；另一方面，针对多模态数据固有缺陷，基于图神经网络与注意力机制的融合策略成为计算生物学的重要走向，强调在整合中保留模态特异性而非简单降维叠加。</div></div>
+<div class="trend-block"><div class="trend-block-title">对研究者的价值</div><div class="trend-text">这批文献为研究者提供双重启示：实验层面，可借鉴&#x27;非模式生物+时间序列单细胞测序&#x27;范式，探索其他脊椎动物中免疫细胞与非免疫细胞的抗病毒协作网络；计算层面，SPAMO的邻域约束机制可迁移至肿瘤微环境、发育生物学等空间多组学场景。特别值得跟进的是，成熟红细胞的免疫活性是否保守于其他脊椎动物类群，以及如何在单细胞数据中区分有核红细胞的真实信号与技术噪音。</div></div>
+
+<h2 class="submit-title">告诉我你想看什么</h2>
+<p class="submit-layer">提交后次日检索即生效 · 数据保存在本机（127.0.0.1:8710），经 GitHub 同步进入每日流水线</p>
+
+<div class="submit-card">
+  <h3>新增关键词</h3>
+  <p>有想看但没收到的方向？直接填写提交，次日检索即生效。<br>如：CRISPR 递送, 单细胞测序（多个词可用逗号分隔）</p>
+  <textarea id="kw-input" rows="2" placeholder="CRISPR 递送, 单细胞测序"></textarea>
+  <button class="submit-btn" id="kw-submit">提交关键词</button><span class="submit-status" id="kw-status"></span>
+</div>
+
+<div class="submit-card">
+  <h3>用文献优化关键词</h3>
+  <p>粘贴您感兴趣的文献（DOI 或 PMID，每行一个，一次最多 10 篇），系统据此提炼检索词，次日生效。</p>
+  <textarea id="papers-input" rows="4" placeholder="10.1038/s41586-025-00000-x&#10;40123456"></textarea>
+  <button class="submit-btn" id="papers-submit">提交文献</button><span class="submit-status" id="papers-status"></span>
+</div>
+
+<p class="footer">Research Radar · 按日期归档：<a href="../index.html">全部日报列表</a><br>
+反馈数据写入仓库（云端 Worker 优先，本机 127.0.0.1:8710 回退），用于持续优化推荐与关键词权重</p>
+</div>
+
+<script>
+// 优先走 Cloudflare Worker（云端直写仓库），部署前占位符未替换时自动跳过；
+// Worker 不通时回退本机 feedback/server.py（127.0.0.1:8710）。
+var WORKER_URL = 'https://WORKER_URL_PLACEHOLDER.workers.dev';
+var WORKER_KEY = 'APP_KEY_PLACEHOLDER';
+var SERVERS = [];
+if (WORKER_URL.indexOf('PLACEHOLDER') === -1 && WORKER_KEY.indexOf('PLACEHOLDER') === -1) {
+  SERVERS.push({ base: WORKER_URL, key: WORKER_KEY });
+}
+SERVERS.push({ base: 'http://127.0.0.1:8710', key: null });
+var FAIL_HINT = '记录失败：云端与本机反馈服务均不可达（feedback/server.py）';
+
+// pathAndQuery 形如 '/feedback?paper_id=x&rating=good'；依次尝试各服务器，
+// 第一个成功的即返回，全部失败抛错。
+async function send(pathAndQuery) {
+  var lastErr = null;
+  for (var i = 0; i < SERVERS.length; i++) {
+    var s = SERVERS[i];
+    var url = s.base + pathAndQuery + (s.key ? '&k=' + encodeURIComponent(s.key) : '');
+    try {
+      var resp = await fetch(url, { method: 'GET' });
+      if (resp.ok || resp.status === 204) { return resp; }
+      lastErr = new Error('HTTP ' + resp.status);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr || new Error('no server'));
+}
+
+// data-url 属性里存的是完整本机 URL，拆出 path+query 以适配多服务器。
+function pathOf(fullUrl) {
+  try {
+    var u = new URL(fullUrl);
+    return u.pathname + u.search;
+  } catch (e) {
+    return fullUrl;
+  }
+}
+
+document.querySelectorAll('.fb-btn').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var row = btn.closest('.fb-row');
+    var status = row.querySelector('.fb-status');
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(btn.dataset.url));
+      row.querySelectorAll('.fb-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录 ✓';
+      status.className = 'fb-status ok';
+      if (btn.dataset.url.indexOf('rating=bad') !== -1) {
+        var card = btn.closest('.card');
+        var rr = card ? card.querySelector('.reason-row') : null;
+        if (rr) { rr.style.display = 'flex'; }
+      }
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+});
+
+function wireReasonBtn(btn) {
+  btn.addEventListener('click', async function () {
+    var rr = btn.closest('.reason-row');
+    var status = rr.querySelector('.reason-status');
+    var url = btn.dataset.url;
+    if (btn.classList.contains('reason-custom')) {
+      var input = rr.querySelector('.reason-input');
+      var text = (input.value || '').trim();
+      if (!text) { status.textContent = '请先填写原因'; status.className = 'fb-status fail'; return; }
+      url = btn.dataset.base + encodeURIComponent(text);
+    }
+    status.textContent = '提交中…';
+    status.className = 'fb-status pending';
+    try {
+      await send(pathOf(url));
+      rr.querySelectorAll('.reason-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      status.textContent = '已记录原因 ✓';
+      status.className = 'fb-status ok';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'fb-status fail';
+    }
+  });
+}
+document.querySelectorAll('.reason-btn').forEach(wireReasonBtn);
+
+function wireSubmit(btnId, inputId, statusId, path) {
+  var btn = document.getElementById(btnId);
+  if (!btn) { return; }
+  btn.addEventListener('click', async function () {
+    var input = document.getElementById(inputId);
+    var status = document.getElementById(statusId);
+    var text = (input.value || '').trim();
+    if (!text) { status.textContent = '请先填写内容'; status.className = 'submit-status fail'; return; }
+    status.textContent = '提交中…';
+    status.className = 'submit-status pending';
+    try {
+      await send(path + encodeURIComponent(text));
+      status.textContent = '已提交 ✓ 次日检索生效';
+      status.className = 'submit-status ok';
+      input.value = '';
+    } catch (e) {
+      status.textContent = FAIL_HINT;
+      status.className = 'submit-status fail';
+    }
+  });
+}
+wireSubmit('kw-submit', 'kw-input', 'kw-status', '/keywords?text=');
+wireSubmit('papers-submit', 'papers-input', 'papers-status', '/keyword_papers?ids=');
+</script>
+</body>
+</html>
